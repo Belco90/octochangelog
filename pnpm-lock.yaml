@@ -181,8 +181,8 @@ importers:
         specifier: 15.1.7
         version: 15.1.7(eslint@8.57.1)(typescript@5.7.3)
       eslint-config-prettier:
-        specifier: 10.0.1
-        version: 10.0.1(eslint@8.57.1)
+        specifier: 10.0.2
+        version: 10.0.2(eslint@8.57.1)
       eslint-plugin-cypress:
         specifier: 4.1.0
         version: 4.1.0(eslint@8.57.1)
@@ -3506,8 +3506,8 @@ packages:
       typescript:
         optional: true
 
-  eslint-config-prettier@10.0.1:
-    resolution: {integrity: sha512-lZBts941cyJyeaooiKxAtzoPHTN+GbQTJFAIdQbRhA4/8whaAraEh47Whw/ZFfrjNSnlAxqfm9i0XVAEkULjCw==}
+  eslint-config-prettier@10.0.2:
+    resolution: {integrity: sha512-1105/17ZIMjmCOJOPNfVdbXafLCLj3hPmkmB7dLgt7XsQ/zkxSuDerE/xgO3RxoHysR1N1whmquY0lSn2O0VLg==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -10184,7 +10184,7 @@ snapshots:
       - eslint-plugin-import-x
       - supports-color
 
-  eslint-config-prettier@10.0.1(eslint@8.57.1):
+  eslint-config-prettier@10.0.2(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
 
