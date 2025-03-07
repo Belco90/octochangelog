@@ -223,8 +223,8 @@ importers:
         specifier: 4.19.2
         version: 4.19.2
       type-fest:
-        specifier: 4.34.0
-        version: 4.34.0
+        specifier: 4.37.0
+        version: 4.37.0
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -6003,8 +6003,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  type-fest@4.34.0:
-    resolution: {integrity: sha512-Qcg88ZJsJvRcUijtD6supagRSDf0y1FPZh4NroJpwRkoPYj6gGNidREwTgDuC0Pmq0PVAAzL8C8BZW7xhx5Q4A==}
+  type-fest@4.37.0:
+    resolution: {integrity: sha512-S/5/0kFftkq27FPNye0XM1e2NsnoD/3FS+pBmbjmmtLT6I+i344KoOf7pvXreaFsDamWeaJX55nczA1m5PsBDg==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -11939,7 +11939,7 @@ snapshots:
       outvariant: 1.4.3
       path-to-regexp: 6.3.0
       strict-event-emitter: 0.5.1
-      type-fest: 4.34.0
+      type-fest: 4.37.0
       yargs: 17.7.2
     optionalDependencies:
       typescript: 5.7.3
@@ -13224,7 +13224,7 @@ snapshots:
 
   type-fest@0.8.1: {}
 
-  type-fest@4.34.0: {}
+  type-fest@4.37.0: {}
 
   type-is@1.6.18:
     dependencies:
