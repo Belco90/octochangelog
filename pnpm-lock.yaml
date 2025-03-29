@@ -193,8 +193,8 @@ importers:
         specifier: 4.21.2
         version: 4.21.2
       happo-cypress:
-        specifier: 4.3.0
-        version: 4.3.0(happo-e2e@3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0))
+        specifier: 4.3.1
+        version: 4.3.1(happo-e2e@3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0))
       happo-e2e:
         specifier: 3.4.1
         version: 3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
@@ -3989,8 +3989,8 @@ packages:
     resolution: {integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  happo-cypress@4.3.0:
-    resolution: {integrity: sha512-JHFO4sVlX7BLnqOUdlR3gpwMulcr4qJSGuF9KmNqywmJMgCIasLzfWBMigDMHBCkHTOo4ZvcC8E3DLwEa816RQ==}
+  happo-cypress@4.3.1:
+    resolution: {integrity: sha512-FW0JJB5yPgn4Gqawc9wGuezdQvuQwTwrynS/MwaeIu+GA8kWheDQlrmIpel3hG5wuhBrU5O7eFVrgyaZUvIQNA==}
     hasBin: true
     peerDependencies:
       happo-e2e: '>= 1.4.2'
@@ -10833,7 +10833,7 @@ snapshots:
 
   graphql@16.10.0: {}
 
-  happo-cypress@4.3.0(happo-e2e@3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)):
+  happo-cypress@4.3.1(happo-e2e@3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)):
     dependencies:
       happo-e2e: 3.4.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
 
