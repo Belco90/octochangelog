@@ -166,8 +166,8 @@ importers:
         specifier: 3.0.7
         version: 3.0.7(vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@16.7.0)(msw@2.5.2(@types/node@22.13.13)(typescript@5.7.3))(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))
       '@vitest/eslint-plugin':
-        specifier: 1.1.38
-        version: 1.1.38(@typescript-eslint/utils@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)(vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@16.7.0)(msw@2.5.2(@types/node@22.13.13)(typescript@5.7.3))(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))
+        specifier: 1.1.39
+        version: 1.1.39(@typescript-eslint/utils@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)(vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@16.7.0)(msw@2.5.2(@types/node@22.13.13)(typescript@5.7.3))(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))
       cors:
         specifier: 2.8.5
         version: 2.8.5
@@ -2495,8 +2495,8 @@ packages:
       '@vitest/browser':
         optional: true
 
-  '@vitest/eslint-plugin@1.1.38':
-    resolution: {integrity: sha512-KcOTZyVz8RiM5HyriiDVrP1CyBGuhRxle+lBsmSs6NTJEO/8dKVAq+f5vQzHj1/Kc7bYXSDO6yBe62Zx0t5iaw==}
+  '@vitest/eslint-plugin@1.1.39':
+    resolution: {integrity: sha512-l5/MUFCYI8nxwr62JHlWwXfeQNS8E7xy71lSLGQ3CrjGjBdWLs1Rtee+BvYwy2m4YVPwYqUwdcAIOaZOwPUpfg==}
     peerDependencies:
       '@typescript-eslint/utils': ^8.24.0
       eslint: '>= 8.57.0'
@@ -8968,7 +8968,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.1.38(@typescript-eslint/utils@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)(vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@16.7.0)(msw@2.5.2(@types/node@22.13.13)(typescript@5.7.3))(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))':
+  '@vitest/eslint-plugin@1.1.39(@typescript-eslint/utils@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)(vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@16.7.0)(msw@2.5.2(@types/node@22.13.13)(typescript@5.7.3))(terser@5.39.0)(tsx@4.19.2)(yaml@2.7.0))':
     dependencies:
       '@typescript-eslint/utils': 8.24.1(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
