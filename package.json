@@ -42,7 +42,7 @@
 		"@sentry/nextjs": "8.55.0",
 		"@tanstack/react-query": "5.66.0",
 		"@tanstack/react-query-devtools": "5.66.0",
-		"downshift": "9.0.8",
+		"downshift": "9.0.9",
 		"framer-motion": "12.7.3",
 		"js-cookie": "3.0.5",
 		"lodash-es": "4.17.21",
