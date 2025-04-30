@@ -88,7 +88,7 @@
 		"@vitest/coverage-v8": "3.0.7",
 		"@vitest/eslint-plugin": "1.1.42",
 		"cors": "2.8.5",
-		"cypress": "14.1.0",
+		"cypress": "14.3.2",
 		"eslint": "8.57.1",
 		"eslint-config-next": "15.1.7",
 		"eslint-config-prettier": "10.0.2",
