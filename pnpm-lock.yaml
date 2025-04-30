@@ -33,11 +33,11 @@ importers:
         specifier: 8.55.0
         version: 8.55.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.1.7(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.98.0)
       '@tanstack/react-query':
-        specifier: 5.66.0
-        version: 5.66.0(react@18.3.1)
+        specifier: 5.74.4
+        version: 5.74.4(react@18.3.1)
       '@tanstack/react-query-devtools':
-        specifier: 5.66.0
-        version: 5.66.0(@tanstack/react-query@5.66.0(react@18.3.1))(react@18.3.1)
+        specifier: 5.74.6
+        version: 5.74.6(@tanstack/react-query@5.74.4(react@18.3.1))(react@18.3.1)
       downshift:
         specifier: 9.0.9
         version: 9.0.9(react@18.3.1)
@@ -112,8 +112,8 @@ importers:
         specifier: 23.0.1
         version: 23.0.1
       '@tanstack/eslint-plugin-query':
-        specifier: 5.66.0
-        version: 5.66.0(eslint@8.57.1)(typescript@5.7.3)
+        specifier: 5.73.3
+        version: 5.73.3(eslint@8.57.1)(typescript@5.7.3)
       '@testing-library/cypress':
         specifier: 10.0.3
         version: 10.0.3(cypress@14.1.0)
@@ -2235,25 +2235,25 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
-  '@tanstack/eslint-plugin-query@5.66.0':
-    resolution: {integrity: sha512-CzZhBxicLDuuSJbkZ4nPcuBqWnhLu72Zt9p/7qLQ93BepVnZJV6ZDlBLBuN5eg7YRACwECPLsntnwo1zuhgseQ==}
+  '@tanstack/eslint-plugin-query@5.73.3':
+    resolution: {integrity: sha512-GmUtnOkRzDuNOq96g3eW5ADKC1nWfrM9RI0kRyQVr87rOl6y+PUgkuVaPxh3R2C0EVODxCS07b9aaWphidl/OA==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/query-core@5.66.0':
-    resolution: {integrity: sha512-J+JeBtthiKxrpzUu7rfIPDzhscXF2p5zE/hVdrqkACBP8Yu0M96mwJ5m/8cPPYQE9aRNvXztXHlNwIh4FEeMZw==}
+  '@tanstack/query-core@5.74.4':
+    resolution: {integrity: sha512-YuG0A0+3i9b2Gfo9fkmNnkUWh5+5cFhWBN0pJAHkHilTx6A0nv8kepkk4T4GRt4e5ahbtFj2eTtkiPcVU1xO4A==}
 
-  '@tanstack/query-devtools@5.65.0':
-    resolution: {integrity: sha512-g5y7zc07U9D3esMdqUfTEVu9kMHoIaVBsD0+M3LPdAdD710RpTcLiNvJY1JkYXqkq9+NV+CQoemVNpQPBXVsJg==}
+  '@tanstack/query-devtools@5.74.6':
+    resolution: {integrity: sha512-djaFT11mVCOW3e0Ezfyiq7T6OoHy2LRI1fUFQvj+G6+/4A1FkuRMNUhQkdP1GXlx8id0f1/zd5fgDpIy5SU/Iw==}
 
-  '@tanstack/react-query-devtools@5.66.0':
-    resolution: {integrity: sha512-uB57wA2YZaQ2fPcFW0E9O1zAGDGSbRKRx84uMk/86VyU9jWVxvJ3Uzp+zNm+nZJYsuekCIo2opTdgNuvM3cKgA==}
+  '@tanstack/react-query-devtools@5.74.6':
+    resolution: {integrity: sha512-vlsDwz4/FsblK0h7VAlXUdJ+9OV+i1n8OLb8CLLAZqu0M9GCnbajytZwsRmns33PXBZ6wQBJ859kg6aajx+e9Q==}
     peerDependencies:
-      '@tanstack/react-query': ^5.66.0
+      '@tanstack/react-query': ^5.74.4
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.66.0':
-    resolution: {integrity: sha512-z3sYixFQJe8hndFnXgWu7C79ctL+pI0KAelYyW+khaNJ1m22lWrhJU2QrsTcRKMuVPtoZvfBYrTStIdKo+x0Xw==}
+  '@tanstack/react-query@5.74.4':
+    resolution: {integrity: sha512-mAbxw60d4ffQ4qmRYfkO1xzRBPUEf/72Dgo3qqea0J66nIKuDTLEqQt0ku++SDFlMGMnB6uKDnEG1xD/TDse4Q==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -8711,7 +8711,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@tanstack/eslint-plugin-query@5.66.0(eslint@8.57.1)(typescript@5.7.3)':
+  '@tanstack/eslint-plugin-query@5.73.3(eslint@8.57.1)(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/utils': 8.24.1(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
@@ -8719,19 +8719,19 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/query-core@5.66.0': {}
+  '@tanstack/query-core@5.74.4': {}
 
-  '@tanstack/query-devtools@5.65.0': {}
+  '@tanstack/query-devtools@5.74.6': {}
 
-  '@tanstack/react-query-devtools@5.66.0(@tanstack/react-query@5.66.0(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-query-devtools@5.74.6(@tanstack/react-query@5.74.4(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/query-devtools': 5.65.0
-      '@tanstack/react-query': 5.66.0(react@18.3.1)
+      '@tanstack/query-devtools': 5.74.6
+      '@tanstack/react-query': 5.74.4(react@18.3.1)
       react: 18.3.1
 
-  '@tanstack/react-query@5.66.0(react@18.3.1)':
+  '@tanstack/react-query@5.74.4(react@18.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.66.0
+      '@tanstack/query-core': 5.74.4
       react: 18.3.1
 
   '@testing-library/cypress@10.0.3(cypress@14.1.0)':
