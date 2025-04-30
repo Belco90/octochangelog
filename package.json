@@ -104,7 +104,7 @@
 		"prettier": "3.5.3",
 		"start-server-and-test": "2.0.10",
 		"ts-node": "10.9.2",
-		"tsx": "4.19.2",
+		"tsx": "4.19.3",
 		"type-fest": "4.40.0",
 		"typescript": "5.7.3",
 		"vite-tsconfig-paths": "5.1.4",
