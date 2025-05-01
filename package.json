@@ -92,7 +92,7 @@
 		"eslint": "8.57.1",
 		"eslint-config-next": "15.1.7",
 		"eslint-config-prettier": "10.1.2",
-		"eslint-plugin-cypress": "4.1.0",
+		"eslint-plugin-cypress": "4.3.0",
 		"eslint-plugin-unicorn": "56.0.1",
 		"express": "4.21.2",
 		"happo-cypress": "4.3.1",
