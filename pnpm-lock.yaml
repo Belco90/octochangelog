@@ -199,8 +199,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
       happo.io:
-        specifier: 11.0.1
-        version: 11.0.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
+        specifier: 12.0.2
+        version: 12.0.2(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -4076,16 +4076,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  happo.io@11.0.1:
-    resolution: {integrity: sha512-PhrTFoVyf0Cb4W9jhbtAKK+QWjkzp0fw9FZOyUPjh2gHgqetP7qPLfizEp6osAPqdGeqmMNr01ftOoki67g5Jw==}
-    engines: {node: '>=16'}
-    hasBin: true
-    peerDependencies:
-      babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
-      webpack: ^3.5.5 || ^4.0.0 || ^5.0.0
-
-  happo.io@12.0.1:
-    resolution: {integrity: sha512-p5jQX91i+AUgm5VlOSpigzVzpzmx0SJrtJYAHIcsVBxqkBdThPWZiZ4IgPQT0mmvS0YKF4J+VVtqKKGH4DOKuA==}
+  happo.io@12.0.2:
+    resolution: {integrity: sha512-Pqh+zq4I0lIRdeARBxkZ2+0RoW5P/nnJ4fL24oEBWvFbqFo3CGXHbb4DdHCfsD5J3c+MzmvBsdvOcjZ58re6Rw==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -4568,9 +4560,6 @@ packages:
   lazystream@1.0.1:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
-
-  lcs-image-diff@2.4.0:
-    resolution: {integrity: sha512-zjf8IaGOzKsosnvzbsi/PRbN8nER7EcuHE+3Hrt473FCH1el5MS4OOd/TDjAVf20Ett7lJ8qeQXqA1wEVMLRAw==}
 
   lcs-image-diff@3.0.0:
     resolution: {integrity: sha512-ZzaqR8dVbA5ISLpKBnn3gV1M8TELWg81cFuQsTutf5IRCt93vV5yRuK2ZrIgOucOQhYeB6ml6o9+pefs1QD6mw==}
@@ -5239,10 +5228,6 @@ packages:
   pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
-
-  pngjs@3.4.0:
-    resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==}
-    engines: {node: '>=4.0.0'}
 
   pngjs@7.0.0:
     resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
@@ -11042,7 +11027,7 @@ snapshots:
       async-retry: 1.3.3
       base64-stream: 1.0.0
       crypto-js: 4.2.0
-      happo.io: 12.0.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
+      happo.io: 12.0.2(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0)
       https-proxy-agent: 5.0.1(supports-color@7.2.0)
       image-size: 1.2.0
       mime-types: 2.1.35
@@ -11060,38 +11045,7 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  happo.io@11.0.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0):
-    dependencies:
-      '@babel/preset-react': 7.26.3(@babel/core@7.26.9)(supports-color@7.2.0)
-      abort-controller: 3.0.0
-      archiver: 7.0.1
-      async-retry: 1.3.3
-      babel-loader: 9.2.1(@babel/core@7.26.9)(webpack@5.98.0)
-      babel-plugin-dynamic-import-node: 2.3.3
-      commander: 2.20.3
-      form-data: 4.0.2
-      glob: 7.2.3
-      https-proxy-agent: 5.0.1(supports-color@7.2.0)
-      jose: 5.10.0
-      jsdom: 16.7.0(supports-color@7.2.0)
-      lcs-image-diff: 2.4.0
-      node-fetch: 2.7.0
-      parse-srcset: 1.0.2
-      pngjs: 3.4.0
-      require-relative: 0.8.7
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      string.prototype.matchall: 4.0.12
-      supports-color: 7.2.0
-      webpack: 5.98.0
-    transitivePeerDependencies:
-      - '@babel/core'
-      - bufferutil
-      - canvas
-      - encoding
-      - utf-8-validate
-
-  happo.io@12.0.1(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0):
+  happo.io@12.0.2(@babel/core@7.26.9)(babel-loader@9.2.1(@babel/core@7.26.9)(webpack@5.98.0))(webpack@5.98.0):
     dependencies:
       '@babel/preset-react': 7.26.3(@babel/core@7.26.9)(supports-color@7.2.0)
       archiver: 7.0.1
@@ -11632,10 +11586,6 @@ snapshots:
   lazystream@1.0.1:
     dependencies:
       readable-stream: 2.3.8
-
-  lcs-image-diff@2.4.0:
-    dependencies:
-      imagetracerjs: 1.2.6
 
   lcs-image-diff@3.0.0:
     dependencies:
@@ -12505,8 +12455,6 @@ snapshots:
       find-up: 6.3.0
 
   pluralize@8.0.0: {}
-
-  pngjs@3.4.0: {}
 
   pngjs@7.0.0: {}
 
