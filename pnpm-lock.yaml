@@ -33,11 +33,11 @@ importers:
         specifier: 8.55.0
         version: 8.55.0(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(next@15.3.2(@babel/core@7.26.9)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.98.0)
       '@tanstack/react-query':
-        specifier: 5.76.0
-        version: 5.76.0(react@18.3.1)
+        specifier: 5.76.1
+        version: 5.76.1(react@18.3.1)
       '@tanstack/react-query-devtools':
-        specifier: 5.76.0
-        version: 5.76.0(@tanstack/react-query@5.76.0(react@18.3.1))(react@18.3.1)
+        specifier: 5.76.1
+        version: 5.76.1(@tanstack/react-query@5.76.1(react@18.3.1))(react@18.3.1)
       downshift:
         specifier: 9.0.9
         version: 9.0.9(react@18.3.1)
@@ -2287,14 +2287,14 @@ packages:
   '@tanstack/query-devtools@5.76.0':
     resolution: {integrity: sha512-1p92nqOBPYVqVDU0Ua5nzHenC6EGZNrLnB2OZphYw8CNA1exuvI97FVgIKON7Uug3uQqvH/QY8suUKpQo8qHNQ==}
 
-  '@tanstack/react-query-devtools@5.76.0':
-    resolution: {integrity: sha512-RoyRzH5XJB//OhAdzQTutesw9uHyNZroLp/I7NDAQf8OVJKTTcoaYBmaw5pmB2e3bVdgqFu6nHFZUr5j5qBdZw==}
+  '@tanstack/react-query-devtools@5.76.1':
+    resolution: {integrity: sha512-LFVWgk/VtXPkerNLfYIeuGHh0Aim/k9PFGA+JxLdRaUiroQ4j4eoEqBrUpQ1Pd/KXoG4AB9vVE/M6PUQ9vwxBQ==}
     peerDependencies:
-      '@tanstack/react-query': ^5.76.0
+      '@tanstack/react-query': ^5.76.1
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.76.0':
-    resolution: {integrity: sha512-dZLYzVuUFZJkenxd8o01oyFimeLBmSkaUviPHuDzXe7LSLO4WTTx92jwJlNUXOOHzg6t0XknklZ15cjhYNSDjA==}
+  '@tanstack/react-query@5.76.1':
+    resolution: {integrity: sha512-YxdLZVGN4QkT5YT1HKZQWiIlcgauIXEIsMOTSjvyD5wLYK8YVvKZUPAysMqossFJJfDpJW3pFn7WNZuPOqq+fw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -8753,13 +8753,13 @@ snapshots:
 
   '@tanstack/query-devtools@5.76.0': {}
 
-  '@tanstack/react-query-devtools@5.76.0(@tanstack/react-query@5.76.0(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-query-devtools@5.76.1(@tanstack/react-query@5.76.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@tanstack/query-devtools': 5.76.0
-      '@tanstack/react-query': 5.76.0(react@18.3.1)
+      '@tanstack/react-query': 5.76.1(react@18.3.1)
       react: 18.3.1
 
-  '@tanstack/react-query@5.76.0(react@18.3.1)':
+  '@tanstack/react-query@5.76.1(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.76.0
       react: 18.3.1
