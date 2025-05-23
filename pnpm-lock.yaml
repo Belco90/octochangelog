@@ -24,8 +24,8 @@ importers:
         specifier: 11.14.0
         version: 11.14.0(@emotion/react@11.14.0(@types/react@18.3.21)(react@18.3.1))(@types/react@18.3.21)(react@18.3.1)
       '@octokit/auth-callback':
-        specifier: 5.0.1
-        version: 5.0.1
+        specifier: 6.0.0
+        version: 6.0.0
       '@octokit/rest':
         specifier: 21.1.1
         version: 21.1.1
@@ -1721,9 +1721,9 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@octokit/auth-callback@5.0.1':
-    resolution: {integrity: sha512-rT7A8hxCX49loNL66OD6SZDMv9Te0CkTewxUGC110diBsPZuiUmdww4LM6mY0VISu7y9b5D4IWzsZetFglmIew==}
-    engines: {node: '>= 18'}
+  '@octokit/auth-callback@6.0.0':
+    resolution: {integrity: sha512-5HFl+EUY3UYOMEF+t8YUtLnYyiqf41jpMgYvscSQeKyZiuCoie8AaO5ESvyaYHUPNkDEs7Rpgd88iFA5nGOs0w==}
+    engines: {node: '>= 20'}
 
   '@octokit/auth-token@5.1.2':
     resolution: {integrity: sha512-JcQDsBdg49Yky2w2ld20IHAlwr8d/d8N6NiOXbtuoPCqzbsiJgF633mVUw3x4mo0H5ypataQIX7SFu3yy44Mpw==}
@@ -8163,7 +8163,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@octokit/auth-callback@5.0.1': {}
+  '@octokit/auth-callback@6.0.0': {}
 
   '@octokit/auth-token@5.1.2': {}
 
