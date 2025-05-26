@@ -166,8 +166,8 @@ importers:
         specifier: 3.1.4
         version: 3.1.4(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jsdom@26.1.0)(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))
       '@vitest/eslint-plugin':
-        specifier: 1.2.0
-        version: 1.2.0(eslint@8.57.1)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jsdom@26.1.0)(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))
+        specifier: 1.2.1
+        version: 1.2.1(eslint@8.57.1)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jsdom@26.1.0)(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))
       cors:
         specifier: 2.8.5
         version: 2.8.5
@@ -2566,8 +2566,8 @@ packages:
       '@vitest/browser':
         optional: true
 
-  '@vitest/eslint-plugin@1.2.0':
-    resolution: {integrity: sha512-6vn3QDy+ysqHGkbH9fU9uyWptqNc638dgPy0uAlh/XpniTBp+0WeVlXGW74zqggex/CwYOhK8t5GVo/FH3NMPw==}
+  '@vitest/eslint-plugin@1.2.1':
+    resolution: {integrity: sha512-JQr1jdVcrsoS7Sdzn83h9sq4DvREf9Q/onTZbJCqTVlv/76qb+TZrLv/9VhjnjSMHweQH5FdpMDeCR6aDe2fgw==}
     peerDependencies:
       eslint: '>= 8.57.0'
       typescript: '>= 5.0.0'
@@ -9130,7 +9130,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/eslint-plugin@1.2.0(eslint@8.57.1)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jsdom@26.1.0)(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))':
+  '@vitest/eslint-plugin@1.2.1(eslint@8.57.1)(typescript@5.8.3)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jsdom@26.1.0)(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))':
     dependencies:
       '@typescript-eslint/utils': 8.32.1(eslint@8.57.1)(typescript@5.8.3)
       eslint: 8.57.1
