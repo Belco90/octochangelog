@@ -109,8 +109,8 @@ importers:
         specifier: 0.10.3
         version: 0.10.3(msw@2.5.2(@types/node@22.15.21)(typescript@5.8.3))
       '@octokit/openapi-types':
-        specifier: 25.0.0
-        version: 25.0.0
+        specifier: 25.1.0
+        version: 25.1.0
       '@tanstack/eslint-plugin-query':
         specifier: 5.74.7
         version: 5.74.7(eslint@8.57.1)(typescript@5.8.3)
@@ -1715,8 +1715,8 @@ packages:
   '@octokit/openapi-types@23.0.1':
     resolution: {integrity: sha512-izFjMJ1sir0jn0ldEKhZ7xegCTj/ObmEDlEfpFrx4k/JyZSMRHbO3/rBwgE7f3m2DHt+RrNGIVw4wSmwnm3t/g==}
 
-  '@octokit/openapi-types@25.0.0':
-    resolution: {integrity: sha512-FZvktFu7HfOIJf2BScLKIEYjDsw6RKc7rBJCdvCTfKsVnx2GEB/Nbzjr29DUdb7vQhlzS/j8qDzdditP0OC6aw==}
+  '@octokit/openapi-types@25.1.0':
+    resolution: {integrity: sha512-idsIggNXUKkk0+BExUn1dQ92sfysJrje03Q0bv0e+KPLrvyqZF8MnBpFz8UNfYDwB3Ie7Z0TByjWfzxt7vseaA==}
 
   '@octokit/plugin-paginate-rest@11.4.2':
     resolution: {integrity: sha512-BXJ7XPCTDXFF+wxcg/zscfgw2O/iDPtNSkwwR1W1W5c4Mb3zav/M2XvxQ23nVmKj7jpweB4g8viMeCQdm7LMVA==}
@@ -8095,7 +8095,7 @@ snapshots:
 
   '@octokit/openapi-types@23.0.1': {}
 
-  '@octokit/openapi-types@25.0.0': {}
+  '@octokit/openapi-types@25.1.0': {}
 
   '@octokit/plugin-paginate-rest@11.4.2(@octokit/core@6.1.4)':
     dependencies:
