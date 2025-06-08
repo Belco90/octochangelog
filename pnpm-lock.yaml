@@ -199,8 +199,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0)
       happo.io:
-        specifier: 12.4.2
-        version: 12.4.2(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0)
+        specifier: 12.4.3
+        version: 12.4.3(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -4080,8 +4080,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  happo.io@12.4.2:
-    resolution: {integrity: sha512-qy/zUp2dC+gTbu/2iSWc0pBJ23xb9ElSZNNPKjZplsnaHEff2EfrtYooiMLwYdMUIrd8Tvx376qy+wTfbwU3zQ==}
+  happo.io@12.4.3:
+    resolution: {integrity: sha512-gqwroQPS6X8/uainQNKyyLe+Eu+pShJtEl6kklwABHHy5cofLNgsJjD3A3iIF1L25mUet3XTYrR0LzWhD1KjiA==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -11060,7 +11060,7 @@ snapshots:
       async-retry: 1.3.3
       base64-stream: 1.0.0
       crypto-js: 4.2.0
-      happo.io: 12.4.2(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0)
+      happo.io: 12.4.3(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0)
       https-proxy-agent: 5.0.1
       image-size: 1.2.0
       mime-types: 2.1.35
@@ -11078,7 +11078,7 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  happo.io@12.4.2(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0):
+  happo.io@12.4.3(@babel/core@7.26.10)(babel-loader@9.2.1(@babel/core@7.26.10)(webpack@5.98.0))(webpack@5.98.0):
     dependencies:
       '@babel/preset-react': 7.26.3(@babel/core@7.26.10)(supports-color@7.2.0)
       archiver: 7.0.1
