@@ -97,7 +97,7 @@
 		"express": "5.1.0",
 		"happo-cypress": "4.3.1",
 		"happo-e2e": "4.1.1",
-		"happo.io": "12.4.3",
+		"happo.io": "13.0.0",
 		"husky": "9.1.7",
 		"lint-staged": "16.1.0",
 		"msw": "2.5.2",
