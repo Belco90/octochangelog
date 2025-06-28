@@ -15,53 +15,53 @@ import {
 	type Repository,
 } from '@/models'
 
+const rehypeReactOptions: RehypeReactOptions = prod
+
+async function processDescriptionAsync(
+	description: ProcessedRelease['descriptionMdast'],
+	components: ComponentsMapping,
+): Promise<ReactNode> {
+	rehypeReactOptions.components = components
+
+	return new Promise<ReactNode>((resolve, reject) => {
+		const baseProcessor = unified()
+		baseProcessor.use(parse)
+		baseProcessor.use(gfm)
+		baseProcessor.use(emoji, { accessible: true })
+		baseProcessor.use(remark2rehype)
+		baseProcessor.use(rehypeHighlight)
+		baseProcessor.use(rehype2react, rehypeReactOptions)
+
+		const markdownProcessor = unified()
+		markdownProcessor.use(markdown)
+		markdownProcessor.use(gfm)
+
+		baseProcessor.process(
+			markdownProcessor.stringify(description),
+			(err, file) => {
+				if (err) {
+					reject(err)
+				} else if (!file?.result) {
+					reject(new Error('Result not generated'))
+				} else {
+					resolve(file.result as ReactNode)
+				}
+			},
+		)
+	})
+}
+
 interface HookArgs {
 	repository: Repository
 	description: ProcessedRelease['descriptionMdast']
 	componentsMapping: ComponentsMapping
 }
 
-interface HookReturnedValue {
-	processedDescription: ReactNode
-	isProcessing: boolean
-}
-
-const rehypeReactOptions: RehypeReactOptions = prod
-
-function processDescriptionAsync(
-	description: ProcessedRelease['descriptionMdast'],
-	components: ComponentsMapping,
-): Promise<ReactNode> {
-	rehypeReactOptions.components = components
-
-	return new Promise((resolve, reject) => {
-		const processor = unified()
-			.use(parse)
-			.use(gfm)
-			.use(emoji, { accessible: true })
-			.use(remark2rehype)
-			.use(rehypeHighlight)
-			.use(rehype2react, rehypeReactOptions)
-
-		const markdownProcessor = unified().use(markdown).use(gfm)
-
-		processor.process(markdownProcessor.stringify(description), (err, file) => {
-			if (err) {
-				reject(err)
-			} else if (!file?.result) {
-				reject(new Error('Result not generated'))
-			} else {
-				resolve(file.result as Parameters<typeof resolve>[0])
-			}
-		})
-	})
-}
-
 function useProcessDescriptionMdast({
 	repository,
 	description,
 	componentsMapping,
-}: HookArgs): HookReturnedValue {
+}: HookArgs) {
 	const [processedDescription, setProcessedDescription] =
 		useState<ReactNode | null>(null)
 
