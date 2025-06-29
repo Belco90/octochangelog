@@ -1,6 +1,6 @@
 import { ColorModeScript } from '@chakra-ui/react'
-import { type Viewport } from 'next'
-import { type FC, type ReactNode } from 'react'
+import type { Viewport } from 'next'
+import type { FC, ReactNode } from 'react'
 
 import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'

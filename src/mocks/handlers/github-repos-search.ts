@@ -1,10 +1,11 @@
-import { http, HttpResponse, type RequestHandler } from 'msw'
+import { http, HttpResponse } from 'msw'
+import type { RequestHandler } from 'msw'
 
 import {
 	renovateResults,
 	testingLibraryResults,
 } from '@/fixtures/github/search'
-import { type RepoSearchResultItem } from '@/models'
+import type { RepoSearchResultItem } from '@/models'
 
 import { getMockApiPath } from '../utils'
 

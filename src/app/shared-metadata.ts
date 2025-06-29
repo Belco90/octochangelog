@@ -1,4 +1,4 @@
-import { type Metadata } from 'next'
+import type { Metadata } from 'next'
 
 import { BRIEF_DESCRIPTION, SITE_TITLE } from '@/common'
 

@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 
 import TextSkeleton from '@/components/TextSkeleton'
-import { type ReleaseVersion, type Repository } from '@/models'
+import type { ReleaseVersion, Repository } from '@/models'
 import { useReleasesQuery } from '@/queries/release'
 import { compareReleasesByVersion, filterReleasesByVersionRange } from '@/utils'
 

@@ -1,4 +1,4 @@
-import { type StartOptions } from 'msw/browser'
+import type { StartOptions } from 'msw/browser'
 
 const IGNORE_HOSTS = ['localhost', 'octochangelog', 'fonts']
 

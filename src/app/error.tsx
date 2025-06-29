@@ -1,8 +1,8 @@
 'use client'
 
-import { type FC } from 'react'
+import type { FC } from 'react'
 
-import { type NextErrorPageProps } from '@/models'
+import type { NextErrorPageProps } from '@/models'
 
 import UIError from './UIError'
 

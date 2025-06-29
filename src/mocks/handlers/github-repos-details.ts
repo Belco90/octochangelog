@@ -1,8 +1,9 @@
-import { http, HttpResponse, type RequestHandler } from 'msw'
+import { http, HttpResponse } from 'msw'
+import type { RequestHandler } from 'msw'
 
 import { domTestingLibraryRepoDetails } from '@/fixtures/github/repos/dom-testing-library'
 import { renovateRepoDetails } from '@/fixtures/github/repos/renovate'
-import { type Repository } from '@/models'
+import type { Repository } from '@/models'
 
 import { getMockApiPath } from '../utils'
 

@@ -1,13 +1,14 @@
-import { type Root } from 'mdast'
+import type { Root } from 'mdast'
 import { useState, useEffect } from 'react'
 import gfm from 'remark-gfm'
 import parse from 'remark-parse'
-import { type Processor, unified } from 'unified'
+import { unified } from 'unified'
+import type { Processor } from 'unified'
 
-import {
-	type ProcessedRelease,
-	type ProcessedReleasesCollection,
-	type Release,
+import type {
+	ProcessedRelease,
+	ProcessedReleasesCollection,
+	Release,
 } from '@/models'
 import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
 

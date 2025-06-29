@@ -1,10 +1,11 @@
-import { http, HttpResponse, type RequestHandler } from 'msw'
+import { http, HttpResponse } from 'msw'
+import type { RequestHandler } from 'msw'
 
 import {
 	domTestingLibraryReleases,
 	renovateReleases,
 } from '@/fixtures/github/releases'
-import { type Release } from '@/models'
+import type { Release } from '@/models'
 import { paginateList } from '@/utils'
 
 import { getMockApiPath } from '../utils'

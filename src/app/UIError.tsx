@@ -8,9 +8,10 @@ import {
 } from '@chakra-ui/react'
 import * as Sentry from '@sentry/nextjs'
 import Image from 'next/image'
-import { type FC, useEffect } from 'react'
+import { useEffect } from 'react'
+import type { FC } from 'react'
 
-import { type NextErrorPageProps } from '@/models'
+import type { NextErrorPageProps } from '@/models'
 import mascotIcon from '@/public/mascot-icon.png'
 
 const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {

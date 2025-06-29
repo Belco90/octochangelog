@@ -3,11 +3,11 @@ import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
 import ProcessedReleaseChangeDescription from '@/app/compare/ProcessedReleaseChangeDescription'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessReleases from '@/hooks/useProcessReleases'
-import {
-	type ProcessedRelease,
-	type Release,
-	type ReleaseGroup,
-	type Repository,
+import type {
+	ProcessedRelease,
+	Release,
+	ReleaseGroup,
+	Repository,
 } from '@/models'
 import { compareReleaseGroupsByPriority } from '@/utils'
 

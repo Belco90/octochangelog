@@ -2,12 +2,12 @@
 
 import { ColorModeScript } from '@chakra-ui/react'
 import * as Sentry from '@sentry/nextjs'
-import { type FC } from 'react'
+import type { FC } from 'react'
 import { useEffect } from 'react'
 
 import customTheme from '@/custom-theme'
 import { interFont, robotoMonoFont } from '@/fonts'
-import { type NextErrorPageProps } from '@/models'
+import type { NextErrorPageProps } from '@/models'
 
 import Providers from './Providers'
 import UIError from './UIError'

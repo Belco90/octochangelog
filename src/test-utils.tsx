@@ -1,14 +1,13 @@
 /* eslint-disable no-restricted-imports */
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import {
-	render,
-	renderHook,
-	type RenderHookOptions,
-	type RenderHookResult,
-	type RenderOptions,
+import { render, renderHook } from '@testing-library/react'
+import type {
+	RenderHookOptions,
+	RenderHookResult,
+	RenderOptions,
 } from '@testing-library/react'
-import { type FC, type ReactElement, type ReactNode } from 'react'
+import type { FC, ReactElement, ReactNode } from 'react'
 
 import customTheme from './custom-theme'
 

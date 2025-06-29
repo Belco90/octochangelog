@@ -1,4 +1,4 @@
-import { type MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 
 import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
 import customTheme from '@/custom-theme'

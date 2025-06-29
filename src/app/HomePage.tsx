@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
-import { type ReactNode } from 'react'
-import { type IconType } from 'react-icons'
+import type { ReactNode } from 'react'
+import type { IconType } from 'react-icons'
 import {
 	HiOutlineFilter,
 	HiOutlineFire,

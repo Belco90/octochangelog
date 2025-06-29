@@ -1,11 +1,7 @@
-import { type RootContent } from 'mdast'
+import type { RootContent } from 'mdast'
 import { describe, expect, it } from 'vitest'
 
-import {
-	type Release,
-	type Repository,
-	type RepositoryQueryParams,
-} from '@/models'
+import type { Release, Repository, RepositoryQueryParams } from '@/models'
 import {
 	compareReleaseGroupsByPriority,
 	compareReleasesByVersion,

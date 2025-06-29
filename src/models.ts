@@ -1,7 +1,7 @@
-import { type components } from '@octokit/openapi-types'
-import { type Root } from 'mdast'
+import type { components } from '@octokit/openapi-types'
+import type { Root } from 'mdast'
 import type Error from 'next/error'
-import { type ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 type NextErrorPageProps = {
 	error: Error & { digest?: string }
