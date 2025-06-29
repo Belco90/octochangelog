@@ -1,5 +1,4 @@
 import { http, HttpResponse } from 'msw'
-import type { RequestHandler } from 'msw'
 
 import {
 	domTestingLibraryReleases,
@@ -9,6 +8,8 @@ import type { Release } from '@/models'
 import { paginateList } from '@/utils'
 
 import { getMockApiPath } from '../utils'
+
+import type { RequestHandler } from 'msw'
 
 /**
  * https://docs.github.com/en/rest/overview/resources-in-the-rest-api#pagination

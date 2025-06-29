@@ -1,9 +1,7 @@
-import type { Root } from 'mdast'
 import { useState, useEffect } from 'react'
 import gfm from 'remark-gfm'
 import parse from 'remark-parse'
 import { unified } from 'unified'
-import type { Processor } from 'unified'
 
 import type {
 	ProcessedRelease,
@@ -11,6 +9,9 @@ import type {
 	Release,
 } from '@/models'
 import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
+
+import type { Root } from 'mdast'
+import type { Processor } from 'unified'
 
 function insertReleaseInGroup(
 	newProcessedRelease: ProcessedRelease,

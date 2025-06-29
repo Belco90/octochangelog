@@ -1,6 +1,5 @@
 'use client'
 
-import type { BoxProps } from '@chakra-ui/react'
 import {
 	Box,
 	Flex,
@@ -18,6 +17,8 @@ import { REPO_URL } from '@/common'
 import { Link as RouteLink } from '@/components/ChakraNextLink'
 import ToggleColorModeButton from '@/components/ToggleColorModeButton'
 import mascotIcon from '@/public/mascot-icon.png'
+
+import type { BoxProps } from '@chakra-ui/react'
 
 const LOGO_SIZES = { base: 8, md: 16 }
 

@@ -1,5 +1,4 @@
 import { http, HttpResponse } from 'msw'
-import type { RequestHandler } from 'msw'
 
 import {
 	renovateResults,
@@ -8,6 +7,8 @@ import {
 import type { RepoSearchResultItem } from '@/models'
 
 import { getMockApiPath } from '../utils'
+
+import type { RequestHandler } from 'msw'
 
 const githubReposSearchHandlers: Array<RequestHandler> = [
 	http.get(`${getMockApiPath()}/search/repositories`, ({ request }) => {

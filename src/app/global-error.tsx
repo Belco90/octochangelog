@@ -2,7 +2,6 @@
 
 import { ColorModeScript } from '@chakra-ui/react'
 import * as Sentry from '@sentry/nextjs'
-import type { FC } from 'react'
 import { useEffect } from 'react'
 
 import customTheme from '@/custom-theme'
@@ -11,6 +10,8 @@ import type { NextErrorPageProps } from '@/models'
 
 import Providers from './Providers'
 import UIError from './UIError'
+
+import type { FC } from 'react'
 
 const GlobalError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	useEffect(() => {

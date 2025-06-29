@@ -1,4 +1,3 @@
-import type { RootContent } from 'mdast'
 import { describe, expect, it } from 'vitest'
 
 import type { Release, Repository, RepositoryQueryParams } from '@/models'
@@ -15,6 +14,8 @@ import {
 	paginateList,
 	sanitizeReleaseGroupTitle,
 } from '@/utils'
+
+import type { RootContent } from 'mdast'
 
 describe('mapRepositoryToQueryParams util', () => {
 	it.each`

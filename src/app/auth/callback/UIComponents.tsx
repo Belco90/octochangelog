@@ -15,10 +15,11 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
-import type { FC, ReactNode } from 'react'
 
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { setGithubAccessToken } from '@/github-auth'
+
+import type { FC, ReactNode } from 'react'
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 	return (

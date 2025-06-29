@@ -1,6 +1,4 @@
 import { ColorModeScript } from '@chakra-ui/react'
-import type { Viewport } from 'next'
-import type { FC, ReactNode } from 'react'
 
 import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
@@ -10,6 +8,9 @@ import { interFont, robotoMonoFont } from '@/fonts'
 
 import Providers from './Providers'
 import { getMetadataBase, openGraph } from './shared-metadata'
+
+import type { Viewport } from 'next'
+import type { FC, ReactNode } from 'react'
 
 export const metadata = {
 	title: {

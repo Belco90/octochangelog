@@ -2,14 +2,15 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, renderHook } from '@testing-library/react'
+
+import customTheme from './custom-theme'
+
 import type {
 	RenderHookOptions,
 	RenderHookResult,
 	RenderOptions,
 } from '@testing-library/react'
 import type { FC, ReactElement, ReactNode } from 'react'
-
-import customTheme from './custom-theme'
 
 /**
  * Testing recommendations by TanStack Query

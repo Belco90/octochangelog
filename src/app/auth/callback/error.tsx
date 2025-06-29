@@ -1,8 +1,8 @@
 'use client'
 
-import type { FC } from 'react'
-
 import { AuthCallbackError } from './UIComponents'
+
+import type { FC } from 'react'
 
 type ErrorAuthPageProps = {
 	error: Error & { digest?: string }

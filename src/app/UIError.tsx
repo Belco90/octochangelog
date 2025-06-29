@@ -9,10 +9,11 @@ import {
 import * as Sentry from '@sentry/nextjs'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import type { FC } from 'react'
 
 import type { NextErrorPageProps } from '@/models'
 import mascotIcon from '@/public/mascot-icon.png'
+
+import type { FC } from 'react'
 
 const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	useEffect(() => {

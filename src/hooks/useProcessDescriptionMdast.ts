@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { ReactNode } from 'react'
 import * as prod from 'react/jsx-runtime'
 import rehypeHighlight from 'rehype-highlight'
 import rehype2react from 'rehype-react'
-import type { Options as RehypeReactOptions } from 'rehype-react'
 import emoji from 'remark-emoji'
 import gfm from 'remark-gfm'
 import parse from 'remark-parse'
@@ -12,6 +10,9 @@ import markdown from 'remark-stringify'
 import { unified } from 'unified'
 
 import type { ComponentsMapping, ProcessedRelease, Repository } from '@/models'
+
+import type { ReactNode } from 'react'
+import type { Options as RehypeReactOptions } from 'rehype-react'
 
 const rehypeReactOptions: RehypeReactOptions = prod
 

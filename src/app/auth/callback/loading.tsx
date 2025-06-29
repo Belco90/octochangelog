@@ -1,6 +1,6 @@
-import type { FC } from 'react'
-
 import { AutCallbackLoading } from './UIComponents'
+
+import type { FC } from 'react'
 
 const Loading: FC = () => {
 	return <AutCallbackLoading />

@@ -3,9 +3,10 @@
 import { Box, Text, Container, Heading, Button, VStack } from '@chakra-ui/react'
 import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
-import type { FC } from 'react'
 
 import type { NextErrorPageProps } from '@/models'
+
+import type { FC } from 'react'
 
 const ComparatorErrorPage: FC<NextErrorPageProps> = ({ error, reset }) => {
 	useEffect(() => {

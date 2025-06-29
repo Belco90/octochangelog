@@ -1,5 +1,4 @@
 import { lowerCase } from 'lodash-es'
-import type { Content } from 'mdast'
 import * as semver from 'semver'
 
 import { HIGH_PRIORITY_GROUP_TITLES, LOW_PRIORITY_GROUP_TITLES } from '@/common'
@@ -10,6 +9,8 @@ import type {
 	Repository,
 	RepositoryQueryParams,
 } from '@/models'
+
+import type { Content } from 'mdast'
 
 /**
  * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.

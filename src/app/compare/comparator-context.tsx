@@ -11,11 +11,12 @@ import {
 	useRef,
 	useState,
 } from 'react'
-import type { ReactNode } from 'react'
 
 import { octokit } from '@/github-client'
 import type { ReleaseVersion, Repository } from '@/models'
 import { mapStringToRepositoryQueryParams } from '@/utils'
+
+import type { ReactNode } from 'react'
 
 interface ComparatorStateContextValue {
 	repository?: Repository | null
