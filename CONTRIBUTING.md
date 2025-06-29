@@ -56,7 +56,7 @@ You're ready to start work now.
 We recommend you follow this process:
 
 1. Create a feature branch
-1. Start the development server with `pnpm start`
+1. Start the development server with `pnpm dev`
 1. Make the necessary changes
 1. Put chunks of work in a commit (the Husky program will run some checks for modified files)
 1. Write/adjust tests to check the functionality of the new code

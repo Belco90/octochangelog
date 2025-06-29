@@ -1,4 +1,4 @@
-import { lowerCase } from 'lodash-es'
+import { lowerCase } from 'es-toolkit'
 import * as semver from 'semver'
 
 import { HIGH_PRIORITY_GROUP_TITLES, LOW_PRIORITY_GROUP_TITLES } from '@/common'
@@ -10,7 +10,7 @@ import type {
 	RepositoryQueryParams,
 } from '@/models'
 
-import type { Content } from 'mdast'
+import type { RootContent } from 'mdast'
 
 /**
  * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.
@@ -69,7 +69,7 @@ function isStableRelease(release: Release): boolean {
 	return Boolean(semver.valid(tag_name)) && !semver.prerelease(tag_name)
 }
 
-function getMdastContentNodeTitle(mdastNode: Content): string {
+function getMdastContentNodeTitle(mdastNode: RootContent): string {
 	const nodeChildren = 'children' in mdastNode ? mdastNode.children : null
 
 	if (nodeChildren && 'value' in nodeChildren[0]) {
@@ -90,7 +90,7 @@ function sanitizeReleaseGroupTitle(groupTitle: string): string {
 	return lowerCase(cleanGroupTitle)
 }
 
-function getMdastContentReleaseGroup(mdastNode: Content): ReleaseGroup {
+function getMdastContentReleaseGroup(mdastNode: RootContent): ReleaseGroup {
 	const nodeTitle = getMdastContentNodeTitle(mdastNode)
 	const mdastTitle = sanitizeReleaseGroupTitle(nodeTitle)
 
