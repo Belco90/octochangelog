@@ -6,6 +6,9 @@ import * as Sentry from '@sentry/nextjs'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
+/** Only debug if not deployed on Vercel */
+const shouldDebug = !process.env.NEXT_PUBLIC_VERCEL_ENV
+
 Sentry.init({
 	dsn: SENTRY_DSN,
 
@@ -26,5 +29,9 @@ Sentry.init({
 	replaysOnErrorSampleRate: 1.0,
 
 	// Setting this option to true will print useful information to the console while you're setting up Sentry.
-	debug: false,
+	debug: shouldDebug,
 })
+
+// This export will instrument router navigations, and is only relevant if you enable tracing.
+// `captureRouterTransitionStart` is available from SDK version 9.12.0 onwards
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart

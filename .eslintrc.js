@@ -68,7 +68,6 @@ module.exports = {
 				],
 			},
 		],
-		'import/group-exports': 'error',
 
 		// Unicorn
 		'unicorn/no-for-loop': 'error',
