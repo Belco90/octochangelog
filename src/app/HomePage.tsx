@@ -14,7 +14,7 @@ import {
 	useColorModeValue,
 } from '@chakra-ui/react'
 import Image from 'next/image'
-import NextLink from 'next/link'
+// import NextLink from 'next/link' TODO: revert this
 import {
 	HiOutlineFilter,
 	HiOutlineFire,
@@ -49,11 +49,14 @@ const MainSection = () => (
 				{BRIEF_DESCRIPTION}.
 			</Heading>
 			<Flex justify="center" align="center">
-				<NextLink href="/compare" passHref legacyBehavior>
-					<Button as="a" variant="cta">
-						Try me now!
-					</Button>
-				</NextLink>
+				<Button
+					variant="cta"
+					onClick={() => {
+						throw new Error('This is a demo error!')
+					}}
+				>
+					Try me now!
+				</Button>
 			</Flex>
 		</Stack>
 		<Center width="full">
