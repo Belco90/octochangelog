@@ -99,7 +99,7 @@
 		"happo.io": "13.0.0",
 		"husky": "9.1.7",
 		"lint-staged": "16.1.2",
-		"msw": "2.5.2",
+		"msw": "2.10.3",
 		"prettier": "3.6.2",
 		"start-server-and-test": "2.0.12",
 		"ts-node": "10.9.2",
