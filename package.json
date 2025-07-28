@@ -90,7 +90,7 @@
 		"cypress": "14.5.2",
 		"eslint": "8.57.1",
 		"eslint-config-next": "15.3.5",
-		"eslint-config-prettier": "10.1.5",
+		"eslint-config-prettier": "10.1.8",
 		"eslint-plugin-cypress": "4.3.0",
 		"eslint-plugin-unicorn": "56.0.1",
 		"express": "5.1.0",
