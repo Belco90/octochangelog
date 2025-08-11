@@ -101,7 +101,7 @@
 		"lint-staged": "16.1.4",
 		"msw": "2.5.2",
 		"prettier": "3.6.2",
-		"start-server-and-test": "2.0.12",
+		"start-server-and-test": "2.0.13",
 		"ts-node": "10.9.2",
 		"tsx": "4.20.3",
 		"type-fest": "4.41.0",
