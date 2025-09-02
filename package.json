@@ -96,7 +96,7 @@
 		"eslint-plugin-unicorn": "56.0.1",
 		"express": "5.1.0",
 		"happo-cypress": "4.3.1",
-		"happo-e2e": "4.1.2",
+		"happo-e2e": "5.0.0",
 		"happo.io": "13.0.0",
 		"husky": "9.1.7",
 		"lint-staged": "16.1.5",
