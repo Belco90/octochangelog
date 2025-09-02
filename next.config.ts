@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
 			fullUrl: true,
 		},
 	},
-	transpilePackages: ['lodash-es'],
+	typedRoutes: true,
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async redirects() {
 		return [

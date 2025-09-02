@@ -16,6 +16,7 @@ import { octokit } from '@/github-client'
 import type { ReleaseVersion, Repository } from '@/models'
 import { mapStringToRepositoryQueryParams } from '@/utils'
 
+import type { Route } from 'next'
 import type { ReactNode } from 'react'
 
 interface ComparatorStateContextValue {
@@ -76,7 +77,9 @@ const ComparatorProvider = ({ children }: { children: ReactNode }) => {
 			)
 			const newSearchParams = new URLSearchParams(newQuery)
 
-			router.replace(`${pathname}?${newSearchParams.toString()}`)
+			const newHref = `${pathname}?${newSearchParams.toString()}`
+
+			router.replace(newHref as Route)
 		},
 		[pathname, router, searchParamsObject],
 	)
