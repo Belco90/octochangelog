@@ -126,6 +126,12 @@ module.exports = {
 				'import/group-exports': 'off',
 			},
 		},
+		{
+			files: ['next-env.d.ts'],
+			rules: {
+				'@typescript-eslint/triple-slash-reference': 'off',
+			},
+		},
 
 		// Vitest
 		{

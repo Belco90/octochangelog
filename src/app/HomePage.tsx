@@ -49,15 +49,13 @@ const MainSection = () => (
 				{BRIEF_DESCRIPTION}.
 			</Heading>
 			<Flex justify="center" align="center">
-				<NextLink href="/compare" passHref legacyBehavior>
-					<Button as="a" variant="cta">
-						Try me now!
-					</Button>
-				</NextLink>
+				<Button as={NextLink} variant="cta" href="/compare">
+					Try me now!
+				</Button>
 			</Flex>
 		</Stack>
 		<Center width="full">
-			<Image src={mascotIcon} alt="" quality={100} priority />
+			<Image src={mascotIcon} alt="" priority />
 		</Center>
 	</Stack>
 )

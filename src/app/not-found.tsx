@@ -48,11 +48,9 @@ const NotFound: FC = () => {
 				</Stack>
 			</VStack>
 			<VStack mt={12} spacing={5}>
-				<NextLink href="/compare" passHref legacyBehavior>
-					<Button as="a" variant="cta">
-						Go to compare
-					</Button>
-				</NextLink>
+				<Button as={NextLink} variant="cta" href="/compare">
+					Go to compare
+				</Button>
 
 				<Link href="/" fontWeight="black">
 					Or go to homepage

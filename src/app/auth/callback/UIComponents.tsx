@@ -19,6 +19,7 @@ import React, { useEffect } from 'react'
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { setGithubAccessToken } from '@/github-auth'
 
+import type { Route } from 'next'
 import type { FC, ReactNode } from 'react'
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
@@ -69,7 +70,7 @@ export const AuthCallbackSuccess: FC<{ accessToken: string }> = ({
 		const redirectSearchParams = sessionStorage.getItem(
 			AUTH_REDIRECT_STORAGE_KEY,
 		)
-		const redirectUrl = redirectSearchParams
+		const redirectUrl: Route = redirectSearchParams
 			? `/compare?${redirectSearchParams}`
 			: '/compare'
 
