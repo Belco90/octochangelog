@@ -44,7 +44,7 @@
 		"@tanstack/react-query": "5.85.5",
 		"@tanstack/react-query-devtools": "5.85.5",
 		"downshift": "9.0.10",
-		"es-toolkit": "1.39.9",
+		"es-toolkit": "1.39.10",
 		"framer-motion": "12.23.12",
 		"js-cookie": "3.0.5",
 		"next": "15.5.2",
