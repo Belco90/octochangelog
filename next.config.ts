@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
 			fullUrl: true,
 		},
 	},
+	typedRoutes: true,
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async redirects() {
 		return [
