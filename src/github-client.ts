@@ -21,7 +21,6 @@ const octokit = new Octokit({
 	auth: { callback: getGithubAccessToken },
 	retry: { enabled: false }, // React Query already retries
 	userAgent: getUserAgent(),
-	baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || undefined,
 })
 
 export { octokit }
