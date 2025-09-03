@@ -1,4 +1,4 @@
-// This file configures the initialization of Sentry on the client.
+// This part configures the initialization of Sentry on the client.
 // The added config here will be used whenever a users loads a page in their browser.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
@@ -33,3 +33,15 @@ Sentry.init({
 })
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
+
+// This part configures the MSW initialization on the client side if enabled.
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+	import('./mocks/browser')
+		.then((mod) => {
+			void mod?.worker?.start()
+		})
+		.catch(() => {
+			// eslint-disable-next-line no-console
+			console.error('Failed to start MSW on the client')
+		})
+}
