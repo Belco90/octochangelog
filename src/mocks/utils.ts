@@ -8,7 +8,7 @@ const unhandledRequestCallback: OnUnhandledRequestCallback = (req, print) => {
 	const url = new URL(req.url)
 	if (url.host === 'api.github.com') {
 		// eslint-disable-next-line no-console
-		console.log(
+		console.warn(
 			`Unhandled request to GitHub API: ${req.method.toUpperCase()} ${req.url.toString()}`,
 		)
 		print.error()
@@ -27,8 +27,9 @@ const unhandledRequestCallback: OnUnhandledRequestCallback = (req, print) => {
  * When that gets reverted and we can use the regular MSW setup,
  * this can return "https://api.github.com".
  */
-const getMockApiPath = (): string => {
+const getGitHubApiPath = (): string => {
+	// TODO: remove this when msw is working with instrumentation
 	return ''
 }
 
-export { unhandledRequestCallback, getMockApiPath }
+export { unhandledRequestCallback, getGitHubApiPath }

@@ -6,12 +6,12 @@ import {
 } from '@/fixtures/github/search'
 import type { RepoSearchResultItem } from '@/models'
 
-import { getMockApiPath } from '../utils'
+import { getGitHubApiPath } from '../utils'
 
 import type { RequestHandler } from 'msw'
 
 const githubReposSearchHandlers: Array<RequestHandler> = [
-	http.get(`${getMockApiPath()}/search/repositories`, ({ request }) => {
+	http.get(`${getGitHubApiPath()}/search/repositories`, ({ request }) => {
 		const url = new URL(request.url)
 		const searchQuery = url.searchParams.get('q') ?? ''
 		const cleanSearchQuery = searchQuery.replace(/[-_]/g, ' ')

@@ -7,7 +7,7 @@ import {
 import type { Release } from '@/models'
 import { paginateList } from '@/utils'
 
-import { getMockApiPath } from '../utils'
+import { getGitHubApiPath } from '../utils'
 
 import type { RequestHandler } from 'msw'
 
@@ -28,7 +28,7 @@ const REPO_FIXTURES_MAPPING: Record<string, Array<Release> | undefined> = {
 
 const githubReposReleasesHandlers: Array<RequestHandler> = [
 	http.get<RepoReleasesParams>(
-		`${getMockApiPath()}/repos/:repoOwner/:repoName/releases`,
+		`${getGitHubApiPath()}/repos/:repoOwner/:repoName/releases`,
 		({ request, params }) => {
 			const { repoOwner, repoName } = params
 
@@ -57,7 +57,7 @@ const githubReposReleasesHandlers: Array<RequestHandler> = [
 				const repoString = `${repoOwner}/${repoName}`
 				responseJson.headers.set(
 					'link',
-					`<${getMockApiPath()}/repos/${repoString}/releases?per_page=${perPage}&page=${nextPage}>; rel="next"`,
+					`<${getGitHubApiPath()}/repos/${repoString}/releases?per_page=${perPage}&page=${nextPage}>; rel="next"`,
 				)
 				responseJson.headers.set(
 					'access-control-expose-headers',

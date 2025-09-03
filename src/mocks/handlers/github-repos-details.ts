@@ -4,7 +4,7 @@ import { domTestingLibraryRepoDetails } from '@/fixtures/github/repos/dom-testin
 import { renovateRepoDetails } from '@/fixtures/github/repos/renovate'
 import type { Repository } from '@/models'
 
-import { getMockApiPath } from '../utils'
+import { getGitHubApiPath } from '../utils'
 
 import type { RequestHandler } from 'msw'
 
@@ -37,7 +37,7 @@ function getRepoDetailsFixture(
 
 const githubReposDetailsHandlers: Array<RequestHandler> = [
 	http.get<RepoReleasesParams>(
-		`${getMockApiPath()}/repos/:repoOwner/:repoName`,
+		`${getGitHubApiPath()}/repos/:repoOwner/:repoName`,
 		({ params }) => {
 			const { repoName } = params
 
