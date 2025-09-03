@@ -60,9 +60,7 @@ jobs:
           install-command: pnpm install
           browser: chrome
           build: pnpm build
-          start: |
-            pnpm start
-            pnpm mock-api
+          start: pnpm start
           wait-on: 'http://localhost:3000'
           record: true
           parallel: true
