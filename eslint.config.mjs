@@ -1,6 +1,11 @@
 import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
+import eslint from '@eslint/js'
+import tanstackQuery from '@tanstack/eslint-plugin-query'
+import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import cypress from 'eslint-plugin-cypress'
+import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import unicorn from 'eslint-plugin-unicorn'
 import tseslint from 'typescript-eslint'
 
@@ -11,28 +16,34 @@ const compat = new FlatCompat({
 
 export default defineConfig([
 	{
-		extends: compat.extends(
-			'eslint:recommended',
-			'plugin:@typescript-eslint/eslint-recommended',
-			'next/core-web-vitals',
-			'plugin:@typescript-eslint/recommended',
-			'plugin:@tanstack/eslint-plugin-query/recommended',
-			'prettier',
-		),
-
+		name: 'Next.js with Core Web Vitals',
+		extends: compat.extends('next/core-web-vitals'),
+	},
+	eslint.configs.recommended,
+	tseslint.configs.recommendedTypeChecked,
+	tseslint.configs.stylisticTypeChecked,
+	tanstackQuery.configs['flat/recommended'],
+	prettierRecommended, // should always be the last one
+	{
+		name: 'typescript-eslint config',
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
+		name: 'Override for all files',
 		plugins: {
 			unicorn,
 		},
 
-		settings: {
-			'import/internal-regex': '^(@app-|~)',
-		},
-
 		rules: {
+			// Base
 			'no-shadow': 'error',
 			'no-warning-comments': 'off',
-			'no-console': 'warn',
-
+			'no-console': 'warn', // doesn't seem to be enabled in any preset
 			'no-restricted-imports': [
 				'error',
 				{
@@ -50,12 +61,14 @@ export default defineConfig([
 				},
 			],
 
+			// React
 			'react/self-closing-comp': 'error',
 			'react/react-in-jsx-scope': 'off',
 			'react/jsx-boolean-value': 'error',
 			'react/no-unknown-property': 'off',
-			'import/newline-after-import': 'error',
 
+			// Import
+			'import/newline-after-import': 'error',
 			'import/order': [
 				'error',
 				{
@@ -70,9 +83,7 @@ export default defineConfig([
 						'builtin',
 						'external',
 						'internal',
-						'parent',
-						'sibling',
-						'index',
+						['parent', 'sibling', 'index'],
 						'object',
 						'type',
 					],
@@ -80,33 +91,19 @@ export default defineConfig([
 					pathGroups: [
 						{
 							pattern: '@/**',
-							group: 'external',
+							group: 'internal',
 							position: 'after',
 						},
 					],
 				},
 			],
 
+			// Unicorn
 			'unicorn/no-for-loop': 'error',
 			'unicorn/no-array-for-each': 'error',
 			'unicorn/no-array-reduce': 'error',
-		},
-	},
-	{
-		languageOptions: {
-			parserOptions: {
-				projectService: true,
-				tsconfigRootDir: import.meta.dirname,
-			},
-		},
-	},
-	{
-		extends: compat.extends(
-			'plugin:@typescript-eslint/recommended-type-checked',
-			'plugin:@typescript-eslint/stylistic-type-checked',
-		),
 
-		rules: {
+			// TypeScript
 			'@typescript-eslint/array-type': [
 				'warn',
 				{
@@ -116,42 +113,48 @@ export default defineConfig([
 
 			'@typescript-eslint/consistent-type-exports': ['error'],
 			'@typescript-eslint/consistent-type-imports': ['error'],
+
+			// Disabling because of index errors on interfaces,
+			// which works fine in type aliases:
+			// https://bobbyhadz.com/blog/typescript-index-signature-for-type-is-missing-in-type
 			'@typescript-eslint/consistent-type-definitions': 'off',
+
+			// Disabling because it's too strict:
+			// we are interested in using || operator multiple times to avoid empty strings.
 			'@typescript-eslint/prefer-nullish-coalescing': 'off',
 			'@typescript-eslint/unbound-method': 'off',
 		},
 	},
 	{
-		files: ['src/app/**/*.[jt]s?(x)'],
-
-		rules: {
-			'import/group-exports': 'off',
-		},
-	},
-	{
+		name: 'Vitest',
 		files: [
 			'src/**/__tests__/**/*.[jt]s?(x)',
 			'src/**/?(*.)+(spec|test).[jt]s?(x)',
 			'src/setup-tests.ts',
+			'vitest.*',
 		],
 
-		extends: compat.extends('plugin:@vitest/legacy-recommended'),
+		plugins: {
+			vitest,
+		},
+		...vitest.configs.recommended,
 	},
 	{
+		name: 'Cypress',
 		files: ['cypress/**/*.[jt]s'],
-		extends: compat.extends('plugin:cypress/recommended'),
+		...cypress.configs.recommended,
 	},
-	// Config files
 	{
-		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-		extends: [tseslint.configs.disableTypeChecked],
-	},
-	// Happo
-	{
+		name: 'Happo',
 		files: ['.happo.js'],
 		rules: {
 			'@typescript-eslint/no-require-imports': 'off',
 		},
+	},
+	{
+		name: 'Config files',
+		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+		extends: [tseslint.configs.disableTypeChecked],
 	},
 	globalIgnores([
 		'**/node_modules',
