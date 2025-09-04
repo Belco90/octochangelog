@@ -2,6 +2,7 @@ import { FlatCompat } from '@eslint/eslintrc'
 import js from '@eslint/js'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import unicorn from 'eslint-plugin-unicorn'
+import tseslint from 'typescript-eslint'
 
 const compat = new FlatCompat({
 	baseDirectory: import.meta.dirname,
@@ -92,19 +93,14 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.ts?(x)'],
-
 		languageOptions: {
 			parserOptions: {
+				projectService: true,
 				tsconfigRootDir: import.meta.dirname,
-
-				projectService: {
-					allowDefaultProject: ['*.js'],
-					defaultProject: './tsconfig.json',
-				},
 			},
 		},
-
+	},
+	{
 		extends: compat.extends(
 			'plugin:@typescript-eslint/recommended-type-checked',
 			'plugin:@typescript-eslint/stylistic-type-checked',
@@ -144,6 +140,18 @@ export default defineConfig([
 	{
 		files: ['cypress/**/*.[jt]s'],
 		extends: compat.extends('plugin:cypress/recommended'),
+	},
+	// Config files
+	{
+		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+		extends: [tseslint.configs.disableTypeChecked],
+	},
+	// Happo
+	{
+		files: ['.happo.js'],
+		rules: {
+			'@typescript-eslint/no-require-imports': 'off',
+		},
 	},
 	globalIgnores([
 		'**/node_modules',
