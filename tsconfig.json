@@ -35,6 +35,7 @@
 		"additional.d.ts",
 		"**/*.ts",
 		"**/*.tsx",
+		"**/*.mts",
 		".next/types/**/*.ts"
 	],
 	"exclude": ["node_modules"]
