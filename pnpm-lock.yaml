@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  headers-polyfill: 4.0.3
-
 importers:
 
   .:
@@ -105,6 +102,9 @@ importers:
       '@chakra-ui/utils':
         specifier: 2.0.14
         version: 2.0.14
+      '@eslint/eslintrc':
+        specifier: 3.3.1
+        version: 3.3.1
       '@eslint/js':
         specifier: 9.34.0
         version: 9.34.0
