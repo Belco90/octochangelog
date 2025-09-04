@@ -1,5 +1,4 @@
 import { FlatCompat } from '@eslint/eslintrc'
-import js from '@eslint/js'
 import eslint from '@eslint/js'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
@@ -11,7 +10,6 @@ import tseslint from 'typescript-eslint'
 
 const compat = new FlatCompat({
 	baseDirectory: import.meta.dirname,
-	recommendedConfig: js.configs.recommended,
 })
 
 export default defineConfig([
