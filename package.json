@@ -14,7 +14,7 @@
 		"type-gen": "next typegen",
 		"type-check": "pnpm type-gen && tsc --project tsconfig.validation.json",
 		"type-check:cypress": "pnpm type-gen && tsc --project cypress/tsconfig.json",
-		"lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings 0 --report-unused-disable-directives",
+		"lint": "eslint --max-warnings 0 --report-unused-disable-directives .",
 		"lint:fix": "pnpm lint --fix",
 		"prettier-base": "prettier . --ignore-unknown --cache --log-level warn",
 		"format": "pnpm prettier-base --write",
