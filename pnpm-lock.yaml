@@ -115,8 +115,8 @@ importers:
         specifier: 5.83.1
         version: 5.83.1(eslint@9.34.0)(typescript@5.9.2)
       '@testing-library/cypress':
-        specifier: 10.0.3
-        version: 10.0.3(cypress@15.0.0)
+        specifier: 10.1.0
+        version: 10.1.0(cypress@15.0.0)
       '@testing-library/react':
         specifier: 16.3.0
         version: 16.3.0(@testing-library/dom@10.4.0)(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -2384,11 +2384,11 @@ packages:
     peerDependencies:
       react: ^18 || ^19
 
-  '@testing-library/cypress@10.0.3':
-    resolution: {integrity: sha512-TeZJMCNtiS59cPWalra7LgADuufO5FtbqQBYxuAgdX6ZFAR2D9CtQwAG8VbgvFcchW3K414va/+7P4OkQ80UVg==}
+  '@testing-library/cypress@10.1.0':
+    resolution: {integrity: sha512-tNkNtYRqPQh71xXKuMizr146zlellawUfDth7A/urYU4J66g0VGZ063YsS0gqS79Z58u1G/uo9UxN05qvKXMag==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
-      cypress: ^12.0.0 || ^13.0.0 || ^14.0.0
+      cypress: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -8821,7 +8821,7 @@ snapshots:
       '@tanstack/query-core': 5.85.6
       react: 19.1.1
 
-  '@testing-library/cypress@10.0.3(cypress@15.0.0)':
+  '@testing-library/cypress@10.1.0(cypress@15.0.0)':
     dependencies:
       '@babel/runtime': 7.27.6
       '@testing-library/dom': 10.4.0
