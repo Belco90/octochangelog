@@ -93,7 +93,7 @@
 		"happo-e2e": "5.0.0",
 		"happo.io": "13.0.0",
 		"husky": "9.1.7",
-		"lint-staged": "16.1.5",
+		"lint-staged": "16.1.6",
 		"msw": "2.11.0",
 		"prettier": "3.6.2",
 		"start-server-and-test": "2.0.13",
