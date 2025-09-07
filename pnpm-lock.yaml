@@ -196,8 +196,8 @@ importers:
         specifier: 3.6.2
         version: 3.6.2
       start-server-and-test:
-        specifier: 2.0.13
-        version: 2.0.13
+        specifier: 2.1.0
+        version: 2.1.0
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@swc/core@1.13.5)(@types/node@22.18.1)(typescript@5.9.2)
@@ -5765,8 +5765,8 @@ packages:
     resolution: {integrity: sha512-WjlahMgHmCJpqzU8bIBy4qtsZdU9lRlcZE3Lvyej6t4tuOuv1vk57OW3MBrj6hXBFx/nNoC9MPMTcr5YA7NQbg==}
     engines: {node: '>=6'}
 
-  start-server-and-test@2.0.13:
-    resolution: {integrity: sha512-G42GCIUjBv/nDoK+QsO+nBdX2Cg3DSAKhSic2DN0GLlK4Q+63TkOeN1cV9PHZKnVOzDKGNVZGCREjpvAIAOdiQ==}
+  start-server-and-test@2.1.0:
+    resolution: {integrity: sha512-yJg/GR9z7+8qxhZqDPmCEKbU/BO/zpyXUZGLmY1Nv4rmJJDC89NnzIEUWXEG4e1J4MRFoDF50eJK8bGHKrSdlg==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -12961,7 +12961,7 @@ snapshots:
     dependencies:
       type-fest: 0.7.1
 
-  start-server-and-test@2.0.13:
+  start-server-and-test@2.1.0:
     dependencies:
       arg: 5.0.2
       bluebird: 3.7.2
