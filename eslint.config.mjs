@@ -3,8 +3,8 @@ import eslint from '@eslint/js'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
+import prettierConfig from 'eslint-config-prettier/flat'
 import cypress from 'eslint-plugin-cypress'
-import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import unicorn from 'eslint-plugin-unicorn'
 import tseslint from 'typescript-eslint'
 
@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 	baseDirectory: import.meta.dirname,
 })
 
-export default defineConfig([
+export default defineConfig(
 	{
 		name: 'Next.js with Core Web Vitals',
 		extends: compat.extends('next/core-web-vitals'),
@@ -21,7 +21,6 @@ export default defineConfig([
 	tseslint.configs.recommendedTypeChecked,
 	tseslint.configs.stylisticTypeChecked,
 	tanstackQuery.configs['flat/recommended'],
-	prettierRecommended, // should always be the last one
 	{
 		name: 'typescript-eslint config',
 		languageOptions: {
@@ -162,4 +161,5 @@ export default defineConfig([
 		'**/.env*',
 		'**/next-env.d.ts',
 	]),
-])
+	prettierConfig, // should always be the last one
+)
