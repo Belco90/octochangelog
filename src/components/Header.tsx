@@ -14,7 +14,7 @@ import * as React from 'react'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
-import { Link as RouteLink } from '@/components/ChakraNextLink'
+import RouteLink from '@/components/ChakraNextLink'
 import ToggleColorModeButton from '@/components/ToggleColorModeButton'
 import mascotIcon from '@/public/mascot-icon.png'
 

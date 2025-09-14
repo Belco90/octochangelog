@@ -51,11 +51,6 @@ export default defineConfig(
 					name: 'next/router',
 					message: 'Please import from `next/navigation` instead.',
 				},
-				{
-					name: '@chakra-ui/next-js',
-					importNames: ['Link'],
-					message: 'Please import from `ChakraNextLink` instead.',
-				},
 			],
 
 			// React

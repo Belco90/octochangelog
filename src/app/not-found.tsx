@@ -9,7 +9,7 @@ import {
 import Image from 'next/image'
 import NextLink from 'next/link'
 
-import { Link } from '@/components/ChakraNextLink'
+import Link from '@/components/ChakraNextLink'
 import mascotIcon from '@/public/mascot-icon.png'
 
 import { openGraph } from './shared-metadata'
