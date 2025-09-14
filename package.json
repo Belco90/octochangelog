@@ -27,9 +27,11 @@
 		"e2e": "start-test 'pnpm build && pnpm start' http://localhost:3000 'pnpm cy:open --e2e'",
 		"e2e:dev": "start-test 'pnpm dev' http://localhost:3000 'pnpm cy:open --e2e'",
 		"e2e:headless": "start-test'pnpm build && pnpm start' http://localhost:3000 'pnpm cy:headless'",
-		"gen:theme-typings": "chakra-cli tokens src/custom-theme.ts --strict-component-types --strict-token-types",
+		"chakra": "chakra",
+		"chakra:snippet-all": "chakra snippet add --all --outdir src/components/snippets",
+		"chakra:typegen": "chakra typegen src/theme.ts --strict",
 		"prepare": "husky",
-		"postinstall": "pnpm gen:theme-typings"
+		"postinstall": "pnpm chakra:typegen"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "3.26.0",

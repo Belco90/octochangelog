@@ -160,6 +160,7 @@ export default defineConfig(
 		'**/public',
 		'**/.env*',
 		'**/next-env.d.ts',
+		'src/components/snippets',
 	]),
 	prettierConfig, // should always be the last one
 )
