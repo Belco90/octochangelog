@@ -13,7 +13,7 @@
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedLocals": true,

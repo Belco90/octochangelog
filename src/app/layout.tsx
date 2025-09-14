@@ -1,9 +1,6 @@
-import { ColorModeScript } from '@chakra-ui/react'
-
 import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
 import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
-import customTheme from '@/custom-theme'
 import { interFont, robotoMonoFont } from '@/fonts'
 
 import Providers from './Providers'
@@ -27,11 +24,11 @@ export const viewport: Viewport = {
 	themeColor: [
 		{
 			media: '(prefers-color-scheme: light)',
-			color: customTheme.colors.primary['300'],
+			// color: customTheme.colors.primary['300'],
 		},
 		{
 			media: '(prefers-color-scheme: dark)',
-			color: customTheme.colors.primary['700'],
+			// color: customTheme.colors.primary['700'],
 		},
 	],
 }
@@ -42,9 +39,8 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => (
 		className={`${interFont.variable} ${robotoMonoFont.variable}`}
 		suppressHydrationWarning
 	>
-		<body suppressHydrationWarning>
+		<body>
 			<PirschAnalytics />
-			<ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
 			<Providers>
 				<UILayout>{children}</UILayout>
 			</Providers>

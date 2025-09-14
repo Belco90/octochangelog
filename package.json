@@ -29,7 +29,6 @@
 		"e2e:headless": "start-test'pnpm build && pnpm start' http://localhost:3000 'pnpm cy:headless'",
 		"chakra": "chakra",
 		"chakra:snippet": "chakra snippet add --outdir src/components/snippets",
-		"chakra:snippet-all": "pn chakra:snippet --all",
 		"chakra:typegen": "chakra typegen src/theme.ts --strict",
 		"prepare": "husky",
 		"postinstall": "echo 'TODO: pnpm chakra:typegen'"

@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
 		},
 	},
 	typedRoutes: true,
+	experimental: {
+		optimizePackageImports: ['@chakra-ui/react'],
+	},
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async redirects() {
 		return [
