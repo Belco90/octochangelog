@@ -32,10 +32,8 @@
 		"postinstall": "pnpm gen:theme-typings"
 	},
 	"dependencies": {
-		"@chakra-ui/next-js": "2.2.0",
-		"@chakra-ui/react": "2.8.2",
+		"@chakra-ui/react": "3.26.0",
 		"@emotion/react": "11.14.0",
-		"@emotion/styled": "11.14.1",
 		"@octokit/auth-callback": "6.0.0",
 		"@octokit/rest": "22.0.0",
 		"@sentry/nextjs": "10.10.0",
@@ -43,7 +41,6 @@
 		"@tanstack/react-query-devtools": "5.87.1",
 		"downshift": "9.0.10",
 		"es-toolkit": "1.39.10",
-		"framer-motion": "12.23.12",
 		"js-cookie": "3.0.5",
 		"next": "15.5.2",
 		"react": "19.1.1",
@@ -61,10 +58,7 @@
 		"unified": "11.0.5"
 	},
 	"devDependencies": {
-		"@chakra-ui/cli": "2.4.1",
-		"@chakra-ui/styled-system": "2.9.2",
-		"@chakra-ui/theme-tools": "2.1.2",
-		"@chakra-ui/utils": "2.0.14",
+		"@chakra-ui/cli": "3.26.0",
 		"@eslint/eslintrc": "3.3.1",
 		"@eslint/js": "9.35.0",
 		"@octokit/openapi-types": "25.1.0",
