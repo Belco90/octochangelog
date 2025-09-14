@@ -106,7 +106,7 @@ const themeConfig: ThemeConfig = {
 	useSystemColorMode: !!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE,
 }
 
-type CustomTheme = Theme & {
+type DEPRECATEDCustomTheme = Theme & {
 	colors: { primary: ColorHues; secondary: ColorHues }
 }
 
@@ -202,6 +202,6 @@ const customTheme = extendTheme(
 		colorScheme: 'gray',
 		components: ['Code', 'BlockQuote'],
 	}),
-) as CustomTheme
+)
 
 export default customTheme

@@ -1,9 +1,8 @@
 /* eslint-disable no-restricted-imports */
-import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, renderHook } from '@testing-library/react'
 
-import customTheme from './custom-theme'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 import type {
 	RenderHookOptions,
@@ -31,9 +30,11 @@ const testingQueryClient = new QueryClient({
  */
 const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
 	return (
-		<QueryClientProvider client={testingQueryClient}>
-			<ChakraProvider theme={customTheme}>{children}</ChakraProvider>
-		</QueryClientProvider>
+		<ThemeProvider>
+			<QueryClientProvider client={testingQueryClient}>
+				{children}
+			</QueryClientProvider>
+		</ThemeProvider>
 	)
 }
 
