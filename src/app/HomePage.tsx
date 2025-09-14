@@ -11,7 +11,6 @@ import {
 	List,
 	SimpleGrid,
 	Stack,
-	useColorModeValue,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import NextLink from 'next/link'
@@ -24,6 +23,7 @@ import {
 } from 'react-icons/hi'
 
 import { BRIEF_DESCRIPTION } from '@/common'
+import { useColorModeValue } from '@/components/snippets/color-mode'
 import mascotIcon from '@/public/mascot-icon.png'
 
 import type { ReactNode } from 'react'

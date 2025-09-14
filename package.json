@@ -31,7 +31,7 @@
 		"chakra:snippet": "chakra snippet add --outdir src/components/snippets",
 		"chakra:typegen": "chakra typegen src/theme.ts --strict",
 		"prepare": "husky",
-		"postinstall": "echo 'TODO: pnpm chakra:typegen'"
+		"postinstall": "pnpm chakra:typegen"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "3.26.0",

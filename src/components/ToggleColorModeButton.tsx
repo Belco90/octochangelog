@@ -6,6 +6,7 @@ import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi'
 
 import type { IconButtonProps } from '@chakra-ui/react'
 
+// TODO: replace this one by the snippet
 const ToggleColorModeButton = (props: Partial<IconButtonProps>) => {
 	const { colorMode, toggleColorMode } = useColorMode()
 	const isLightMode = colorMode === 'light'
