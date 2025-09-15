@@ -1,6 +1,6 @@
 'use client'
 
-import { CircularProgress, Flex } from '@chakra-ui/react'
+import { Spinner, Flex } from '@chakra-ui/react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
 	createContext,
@@ -47,8 +47,8 @@ const ComparatorUpdaterContext = createContext<
 type InitStatus = 'done' | 'loading' | 'mount'
 
 const loadingElement = (
-	<Flex align="center" justify="center" height="100%">
-		<CircularProgress isIndeterminate size="8" color="primary.400" />
+	<Flex align="center" justify="center" height="full">
+		<Spinner size="lg" colorPalette="primary" color="colorPalette.400" />
 	</Flex>
 )
 
