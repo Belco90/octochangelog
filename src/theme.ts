@@ -15,7 +15,7 @@ const containerRecipe = defineRecipe({
 /** Override base style for Link */
 const linkRecipe = defineRecipe({
 	base: {
-		color: { base: '{colors.primary.700}', _dark: '{colors.primary.400}' },
+		color: { base: 'primary.700', _dark: 'primary.400' },
 	},
 })
 
@@ -27,19 +27,17 @@ const buttonRecipe = defineRecipe({
 				fontWeight: 'black',
 				fontSize: '2xl',
 				letterSpacing: 'tight',
-				p: 6,
-				size: 'lg',
-				boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+				p: '6',
+				boxShadow: 'cta',
 				borderRadius: '2xl',
-				bg: { base: '{colors.primary.900}', _dark: '{colors.primary.200}' },
-				color: { base: '{colors.primary.50}', _dark: '{colors.primary.900}' },
+				bg: { base: 'primary.900', _dark: 'primary.200' },
+				color: { base: 'primary.50', _dark: 'primary.900' },
 				_hover: {
-					bg: { base: '{colors.primary.700}', _dark: '{colors.primary.100}' },
-					cursor: 'pointer',
+					bg: { base: 'primary.700', _dark: 'primary.100' },
+					cursor: 'button',
 				},
 				_active: {
-					bg: { base: '{colors.primary.900}', _dark: '{colors.primary.200}' },
-					boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
+					bg: { base: 'primary.900', _dark: 'primary.200' },
 				},
 			},
 		},
@@ -104,6 +102,17 @@ const customConfig = defineConfig({
 			container: containerRecipe,
 			link: linkRecipe,
 			button: buttonRecipe,
+		},
+		semanticTokens: {
+			shadows: {
+				cta: {
+					value: {
+						base: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+						_active: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
+					},
+					description: 'Shadow for CTA buttons',
+				},
+			},
 		},
 	},
 })

@@ -47,7 +47,9 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 			</VStack>
 
 			<VStack mt={12} spacing={5}>
-				<Button onClick={() => reset()}>Try again</Button>
+				<Button variant="cta" onClick={() => reset()}>
+					Try again
+				</Button>
 			</VStack>
 		</Container>
 	)
