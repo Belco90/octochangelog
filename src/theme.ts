@@ -113,6 +113,74 @@ const customConfig = defineConfig({
 					description: 'Shadow for CTA buttons',
 				},
 			},
+
+			// TODO: review these semantic tokens to move them somewhere else, or delete them if not used
+			colors: {
+				primaryText: {
+					value: { base: 'gray.900', _dark: 'gray.50' },
+					description: 'Primary text color',
+				},
+				secondaryText: {
+					value: { base: 'gray.700', _dark: 'gray.300' },
+					description: 'Secondary text color',
+				},
+				tertiaryText: {
+					value: { base: 'gray.600', _dark: 'gray.400' },
+					description: 'Tertiary text color',
+				},
+				monochrome1: {
+					value: { base: 'black', _dark: 'white' },
+					description: 'Monochrome color 1',
+				},
+				monochrome2: {
+					value: { base: 'gray.900', _dark: 'gray.50' },
+					description: 'Monochrome color 2',
+				},
+				monochrome3: {
+					value: { base: 'gray.800', _dark: 'gray.100' },
+					description: 'Monochrome color 3',
+				},
+				monochrome4: {
+					value: { base: 'gray.700', _dark: 'gray.200' },
+					description: 'Monochrome color 4',
+				},
+				monochrome5: {
+					value: { base: 'gray.600', _dark: 'gray.300' },
+					description: 'Monochrome color 5',
+				},
+				monochromeInverted1: {
+					value: { base: 'white', _dark: 'black' },
+					description: 'Inverted monochrome color 1',
+				},
+				monochromeInverted2: {
+					value: { base: 'gray.50', _dark: 'gray.900' },
+					description: 'Inverted monochrome color 2',
+				},
+				monochromeInverted3: {
+					value: { base: 'gray.100', _dark: 'gray.800' },
+					description: 'Inverted monochrome color 3',
+				},
+				monochromeInverted4: {
+					value: { base: 'gray.200', _dark: 'gray.700' },
+					description: 'Inverted monochrome color 4',
+				},
+				monochromeInverted5: {
+					value: { base: 'gray.300', _dark: 'gray.600' },
+					description: 'Inverted monochrome color 5',
+				},
+				background1: {
+					value: '{semantic.colors.monochrome1}',
+					description: 'Background color 1',
+				},
+				background2: {
+					value: '{semantic.colors.monochrome2}',
+					description: 'Background color 2',
+				},
+				background3: {
+					value: '{semantic.colors.monochrome3}',
+					description: 'Background color 3',
+				},
+			},
 		},
 	},
 })
