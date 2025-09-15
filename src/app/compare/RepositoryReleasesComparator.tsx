@@ -16,7 +16,7 @@ const RepositoryReleasesComparator = () => {
 	return (
 		<Flex direction="column" height="full">
 			<Box bgColor="background2" py={{ base: 4, md: 8 }}>
-				<Container variant="fluid">
+				<Container>
 					<RepositoriesComparatorFilters />
 				</Container>
 			</Box>
@@ -29,7 +29,7 @@ const RepositoryReleasesComparator = () => {
 							fromVersion={fromVersion ?? undefined}
 							toVersion={toVersion ?? undefined}
 						/>
-						<Container variant="fluid">
+						<Container>
 							<RepositoryReleasesChangelog
 								repository={repository}
 								fromVersion={fromVersion ?? undefined}

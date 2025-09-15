@@ -14,7 +14,7 @@ const RepositoryReleasesChangelogHeading = ({
 	toVersion,
 }: Props) => (
 	<Box width="full" py={1} mb={{ base: 4, md: 8 }}>
-		<Container variant="fluid">
+		<Container>
 			<Heading as="h2" size="lg" mb={2}>
 				<Link isExternal href={repository.html_url}>
 					{repository.name}

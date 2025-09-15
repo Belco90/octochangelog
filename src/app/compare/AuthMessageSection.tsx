@@ -12,7 +12,7 @@ const AuthMessageSection = () => {
 	}
 
 	return (
-		<Container variant="fluid" pb={2}>
+		<Container pb={2}>
 			<Flex alignItems="center" flexDirection="column">
 				<Text mb={4}>
 					You can increase the max number of allowed requests to GitHub by

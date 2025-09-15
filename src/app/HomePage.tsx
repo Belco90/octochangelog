@@ -155,7 +155,7 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 const HomePage = () => {
 	return (
 		<Box py={{ base: 8, lg: 16 }} mb={10}>
-			<Container maxWidth="container.lg">
+			<Container maxWidth="lg">
 				<MainSection />
 
 				<Box mt={40} />

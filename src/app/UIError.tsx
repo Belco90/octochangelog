@@ -21,7 +21,7 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	}, [error])
 
 	return (
-		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
+		<Container pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
 				<Image src={mascotIcon} alt="" width={250} height={250} />
 				<Stack

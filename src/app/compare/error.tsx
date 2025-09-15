@@ -15,7 +15,7 @@ const ComparatorErrorPage: FC<NextErrorPageProps> = ({ error, reset }) => {
 
 	return (
 		<Box height="full" width="full" bgColor="background3">
-			<Container variant="fluid" height="full">
+			<Container height="full">
 				<VStack
 					px="10"
 					alignItems="center"

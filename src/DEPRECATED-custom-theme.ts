@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 interface SemanticToken {
 	default: string
 	_dark: string
@@ -74,45 +76,6 @@ const customTheme = extendTheme(
 				background1: invertSemanticToken(monochrome1),
 				background2: invertSemanticToken(monochrome2),
 				background3: invertSemanticToken(monochrome3),
-			},
-		},
-		components: {
-			Link: {
-				baseStyle: (props: Dict) => {
-					return { color: mode('primary.700', 'primary.400')(props) }
-				},
-			},
-			Button: {
-				variants: {
-					cta: (props: Dict) => {
-						return {
-							fontWeight: 'black',
-							fontSize: '2xl',
-							letterSpacing: 'tight',
-							p: 6,
-							size: 'lg',
-							boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-							borderRadius: '2xl',
-							bg: mode('primary.900', 'primary.200')(props),
-							color: mode('primary.50', 'primary.900')(props),
-							_hover: {
-								bg: mode('primary.700', 'primary.100')(props),
-								cursor: 'pointer',
-							},
-							_active: {
-								bg: mode('primary.900', 'primary.200')(props),
-								boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
-							},
-						}
-					},
-				},
-			},
-			Container: {
-				variants: {
-					fluid: {
-						maxWidth: 'container.xl',
-					},
-				},
 			},
 		},
 	},

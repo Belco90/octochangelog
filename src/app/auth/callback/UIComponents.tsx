@@ -24,12 +24,7 @@ import type { FC, ReactNode } from 'react'
 
 const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 	return (
-		<Container
-			maxWidth="container.lg"
-			pt={{ base: 4, md: 8 }}
-			height="full"
-			width="full"
-		>
+		<Container maxWidth="lg" pt={{ base: 4, md: 8 }} height="full" width="full">
 			<VStack width="full" gap={{ base: 4, md: 16 }}>
 				<Heading alignSelf="start">Authorizing on GitHub</Heading>
 				{children}

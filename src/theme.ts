@@ -1,4 +1,50 @@
-import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
+import {
+	createSystem,
+	defaultConfig,
+	defineConfig,
+	defineRecipe,
+} from '@chakra-ui/react'
+
+/** Override base style for Container */
+const containerRecipe = defineRecipe({
+	base: {
+		maxWidth: 'xl',
+	},
+})
+
+/** Override base style for Link */
+const linkRecipe = defineRecipe({
+	base: {
+		color: { base: '{colors.primary.700}', _dark: '{colors.primary.400}' },
+	},
+})
+
+/** Add variant for Button */
+const buttonRecipe = defineRecipe({
+	variants: {
+		variant: {
+			cta: {
+				fontWeight: 'black',
+				fontSize: '2xl',
+				letterSpacing: 'tight',
+				p: 6,
+				size: 'lg',
+				boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+				borderRadius: '2xl',
+				bg: { base: '{colors.primary.900}', _dark: '{colors.primary.200}' },
+				color: { base: '{colors.primary.50}', _dark: '{colors.primary.900}' },
+				_hover: {
+					bg: { base: '{colors.primary.700}', _dark: '{colors.primary.100}' },
+					cursor: 'pointer',
+				},
+				_active: {
+					bg: { base: '{colors.primary.900}', _dark: '{colors.primary.200}' },
+					boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
+				},
+			},
+		},
+	},
+})
 
 const customConfig = defineConfig({
 	strictTokens: true,
@@ -53,6 +99,11 @@ const customConfig = defineConfig({
 				body: { value: 'var(--font-inter)' },
 				mono: { value: 'var(--font-roboto-mono)' },
 			},
+		},
+		recipes: {
+			container: containerRecipe,
+			link: linkRecipe,
+			button: buttonRecipe,
 		},
 	},
 })
