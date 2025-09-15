@@ -39,7 +39,7 @@ const GitHubLoginButton = ({
 			_hover={{ bg: 'gray.900' }}
 			onClick={handleClick}
 		>
-			{children} <Icon as={DiGithubBadge} ml={2} boxSize={6} />
+			{children} <Icon as={DiGithubBadge} ml="2" boxSize={6} />
 		</Button>
 	)
 }
