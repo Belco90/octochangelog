@@ -12,13 +12,6 @@ const containerRecipe = defineRecipe({
 	},
 })
 
-/** Override base style for Link */
-const linkRecipe = defineRecipe({
-	base: {
-		color: { base: 'primary.700', _dark: 'primary.400' },
-	},
-})
-
 /** Add variant for Button */
 const buttonRecipe = defineRecipe({
 	variants: {
@@ -100,7 +93,6 @@ const customConfig = defineConfig({
 		},
 		recipes: {
 			container: containerRecipe,
-			link: linkRecipe,
 			button: buttonRecipe,
 		},
 		semanticTokens: {

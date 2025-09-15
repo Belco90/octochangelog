@@ -3,7 +3,6 @@ import {
 	Code,
 	Heading,
 	Icon,
-	Link,
 	List,
 	ListItem,
 	Tag,
@@ -12,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
+import { Link } from '@/components/Link'
 import { SimpleBlockquote } from '@/components/SimpleBlockquote'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
@@ -49,7 +49,7 @@ const RemarkP = (props: RemarkComponentProps) => <Text mb="2" {...props} />
 
 const RemarkA = ({ href, children, ...rest }: LinkProps) => (
 	<Link isExternal href={href} {...rest}>
-		{children} <Icon as={HiOutlineExternalLink} mx="2px" />
+		{children} <Icon as={HiOutlineExternalLink} mx="[2px]" />
 	</Link>
 )
 

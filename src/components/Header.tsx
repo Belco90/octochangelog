@@ -1,20 +1,13 @@
 'use client'
 
-import {
-	Box,
-	Flex,
-	Container,
-	Heading,
-	HStack,
-	Icon,
-	Link,
-} from '@chakra-ui/react'
+import { Box, Flex, Container, Heading, HStack, Icon } from '@chakra-ui/react'
 import Image from 'next/image'
 import * as React from 'react'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
 import RouteLink from '@/components/ChakraNextLink'
+import { Link } from '@/components/Link'
 import ToggleColorModeButton from '@/components/ToggleColorModeButton'
 import mascotIcon from '@/public/mascot-icon.png'
 
@@ -41,7 +34,6 @@ const Header = (props: BoxProps) => {
 					<Flex alignItems="center">
 						<RouteLink
 							href="/"
-							textDecorationLine="underline"
 							textDecorationThickness="4px"
 							textUnderlineOffset="2px"
 							textDecorationColor="transparent"

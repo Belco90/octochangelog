@@ -1,19 +1,21 @@
-import { Box, Container, Link, Text } from '@chakra-ui/react'
+import { Box, Container, Text } from '@chakra-ui/react'
+
+import { Link } from '@/components/Link'
 
 const Footer = () => {
 	return (
 		<Box
 			as="footer"
 			bgColor="background2"
-			pb={{ base: 8, lg: 12 }}
-			borderTop="solid 1px"
+			pb={{ base: '8', lg: '12' }}
+			borderTopWidth="[1px]"
 			borderTopColor="monochromeInverted3"
 		>
 			<Container
 				centerContent
 				maxWidth="full"
-				py={{ base: 1, lg: 4 }}
-				px={{ base: 4, lg: 5 }}
+				py={{ base: '1', lg: '4' }}
+				px={{ base: '4', lg: '5' }}
 			>
 				<Text
 					color="primaryText"

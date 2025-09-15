@@ -1,5 +1,6 @@
-import { Badge, Box, Container, Heading, Link, Text } from '@chakra-ui/react'
+import { Badge, Box, Container, Heading, Text } from '@chakra-ui/react'
 
+import { Link } from '@/components/Link'
 import type { Repository } from '@/models'
 
 interface Props {

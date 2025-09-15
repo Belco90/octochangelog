@@ -1,14 +1,16 @@
 'use client'
 
-import { Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
+import { Link } from '@/components/Link'
+
+import type { LinkProps as NextLinkProps } from 'next/link'
+
 // TODO: fix this
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ChakraNextLink(props: any) {
+export default function ChakraNextLink(props: NextLinkProps<unknown>) {
 	return (
-		<ChakraLink asChild>
+		<Link asChild>
 			<NextLink {...props} />
-		</ChakraLink>
+		</Link>
 	)
 }
