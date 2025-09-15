@@ -8,7 +8,7 @@ const Footer = () => {
 			as="footer"
 			bgColor="background2"
 			pb={{ base: '8', lg: '12' }}
-			borderTopWidth="[1px]"
+			borderTopWidth="1px"
 			borderTopColor="monochromeInverted3"
 		>
 			<Container

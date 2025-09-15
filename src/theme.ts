@@ -38,7 +38,8 @@ const buttonRecipe = defineRecipe({
 })
 
 const customConfig = defineConfig({
-	strictTokens: true,
+	// TODO: enable strict tokens once the theme is stable
+	// strictTokens: true,
 	globalCss: {
 		'html, body, #__next': { height: 'full' },
 	},
