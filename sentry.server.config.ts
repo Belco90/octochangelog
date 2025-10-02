@@ -6,8 +6,8 @@ import * as Sentry from '@sentry/nextjs'
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
 
-/** Only debug if not deployed on Vercel */
-const shouldDebug = !process.env.NEXT_PUBLIC_VERCEL_ENV
+/** Only debug if not deployed on Netlify */
+const shouldDebug = !process.env.CONTEXT
 
 Sentry.init({
 	dsn: SENTRY_DSN,

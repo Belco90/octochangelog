@@ -1,4 +1,5 @@
-import { Box, Container, Link, Text } from '@chakra-ui/react'
+import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
+import Image from 'next/image'
 
 const Footer = () => {
 	return (
@@ -15,25 +16,39 @@ const Footer = () => {
 				py={{ base: 1, lg: 4 }}
 				px={{ base: 4, lg: 5 }}
 			>
-				<Text
-					color="primaryText"
-					fontSize={{ base: 'lg', md: '2xl' }}
-					fontWeight="black"
-					textAlign="center"
-				>
-					Created with love <br /> by{' '}
-					<Link isExternal href="https://mario.dev/" title="Mario's website">
-						Mario
-					</Link>{' '}
-					&{' '}
+				<Stack spacing={4} alignItems="center">
+					<Text
+						color="primaryText"
+						fontSize={{ base: 'lg', md: '2xl' }}
+						fontWeight="black"
+						textAlign="center"
+					>
+						Created with love <br /> by{' '}
+						<Link isExternal href="https://mario.dev/" title="Mario's website">
+							Mario
+						</Link>{' '}
+						&{' '}
+						<Link
+							isExternal
+							href="https://github.com/HonkingGoose"
+							title="HonkingGoose's GitHub profile"
+						>
+							HonkingGoose
+						</Link>
+					</Text>
 					<Link
 						isExternal
-						href="https://github.com/HonkingGoose"
-						title="HonkingGoose's GitHub profile"
+						href="https://www.netlify.com"
+						title="Deploys by Netlify"
 					>
-						HonkingGoose
+						<Image
+							src="https://www.netlify.com/v3/img/components/netlify-color-accent.svg"
+							alt="Deploys by Netlify"
+							width={114}
+							height={51}
+						/>
 					</Link>
-				</Text>
+				</Stack>
 			</Container>
 		</Box>
 	)

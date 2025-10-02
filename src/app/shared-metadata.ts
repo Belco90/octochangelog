@@ -11,10 +11,10 @@ export const openGraph: NonNullable<Metadata['openGraph']> = {
 }
 
 export const getMetadataBase: () => URL = () => {
-	const vercelUrl = process.env.VERCEL_URL
+	const deployUrl = process.env.URL
 
-	if (vercelUrl) {
-		return new URL(`https://${process.env.VERCEL_URL}`)
+	if (deployUrl) {
+		return new URL(deployUrl)
 	}
 
 	return new URL(`http://localhost:${process.env.PORT || 3000}`)

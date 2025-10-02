@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
 		},
 	},
 	typedRoutes: true,
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'www.netlify.com',
+			},
+		],
+	},
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async redirects() {
 		return [
@@ -39,9 +47,9 @@ export default withSentryConfig(nextConfig, {
 
 	release: {
 		deploy: {
-			// If deployed to Vercel, it will be tagged as production or review.
+			// If deployed to Netlify, it will be tagged as production, deploy-preview, or branch-deploy.
 			// Otherwise, we don't know what environment is being run on (e.g. local, cypress, CI).
-			env: process.env.VERCEL_ENV || 'unknown',
+			env: process.env.CONTEXT || 'unknown',
 		},
 	},
 
@@ -70,10 +78,4 @@ export default withSentryConfig(nextConfig, {
 
 	// Automatically tree-shake Sentry logger statements to reduce bundle size
 	disableLogger: true,
-
-	// Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-	// See the following for more information:
-	// https://docs.sentry.io/product/crons/
-	// https://vercel.com/docs/cron-jobs
-	automaticVercelMonitors: true,
 })
