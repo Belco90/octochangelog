@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Link, Stack, Text } from '@chakra-ui/react'
+import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
 const Footer = () => {
@@ -22,7 +22,11 @@ const Footer = () => {
 					alignItems="center"
 					width="full"
 				>
-					<Box flex="1" display={{ base: 'block', md: 'flex' }} justifyContent="center">
+					<Box
+						flex="1"
+						display={{ base: 'block', md: 'flex' }}
+						justifyContent="center"
+					>
 						<Text
 							color="primaryText"
 							fontSize={{ base: 'lg', md: '2xl' }}
@@ -30,7 +34,11 @@ const Footer = () => {
 							textAlign="center"
 						>
 							Created with love <br /> by{' '}
-							<Link isExternal href="https://mario.dev/" title="Mario's website">
+							<Link
+								isExternal
+								href="https://mario.dev/"
+								title="Mario's website"
+							>
 								Mario
 							</Link>{' '}
 							&{' '}
