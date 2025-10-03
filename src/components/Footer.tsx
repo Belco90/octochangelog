@@ -68,7 +68,7 @@ const Footer = () => {
 								src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
 								alt="Deploys by Netlify"
 								width={114}
-								height={51}
+								height={50}
 							/>
 						</Link>
 					</Box>
