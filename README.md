@@ -16,7 +16,7 @@
 
 [![CI](https://github.com/Belco90/octochangelog/actions/workflows/ci.yml/badge.svg)](https://github.com/octochangelog/octochangelog-webapp/actions/workflows/ci.yml)
 [![Octochangelog Webapp Cypress tests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/u8grd8&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/u8grd8/runs)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/SITE_ID/deploy-status)](https://app.netlify.com/sites/SITE_NAME/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4ef576fd-d384-4327-a1fc-54a73e71066f/deploy-status)](https://app.netlify.com/projects/octochangelog/deploys)
 
 ## What is Octochangelog?
 

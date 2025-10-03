@@ -5,11 +5,14 @@ import { getGithubAccessToken } from '@/github-auth'
 
 function getUserAgent(): string {
 	const userAgent = 'Octochangelog'
-	const isProductionOrPreview = ['production', 'deploy-preview'].includes(
-		String(process.env.CONTEXT),
-	)
+	const isDeployed = [
+		'production',
+		'deploy-preview',
+		'branch-deploy',
+		'preview-server',
+	].includes(String(process.env.CONTEXT))
 
-	if (isProductionOrPreview) {
+	if (isDeployed) {
 		return userAgent
 	}
 

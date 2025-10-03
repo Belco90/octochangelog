@@ -11,10 +11,10 @@ export const openGraph: NonNullable<Metadata['openGraph']> = {
 }
 
 export const getMetadataBase: () => URL = () => {
-	const deployUrl = process.env.URL
+	const hostUrl = process.env.URL
 
-	if (deployUrl) {
-		return new URL(deployUrl)
+	if (hostUrl) {
+		return new URL(hostUrl)
 	}
 
 	return new URL(`http://localhost:${process.env.PORT || 3000}`)

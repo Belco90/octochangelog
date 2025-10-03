@@ -16,7 +16,13 @@ const Footer = () => {
 				py={{ base: 1, lg: 4 }}
 				px={{ base: 4, lg: 5 }}
 			>
-				<Stack spacing={4} alignItems="center">
+				<Stack
+					direction={{ base: 'column', md: 'row' }}
+					spacing={4}
+					alignItems="center"
+					justifyContent="center"
+					width="full"
+				>
 					<Text
 						color="primaryText"
 						fontSize={{ base: 'lg', md: '2xl' }}
@@ -42,7 +48,7 @@ const Footer = () => {
 						title="Deploys by Netlify"
 					>
 						<Image
-							src="https://www.netlify.com/v3/img/components/netlify-color-accent.svg"
+							src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
 							alt="Deploys by Netlify"
 							width={114}
 							height={51}
