@@ -21,11 +21,13 @@ const Footer = () => {
 					spacing={4}
 					alignItems="center"
 					width="full"
+					position="relative"
 				>
 					<Box
 						flex="1"
-						display={{ base: 'block', md: 'flex' }}
+						display="flex"
 						justifyContent="center"
+						width={{ base: 'full', md: 'auto' }}
 					>
 						<Text
 							color="primaryText"
@@ -51,18 +53,25 @@ const Footer = () => {
 							</Link>
 						</Text>
 					</Box>
-					<Link
-						isExternal
-						href="https://www.netlify.com"
-						title="Deploys by Netlify"
+					<Box
+						display="flex"
+						justifyContent="center"
+						position={{ base: 'static', md: 'absolute' }}
+						right={{ md: 0 }}
 					>
-						<Image
-							src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
-							alt="Deploys by Netlify"
-							width={114}
-							height={51}
-						/>
-					</Link>
+						<Link
+							isExternal
+							href="https://www.netlify.com"
+							title="Deploys by Netlify"
+						>
+							<Image
+								src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
+								alt="Deploys by Netlify"
+								width={114}
+								height={51}
+							/>
+						</Link>
+					</Box>
 				</Stack>
 			</Container>
 		</Box>
