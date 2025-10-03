@@ -4,6 +4,8 @@
 
 The repository is currently in the process of migrating from Chakra UI v2 to v3. This document outlines what has been completed and what remains to be done.
 
+> **Note**: For detailed Chakra UI v3 documentation optimized for LLMs, see https://chakra-ui.com/llms.txt
+
 ## ✅ Completed
 
 1. **Core Theme System**
@@ -51,7 +53,8 @@ The repository is currently in the process of migrating from Chakra UI v2 to v3.
    - **File**: `src/app/compare/ReleaseVersionFormControl.tsx`
    - **Line**: FormLabel uses `noOfLines={1}`
 
-   #### b. `boxSize` → `size` (for Box/Icon)
+   #### b. `boxSize` → Individual `width` and `height` props (or keep `boxSize` as it's still supported)
+   - **Note**: While `boxSize` is deprecated, it may still work. Best practice is to use explicit `width` and `height` props.
    - **Files**:
      - `src/components/ToggleColorModeButton.tsx` (Icon)
      - `src/components/GitHubLoginButton.tsx` (Icon)
@@ -60,6 +63,7 @@ The repository is currently in the process of migrating from Chakra UI v2 to v3.
      - `src/app/HomePage.tsx` (Flex, Icon)
 
    #### c. `rounded` → `borderRadius`
+   - **Note**: `rounded` is a shorthand that's deprecated in v3. Use full `borderRadius` prop.
    - **Files**:
      - `src/components/Header.tsx` (Link)
      - `src/app/compare/ProcessedReleaseChangeDescription.tsx` (Tag)
@@ -109,7 +113,8 @@ The repository is currently in the process of migrating from Chakra UI v2 to v3.
 ### 8. **Verify VStack usage**
    - **File**: `src/app/not-found.tsx`
    - **Issue**: Uses `VStack` component
-   - **Action**: Check if `VStack` is available in v3 or needs to be replaced with `Stack direction="column"`
+   - **Action**: `VStack` is still available in v3 as a convenience wrapper. No action needed unless there are issues.
+   - **Note**: `VStack` is just `<Stack direction="column">` under the hood and remains supported.
 
 ### 9. **Verify Container centerContent prop**
    - **File**: `src/components/Footer.tsx`
@@ -151,6 +156,7 @@ After making changes:
 
 ## 📚 Resources
 
+- [Chakra UI v3 LLM Documentation](https://chakra-ui.com/llms.txt) - Official LLM-optimized documentation
 - [Chakra UI v3 Migration Guide](https://www.chakra-ui.com/docs/get-started/migration)
 - [Chakra UI v3 Documentation](https://www.chakra-ui.com/)
 - [Chakra UI v3 Recipes](https://www.chakra-ui.com/docs/styling/recipes)
