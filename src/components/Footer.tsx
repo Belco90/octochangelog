@@ -1,4 +1,4 @@
-import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Link, Stack, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 
 const Footer = () => {
@@ -20,28 +20,29 @@ const Footer = () => {
 					direction={{ base: 'column', md: 'row' }}
 					spacing={4}
 					alignItems="center"
-					justifyContent="center"
 					width="full"
 				>
-					<Text
-						color="primaryText"
-						fontSize={{ base: 'lg', md: '2xl' }}
-						fontWeight="black"
-						textAlign="center"
-					>
-						Created with love <br /> by{' '}
-						<Link isExternal href="https://mario.dev/" title="Mario's website">
-							Mario
-						</Link>{' '}
-						&{' '}
-						<Link
-							isExternal
-							href="https://github.com/HonkingGoose"
-							title="HonkingGoose's GitHub profile"
+					<Box flex="1" display={{ base: 'block', md: 'flex' }} justifyContent="center">
+						<Text
+							color="primaryText"
+							fontSize={{ base: 'lg', md: '2xl' }}
+							fontWeight="black"
+							textAlign="center"
 						>
-							HonkingGoose
-						</Link>
-					</Text>
+							Created with love <br /> by{' '}
+							<Link isExternal href="https://mario.dev/" title="Mario's website">
+								Mario
+							</Link>{' '}
+							&{' '}
+							<Link
+								isExternal
+								href="https://github.com/HonkingGoose"
+								title="HonkingGoose's GitHub profile"
+							>
+								HonkingGoose
+							</Link>
+						</Text>
+					</Box>
 					<Link
 						isExternal
 						href="https://www.netlify.com"
