@@ -27,8 +27,9 @@ yarn-error.log*
 # Sentry
 .sentryclirc
 
-# Vercel
-.vercel
+# Netlify
+.netlify
+.env.netlify
 
 # Sentry Config File
 .env.sentry-build-plugin

@@ -5,11 +5,14 @@ import { getGithubAccessToken } from '@/github-auth'
 
 function getUserAgent(): string {
 	const userAgent = 'Octochangelog'
-	const isVercelEnv = ['production', 'preview'].includes(
-		String(process.env.NEXT_PUBLIC_VERCEL_ENV),
-	)
+	const isDeployed = [
+		'production',
+		'deploy-preview',
+		'branch-deploy',
+		'preview-server',
+	].includes(String(process.env.CONTEXT))
 
-	if (isVercelEnv) {
+	if (isDeployed) {
 		return userAgent
 	}
 
