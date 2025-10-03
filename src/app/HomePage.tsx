@@ -55,7 +55,7 @@ const MainSection = () => (
 			</Flex>
 		</Stack>
 		<Center width="full">
-			<Image src={mascotIcon} alt="" priority />
+			<Image src={mascotIcon} alt="" priority quality={100} />
 		</Center>
 	</Stack>
 )
