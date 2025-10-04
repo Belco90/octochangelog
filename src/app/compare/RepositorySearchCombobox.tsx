@@ -88,17 +88,17 @@ const RepositorySearchCombobox = ({
 		<Field.Root required width="full" position="relative">
 			<Field.Label {...getLabelProps()}>Enter repository name</Field.Label>
 			<HStack>
-				<Input.Group>
+				<Box position="relative" flex="1">
 					<Input {...getInputProps()} />
-					<Input.RightElement>
+					<Box position="absolute" right="2" top="50%" transform="translateY(-50%)">
 						{isLoading && (
 							<Spinner
 								size="sm"
 								color="primary.500"
 							/>
 						)}
-					</Input.RightElement>
-				</Input.Group>
+					</Box>
+				</Box>
 				<Box>
 					<IconButton
 						{...getToggleButtonProps()}

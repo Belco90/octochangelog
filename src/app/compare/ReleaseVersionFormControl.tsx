@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Select } from '@chakra-ui/react'
+import { Field, NativeSelectRoot, NativeSelectField } from '@chakra-ui/react'
 
 import type { Release } from '@/models'
 import { getReleaseVersion } from '@/utils'
@@ -15,6 +15,7 @@ interface ReleaseVersionFormControlProps {
 	onChange(version: string): void
 	isRequired?: boolean
 	width?: string
+	isDisabled?: boolean
 }
 
 function renderReleasesOptions(
@@ -41,25 +42,29 @@ const ReleaseVersionFormControl = ({
 	isLoading = false,
 	isRequired = true,
 	width = 'full',
+	isDisabled = false,
 }: ReleaseVersionFormControlProps) => {
 	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		onChange(e.target.value)
 	}
 
 	return (
-		<FormControl isRequired={isRequired} width={width}>
-			<FormLabel htmlFor={id} lineClamp={1}>
+		<Field.Root required={isRequired} width={width}>
+			<Field.Label htmlFor={id} lineClamp={1}>
 				{label}
-			</FormLabel>
-			<Select
-				id={id}
-				placeholder={isLoading ? 'Loading...' : placeholder}
-				value={value}
-				onChange={handleChange}
-			>
-				{renderReleasesOptions(options)}
-			</Select>
-		</FormControl>
+			</Field.Label>
+			<NativeSelectRoot>
+				<NativeSelectField
+					id={id}
+					placeholder={isLoading ? 'Loading...' : placeholder}
+					value={value}
+					onChange={handleChange}
+					disabled={isDisabled}
+				>
+					{renderReleasesOptions(options)}
+				</NativeSelectField>
+			</NativeSelectRoot>
+		</Field.Root>
 	)
 }
 

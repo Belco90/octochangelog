@@ -5,7 +5,6 @@ import {
 	Icon,
 	List,
 	Tag,
-	TagLabel,
 	Text,
 } from '@chakra-ui/react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
@@ -67,7 +66,7 @@ const RemarkOl = (props: RemarkComponentProps) => (
 	/>
 )
 
-const RemarkLi = (props: ListItemProps) => <List.Item {...props} />
+const RemarkLi = (props: RemarkComponentProps) => <List.Item {...props} />
 
 const RemarkPre = (props: RemarkComponentProps) => (
 	<Code
@@ -129,7 +128,7 @@ const ProcessedReleaseChangeDescription = ({
 			) : (
 				<>
 					<Link isExternal href={processedReleaseChange.html_url}>
-						<Tag
+						<Tag.Root
 							color="secondary.900"
 							size="lg"
 							mb={2}
@@ -138,8 +137,8 @@ const ProcessedReleaseChangeDescription = ({
 							_hover={{ bgColor: 'secondary.300' }}
 							_active={{ bgColor: 'secondary.200', color: 'secondary.900' }}
 						>
-							<TagLabel>{getReleaseVersion(processedReleaseChange)}</TagLabel>
-						</Tag>
+							<Tag.Label>{getReleaseVersion(processedReleaseChange)}</Tag.Label>
+						</Tag.Root>
 					</Link>
 					<Box ml={4}>{processedDescription}</Box>
 				</>
