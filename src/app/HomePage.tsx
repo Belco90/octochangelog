@@ -156,16 +156,13 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 const HomePage = () => {
 	return (
 		<Box py={{ base: 8, lg: 16 }} mb={10}>
-			<Container maxWidth="lg">
+			<Container>
 				<MainSection />
 
 				<Box mt={40} />
 
-				<List.Root fontSize="" color="secondaryText">
-					<SimpleGrid
-						columns={{ base: 1, md: 2 }}
-						gap={{ base: 10, md: 32 }}
-					>
+				<List.Root color="secondaryText">
+					<SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, md: 32 }}>
 						{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
 							<FeatureItem key={title} icon={icon} title={title}>
 								{children}

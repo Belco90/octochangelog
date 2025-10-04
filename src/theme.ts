@@ -8,7 +8,7 @@ import {
 /** Override base style for Container */
 const containerRecipe = defineRecipe({
 	base: {
-		maxWidth: 'xl',
+		maxWidth: '5xl',
 	},
 })
 
