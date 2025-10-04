@@ -2,9 +2,6 @@
 
 import {
 	Alert,
-	AlertDescription,
-	AlertIcon,
-	AlertTitle,
 	Button,
 	Center,
 	Container,
@@ -39,9 +36,8 @@ export const AutCallbackLoading: FC = () => {
 			<Center>
 				<VStack>
 					<Spinner
-						thickness="4px"
-						speed="0.65s"
-						emptyColor="gray.200"
+						borderWidth="4px"
+						animationDuration="0.65s"
 						color="primary.500"
 						size="xl"
 					/>
@@ -74,10 +70,10 @@ export const AuthCallbackSuccess: FC<{ accessToken: string }> = ({
 
 	return (
 		<Layout>
-			<Alert status="success">
-				<AlertIcon />
-				<AlertTitle>Authorized successfully!</AlertTitle>
-			</Alert>
+			<Alert.Root status="success">
+				<Alert.Indicator />
+				<Alert.Title>Authorized successfully!</Alert.Title>
+			</Alert.Root>
 
 			<Button variant="cta" onClick={handleClick}>
 				Back to compare
@@ -91,11 +87,11 @@ export const AuthCallbackError: FC<{ errorMessage: string }> = ({
 }) => {
 	return (
 		<Layout>
-			<Alert status="error">
-				<AlertIcon />
-				<AlertTitle>Something went wrong!</AlertTitle>
-				<AlertDescription>{errorMessage}. Please try again.</AlertDescription>
-			</Alert>
+			<Alert.Root status="error">
+				<Alert.Indicator />
+				<Alert.Title>Something went wrong!</Alert.Title>
+				<Alert.Description>{errorMessage}. Please try again.</Alert.Description>
+			</Alert.Root>
 		</Layout>
 	)
 }

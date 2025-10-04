@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Flex } from '@chakra-ui/react'
+import { Box, Container, Flex, Separator } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 
 import AuthMessageSection from './AuthMessageSection'
@@ -20,7 +20,7 @@ const RepositoryReleasesComparator = () => {
 					<RepositoriesComparatorFilters />
 				</Container>
 			</Box>
-			<Divider />
+			<Separator />
 			<Box pt={2} flex="1 0 auto">
 				{repository && (
 					<>

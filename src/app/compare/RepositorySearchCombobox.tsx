@@ -1,16 +1,12 @@
 import {
 	Box,
-	CircularProgress,
-	FormControl,
-	FormLabel,
+	Field,
 	HStack,
 	Icon,
 	IconButton,
 	Input,
-	InputGroup,
-	InputRightElement,
 	List,
-	ListItem,
+	Spinner,
 	Text,
 } from '@chakra-ui/react'
 import { useCombobox } from 'downshift'
@@ -89,32 +85,31 @@ const RepositorySearchCombobox = ({
 	const isLoading = isTyping || isQueryLoading
 
 	return (
-		<FormControl isRequired width="full" position="relative">
-			<FormLabel {...getLabelProps()}>Enter repository name</FormLabel>
+		<Field.Root required width="full" position="relative">
+			<Field.Label {...getLabelProps()}>Enter repository name</Field.Label>
 			<HStack>
-				<InputGroup>
+				<Input.Group>
 					<Input {...getInputProps()} />
-					<InputRightElement>
+					<Input.RightElement>
 						{isLoading && (
-							<CircularProgress
-								isIndeterminate
-								size="6"
-								trackColor="primary.50"
+							<Spinner
+								size="sm"
 								color="primary.500"
 							/>
 						)}
-					</InputRightElement>
-				</InputGroup>
+					</Input.RightElement>
+				</Input.Group>
 				<Box>
 					<IconButton
 						{...getToggleButtonProps()}
 						colorScheme="gray"
 						aria-label="toggle repositories results menu"
-						icon={<Icon as={isOpen ? HiArrowUp : HiArrowDown} />}
-					/>
+					>
+						<Icon as={isOpen ? HiArrowUp : HiArrowDown} />
+					</IconButton>
 				</Box>
 			</HStack>
-			<List
+			<List.Root
 				{...getMenuProps()}
 				position="absolute"
 				width="full"
@@ -133,14 +128,14 @@ const RepositorySearchCombobox = ({
 				{isOpen && (
 					<>
 						{!isLoading && (
-							<ListItem mb={1}>
+							<List.Item mb={1}>
 								<Text as="em" color="gray.500" px={2}>
 									{data?.total_count ?? 0} results
 								</Text>
-							</ListItem>
+							</List.Item>
 						)}
 						{data?.items.map((repo, index) => (
-							<ListItem
+							<List.Item
 								key={repo.id}
 								py={1}
 								backgroundColor={
@@ -151,12 +146,12 @@ const RepositorySearchCombobox = ({
 								{...getItemProps({ item: repo, index })}
 							>
 								<Text px={2}>{repo.full_name}</Text>
-							</ListItem>
+							</List.Item>
 						))}
 					</>
 				)}
-			</List>
-		</FormControl>
+			</List.Root>
+		</Field.Root>
 	)
 }
 
