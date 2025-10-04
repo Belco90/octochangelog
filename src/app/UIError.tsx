@@ -25,7 +25,6 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 			<VStack px="10">
 				<Image src={mascotIcon} alt="" width={250} height={250} />
 				<Stack
-					shouldWrapChildren
 					alignItems="center"
 					spacing="2"
 					flexGrow={1}

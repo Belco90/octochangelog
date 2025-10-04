@@ -12,7 +12,9 @@ const Footer = () => {
 			borderTopColor="monochromeInverted3"
 		>
 			<Container
-				centerContent
+				display="flex"
+				alignItems="center"
+				justifyContent="center"
 				maxWidth="full"
 				py={{ base: '1', lg: '4' }}
 				px={{ base: '4', lg: '5' }}
