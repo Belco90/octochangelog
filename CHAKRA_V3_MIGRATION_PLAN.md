@@ -33,6 +33,14 @@ The repository is currently in the process of migrating from Chakra UI v2 to v3.
 
 ## 🔧 Pending Changes
 
+### 0. **Update Chakra UI dependencies to latest version**
+   - **Files**: `package.json`
+   - **Current versions**: 
+     - `@chakra-ui/react`: 3.27.0
+     - `@chakra-ui/cli`: 3.27.0
+   - **Action**: Check for and install latest Chakra UI v3 packages
+   - **Status**: ✅ Already at latest version (3.27.0)
+
 ### 1. **Replace ToggleColorModeButton with ColorModeButton snippet**
    - **File**: `src/components/ToggleColorModeButton.tsx`
    - **Issue**: Has TODO comment "replace this one by the snippet"
