@@ -121,7 +121,6 @@ toaster.create({
 
 // ✅ New v3
 import { Tooltip } from './components/ui/tooltip'
-
 ;<Tooltip content="Content" showArrow positioning={{ placement: 'top' }}>
 	<Button>Hover me</Button>
 </Tooltip>
