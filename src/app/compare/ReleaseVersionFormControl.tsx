@@ -49,7 +49,7 @@ const ReleaseVersionFormControl = ({
 
 	return (
 		<FormControl isRequired width="full" {...rest}>
-			<FormLabel htmlFor={id} noOfLines={1}>
+			<FormLabel htmlFor={id} lineClamp={1}>
 				{label}
 			</FormLabel>
 			<Select

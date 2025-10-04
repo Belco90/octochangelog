@@ -130,13 +130,14 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 	return (
 		<Box>
 			<Flex
-				boxSize={10}
+				width={10}
+				height={10}
 				bgColor={iconBgColor}
 				borderRadius="full"
 				alignItems="center"
 				justifyContent="center"
 			>
-				<Icon as={icon} boxSize="18px" color={iconColor} />
+				<Icon as={icon} width="18px" height="18px" color={iconColor} />
 			</Flex>
 			<Heading as="h3" color="primaryText" fontSize="2xl" mt={2}>
 				{title}

@@ -8,7 +8,7 @@ import { DiGithubBadge } from 'react-icons/di'
 import { REPO_URL } from '@/common'
 import RouteLink from '@/components/ChakraNextLink'
 import { Link } from '@/components/Link'
-import ToggleColorModeButton from '@/components/ToggleColorModeButton'
+import { ColorModeButton } from '@/components/snippets/color-mode'
 import mascotIcon from '@/public/mascot-icon.png'
 
 import type { BoxProps } from '@chakra-ui/react'
@@ -66,8 +66,9 @@ const Header = (props: BoxProps) => {
 					</Flex>
 					<HStack spacing={{ base: 4, md: 10 }}>
 						{!!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE && (
-							<ToggleColorModeButton
-								boxSize={LOGO_SIZES}
+							<ColorModeButton
+								width={LOGO_SIZES}
+								height={LOGO_SIZES}
 								minWidth={LOGO_SIZES}
 							/>
 						)}
@@ -75,14 +76,16 @@ const Header = (props: BoxProps) => {
 							href={REPO_URL}
 							aria-label="Octochangelog repository on GitHub"
 							isExternal
-							rounded="full"
-							boxSize={LOGO_SIZES}
+							borderRadius="full"
+							width={LOGO_SIZES}
+							height={LOGO_SIZES}
 							_hover={{ bgColor: 'monochromeInverted4' }}
 							_active={{ bgColor: 'monochromeInverted5' }}
 						>
 							<Icon
 								as={DiGithubBadge}
-								boxSize={LOGO_SIZES}
+								width={LOGO_SIZES}
+								height={LOGO_SIZES}
 								color="monochrome1"
 							/>
 						</Link>

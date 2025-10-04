@@ -54,16 +54,16 @@ const RemarkA = ({ href, children, ...rest }: LinkProps) => (
 )
 
 const RemarkUl = (props: RemarkComponentProps) => (
-	<List styleType="disc" mb="4" ml="4" stylePosition="outside" {...props} />
+	<List listStyleType="disc" mb="4" ml="4" listStylePosition="outside" {...props} />
 )
 
 const RemarkOl = (props: RemarkComponentProps) => (
 	<List
 		as="ol"
-		styleType="decimal"
+		listStyleType="decimal"
 		mb="4"
 		ml="4"
-		stylePosition="outside"
+		listStylePosition="outside"
 		{...props}
 	/>
 )
@@ -134,7 +134,7 @@ const ProcessedReleaseChangeDescription = ({
 							color="secondary.900"
 							size="lg"
 							mb={2}
-							rounded="full"
+							borderRadius="full"
 							bgColor="secondary.200"
 							_hover={{ bgColor: 'secondary.300' }}
 							_active={{ bgColor: 'secondary.200', color: 'secondary.900' }}
