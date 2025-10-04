@@ -1,7 +1,7 @@
 import { Skeleton, Stack } from '@chakra-ui/react'
 
 const TextSkeleton = () => (
-	<Stack spacing={3}>
+	<Stack gap={3}>
 		<Skeleton height={4} width="25%" />
 		<Skeleton height={4} width="40%" />
 		<Skeleton height={4} width="10%" />

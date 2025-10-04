@@ -4,9 +4,7 @@ import {
 	Heading,
 	Icon,
 	List,
-	ListItem,
 	Tag,
-	TagLabel,
 	Text,
 } from '@chakra-ui/react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
@@ -18,7 +16,7 @@ import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, Repository } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
-import type { BoxProps, LinkProps, ListItemProps } from '@chakra-ui/react'
+import type { BoxProps, LinkProps } from '@chakra-ui/react'
 
 type RemarkComponentProps = Record<string, unknown>
 
@@ -54,21 +52,21 @@ const RemarkA = ({ href, children, ...rest }: LinkProps) => (
 )
 
 const RemarkUl = (props: RemarkComponentProps) => (
-	<List styleType="disc" mb="4" ml="4" stylePosition="outside" {...props} />
+	<List.Root listStyleType="disc" mb="4" ml="4" listStylePosition="outside" {...props} />
 )
 
 const RemarkOl = (props: RemarkComponentProps) => (
-	<List
+	<List.Root
 		as="ol"
-		styleType="decimal"
+		listStyleType="decimal"
 		mb="4"
 		ml="4"
-		stylePosition="outside"
+		listStylePosition="outside"
 		{...props}
 	/>
 )
 
-const RemarkLi = (props: ListItemProps) => <ListItem {...props} />
+const RemarkLi = (props: RemarkComponentProps) => <List.Item {...props} />
 
 const RemarkPre = (props: RemarkComponentProps) => (
 	<Code
@@ -130,17 +128,17 @@ const ProcessedReleaseChangeDescription = ({
 			) : (
 				<>
 					<Link isExternal href={processedReleaseChange.html_url}>
-						<Tag
+						<Tag.Root
 							color="secondary.900"
 							size="lg"
 							mb={2}
-							rounded="full"
+							borderRadius="full"
 							bgColor="secondary.200"
 							_hover={{ bgColor: 'secondary.300' }}
 							_active={{ bgColor: 'secondary.200', color: 'secondary.900' }}
 						>
-							<TagLabel>{getReleaseVersion(processedReleaseChange)}</TagLabel>
-						</Tag>
+							<Tag.Label>{getReleaseVersion(processedReleaseChange)}</Tag.Label>
+						</Tag.Root>
 					</Link>
 					<Box ml={4}>{processedDescription}</Box>
 				</>

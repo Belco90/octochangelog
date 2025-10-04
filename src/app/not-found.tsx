@@ -27,9 +27,8 @@ const NotFound: FC = () => {
 			<VStack px="10">
 				<Image src={mascotIcon} alt="" width={250} height={250} />
 				<Stack
-					shouldWrapChildren
 					alignItems="center"
-					spacing="2"
+					gap="2"
 					flexGrow={1}
 					flexBasis={0}
 				>
@@ -47,7 +46,7 @@ const NotFound: FC = () => {
 					</Text>
 				</Stack>
 			</VStack>
-			<VStack mt={12} spacing={5}>
+			<VStack mt={12} gap={5}>
 				<Button as={NextLink} variant="cta" href="/compare">
 					Go to compare
 				</Button>

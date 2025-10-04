@@ -2,6 +2,7 @@ import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
 import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
 import { interFont, robotoMonoFont } from '@/fonts'
+import { themeColors } from '@/theme'
 
 import Providers from './Providers'
 import { getMetadataBase, openGraph } from './shared-metadata'
@@ -24,11 +25,11 @@ export const viewport: Viewport = {
 	themeColor: [
 		{
 			media: '(prefers-color-scheme: light)',
-			// color: customTheme.colors.primary['300'],
+			color: themeColors.primary[300],
 		},
 		{
 			media: '(prefers-color-scheme: dark)',
-			// color: customTheme.colors.primary['700'],
+			color: themeColors.primary[700],
 		},
 	],
 }

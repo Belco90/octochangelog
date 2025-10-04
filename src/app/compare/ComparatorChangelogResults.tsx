@@ -94,7 +94,7 @@ const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack spacing={6}>
+		<Stack gap={6}>
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}

@@ -1,10 +1,9 @@
 import {
 	Alert,
-	AlertIcon,
 	Box,
-	CircularProgress,
 	Flex,
 	Skeleton,
+	Spinner,
 } from '@chakra-ui/react'
 
 import TextSkeleton from '@/components/TextSkeleton'
@@ -60,9 +59,8 @@ const RepositoryReleasesChangelog = ({
 			{/* Changelog spinner: only fetching releases from repository input manually filled */}
 			{!hasRequiredDataToFilter && isFetching && (
 				<Flex align="center" justify="center" height="100%">
-					<CircularProgress
-						isIndeterminate
-						size="8"
+					<Spinner
+						size="lg"
 						color="primary.400"
 						aria-label="Loading releases"
 					/>
@@ -70,10 +68,10 @@ const RepositoryReleasesChangelog = ({
 			)}
 
 			{!!fromVersion && !!toVersion && !isFetching && !hasFilteredReleases && (
-				<Alert status="error">
-					<AlertIcon />
+				<Alert.Root status="error">
+					<Alert.Indicator />
 					No processed releases to show
-				</Alert>
+				</Alert.Root>
 			)}
 
 			{!isFetching && hasFilteredReleases && (
