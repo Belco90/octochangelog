@@ -2,7 +2,6 @@ import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
 import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
 import { interFont, robotoMonoFont } from '@/fonts'
-import { themeColors } from '@/theme'
 
 import Providers from './Providers'
 import { getMetadataBase, openGraph } from './shared-metadata'
@@ -22,14 +21,15 @@ export const metadata = {
 
 export const viewport: Viewport = {
 	colorScheme: 'light dark',
+	// TODO: get colors from theme system
 	themeColor: [
 		{
 			media: '(prefers-color-scheme: light)',
-			color: themeColors.primary[300],
+			color: '#F0ABFC',
 		},
 		{
 			media: '(prefers-color-scheme: dark)',
-			color: themeColors.primary[700],
+			color: '#A21CAF',
 		},
 	],
 }

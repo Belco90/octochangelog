@@ -180,12 +180,4 @@ const customConfig = defineConfig({
 
 const system = createSystem(defaultConfig, customConfig)
 
-// Export color values for use in server components
-export const themeColors = {
-	primary: {
-		300: '#F0ABFC',
-		700: '#A21CAF',
-	},
-} as const
-
 export { system }
