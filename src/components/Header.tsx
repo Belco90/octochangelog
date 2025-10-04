@@ -48,7 +48,7 @@ const Header = (props: BoxProps) => {
 								textDecorationColor: 'primary.900',
 							}}
 						>
-							<HStack spacing={{ base: 1, lg: 2 }}>
+							<HStack gap={{ base: 1, lg: 2 }}>
 								<Box h={LOGO_SIZES} w={LOGO_SIZES}>
 									<Image src={mascotIcon} alt="" height={70} width={70} />
 								</Box>
@@ -64,7 +64,7 @@ const Header = (props: BoxProps) => {
 							</HStack>
 						</RouteLink>
 					</Flex>
-					<HStack spacing={{ base: 4, md: 10 }}>
+					<HStack gap={{ base: 4, md: 10 }}>
 						{!!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE && (
 							<ColorModeButton
 								width={LOGO_SIZES}

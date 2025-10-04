@@ -11,7 +11,7 @@ const RepositoriesComparatorFilters = () => {
 
 	return (
 		<Stack
-			spacing={{ base: 2, md: 6 }}
+			gap={{ base: 2, md: 6 }}
 			direction={{ base: 'column', md: 'row' }}
 		>
 			<RepositorySearchCombobox

@@ -34,9 +34,9 @@ const MainSection = () => (
 		alignItems="center"
 		justifyContent="center"
 		direction={{ base: 'column-reverse', lg: 'row' }}
-		spacing={{ base: 10, lg: 1 }}
+		gap={{ base: 10, lg: 1 }}
 	>
-		<Stack alignItems={{ base: 'center', lg: 'start' }} spacing="24">
+		<Stack alignItems={{ base: 'center', lg: 'start' }} gap="24">
 			<Heading
 				as="h2"
 				color="primaryText"
@@ -161,10 +161,10 @@ const HomePage = () => {
 
 				<Box mt={40} />
 
-				<List fontSize="" color="secondaryText">
+				<List.Root fontSize="" color="secondaryText">
 					<SimpleGrid
 						columns={{ base: 1, md: 2 }}
-						spacing={{ base: 10, md: 32 }}
+						gap={{ base: 10, md: 32 }}
 					>
 						{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
 							<FeatureItem key={title} icon={icon} title={title}>
@@ -172,7 +172,7 @@ const HomePage = () => {
 							</FeatureItem>
 						))}
 					</SimpleGrid>
-				</List>
+				</List.Root>
 			</Container>
 		</Box>
 	)

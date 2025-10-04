@@ -26,7 +26,7 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 				<Image src={mascotIcon} alt="" width={250} height={250} />
 				<Stack
 					alignItems="center"
-					spacing="2"
+					gap="2"
 					flexGrow={1}
 					flexBasis={0}
 				>
@@ -45,7 +45,7 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 				</Stack>
 			</VStack>
 
-			<VStack mt={12} spacing={5}>
+			<VStack mt={12} gap={5}>
 				<Button variant="cta" onClick={() => reset()}>
 					Try again
 				</Button>

@@ -19,7 +19,7 @@ const ComparatorErrorPage: FC<NextErrorPageProps> = ({ error, reset }) => {
 				<VStack
 					px="10"
 					alignItems="center"
-					spacing={4}
+					gap={4}
 					justifyContent="center"
 					height="full"
 				>

@@ -4,7 +4,6 @@ import {
 	Heading,
 	Icon,
 	List,
-	ListItem,
 	Tag,
 	TagLabel,
 	Text,
@@ -18,7 +17,7 @@ import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, Repository } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
-import type { BoxProps, LinkProps, ListItemProps } from '@chakra-ui/react'
+import type { BoxProps, LinkProps } from '@chakra-ui/react'
 
 type RemarkComponentProps = Record<string, unknown>
 
@@ -54,11 +53,11 @@ const RemarkA = ({ href, children, ...rest }: LinkProps) => (
 )
 
 const RemarkUl = (props: RemarkComponentProps) => (
-	<List listStyleType="disc" mb="4" ml="4" listStylePosition="outside" {...props} />
+	<List.Root listStyleType="disc" mb="4" ml="4" listStylePosition="outside" {...props} />
 )
 
 const RemarkOl = (props: RemarkComponentProps) => (
-	<List
+	<List.Root
 		as="ol"
 		listStyleType="decimal"
 		mb="4"
@@ -68,7 +67,7 @@ const RemarkOl = (props: RemarkComponentProps) => (
 	/>
 )
 
-const RemarkLi = (props: ListItemProps) => <ListItem {...props} />
+const RemarkLi = (props: ListItemProps) => <List.Item {...props} />
 
 const RemarkPre = (props: RemarkComponentProps) => (
 	<Code
