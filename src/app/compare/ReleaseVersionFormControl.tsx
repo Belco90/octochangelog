@@ -3,21 +3,19 @@ import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 import type { Release } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
-import type { FormControlProps } from '@chakra-ui/react'
 import type { ChangeEvent, ReactNode } from 'react'
-import type { Except } from 'type-fest'
 
-interface CustomProps {
+interface ReleaseVersionFormControlProps {
 	label: string
+	id?: string
 	placeholder?: string
 	value?: string
 	isLoading?: boolean
 	options: Array<Release>
 	onChange(version: string): void
+	isRequired?: boolean
+	width?: string
 }
-
-type ReleaseVersionFormControlProps = CustomProps &
-	Except<FormControlProps, 'children' | 'onChange'>
 
 function renderReleasesOptions(
 	releases?: Array<Release>,
@@ -41,14 +39,15 @@ const ReleaseVersionFormControl = ({
 	onChange,
 	value,
 	isLoading = false,
-	...rest
+	isRequired = true,
+	width = 'full',
 }: ReleaseVersionFormControlProps) => {
 	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		onChange(e.target.value)
 	}
 
 	return (
-		<FormControl isRequired width="full" {...rest}>
+		<FormControl isRequired={isRequired} width={width}>
 			<FormLabel htmlFor={id} lineClamp={1}>
 				{label}
 			</FormLabel>
