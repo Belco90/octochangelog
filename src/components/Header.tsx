@@ -65,13 +65,12 @@ const Header = (props: BoxProps) => {
 						</RouteLink>
 					</Flex>
 					<HStack gap={{ base: 4, md: 10 }}>
-						{!!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE && (
-							<ColorModeButton
-								width={LOGO_SIZES}
-								height={LOGO_SIZES}
-								minWidth={LOGO_SIZES}
-							/>
-						)}
+						<ColorModeButton
+							width={LOGO_SIZES}
+							height={LOGO_SIZES}
+							minWidth={LOGO_SIZES}
+							rounded="full"
+						/>
 						<Link
 							href={REPO_URL}
 							aria-label="Octochangelog repository on GitHub"
