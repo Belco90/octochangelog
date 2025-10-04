@@ -24,11 +24,11 @@ export const viewport: Viewport = {
 	themeColor: [
 		{
 			media: '(prefers-color-scheme: light)',
-			// color: customTheme.colors.primary['300'],
+			color: '#F0ABFC', // primary.300
 		},
 		{
 			media: '(prefers-color-scheme: dark)',
-			// color: customTheme.colors.primary['700'],
+			color: '#A21CAF', // primary.700
 		},
 	],
 }
