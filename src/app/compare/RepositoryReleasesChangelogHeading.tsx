@@ -27,7 +27,7 @@ const RepositoryReleasesChangelogHeading = ({
 					Changes from{' '}
 					<Badge
 						variant="subtle"
-						colorScheme="secondary"
+						colorPalette="secondary"
 						fontSize={13}
 						lineHeight={1.5}
 						color="secondary.800"
@@ -37,7 +37,7 @@ const RepositoryReleasesChangelogHeading = ({
 					to{' '}
 					<Badge
 						variant="subtle"
-						colorScheme="secondary"
+						colorPalette="secondary"
 						fontSize={13}
 						lineHeight={1.5}
 						color="secondary.800"

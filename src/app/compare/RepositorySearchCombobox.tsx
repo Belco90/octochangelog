@@ -90,19 +90,19 @@ const RepositorySearchCombobox = ({
 			<HStack>
 				<Box position="relative" flex="1">
 					<Input {...getInputProps()} />
-					<Box position="absolute" right="2" top="50%" transform="translateY(-50%)">
-						{isLoading && (
-							<Spinner
-								size="sm"
-								color="primary.500"
-							/>
-						)}
+					<Box
+						position="absolute"
+						right="2"
+						top="50%"
+						transform="translateY(-50%)"
+					>
+						{isLoading && <Spinner size="sm" color="primary.500" />}
 					</Box>
 				</Box>
 				<Box>
 					<IconButton
 						{...getToggleButtonProps()}
-						colorScheme="gray"
+						colorPalette="gray"
 						aria-label="toggle repositories results menu"
 					>
 						<Icon as={isOpen ? HiArrowUp : HiArrowDown} />
