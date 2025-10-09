@@ -5,7 +5,7 @@
 		":automergeLinters",
 		":automergeTesters",
 		":automergeRequireAllStatusChecks",
-		"npm:unpublishSafe",
+		"security:minimumReleaseAgeNpm",
 		"helpers:disableTypesNodeMajor"
 	],
 	"prCreation": "not-pending",
