@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress'
-import happoTask from 'happo-cypress/task'
+import happoTask from 'happo/cypress/task'
 
 export default defineConfig({
 	projectId: 'u8grd8',

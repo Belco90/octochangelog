@@ -9,7 +9,7 @@
 // but it's not working fine so this is a workaround while we try to fix it.
 /// <reference types="@testing-library/cypress" />
 import '@testing-library/cypress/add-commands'
-import 'happo-cypress'
+import 'happo/cypress'
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
