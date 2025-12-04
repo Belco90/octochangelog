@@ -90,7 +90,7 @@ jobs:
       - name: Run cypress tests
         uses: cypress-io/github-action@v6
         with:
-          install: false
+          install-command: pnpm install
           build: false
           browser: chrome
           start: pnpm start
