@@ -98,13 +98,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          # - if the event is push, the title will be undefined
-          # and Cypress will get the commit message from Git information
-          # - if the event is pull_request, then we set the commit
-          # - if the event is merge_group, then we set the commit
-          # message to the pull request title
+          # overwrite commit message sent to Cypress Cloud
           # https://github.com/cypress-io/github-action/issues/124#issuecomment-653180260
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title || github.event.merge_group.head_commit.message }}
+          COMMIT_INFO_MESSAGE: ${{github.event.pull_request.title}}
+          # re-enable PR comment bot
+          COMMIT_INFO_SHA: ${{github.event.pull_request.head.sha}}
 
   finalize-happo:
     name: Finalize Happo
