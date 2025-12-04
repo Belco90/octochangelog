@@ -12,8 +12,7 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"module": "esnext",
-		"moduleResolution": "node",
+		"module": "preserve", // "moduleResolution": "bundler" is implied
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedLocals": true,
