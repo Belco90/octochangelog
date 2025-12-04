@@ -30,7 +30,7 @@ jobs:
   cypress:
     name: Cypress
     runs-on: ubuntu-latest
-    container: cypress/browsers:node-22.20.0
+    container: cypress/browsers:22.20.0
     strategy:
       # when one test fails, DO NOT cancel the other
       # containers, because this will kill Cypress processes
