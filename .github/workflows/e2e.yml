@@ -28,6 +28,7 @@ concurrency:
 
 jobs:
   install:
+    name: Install
     runs-on: ubuntu-latest
     container: cypress/browsers:22.20.0
     steps:
@@ -40,7 +41,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
-
       - name: Install dependencies
         run: pnpm install
 
@@ -56,6 +56,7 @@ jobs:
           path: .next
 
   cypress-run:
+    name: Cypress Run
     runs-on: ubuntu-latest
     container: cypress/browsers:22.20.0
     needs: install
@@ -76,16 +77,19 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Download the build folder
         uses: actions/download-artifact@v6
         with:
           name: build
 
-      - name: Cypress run
+      - name: Run cypress tests
         uses: cypress-io/github-action@v6
         with:
-          install-command: pnpm install
+          install: false
+          build: false
           browser: chrome
           start: pnpm start
           wait-on: 'http://localhost:3000'
