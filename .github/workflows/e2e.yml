@@ -27,39 +27,71 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  cypress:
-    name: Cypress
+  install:
+    name: Install
     runs-on: ubuntu-latest
     container: cypress/browsers:22.20.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v6
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          install-command: pnpm install
+          build: pnpm build
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v5
+        with:
+          name: build
+          if-no-files-found: error
+          include-hidden-files: true
+          path: .next
+
+  cypress-run:
+    name: Cypress Run
+    runs-on: ubuntu-latest
+    container: cypress/browsers:22.20.0
+    needs: install
     strategy:
-      # when one test fails, DO NOT cancel the other
-      # containers, because this will kill Cypress processes
-      # leaving the Dashboard hanging ...
-      # https://github.com/cypress-io/github-action/issues/48
+      # don't fail the entire matrix on failure
       fail-fast: false
       matrix:
         # run 2 copies of the current job in parallel
         containers: [1, 2]
 
     steps:
-      # Arrange
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Checkout
+        uses: actions/checkout@v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@v5
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
 
-      # Act
-      - name: Run Cypress
-        uses: cypress-io/github-action@1bf19d6451740384ca8c946544ef5db458bc633c
+      - name: Download the build folder
+        uses: actions/download-artifact@v6
+        with:
+          name: build
+          path: .next
+
+      - name: Run cypress tests
+        uses: cypress-io/github-action@v6
         with:
           install-command: pnpm install
           browser: chrome
-          build: pnpm build
           start: pnpm start
           wait-on: 'http://localhost:3000'
           record: true
@@ -72,35 +104,31 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          # - if the event is push, the title will be undefined
-          # and Cypress will get the commit message from Git information
-          # - if the event is pull_request, then we set the commit
-          # - if the event is merge_group, then we set the commit
-          # message to the pull request title
+          # overwrite commit message sent to Cypress Cloud
           # https://github.com/cypress-io/github-action/issues/124#issuecomment-653180260
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title || github.event.merge_group.head_commit.message }}
+          COMMIT_INFO_MESSAGE: ${{github.event.pull_request.title}}
+          # re-enable PR comment bot
+          COMMIT_INFO_SHA: ${{github.event.pull_request.head.sha}}
 
   finalize-happo:
     name: Finalize Happo
     runs-on: ubuntu-latest
     if: ${{ !cancelled() && github.event_name != 'merge_group' }}
-    needs: [cypress]
+    needs: cypress-run
     steps:
-      # Arrange
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Checkout
+        uses: actions/checkout@v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+        uses: pnpm/action-setup@v4
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@v5
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
 
-      # Act
-      - name: Run Happo
+      - name: Run Happo finalize
         run: pnpm happo finalize --nonce $NONCE_ID
 
   dummy-happo:
