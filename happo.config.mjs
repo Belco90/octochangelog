@@ -4,8 +4,8 @@ const DESKTOP_VIEWPORT = '1024x768'
 const MOBILE_VIEWPORT = '320x640'
 
 export default defineConfig({
-	apiKey: process.env.HAPPO_API_KEY ?? '',
-	apiSecret: process.env.HAPPO_API_SECRET ?? '',
+	apiKey: process.env.HAPPO_API_KEY ?? 'NOT-SET',
+	apiSecret: process.env.HAPPO_API_SECRET ?? 'NOT-SET',
 	integration: {
 		type: 'cypress',
 	},
