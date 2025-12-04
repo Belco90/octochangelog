@@ -80,8 +80,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Download the build folder
         uses: actions/download-artifact@v6
