@@ -91,7 +91,6 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           install-command: pnpm install
-          build: false
           browser: chrome
           start: pnpm start
           wait-on: 'http://localhost:3000'
