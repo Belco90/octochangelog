@@ -53,7 +53,7 @@ jobs:
         with:
           name: build
           if-no-files-found: error
-          path: ${{ github.workspace }}/.next
+          path: .next
 
   cypress-run:
     runs-on: ubuntu-latest
