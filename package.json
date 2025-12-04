@@ -19,6 +19,7 @@
 		"prettier-base": "prettier . --ignore-unknown --cache --log-level warn",
 		"format": "pnpm prettier-base --write",
 		"format:check": "pnpm prettier-base --check",
+		"happo": "happo",
 		"test": "vitest run",
 		"test:watch": "vitest watch",
 		"test:ci": "pnpm test -- --coverage",
