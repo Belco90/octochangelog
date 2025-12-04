@@ -41,11 +41,14 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
 
-      - name: Build application
-        run: pnpm build
+      - name: Cypress install
+        uses: cypress-io/github-action@v6
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          install-command: pnpm install
+          build: pnpm build
 
       - name: Save build folder
         uses: actions/upload-artifact@v5
