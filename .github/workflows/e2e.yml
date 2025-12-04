@@ -47,6 +47,11 @@ jobs:
       - name: Build application
         run: pnpm build
 
+      - name: Debug path
+        run: pwd
+      - name: Debug content
+        run: ls -la
+
       - name: Save build folder
         uses: actions/upload-artifact@v5
         with:
