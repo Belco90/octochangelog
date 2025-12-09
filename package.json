@@ -57,7 +57,7 @@
 		"remark-parse": "11.0.0",
 		"remark-rehype": "11.1.2",
 		"remark-stringify": "11.0.0",
-		"semver": "7.7.2",
+		"semver": "7.7.3",
 		"unified": "11.0.5"
 	},
 	"devDependencies": {
