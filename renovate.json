@@ -8,12 +8,10 @@
 		"security:minimumReleaseAgeNpm",
 		"helpers:disableTypesNodeMajor"
 	],
-	"prCreation": "not-pending",
 	"lockFileMaintenance": {
 		"enabled": true,
 		"automerge": true
 	},
-	"internalChecksFilter": "strict",
 	"platformAutomerge": true,
 	"packageRules": [
 		{
