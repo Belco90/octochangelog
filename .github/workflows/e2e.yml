@@ -30,14 +30,14 @@ jobs:
   install:
     name: Install
     runs-on: ubuntu-latest
-    container: cypress/browsers:22.20.0
+    container: cypress/browsers:22.20.0@sha256:b7d45cdceac96f50c3353daacf0bdf4005f967ce4f465c2dcd996b171a78d438
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
@@ -51,7 +51,7 @@ jobs:
           build: pnpm build
 
       - name: Save build folder
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: build
           if-no-files-found: error
@@ -61,7 +61,7 @@ jobs:
   cypress-run:
     name: Cypress Run
     runs-on: ubuntu-latest
-    container: cypress/browsers:22.20.0
+    container: cypress/browsers:22.20.0@sha256:b7d45cdceac96f50c3353daacf0bdf4005f967ce4f465c2dcd996b171a78d438
     needs: install
     strategy:
       # don't fail the entire matrix on failure
@@ -72,17 +72,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
 
       - name: Download the build folder
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
         with:
           name: build
           path: .next
@@ -117,11 +117,11 @@ jobs:
     needs: cypress-run
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
