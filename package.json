@@ -90,7 +90,7 @@
 		"eslint-plugin-unicorn": "61.0.2",
 		"happo": "6.1.1",
 		"husky": "9.1.7",
-		"lint-staged": "16.1.6",
+		"lint-staged": "16.2.7",
 		"msw": "2.11.0",
 		"prettier": "3.7.4",
 		"start-server-and-test": "2.1.3",
