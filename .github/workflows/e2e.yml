@@ -30,7 +30,7 @@ jobs:
   install:
     name: Install
     runs-on: ubuntu-latest
-    container: cypress/browsers:22.20.0@sha256:b7d45cdceac96f50c3353daacf0bdf4005f967ce4f465c2dcd996b171a78d438
+    container: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
     steps:
       - name: Checkout
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
@@ -61,7 +61,7 @@ jobs:
   cypress-run:
     name: Cypress Run
     runs-on: ubuntu-latest
-    container: cypress/browsers:22.20.0@sha256:b7d45cdceac96f50c3353daacf0bdf4005f967ce4f465c2dcd996b171a78d438
+    container: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
     needs: install
     strategy:
       # don't fail the entire matrix on failure
