@@ -33,8 +33,8 @@ importers:
         specifier: 5.90.12
         version: 5.90.12(react@19.2.1)
       downshift:
-        specifier: 9.0.12
-        version: 9.0.12(react@19.2.1)
+        specifier: 9.0.13
+        version: 9.0.13(react@19.2.1)
       es-toolkit:
         specifier: 1.42.0
         version: 1.42.0
@@ -3225,8 +3225,8 @@ packages:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
-  downshift@9.0.12:
-    resolution: {integrity: sha512-kFq2pNHm3kmhFfW55RW7+lXliEHg98sKImodICvJfbtvRB6OUiLr138Z8MW5/8t5JaeGZ4Wtomi3Ds72EKVH2Q==}
+  downshift@9.0.13:
+    resolution: {integrity: sha512-fPV+K5jwEzfEAhNhprgCmpWQ23MKwKNzdbtK0QQFiw4hbFcKhMeGB+ccorfWJzmsLR5Dty+CmLDduWlIs74G/w==}
     peerDependencies:
       react: '>=16.12.0'
 
@@ -9181,7 +9181,7 @@ snapshots:
 
   dotenv@16.6.1: {}
 
-  downshift@9.0.12(react@19.2.1):
+  downshift@9.0.13(react@19.2.1):
     dependencies:
       '@babel/runtime': 7.28.4
       compute-scroll-into-view: 3.1.1
