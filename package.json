@@ -88,7 +88,7 @@
 		"eslint-config-prettier": "10.1.8",
 		"eslint-plugin-cypress": "5.2.0",
 		"eslint-plugin-unicorn": "62.0.0",
-		"happo": "6.1.1",
+		"happo": "6.1.2",
 		"husky": "9.1.7",
 		"lint-staged": "16.2.7",
 		"msw": "2.11.0",
