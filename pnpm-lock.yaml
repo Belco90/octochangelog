@@ -116,7 +116,7 @@ importers:
         version: 5.91.1(@tanstack/react-query@5.90.12(react@19.2.3))(react@19.2.3)
       '@testing-library/cypress':
         specifier: 10.1.0
-        version: 10.1.0(cypress@15.7.1)
+        version: 10.1.0(cypress@15.8.0)
       '@testing-library/react':
         specifier: 16.3.1
         version: 16.3.1(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -151,8 +151,8 @@ importers:
         specifier: 1.5.2
         version: 1.5.2(eslint@9.39.2)(typescript@5.9.3)(vitest@4.0.16(@opentelemetry/api@1.9.0)(@types/node@22.19.3)(msw@2.11.0(@types/node@22.19.3)(typescript@5.9.3))(terser@5.44.1)(yaml@2.8.2))
       cypress:
-        specifier: 15.7.1
-        version: 15.7.1
+        specifier: 15.8.0
+        version: 15.8.0
       eslint:
         specifier: 9.39.2
         version: 9.39.2
@@ -3134,8 +3134,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  cypress@15.7.1:
-    resolution: {integrity: sha512-U3sYnJ+Cnpgr6IPycxsznTg//mGVXfPGeGV+om7VQCyp5XyVkhG4oPr3X3hTq1+OB0Om0O5DxusYmt7cbvwqMQ==}
+  cypress@15.8.0:
+    resolution: {integrity: sha512-/k/KT8IIvcxarRSNb5AIhT1Yxx1pXsNIrL96Ht/c0pBOO/XcsjgjD4ZlG16V/08dRmvU/gT7PW8FBz5YV+ahsA==}
     engines: {node: ^20.1.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
 
@@ -7960,11 +7960,11 @@ snapshots:
       '@tanstack/query-core': 5.90.12
       react: 19.2.3
 
-  '@testing-library/cypress@10.1.0(cypress@15.7.1)':
+  '@testing-library/cypress@10.1.0(cypress@15.8.0)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 10.4.1
-      cypress: 15.7.1
+      cypress: 15.8.0
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -9053,7 +9053,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  cypress@15.7.1:
+  cypress@15.8.0:
     dependencies:
       '@cypress/request': 3.0.9
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
