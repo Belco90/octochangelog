@@ -1,0 +1,43 @@
+{
+	$schema: 'https://docs.renovatebot.com/renovate-schema.json',
+	extends: [
+		// Default config for webapps (extends "config:recommended")
+		// https://docs.renovatebot.com/presets-config/#configjs-app
+		'config:js-app',
+
+		// Pin `github-action` digests to increase security (converted to SemVer)
+		// https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
+		'helpers:pinGitHubActionDigestsToSemver',
+
+		// Update automatically if tests pass
+		':automergeTypes',
+		':automergeLinters',
+		':automergeTesters',
+		':automergeRequireAllStatusChecks',
+
+		// Wait until npm packages are at least 3 days old before updating
+		// https://docs.renovatebot.com/presets-security/#securityminimumreleaseagenpm
+		'security:minimumReleaseAgeNpm',
+
+		// Disable major version updates for Node.js (LTS upgrades handled manually)
+		// https://docs.renovatebot.com/presets-helpers/#helpersdisabletypesnodemajor
+		'helpers:disableTypesNodeMajor',
+
+		// Migrate deprecated config options automatically
+		// https://docs.renovatebot.com/presets-default/#configmigration
+		':configMigration',
+	],
+	lockFileMaintenance: {
+		enabled: true,
+		automerge: true,
+	},
+	platformAutomerge: true,
+	packageRules: [
+		{
+			description: 'Get pnpm updates once a month',
+			matchDepTypes: ['packageManager'],
+			matchPackageNames: ['pnpm'],
+			extends: ['schedule:monthly'],
+		},
+	],
+}
