@@ -43,7 +43,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Cypress install
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@2ad32e649e4db26c07674ebae31a297601dbcbaf # v6.10.8
         with:
           # Disable running of tests within install job
           runTests: false
@@ -88,7 +88,7 @@ jobs:
           path: .next
 
       - name: Run cypress tests
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@2ad32e649e4db26c07674ebae31a297601dbcbaf # v6.10.8
         with:
           install-command: pnpm install
           browser: chrome
