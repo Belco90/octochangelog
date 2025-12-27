@@ -81,7 +81,7 @@
 		"@types/unist": "3.0.3",
 		"@vitejs/plugin-react-swc": "4.2.2",
 		"@vitest/coverage-v8": "4.0.16",
-		"@vitest/eslint-plugin": "1.6.3",
+		"@vitest/eslint-plugin": "1.6.4",
 		"cypress": "15.8.1",
 		"eslint": "9.39.2",
 		"eslint-config-next": "15.5.9",
