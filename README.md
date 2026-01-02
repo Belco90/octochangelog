@@ -30,6 +30,33 @@
 - Want a list of major, minor and patch level changes? Octochangelog groups changes into categories for you!
 - Want to know which version introduced a certain change? Octochangelog labels each change with the version number.
 
+## Sponsors
+
+Octochangelog is possible thanks to these awesome sponsors:
+
+<table align="center">
+  <tr>
+    <td>
+      <a href="https://www.netlify.com/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
+          alt="Deploy with Netlify"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
+      <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="./public/pirsch-logo.png"
+          alt="Pirsch privacy-fiendly analytics"
+          height="50"
+        >
+      </a>
+    </td>
+  </tr>
+</table>
+
 ## Motivation
 
 In January 2020 [GitHub announced a shortcut to compare across two releases](https://github.blog/changelog/2020-01-13-shortcut-to-compare-across-two-releases/).
@@ -108,30 +135,3 @@ So the final sorting will be:
 5. Credits
 6. Thanks
 7. Artifacts
-
-## Sponsors
-
-Octochangelog is possible thanks to these awesome sponsors:
-
-<table align="center">
-  <tr>
-    <td>
-      <a href="https://www.netlify.com/?utm_source=octochangelog&utm_campaign=oss">
-        <img
-          src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
-          alt="Deploy with Netlify"
-          height="50"
-        >
-      </a>
-    </td>
-    <td>
-      <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
-        <img
-          src="./public/pirsch-logo.png"
-          alt="Pirsch privacy-fiendly analytics"
-          height="50"
-        >
-      </a>
-    </td>
-  </tr>
-</table>
