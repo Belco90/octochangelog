@@ -46,9 +46,18 @@ Octochangelog is possible thanks to these awesome sponsors:
       </a>
     </td>
     <td>
+      <a href="https://happo.io/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/happo.png"
+          alt="Happo visual regression testing"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
       <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
         <img
-          src="./public/pirsch-logo.png"
+          src="public/sponsors/pirsch.png"
           alt="Pirsch privacy-fiendly analytics"
           height="50"
         >
