@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="https://github.com/Belco90/octochangelog/blob/main/public/mascot-icon.png?raw=true"
+    src="./public/mascot-icon.png"
     height="500"
     width="500"
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
@@ -20,7 +20,7 @@
 
 ## What is Octochangelog?
 
-<img src="https://github.com/Belco90/octochangelog/blob/main/public/browser-preview.png?raw=true" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo">
+<img src="./public/browser-preview.png" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo">
 
 [Octochangelog](https://www.octochangelog.com/) is a webapp that allows you to compare GitHub changelogs across multiple releases in a single view. You only have to pick a repo, and two versions to compare the changes between them.
 
@@ -127,7 +127,7 @@ Octochangelog is possible thanks to these awesome sponsors:
     <td>
       <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
         <img
-          src="https://github.com/Belco90/octochangelog/blob/main/public/pirsch-logo.png?raw=true"
+          src="./public/pirsch-logo.png"
           alt="Pirsch privacy-fiendly analytics"
           height="50"
         >
