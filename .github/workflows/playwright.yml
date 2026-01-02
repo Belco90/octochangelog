@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [main, master]
 # TODO: migrate this to e2e.yml once all e2e tests are using Playwright
+
+permissions:
+  contents: read
+  actions: write
+
 jobs:
   test:
     timeout-minutes: 60
