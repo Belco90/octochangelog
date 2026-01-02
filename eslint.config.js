@@ -1,4 +1,7 @@
 // @ts-check
+import { fileURLToPath } from 'node:url'
+
+import { includeIgnoreFile } from '@eslint/compat'
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
 import stylistic from '@stylistic/eslint-plugin'
@@ -13,6 +16,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import * as tsEslint from 'typescript-eslint'
+
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
 export default defineConfig(
 	eslint.configs.recommended,
@@ -185,12 +190,8 @@ export default defineConfig(
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
 		extends: [tsEslint.configs.disableTypeChecked],
 	},
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	globalIgnores([
-		'**/node_modules',
-		'coverage',
-		'**/.next',
-		'**/public',
-		'**/.env*',
 		'**/next-env.d.ts',
 		'**/src/fixtures/**',
 	]),
