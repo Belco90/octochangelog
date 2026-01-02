@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="https://github.com/Belco90/octochangelog/blob/main/public/mascot-icon.png?raw=true"
+    src="./public/mascot-icon.png"
     height="500"
     width="500"
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
@@ -20,7 +20,7 @@
 
 ## What is Octochangelog?
 
-<img src="https://github.com/Belco90/octochangelog/blob/main/public/browser-preview.png?raw=true" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo" >
+<img src="./public/browser-preview.png" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo">
 
 [Octochangelog](https://www.octochangelog.com/) is a webapp that allows you to compare GitHub changelogs across multiple releases in a single view. You only have to pick a repo, and two versions to compare the changes between them.
 
@@ -29,6 +29,42 @@
 - Octochangelog finds all breaking changes, and lists them at the top. You can’t miss those pesky gotcha’s now!
 - Want a list of major, minor and patch level changes? Octochangelog groups changes into categories for you!
 - Want to know which version introduced a certain change? Octochangelog labels each change with the version number.
+
+## Sponsors
+
+Octochangelog is possible thanks to these awesome sponsors:
+
+<table align="center">
+  <tr>
+    <td>
+      <a href="https://www.netlify.com/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
+          alt="Deploy with Netlify"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
+      <a href="https://happo.io/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/happo.png"
+          alt="Happo visual regression testing"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
+      <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/pirsch.png"
+          alt="Pirsch privacy-fiendly analytics"
+          height="50"
+        >
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## Motivation
 
