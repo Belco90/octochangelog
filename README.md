@@ -20,7 +20,7 @@
 
 ## What is Octochangelog?
 
-<img src="https://github.com/Belco90/octochangelog/blob/main/public/browser-preview.png?raw=true" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo" >
+<img src="https://github.com/Belco90/octochangelog/blob/main/public/browser-preview.png?raw=true" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo">
 
 [Octochangelog](https://www.octochangelog.com/) is a webapp that allows you to compare GitHub changelogs across multiple releases in a single view. You only have to pick a repo, and two versions to compare the changes between them.
 
@@ -108,3 +108,30 @@ So the final sorting will be:
 5. Credits
 6. Thanks
 7. Artifacts
+
+## Sponsors
+
+Octochangelog is possible thanks to these awesome sponsors:
+
+<table align="center">
+  <tr>
+    <td>
+      <a href="https://www.netlify.com/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
+          alt="Deploy with Netlify"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
+      <a href="https://pirsch.io/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="https://github.com/Belco90/octochangelog/blob/main/public/pirsch-logo.png?raw=true"
+          alt="Pirsch privacy-fiendly analytics"
+          height="50"
+        >
+      </a>
+    </td>
+  </tr>
+</table>
