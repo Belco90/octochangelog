@@ -16,6 +16,7 @@ it('should show changelog results when filling the form', () => {
 		.findByText('testing-library/dom-testing-library')
 		.click()
 
+	// TODO: continue migrating from here
 	cy.findByRole('combobox', { name: /select from release/i }).select('v6.16.0')
 	cy.findByRole('combobox', { name: /select from release/i }).should(
 		'have.value',
