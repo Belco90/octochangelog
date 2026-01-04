@@ -8,6 +8,7 @@ export default defineConfig({
 		clearMocks: true,
 		setupFiles: ['src/vitest.setup.ts'],
 		coverage: {
+			include: ['src/**'],
 			exclude: [
 				'src/fixtures/**',
 				'src/mocks/**',
