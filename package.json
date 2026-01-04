@@ -22,7 +22,7 @@
 		"happo": "happo",
 		"test": "vitest run",
 		"test:watch": "vitest watch",
-		"test:ci": "pnpm test -- --coverage",
+		"test:ci": "pnpm test --coverage",
 		"cy:open": "cypress open",
 		"cy:headless": "cypress run",
 		"e2e": "start-test 'pnpm build && pnpm start' http://localhost:3000 'pnpm cy:open --e2e'",

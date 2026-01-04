@@ -1,40 +1,17 @@
-name: CI
-
+name: Main
 on:
-  pull_request:
-    branches: [main]
-  merge_group:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
-  actions: write
-  checks: write
-
-env:
-  # Skip Cypress installation in the whole workflow, not necessary here
-  CYPRESS_INSTALL_BINARY: 0
-
-concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  code_validation:
-    strategy:
-      fail-fast: false
-      matrix:
-        validation_script:
-          [
-            'lint',
-            'type-check',
-            'type-check:cypress',
-            'format:check',
-            'test:ci',
-          ]
-    name: 'Code Validation: ${{ matrix.validation_script }}'
+  tests:
+    name: Tests
     runs-on: ubuntu-latest
     steps:
-      # Arrange
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup pnpm
@@ -47,12 +24,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # Act
-      - name: Run script
-        run: pnpm ${{ matrix.validation_script }}
+      - name: Run tests
+        run: pnpm test:ci
 
       - name: Upload tests coverage report
-        if: ${{ !cancelled() && github.event.action != 'closed' && matrix.validation_script == 'test:ci' }}
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -60,7 +36,7 @@ jobs:
           report_type: 'coverage'
 
       - name: Upload tests result report
-        if: ${{ !cancelled() && github.event.action != 'closed' && matrix.validation_script == 'test:ci' }}
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
