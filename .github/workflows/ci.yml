@@ -51,8 +51,18 @@ jobs:
       - name: Run script
         run: pnpm ${{ matrix.validation_script }}
 
-      - name: Upload coverage reports
-        if: matrix.validation_script == 'test:ci'
+      - name: Upload tests coverage report
+        if: ${{ !cancelled() && github.event.action != 'closed' && matrix.validation_script == 'test:ci' }}
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          report_type: 'coverage'
+
+      - name: Upload tests result report
+        if: ${{ !cancelled() && github.event.action != 'closed' && matrix.validation_script == 'test:ci' }}
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          report_type: 'test_results'
