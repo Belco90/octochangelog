@@ -1,3 +1,4 @@
+// @ts-check
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
 import stylistic from '@stylistic/eslint-plugin'
@@ -75,6 +76,27 @@ export default defineConfig(
 				},
 			],
 
+			// TypeScript
+			'@typescript-eslint/array-type': [
+				'warn',
+				{
+					default: 'generic',
+				},
+			],
+
+			'@typescript-eslint/consistent-type-exports': ['error'],
+			'@typescript-eslint/consistent-type-imports': ['error'],
+
+			// Disabling because of index errors on interfaces,
+			// which works fine in type aliases:
+			// https://bobbyhadz.com/blog/typescript-index-signature-for-type-is-missing-in-type
+			'@typescript-eslint/consistent-type-definitions': 'off',
+
+			// Disabling because it's too strict:
+			// we are interested in using || operator multiple times to avoid empty strings.
+			'@typescript-eslint/prefer-nullish-coalescing': 'off',
+			'@typescript-eslint/unbound-method': 'off',
+
 			// Import
 			// Rules enabled by `import-x/recommended` but are better handled by
 			// TypeScript and typescript-eslint.
@@ -130,27 +152,6 @@ export default defineConfig(
 			// Stylistic (JSX)
 			'@stylistic/jsx-self-closing-comp': 'warn',
 			'@stylistic/jsx-quotes': 'warn',
-
-			// TypeScript
-			'@typescript-eslint/array-type': [
-				'warn',
-				{
-					default: 'generic',
-				},
-			],
-
-			'@typescript-eslint/consistent-type-exports': ['error'],
-			'@typescript-eslint/consistent-type-imports': ['error'],
-
-			// Disabling because of index errors on interfaces,
-			// which works fine in type aliases:
-			// https://bobbyhadz.com/blog/typescript-index-signature-for-type-is-missing-in-type
-			'@typescript-eslint/consistent-type-definitions': 'off',
-
-			// Disabling because it's too strict:
-			// we are interested in using || operator multiple times to avoid empty strings.
-			'@typescript-eslint/prefer-nullish-coalescing': 'off',
-			'@typescript-eslint/unbound-method': 'off',
 		},
 	},
 	{
