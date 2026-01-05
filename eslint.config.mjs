@@ -22,6 +22,11 @@ export default defineConfig(
 	tseslint.configs.stylisticTypeChecked,
 	tanstackQuery.configs['flat/recommended'],
 	{
+		linterOptions: {
+			reportUnusedDisableDirectives: 'warn',
+		},
+	},
+	{
 		name: 'typescript-eslint config',
 		languageOptions: {
 			parserOptions: {
