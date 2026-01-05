@@ -4,14 +4,18 @@ import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
 import cypress from 'eslint-plugin-cypress'
+import * as importX from 'eslint-plugin-import-x'
 import unicorn from 'eslint-plugin-unicorn'
-import tsEslint from 'typescript-eslint'
 import globals from 'globals'
+import * as tsEslint from 'typescript-eslint'
 
 export default defineConfig(
 	eslint.configs.recommended,
 	tsEslint.configs.recommendedTypeChecked,
 	tsEslint.configs.stylisticTypeChecked,
+	importX.flatConfigs.recommended,
+	importX.flatConfigs.typescript,
+	importX.flatConfigs.react,
 	tanstackQuery.configs['flat/recommended'],
 	{
 		name: 'Linter options',
@@ -70,35 +74,42 @@ export default defineConfig(
 			// 'react/no-unknown-property': 'off',
 
 			// Import
-			// 'import/newline-after-import': 'error',
-			// 'import/order': [
-			// 	'error',
-			// 	{
-			// 		'newlines-between': 'always',
-			//
-			// 		alphabetize: {
-			// 			order: 'asc',
-			// 			caseInsensitive: false,
-			// 		},
-			//
-			// 		groups: [
-			// 			'builtin',
-			// 			'external',
-			// 			'internal',
-			// 			['parent', 'sibling', 'index'],
-			// 			'object',
-			// 			'type',
-			// 		],
-			//
-			// 		pathGroups: [
-			// 			{
-			// 				pattern: '@/**',
-			// 				group: 'internal',
-			// 				position: 'after',
-			// 			},
-			// 		],
-			// 	},
-			// ],
+			// Rules enabled by `import-x/recommended` but are better handled by
+			// TypeScript and typescript-eslint.
+			'import-x/default': 'off',
+			'import-x/export': 'off',
+			'import-x/namespace': 'off',
+			'import-x/no-unresolved': 'off',
+
+			'import-x/newline-after-import': 'error',
+			'import-x/order': [
+				'error',
+				{
+					'newlines-between': 'always',
+
+					alphabetize: {
+						order: 'asc',
+						caseInsensitive: false,
+					},
+
+					groups: [
+						'builtin',
+						'external',
+						'internal',
+						['parent', 'sibling', 'index'],
+						'object',
+						'type',
+					],
+
+					pathGroups: [
+						{
+							pattern: '@/**',
+							group: 'internal',
+							position: 'after',
+						},
+					],
+				},
+			],
 
 			// Unicorn
 			'unicorn/no-for-loop': 'error',
