@@ -74,6 +74,8 @@ const RepositorySearchCombobox = ({
 	const throttleRefetch = useMemo(
 		() =>
 			debounce(() => {
+				// This rule shouldn't complain within `useMemo`
+				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
 				setIsTyping(false)
 				void refetch()
 			}, 500),

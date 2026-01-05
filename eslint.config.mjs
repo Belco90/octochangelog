@@ -1,4 +1,5 @@
 import eslint from '@eslint/js'
+import eslintReact from '@eslint-react/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -17,6 +18,7 @@ export default defineConfig(
 	importX.flatConfigs.typescript,
 	importX.flatConfigs.react,
 	tanstackQuery.configs['flat/recommended'],
+	eslintReact.configs['recommended-type-checked'],
 	{
 		name: 'Linter options',
 		linterOptions: {

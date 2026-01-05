@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import gfm from 'remark-gfm'
 import parse from 'remark-parse'
 import { unified } from 'unified'
@@ -107,28 +107,28 @@ function useProcessReleases(
 ): UseProcessReleasesReturn {
 	const [processedReleases, setProcessedReleases] =
 		useState<ProcessedReleasesCollection | null>(null)
-	const [isProcessing, setIsProcessing] = useState(true)
+	const isProcessingRef = useRef(false)
 
 	useEffect(() => {
-		setIsProcessing(true)
+		isProcessingRef.current = true
 
 		const timeoutId = setTimeout(() => {
 			if (!releases || releases.length === 0) {
 				setProcessedReleases(null)
 			} else {
-				setIsProcessing(true)
 				const result = processReleases(releases)
 				setProcessedReleases(result)
 			}
-			setIsProcessing(false)
+			isProcessingRef.current = false
 		}, 0)
 
 		return () => {
 			clearTimeout(timeoutId)
+			isProcessingRef.current = false
 		}
 	}, [releases])
 
-	return { processedReleases, isProcessing }
+	return { processedReleases, isProcessing: isProcessingRef.current }
 }
 
 export default useProcessReleases
