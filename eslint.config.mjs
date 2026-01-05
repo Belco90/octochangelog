@@ -6,6 +6,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
 import cypress from 'eslint-plugin-cypress'
 import * as importX from 'eslint-plugin-import-x'
+import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import * as tsEslint from 'typescript-eslint'
@@ -19,6 +20,7 @@ export default defineConfig(
 	importX.flatConfigs.react,
 	tanstackQuery.configs['flat/recommended'],
 	eslintReact.configs['recommended-type-checked'],
+	reactHooks.configs.flat.recommended,
 	{
 		name: 'Linter options',
 		linterOptions: {

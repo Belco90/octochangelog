@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useReducer, useEffect } from 'react'
 import gfm from 'remark-gfm'
 import parse from 'remark-parse'
 import { unified } from 'unified'
@@ -102,33 +102,63 @@ interface UseProcessReleasesReturn {
 	isProcessing: boolean
 }
 
+interface ProcessReleasesState {
+	processedReleases: ProcessedReleasesCollection | null
+	isProcessing: boolean
+}
+
+type ProcessReleasesAction =
+	| { type: 'START_PROCESSING' }
+	| {
+			type: 'SET_PROCESSED_RELEASES'
+			payload: ProcessedReleasesCollection | null
+	  }
+
+function processReleasesReducer(
+	state: ProcessReleasesState,
+	action: ProcessReleasesAction,
+): ProcessReleasesState {
+	switch (action.type) {
+		case 'START_PROCESSING':
+			return { ...state, isProcessing: true }
+		case 'SET_PROCESSED_RELEASES':
+			return { processedReleases: action.payload, isProcessing: false }
+		default:
+			return state
+	}
+}
+
+const initialState: ProcessReleasesState = {
+	processedReleases: null,
+	isProcessing: false,
+}
+
 function useProcessReleases(
 	releases: Array<Release> | null,
 ): UseProcessReleasesReturn {
-	const [processedReleases, setProcessedReleases] =
-		useState<ProcessedReleasesCollection | null>(null)
-	const isProcessingRef = useRef(false)
+	const [state, dispatch] = useReducer(processReleasesReducer, initialState)
 
 	useEffect(() => {
-		isProcessingRef.current = true
+		dispatch({ type: 'START_PROCESSING' })
 
 		const timeoutId = setTimeout(() => {
 			if (!releases || releases.length === 0) {
-				setProcessedReleases(null)
+				dispatch({ type: 'SET_PROCESSED_RELEASES', payload: null })
 			} else {
 				const result = processReleases(releases)
-				setProcessedReleases(result)
+				dispatch({ type: 'SET_PROCESSED_RELEASES', payload: result })
 			}
-			isProcessingRef.current = false
 		}, 0)
 
 		return () => {
 			clearTimeout(timeoutId)
-			isProcessingRef.current = false
 		}
 	}, [releases])
 
-	return { processedReleases, isProcessing: isProcessingRef.current }
+	return {
+		processedReleases: state.processedReleases,
+		isProcessing: state.isProcessing,
+	}
 }
 
 export default useProcessReleases
