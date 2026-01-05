@@ -5,24 +5,33 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
 import cypress from 'eslint-plugin-cypress'
 import unicorn from 'eslint-plugin-unicorn'
-import tseslint from 'typescript-eslint'
+import tsEslint from 'typescript-eslint'
+import globals from 'globals'
 
 export default defineConfig(
 	eslint.configs.recommended,
-	tseslint.configs.recommendedTypeChecked,
-	tseslint.configs.stylisticTypeChecked,
+	tsEslint.configs.recommendedTypeChecked,
+	tsEslint.configs.stylisticTypeChecked,
 	tanstackQuery.configs['flat/recommended'],
 	{
+		name: 'Linter options',
 		linterOptions: {
 			reportUnusedDisableDirectives: 'warn',
 		},
 	},
 	{
-		name: 'typescript-eslint config',
+		name: 'Globals',
+		files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,mts,tsx,mtsx}'],
 		languageOptions: {
+			globals: {
+				...globals.nodeBuiltin,
+				...globals.browser,
+			},
+			parser: tsEslint.parser,
+			ecmaVersion: 'latest',
+			sourceType: 'module',
 			parserOptions: {
 				projectService: true,
-				tsconfigRootDir: import.meta.dirname,
 			},
 		},
 	},
@@ -147,7 +156,7 @@ export default defineConfig(
 	{
 		name: 'Config files',
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-		extends: [tseslint.configs.disableTypeChecked],
+		extends: [tsEslint.configs.disableTypeChecked],
 	},
 	globalIgnores([
 		'**/node_modules',
