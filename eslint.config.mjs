@@ -1,5 +1,6 @@
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
@@ -49,6 +50,7 @@ export default defineConfig(
 		name: 'Override for all files',
 		plugins: {
 			unicorn,
+			'@stylistic': stylistic,
 		},
 
 		rules: {
@@ -124,6 +126,10 @@ export default defineConfig(
 					img: ['Image'],
 				},
 			],
+
+			// Stylistic (JSX)
+			'@stylistic/jsx-self-closing-comp': 'warn',
+			'@stylistic/jsx-quotes': 'warn',
 
 			// TypeScript
 			'@typescript-eslint/array-type': [
