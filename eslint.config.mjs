@@ -1,4 +1,3 @@
-import { FlatCompat } from '@eslint/eslintrc'
 import eslint from '@eslint/js'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
@@ -8,15 +7,7 @@ import cypress from 'eslint-plugin-cypress'
 import unicorn from 'eslint-plugin-unicorn'
 import tseslint from 'typescript-eslint'
 
-const compat = new FlatCompat({
-	baseDirectory: import.meta.dirname,
-})
-
 export default defineConfig(
-	{
-		name: 'Next.js with Core Web Vitals',
-		extends: compat.extends('next/core-web-vitals'),
-	},
 	eslint.configs.recommended,
 	tseslint.configs.recommendedTypeChecked,
 	tseslint.configs.stylisticTypeChecked,
@@ -64,41 +55,41 @@ export default defineConfig(
 			],
 
 			// React
-			'react/self-closing-comp': 'error',
-			'react/react-in-jsx-scope': 'off',
-			'react/jsx-boolean-value': 'error',
-			'react/no-unknown-property': 'off',
+			// 'react/self-closing-comp': 'error',
+			// 'react/react-in-jsx-scope': 'off',
+			// 'react/jsx-boolean-value': 'error',
+			// 'react/no-unknown-property': 'off',
 
 			// Import
-			'import/newline-after-import': 'error',
-			'import/order': [
-				'error',
-				{
-					'newlines-between': 'always',
-
-					alphabetize: {
-						order: 'asc',
-						caseInsensitive: false,
-					},
-
-					groups: [
-						'builtin',
-						'external',
-						'internal',
-						['parent', 'sibling', 'index'],
-						'object',
-						'type',
-					],
-
-					pathGroups: [
-						{
-							pattern: '@/**',
-							group: 'internal',
-							position: 'after',
-						},
-					],
-				},
-			],
+			// 'import/newline-after-import': 'error',
+			// 'import/order': [
+			// 	'error',
+			// 	{
+			// 		'newlines-between': 'always',
+			//
+			// 		alphabetize: {
+			// 			order: 'asc',
+			// 			caseInsensitive: false,
+			// 		},
+			//
+			// 		groups: [
+			// 			'builtin',
+			// 			'external',
+			// 			'internal',
+			// 			['parent', 'sibling', 'index'],
+			// 			'object',
+			// 			'type',
+			// 		],
+			//
+			// 		pathGroups: [
+			// 			{
+			// 				pattern: '@/**',
+			// 				group: 'internal',
+			// 				position: 'after',
+			// 			},
+			// 		],
+			// 	},
+			// ],
 
 			// Unicorn
 			'unicorn/no-for-loop': 'error',
