@@ -191,9 +191,6 @@ export default defineConfig(
 		extends: [tsEslint.configs.disableTypeChecked],
 	},
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
-	globalIgnores([
-		'**/next-env.d.ts',
-		'**/src/fixtures/**',
-	]),
+	globalIgnores(['**/public', '**/next-env.d.ts', '**/src/fixtures/**']),
 	prettierConfig, // should always be the last one
 )
