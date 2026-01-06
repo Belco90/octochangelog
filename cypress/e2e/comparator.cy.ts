@@ -16,7 +16,6 @@ it('should show changelog results when filling the form', () => {
 		.findByText('testing-library/dom-testing-library')
 		.click()
 
-	// TODO: continue migrating from here
 	cy.findByRole('combobox', { name: /select from release/i }).select('v6.16.0')
 	cy.findByRole('combobox', { name: /select from release/i }).should(
 		'have.value',
@@ -42,6 +41,7 @@ it('should show changelog results when filling the form', () => {
 		name: /breaking changes/i,
 	})
 
+	// TODO: continue here
 	cy.findAllByText('v7.0.0', { ignore: 'option' }).should('have.length', 2)
 
 	cy.findByRole('heading', { level: 5, name: /drop node 8/i })

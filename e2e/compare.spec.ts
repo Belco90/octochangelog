@@ -23,4 +23,30 @@ test('should show changelog results when filling the form', async ({
 		.getByRole('listbox', { name: /enter repository name/i })
 		.getByText('testing-library/dom-testing-library')
 		.click()
+
+	await expect(
+		page.getByRole('link', { name: 'dom-testing-library' }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('link', { name: 'dom-testing-library' }),
+	).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library',
+	)
+
+	await page.getByLabel(/select from release/i).selectOption('v6.16.0')
+	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
+	await page.getByLabel(/select to release/i).selectOption('v8.1.0')
+	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
+
+	await expect(
+		page.getByRole('heading', { name: /changes from v6\.16\.0 to v8\.1\.0/i }),
+	).toBeVisible()
+
+	await expect(
+		page.getByRole('heading', {
+			level: 3,
+			name: /breaking changes/i,
+		}),
+	).toBeVisible()
 })
