@@ -185,7 +185,6 @@ export default defineConfig(
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
 		extends: [tsEslint.configs.disableTypeChecked],
 	},
-	// TODO: disable most of the plugins for fixtures files
 	globalIgnores([
 		'**/node_modules',
 		'coverage',
@@ -193,6 +192,7 @@ export default defineConfig(
 		'**/public',
 		'**/.env*',
 		'**/next-env.d.ts',
+		'**/src/fixtures/**',
 	]),
 	prettierConfig, // should always be the last one
 )
