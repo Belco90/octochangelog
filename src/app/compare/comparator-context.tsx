@@ -4,8 +4,8 @@ import { CircularProgress, Flex } from '@chakra-ui/react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import {
 	createContext,
+	use,
 	useCallback,
-	useContext,
 	useEffect,
 	useMemo,
 	useRef,
@@ -153,16 +153,16 @@ const ComparatorProvider = ({ children }: { children: ReactNode }) => {
 	)
 
 	return (
-		<ComparatorStateContext.Provider value={stateValue}>
-			<ComparatorUpdaterContext.Provider value={updaterValue}>
+		<ComparatorStateContext value={stateValue}>
+			<ComparatorUpdaterContext value={updaterValue}>
 				{isReady ? children : loadingElement}
-			</ComparatorUpdaterContext.Provider>
-		</ComparatorStateContext.Provider>
+			</ComparatorUpdaterContext>
+		</ComparatorStateContext>
 	)
 }
 
 function useComparatorState() {
-	const context = useContext(ComparatorStateContext)
+	const context = use(ComparatorStateContext)
 
 	if (context === undefined) {
 		throw new Error(
@@ -174,7 +174,7 @@ function useComparatorState() {
 }
 
 function useComparatorUpdater() {
-	const context = useContext(ComparatorUpdaterContext)
+	const context = use(ComparatorUpdaterContext)
 
 	if (context === undefined) {
 		throw new Error(

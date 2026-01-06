@@ -1,32 +1,49 @@
-import { FlatCompat } from '@eslint/eslintrc'
+// @ts-check
 import eslint from '@eslint/js'
+import eslintReact from '@eslint-react/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
 import cypress from 'eslint-plugin-cypress'
+import * as importX from 'eslint-plugin-import-x'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
-import tseslint from 'typescript-eslint'
-
-const compat = new FlatCompat({
-	baseDirectory: import.meta.dirname,
-})
+import globals from 'globals'
+import * as tsEslint from 'typescript-eslint'
 
 export default defineConfig(
-	{
-		name: 'Next.js with Core Web Vitals',
-		extends: compat.extends('next/core-web-vitals'),
-	},
 	eslint.configs.recommended,
-	tseslint.configs.recommendedTypeChecked,
-	tseslint.configs.stylisticTypeChecked,
+	tsEslint.configs.recommendedTypeChecked,
+	tsEslint.configs.stylisticTypeChecked,
+	importX.flatConfigs.recommended,
+	importX.flatConfigs.typescript,
+	importX.flatConfigs.react,
 	tanstackQuery.configs['flat/recommended'],
+	eslintReact.configs['recommended-type-checked'],
+	reactHooks.configs.flat.recommended,
+	jsxA11y.flatConfigs.recommended,
 	{
-		name: 'typescript-eslint config',
+		name: 'Linter options',
+		linterOptions: {
+			reportUnusedDisableDirectives: 'warn',
+		},
+	},
+	{
+		name: 'Globals',
+		files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,mts,tsx,mtsx}'],
 		languageOptions: {
+			globals: {
+				...globals.nodeBuiltin,
+				...globals.browser,
+			},
+			parser: tsEslint.parser,
+			ecmaVersion: 'latest',
+			sourceType: 'module',
 			parserOptions: {
 				projectService: true,
-				tsconfigRootDir: import.meta.dirname,
 			},
 		},
 	},
@@ -34,6 +51,7 @@ export default defineConfig(
 		name: 'Override for all files',
 		plugins: {
 			unicorn,
+			'@stylistic': stylistic,
 		},
 
 		rules: {
@@ -58,15 +76,37 @@ export default defineConfig(
 				},
 			],
 
-			// React
-			'react/self-closing-comp': 'error',
-			'react/react-in-jsx-scope': 'off',
-			'react/jsx-boolean-value': 'error',
-			'react/no-unknown-property': 'off',
+			// TypeScript
+			'@typescript-eslint/array-type': [
+				'warn',
+				{
+					default: 'generic',
+				},
+			],
+
+			'@typescript-eslint/consistent-type-exports': ['error'],
+			'@typescript-eslint/consistent-type-imports': ['error'],
+
+			// Disabling because of index errors on interfaces,
+			// which works fine in type aliases:
+			// https://bobbyhadz.com/blog/typescript-index-signature-for-type-is-missing-in-type
+			'@typescript-eslint/consistent-type-definitions': 'off',
+
+			// Disabling because it's too strict:
+			// we are interested in using || operator multiple times to avoid empty strings.
+			'@typescript-eslint/prefer-nullish-coalescing': 'off',
+			'@typescript-eslint/unbound-method': 'off',
 
 			// Import
-			'import/newline-after-import': 'error',
-			'import/order': [
+			// Rules enabled by `import-x/recommended` but are better handled by
+			// TypeScript and typescript-eslint.
+			'import-x/default': 'off',
+			'import-x/export': 'off',
+			'import-x/namespace': 'off',
+			'import-x/no-unresolved': 'off',
+
+			'import-x/newline-after-import': 'error',
+			'import-x/order': [
 				'error',
 				{
 					'newlines-between': 'always',
@@ -100,26 +140,18 @@ export default defineConfig(
 			'unicorn/no-array-for-each': 'error',
 			'unicorn/no-array-reduce': 'error',
 
-			// TypeScript
-			'@typescript-eslint/array-type': [
+			// JSX A11Y
+			'jsx-a11y/alt-text': [
 				'warn',
 				{
-					default: 'generic',
+					elements: ['img'],
+					img: ['Image'],
 				},
 			],
 
-			'@typescript-eslint/consistent-type-exports': ['error'],
-			'@typescript-eslint/consistent-type-imports': ['error'],
-
-			// Disabling because of index errors on interfaces,
-			// which works fine in type aliases:
-			// https://bobbyhadz.com/blog/typescript-index-signature-for-type-is-missing-in-type
-			'@typescript-eslint/consistent-type-definitions': 'off',
-
-			// Disabling because it's too strict:
-			// we are interested in using || operator multiple times to avoid empty strings.
-			'@typescript-eslint/prefer-nullish-coalescing': 'off',
-			'@typescript-eslint/unbound-method': 'off',
+			// Stylistic (JSX)
+			'@stylistic/jsx-self-closing-comp': 'warn',
+			'@stylistic/jsx-quotes': 'warn',
 		},
 	},
 	{
@@ -151,7 +183,7 @@ export default defineConfig(
 	{
 		name: 'Config files',
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-		extends: [tseslint.configs.disableTypeChecked],
+		extends: [tsEslint.configs.disableTypeChecked],
 	},
 	globalIgnores([
 		'**/node_modules',
@@ -160,6 +192,7 @@ export default defineConfig(
 		'**/public',
 		'**/.env*',
 		'**/next-env.d.ts',
+		'**/src/fixtures/**',
 	]),
 	prettierConfig, // should always be the last one
 )

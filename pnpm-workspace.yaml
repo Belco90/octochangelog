@@ -1,3 +1,4 @@
+savePrefix: ''
 verifyDepsBeforeRun: 'error'
 allowBuilds:
   '@sentry/cli': true
