@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 import { http, HttpResponse } from 'msw'
 
-import { test } from './playwright.setup'
+import { test } from './utils/playwright.setup'
 
 test('should show changelog results when filling the form', async ({
 	page,

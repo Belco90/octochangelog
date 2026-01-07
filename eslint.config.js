@@ -11,6 +11,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
 import * as importX from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import playwright from 'eslint-plugin-playwright'
 import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
@@ -171,6 +172,11 @@ export default defineConfig(
 			vitest,
 		},
 		...vitest.configs.recommended,
+	},
+	{
+		name: 'Playwright',
+		files: ['e2e/**'],
+		extends: [playwright.configs['flat/recommended']],
 	},
 	{
 		name: 'Config files',
