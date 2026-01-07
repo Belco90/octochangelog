@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test'
+import { http, HttpResponse } from 'msw'
 
 import { test } from './playwright.setup'
 
@@ -271,7 +272,7 @@ test('should show changelog results when preloading from URL with "latest"', asy
  * In this test, to get all releases from v26.9.0 to v32.172.2 we need to fetch 11 pages. We have 12 available, but the
  * last one must not be requested since all the info will be available by then.
  */
-test.skip(
+test(
 	'should show changelog results when preloading from URL with more than 10 release pages',
 	{
 		annotation: {
@@ -279,11 +280,95 @@ test.skip(
 			description: 'https://github.com/Belco90/octochangelog/issues/741',
 		},
 	},
-	() => {
+	async ({ page, network }) => {
 		test.slow(
 			true,
 			'The changelog takes a while to be processed, which makes this test slow',
 		)
-		// TODO
+
+		network.use(
+			http.get(
+				'https://api.github.com/repos/renovatebot/renovate/releases',
+				({ request }) => {
+					const url = new URL(request.url)
+					const paginationIndex = Number(url.searchParams.get('page') || 1)
+
+					// Since all info is available when page 11 is requested, page 12 must not be requested.
+					// Forcing an error after page 11 proves that the webapp requests the correct number of pages.
+					if (paginationIndex > 11) {
+						return HttpResponse.json(
+							{ error: 'Should not request more than 11 pages' },
+							{ status: 500 },
+						)
+					}
+
+					return undefined
+				},
+			),
+		)
+
+		await page.goto(
+			'compare?repo=renovatebot%2Frenovate&from=26.9.0&to=32.172.2',
+		)
+		await expect(page).toHaveTitle('Compare | Octochangelog')
+		await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+			'content',
+			'Compare GitHub changelogs across multiple releases in a single view',
+		)
+
+		// Check that the form is pre-filled with the URL params
+		await expect(
+			page.getByRole('combobox', { name: /enter repository name/i }),
+		).toHaveValue('renovatebot/renovate')
+		await expect(page.getByLabel(/select from release/i)).toHaveValue('26.9.0')
+		await expect(page.getByLabel(/select to release/i)).toHaveValue('32.172.2')
+
+		// Check changelog results
+		const resultsHeading = page.getByRole('heading', {
+			name: 'renovate',
+		})
+		await expect(resultsHeading).toBeVisible()
+		await expect(
+			resultsHeading.getByRole('link', { name: 'renovate' }),
+		).toHaveAttribute('href', 'https://github.com/renovatebot/renovate')
+		await expect(
+			page.getByRole('heading', {
+				name: /changes from 26\.9\.0 to 32\.172\.2/i,
+			}),
+		).toBeVisible()
+
+		// Check semver headings
+		await expect(
+			page.getByRole('heading', { level: 3, name: /breaking changes/i }),
+		).toBeVisible()
+		await expect(
+			page.getByRole('heading', { level: 3, name: /features/i }),
+		).toBeVisible()
+		await expect(
+			page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+		).toBeVisible()
+		await expect(
+			page.getByRole('heading', { level: 3, name: /reverts/i }),
+		).toBeVisible()
+		await expect(
+			page.getByRole('heading', { level: 3, name: /miscellaneous chores/i }),
+		).toBeVisible()
+		await expect(
+			page.getByRole('heading', { level: 3, name: /build system/i }),
+		).toBeVisible()
+
+		// Check links to the lowest and greatest releases in the changelog
+		const lowestReleaseLink = page.getByRole('link', { name: '26.9.1' })
+		const greatestReleaseLink = page.getByRole('link', { name: '32.172.2' })
+		await expect(lowestReleaseLink).toHaveCount(1)
+		await expect(lowestReleaseLink).toHaveAttribute(
+			'href',
+			'https://github.com/renovatebot/renovate/releases/tag/26.9.1',
+		)
+		await expect(greatestReleaseLink).toHaveCount(3)
+		await expect(greatestReleaseLink.first()).toHaveAttribute(
+			'href',
+			'https://github.com/renovatebot/renovate/releases/tag/32.172.2',
+		)
 	},
 )
