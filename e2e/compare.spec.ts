@@ -9,8 +9,7 @@ test('should show changelog results when filling the form', async ({
 
 	await expect(page).toHaveTitle('Compare | Octochangelog')
 
-	const metaDescription = page.locator('meta[name="description"]')
-	await expect(metaDescription).toHaveAttribute(
+	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 		'content',
 		'Compare GitHub changelogs across multiple releases in a single view',
 	)
@@ -110,8 +109,100 @@ test('should show changelog results when filling the form', async ({
 	// TODO: add happo screenshot for "Comparator page: basic changelog from filled form"
 })
 
-test.skip('should show changelog results when preloading from URL', async () => {
-	// TODO
+test('should show changelog results when preloading from URL', async ({
+	page,
+}) => {
+	await page.goto(
+		'compare?repo=testing-library%2Fdom-testing-library&from=v6.16.0&to=v8.1.0',
+	)
+
+	await expect(page).toHaveTitle('Compare | Octochangelog')
+	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+		'content',
+		'Compare GitHub changelogs across multiple releases in a single view',
+	)
+
+	// Check that the form is pre-filled with the URL params
+	await expect(
+		page.getByRole('combobox', { name: /enter repository name/i }),
+	).toHaveValue('testing-library/dom-testing-library')
+	await expect(page.getByLabel(/select from release/i)).toHaveValue('v6.16.0')
+	await expect(page.getByLabel(/select to release/i)).toHaveValue('v8.1.0')
+
+	// Check changelog results
+	const resultsHeading = page.getByRole('heading', {
+		name: 'dom-testing-library',
+	})
+	await expect(resultsHeading).toBeVisible()
+	await expect(
+		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
+	).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library',
+	)
+	await expect(
+		page.getByRole('heading', { name: /changes from v6\.16\.0 to v8\.1\.0/i }),
+	).toBeVisible()
+
+	await expect(page.getByRole('link', { name: 'v7.0.0' })).toHaveCount(2)
+
+	await expect(
+		page.getByRole('heading', { level: 5, name: /drop node 8/i }),
+	).toBeVisible()
+
+	await expect(
+		page.getByText(/node 10 or greater is required\. node 8 is.+, closes/i),
+	).toBeVisible()
+
+	await expect(page.getByRole('link', { name: /out of lts/i })).toHaveAttribute(
+		'href',
+		'https://nodejs.org/en/about/releases/',
+	)
+
+	await expect(page.getByRole('link', { name: /#459/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/issues/459',
+	)
+
+	// Check that GitHub references are rendered with proper links
+	await expect(page.getByRole('link', { name: /c3ab843/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/commit/c3ab843c292484428f045671ea22cbb30eb70559',
+	)
+	await expect(page.getByRole('link', { name: /#430/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/issues/430',
+	)
+
+	// Check that the code block is rendered with the diff display
+	await expect(
+		page.getByText(/- \s+"test": "react-scripts test --env=dom"/i),
+	).toBeVisible()
+	await expect(
+		page.getByText(
+			/\+ \s+"test": "react-scripts test --env=jest-environment-jsdom-sixteen"/i,
+		),
+	).toBeVisible()
+
+	// Check semver headings
+	await expect(
+		page.getByRole('heading', { level: 3, name: /features/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /reverts/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /recommendations/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /chore/i }),
+	).toBeVisible()
+
+	// Check for specific changelog content
+	await expect(page.getByText(/waitForElement was still in use/)).toBeVisible() // description from v7.0.1 release
 })
 
 test.skip('should show changelog results when preloading from URL with "latest"', async () => {
