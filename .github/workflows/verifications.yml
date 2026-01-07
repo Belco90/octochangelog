@@ -1,8 +1,11 @@
-name: CI
+name: Verifications
 
 on:
   pull_request:
     branches: [main]
+  push:
+    branches:
+      - main
   merge_group:
 
 permissions:
