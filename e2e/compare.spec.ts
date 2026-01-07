@@ -49,4 +49,99 @@ test('should show changelog results when filling the form', async ({
 			name: /breaking changes/i,
 		}),
 	).toBeVisible()
+
+	await expect(page.getByRole('link', { name: 'v7.0.0' })).toHaveCount(2)
+
+	await expect(
+		page.getByRole('heading', { level: 5, name: /drop node 8/i }),
+	).toBeVisible()
+
+	await expect(
+		page.getByText(/node 10 or greater is required\. node 8 is.+, closes/i),
+	).toBeVisible()
+
+	await expect(page.getByRole('link', { name: /out of lts/i })).toHaveAttribute(
+		'href',
+		'https://nodejs.org/en/about/releases/',
+	)
+
+	await expect(page.getByRole('link', { name: /#459/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/issues/459',
+	)
+
+	// Check that GitHub references are rendered with proper links
+	await expect(page.getByRole('link', { name: /c3ab843/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/commit/c3ab843c292484428f045671ea22cbb30eb70559',
+	)
+	await expect(page.getByRole('link', { name: /#430/i })).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library/issues/430',
+	)
+
+	// Check that the code block is rendered with the diff display
+	await expect(
+		page.getByText(/- \s+"test": "react-scripts test --env=dom"/i),
+	).toBeVisible()
+	await expect(
+		page.getByText(
+			/\+ \s+"test": "react-scripts test --env=jest-environment-jsdom-sixteen"/i,
+		),
+	).toBeVisible()
+
+	// Check semver headings
+	await expect(
+		page.getByRole('heading', { level: 3, name: /features/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /reverts/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /recommendations/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /chore/i }),
+	).toBeVisible()
+
+	// TODO: add happo screenshot for "Comparator page: basic changelog from filled form"
 })
+
+test.skip('should show changelog results when preloading from URL', async () => {
+	// TODO
+})
+
+test.skip('should show changelog results when preloading from URL with "latest"', async () => {
+	// TODO
+})
+
+/**
+ * Relates to #741
+ *
+ * By default, we only paginate releases up to 10. If any version preloaded from the URL
+ * is located after that, we need to keep paginating releases until found.
+ *
+ * When both versions are found, the fetching must be stopped, so we avoid unnecessary requests.
+ *
+ * In this test, to get all releases from v26.9.0 to v32.172.2 we need to fetch 11 pages. We have 12 available, but the
+ * last one must not be requested since all the info will be available by then.
+ */
+test.skip(
+	'should show changelog results when preloading from URL with more than 10 release pages',
+	{
+		annotation: {
+			type: 'issue',
+			description: 'https://github.com/Belco90/octochangelog/issues/741',
+		},
+	},
+	() => {
+		test.slow(
+			true,
+			'The changelog takes a while to be processed, which makes this test slow',
+		)
+		// TODO
+	},
+)
