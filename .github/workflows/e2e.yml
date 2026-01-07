@@ -27,10 +27,13 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  install:
-    name: Install
+  playwright-run:
+    name: Execute Playwright
     runs-on: ubuntu-latest
-    container: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
+    timeout-minutes: 10
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-noble
+      options: --user 1001
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -41,80 +44,28 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
 
-      - name: Cypress install
-        uses: cypress-io/github-action@2ad32e649e4db26c07674ebae31a297601dbcbaf # v6.10.8
+      - name: Build
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm run e2e
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
-          # Disable running of tests within install job
-          runTests: false
-          install-command: pnpm install
-          build: pnpm build
-
-      - name: Save build folder
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: build
-          if-no-files-found: error
-          include-hidden-files: true
-          path: .next
-
-  cypress-run:
-    name: Cypress Run
-    runs-on: ubuntu-latest
-    container: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
-    needs: install
-    strategy:
-      # don't fail the entire matrix on failure
-      fail-fast: false
-      matrix:
-        # run 2 copies of the current job in parallel
-        containers: [1, 2]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Setup pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-      - name: Setup Node.js
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
-        with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-
-      - name: Download the build folder
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          name: build
-          path: .next
-
-      - name: Run cypress tests
-        uses: cypress-io/github-action@2ad32e649e4db26c07674ebae31a297601dbcbaf # v6.10.8
-        with:
-          install-command: pnpm install
-          browser: chrome
-          start: pnpm start
-          wait-on: 'http://localhost:3000'
-          record: true
-          parallel: true
-          group: merge
-          # tag will be "push", "pull_request", or "merge_group"
-          tag: ${{ github.event_name }}
-          command-prefix: ${{ github.event_name != 'merge_group' && format('pnpm happo --nonce {0} -- pnpm exec', env.NONCE_ID) || '' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          # overwrite commit message sent to Cypress Cloud
-          # https://github.com/cypress-io/github-action/issues/124#issuecomment-653180260
-          COMMIT_INFO_MESSAGE: ${{github.event.pull_request.title}}
-          # re-enable PR comment bot
-          COMMIT_INFO_SHA: ${{github.event.pull_request.head.sha}}
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   finalize-happo:
     name: Finalize Happo
     runs-on: ubuntu-latest
     if: ${{ !cancelled() && github.event_name != 'merge_group' }}
-    needs: cypress-run
+    needs: playwright-run
     steps:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
