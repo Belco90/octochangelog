@@ -7,7 +7,7 @@ export default defineConfig({
 	apiKey: process.env.HAPPO_API_KEY ?? 'NOT-SET',
 	apiSecret: process.env.HAPPO_API_SECRET ?? 'NOT-SET',
 	integration: {
-		type: 'cypress',
+		type: 'cypress', // TODO: change
 	},
 	targets: {
 		'chrome-desktop': {

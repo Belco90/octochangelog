@@ -9,7 +9,6 @@ import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
-import cypress from 'eslint-plugin-cypress'
 import * as importX from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -172,18 +171,6 @@ export default defineConfig(
 			vitest,
 		},
 		...vitest.configs.recommended,
-	},
-	{
-		name: 'Cypress',
-		files: ['cypress/**/*.[jt]s'],
-		...cypress.configs.recommended,
-	},
-	{
-		name: 'Happo',
-		files: ['.happo.js'],
-		rules: {
-			'@typescript-eslint/no-require-imports': 'off',
-		},
 	},
 	{
 		name: 'Config files',

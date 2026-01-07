@@ -10,10 +10,6 @@ permissions:
   actions: write
   checks: write
 
-env:
-  # Skip Cypress installation in the whole workflow, not necessary here
-  CYPRESS_INSTALL_BINARY: 0
-
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -23,14 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        validation_script:
-          [
-            'lint',
-            'type-check',
-            'type-check:cypress',
-            'format:check',
-            'test:ci',
-          ]
+        validation_script: ['lint', 'type-check', 'format:check', 'test:ci']
     name: 'Code Validation: ${{ matrix.validation_script }}'
     runs-on: ubuntu-latest
     steps:
