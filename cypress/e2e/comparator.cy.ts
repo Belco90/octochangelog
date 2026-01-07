@@ -1,44 +1,6 @@
 const DEFAULT_COMMAND_TIMEOUT = Cypress.config('defaultCommandTimeout')
 const LONGER_COMMAND_TIMEOUT = DEFAULT_COMMAND_TIMEOUT * 5
 
-it('should show changelog results when preloading from URL with "latest"', () => {
-	cy.visit(
-		'/compare?repo=testing-library%2Fdom-testing-library&from=v8.11.0&to=latest',
-	)
-	cy.title().should('equal', 'Compare | Octochangelog')
-	cy.metaDescriptionShouldEqual(
-		'Compare GitHub changelogs across multiple releases in a single view',
-	)
-
-	cy.findByRole('combobox', { name: /select from release/i }).should(
-		'have.value',
-		'v8.11.0',
-	)
-	cy.findByRole('combobox', { name: /select to release/i }).should(
-		'have.value',
-		'latest',
-	)
-	cy.findByRole('link', { name: 'dom-testing-library' }).should(
-		'have.attr',
-		'href',
-		'https://github.com/testing-library/dom-testing-library',
-	)
-
-	cy.findByRole('heading', { name: 'Changes from v8.11.0 to latest' })
-	cy.findByText('Latest (v8.17.1)').should('be.selected')
-
-	cy.findByRole('heading', { level: 3, name: /features/i })
-	cy.findByRole('heading', { level: 3, name: /bug fixes/i })
-
-	// description from v8.11.1 release
-	cy.findByText(/Don't queue microtasks after condition is met/)
-
-	cy.get('body').happoScreenshot({
-		component:
-			'Comparator page: basic changelog from preloaded URL with "latest"',
-	})
-})
-
 /**
  * Relates to #741
  *

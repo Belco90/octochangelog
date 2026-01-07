@@ -23,11 +23,13 @@ test('should show changelog results when filling the form', async ({
 		.getByText('testing-library/dom-testing-library')
 		.click()
 
+	await expect(page).toHaveURL(/.+repo=testing-library%2Fdom-testing-library.*/)
+	const resultsHeading = page.getByRole('heading', {
+		name: 'dom-testing-library',
+	})
+	await expect(resultsHeading).toBeVisible()
 	await expect(
-		page.getByRole('link', { name: 'dom-testing-library' }),
-	).toBeVisible()
-	await expect(
-		page.getByRole('link', { name: 'dom-testing-library' }),
+		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
 	).toHaveAttribute(
 		'href',
 		'https://github.com/testing-library/dom-testing-library',
@@ -106,7 +108,7 @@ test('should show changelog results when filling the form', async ({
 		page.getByRole('heading', { level: 3, name: /chore/i }),
 	).toBeVisible()
 
-	// TODO: add happo screenshot for "Comparator page: basic changelog from filled form"
+	// TODO: add happo screenshot for `Comparator page: basic changelog from filled form`
 })
 
 test('should show changelog results when preloading from URL', async ({
@@ -205,8 +207,57 @@ test('should show changelog results when preloading from URL', async ({
 	await expect(page.getByText(/waitForElement was still in use/)).toBeVisible() // description from v7.0.1 release
 })
 
-test.skip('should show changelog results when preloading from URL with "latest"', async () => {
-	// TODO
+test('should show changelog results when preloading from URL with "latest"', async ({
+	page,
+}) => {
+	await page.goto(
+		'compare?repo=testing-library%2Fdom-testing-library&from=v8.11.0&to=latest',
+	)
+	await expect(page).toHaveTitle('Compare | Octochangelog')
+	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+		'content',
+		'Compare GitHub changelogs across multiple releases in a single view',
+	)
+
+	// Check that the form is pre-filled with the URL params
+	await expect(
+		page.getByRole('combobox', { name: /enter repository name/i }),
+	).toHaveValue('testing-library/dom-testing-library')
+	await expect(page.getByLabel(/select from release/i)).toHaveValue('v8.11.0')
+	await expect(page.getByLabel(/select to release/i)).toHaveValue('latest')
+	await expect(
+		page.getByLabel(/select to release/i).locator('option:checked'),
+	).toHaveText('Latest (v8.17.1)')
+
+	// Check changelog results
+	const resultsHeading = page.getByRole('heading', {
+		name: 'dom-testing-library',
+	})
+	await expect(resultsHeading).toBeVisible()
+	await expect(
+		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
+	).toHaveAttribute(
+		'href',
+		'https://github.com/testing-library/dom-testing-library',
+	)
+	await expect(
+		page.getByRole('heading', { name: /changes from v8\.11\.0 to latest/i }),
+	).toBeVisible()
+
+	// Check semver headings
+	await expect(
+		page.getByRole('heading', { level: 3, name: /features/i }),
+	).toBeVisible()
+	await expect(
+		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+	).toBeVisible()
+
+	// Check for specific changelog content
+	await expect(
+		page.getByText(/Don't queue microtasks after condition is met/),
+	).toBeVisible() // description from v8.11.1 release
+
+	// TODO: add happo screenshot for `Comparator page: basic changelog from preloaded URL with "latest"`
 })
 
 /**
