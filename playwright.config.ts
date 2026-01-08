@@ -1,3 +1,4 @@
+import { currentsReporter } from '@currents/playwright'
 import { defineConfig, devices } from '@playwright/test'
 
 /**
@@ -14,12 +15,21 @@ export default defineConfig({
 	/* Opt out of parallel tests on CI. */
 	workers: process.env.CI ? 1 : undefined,
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-	reporter: process.env.CI ? 'github' : 'html',
+	reporter: process.env.CI
+		? [['github'], currentsReporter()] // GitHub for PRs annotations, and currents for Playwright dashboard
+		: 'html',
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
 		baseURL: 'http://localhost:3000',
-		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: 'on-first-retry',
+		trace: process.env.CI
+			? 'on' // necessary for Currents integration
+			: 'on-first-retry',
+		video: process.env.CI
+			? 'on' // necessary for Currents integration
+			: undefined,
+		screenshot: process.env.CI
+			? 'on' // necessary for Currents integration
+			: undefined,
 	},
 
 	/* Configure projects for major browsers */

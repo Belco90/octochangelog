@@ -62,6 +62,15 @@ Octochangelog is possible thanks to these awesome sponsors:
         >
       </a>
     </td>
+    <td>
+      <a href="https://currents.dev/?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/currents.png"
+          alt="Currents dashboard for Playwright testing"
+          height="50"
+        >
+      </a>
+    </td>
   </tr>
 </table>
 
