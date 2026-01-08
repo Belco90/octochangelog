@@ -16,6 +16,8 @@ env:
   NEXT_PUBLIC_API_MOCKING: 'enabled'
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+  CURRENTS_PROJECT_ID: ${{ secrets.CURRENTS_PROJECT_ID }}
+  CURRENTS_RECORD_KEY: ${{ secrets.CURRENTS_RECORD_KEY }}
 
 concurrency:
   # Group name from GitHub workflow example so it doesn't cancel jobs in parallel with matrix
@@ -58,11 +60,3 @@ jobs:
 
       - name: Run tests
         run: pnpm run happo -- pnpm run e2e
-
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
