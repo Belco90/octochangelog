@@ -68,16 +68,12 @@ export default defineConfig(
 				'error',
 				{
 					name: '@testing-library/react',
-					message: 'Please import from `test-utils` instead.',
+					message: 'Please import from `test-utils` instead',
 				},
 				{
-					name: 'next/router',
-					message: 'Please import from `next/navigation` instead.',
-				},
-				{
-					name: '@chakra-ui/next-js',
-					importNames: ['Link'],
-					message: 'Please import from `ChakraNextLink` instead.',
+					name: '@playwright/test',
+					message: 'Please import from `e2e/playwright-utils` instead',
+					importNames: ['test'],
 				},
 			],
 

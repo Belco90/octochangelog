@@ -1,6 +1,8 @@
-import { test, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-test('should diplsay a custom "not found" page for non-existing page', async ({
+import { test } from './playwright-utils'
+
+test('should display a custom "not found" page for non-existing page', async ({
 	page,
 }) => {
 	await page.goto('/not-existing-page')

@@ -1,6 +1,11 @@
-import { test, expect } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-test('should display the corresponding information', async ({ page }) => {
+import { test } from './playwright-utils'
+
+test('should display the corresponding information', async ({
+	page,
+	happoScreenshot,
+}) => {
 	await page.goto('/')
 
 	await expect(page).toHaveTitle('Octochangelog')
@@ -51,7 +56,10 @@ test('should display the corresponding information', async ({ page }) => {
 		}),
 	).toHaveAttribute('href', 'https://github.com/Belco90/octochangelog')
 
-	// TODO happo screenshot
+	await happoScreenshot(page.locator('body'), {
+		component: 'Home page',
+		variant: 'default',
+	})
 
 	await page.getByRole('link', { name: 'Try me now!' }).click()
 

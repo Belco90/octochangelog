@@ -1,10 +1,11 @@
 import { expect } from '@playwright/test'
 import { http, HttpResponse } from 'msw'
 
-import { test } from './utils/playwright.setup'
+import { test } from './playwright-utils'
 
 test('should show changelog results when filling the form', async ({
 	page,
+	happoScreenshot,
 }) => {
 	await page.goto('/compare')
 
@@ -109,7 +110,10 @@ test('should show changelog results when filling the form', async ({
 		page.getByRole('heading', { level: 3, name: /chore/i }),
 	).toBeVisible()
 
-	// TODO: add happo screenshot for `Comparator page: basic changelog from filled form`
+	await happoScreenshot(page.locator('body'), {
+		component: 'Compare page: changelog from filled form',
+		variant: 'default',
+	})
 })
 
 test('should show changelog results when preloading from URL', async ({
@@ -210,6 +214,7 @@ test('should show changelog results when preloading from URL', async ({
 
 test('should show changelog results when preloading from URL with "latest"', async ({
 	page,
+	happoScreenshot,
 }) => {
 	await page.goto(
 		'compare?repo=testing-library%2Fdom-testing-library&from=v8.11.0&to=latest',
@@ -258,7 +263,10 @@ test('should show changelog results when preloading from URL with "latest"', asy
 		page.getByText(/Don't queue microtasks after condition is met/),
 	).toBeVisible() // description from v8.11.1 release
 
-	// TODO: add happo screenshot for `Comparator page: basic changelog from preloaded URL with "latest"`
+	await happoScreenshot(page.locator('body'), {
+		component: 'Compare page: changelog from preloaded URL with "latest"',
+		variant: 'default',
+	})
 })
 
 /**
