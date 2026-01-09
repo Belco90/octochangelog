@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw'
 import {
 	domTestingLibraryReleases,
 	renovateReleases,
+	yarnpkgBerryReleases,
 } from '@/fixtures/github/releases'
 import type { Release } from '@/models'
 import { paginateList } from '@/utils'
@@ -22,6 +23,7 @@ interface RepoReleasesParams {
 const REPO_FIXTURES_MAPPING: Record<string, Array<Release> | undefined> = {
 	'dom-testing-library': domTestingLibraryReleases,
 	renovate: renovateReleases,
+	berry: yarnpkgBerryReleases,
 }
 
 const githubReposReleasesHandlers: Array<RequestHandler> = [
