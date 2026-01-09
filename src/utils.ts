@@ -59,7 +59,7 @@ function getReleaseVersion(release: Release): string {
 		return release.name || release.tag_name
 	}
 
-	return release.tag_name
+	return extractVersionFromTag(release.tag_name)
 }
 
 /**

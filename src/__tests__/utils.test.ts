@@ -111,6 +111,33 @@ describe('getReleaseVersion util', () => {
 			expect(result).toEqual(output)
 		},
 	)
+
+	describe('with scoped tags', () => {
+		it.each`
+			tagName                   | releaseName    | output
+			${'@yarnpkg/cli/4.9.4'}   | ${'ignore me'} | ${'4.9.4'}
+			${'@scope/package/1.2.3'} | ${''}          | ${'1.2.3'}
+			${'@scope/pkg/v2.0.0'}    | ${'Version 2'} | ${'v2.0.0'}
+		`(
+			'should extract version from scoped tag $tagName',
+			({
+				tagName,
+				releaseName,
+				output,
+			}: {
+				tagName: string
+				releaseName: string
+				output: string
+			}) => {
+				const result = getReleaseVersion({
+					tag_name: tagName,
+					name: releaseName,
+				} as Release)
+
+				expect(result).toEqual(output)
+			},
+		)
+	})
 })
 
 describe('filterReleasesByVersionRange util', () => {
