@@ -16,6 +16,30 @@ import type { RootContent } from 'mdast'
  * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.
  */
 
+/**
+ * Extracts a semantic version from a tag name that may include scope prefixes.
+ * Handles various tag formats:
+ * - Scoped tags: @yarnpkg/cli/4.9.4 -> 4.9.4
+ * - Standard tags: v1.2.3 -> 1.2.3
+ * - Plain versions: 1.2.3 -> 1.2.3
+ */
+function extractVersionFromTag(tag: string): string {
+	// Handle scoped package tags like @yarnpkg/cli/4.9.4
+	// Find the last occurrence of '/' which separates the scope from the version
+	const lastSlashIndex = tag.lastIndexOf('/')
+	if (lastSlashIndex !== -1) {
+		const potentialVersion = tag.slice(lastSlashIndex + 1)
+		// Verify it's actually a valid version
+		if (semver.coerce(potentialVersion)) {
+			return potentialVersion
+		}
+	}
+
+	// For non-scoped tags or if the slash parsing didn't work, return as-is
+	// semver.coerce will handle 'v' prefixes and other variations
+	return tag
+}
+
 function mapRepositoryToQueryParams(
 	repository?: Repository,
 ): RepositoryQueryParams {
@@ -57,16 +81,21 @@ function filterReleasesByVersionRange(
 			? getReleaseVersion(releases[0])
 			: originalTo
 
+	const fromVersion = extractVersionFromTag(from)
+	const toVersion = extractVersionFromTag(to)
+
 	// Filter version range as (from, to]
-	return releases.filter(
-		({ tag_name }) => semver.gt(tag_name, from) && semver.lte(tag_name, to),
-	)
+	return releases.filter(({ tag_name }) => {
+		const version = extractVersionFromTag(tag_name)
+		return semver.gt(version, fromVersion) && semver.lte(version, toVersion)
+	})
 }
 
 function isStableRelease(release: Release): boolean {
 	const { tag_name } = release
+	const version = extractVersionFromTag(tag_name)
 
-	return Boolean(semver.valid(tag_name)) && !semver.prerelease(tag_name)
+	return Boolean(semver.valid(version)) && !semver.prerelease(version)
 }
 
 function getMdastContentNodeTitle(mdastNode: RootContent): string {
@@ -174,8 +203,10 @@ const compareReleasesByVersion = (
 	b: Release,
 	order: 'asc' | 'desc' = 'desc',
 ): number => {
-	const { tag_name: verA } = a
-	const { tag_name: verB } = b
+	const { tag_name: tagA } = a
+	const { tag_name: tagB } = b
+	const verA = extractVersionFromTag(tagA)
+	const verB = extractVersionFromTag(tagB)
 
 	if (semver.gt(verA, verB)) {
 		return order === 'desc' ? -1 : 1
@@ -214,6 +245,7 @@ function paginateList<TListItem>(
 export {
 	mapRepositoryToQueryParams,
 	mapStringToRepositoryQueryParams,
+	extractVersionFromTag,
 	filterReleasesByVersionRange,
 	isStableRelease,
 	getMdastContentNodeTitle,
