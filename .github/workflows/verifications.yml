@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - main
-  merge_group:
 
 permissions:
   contents: read
@@ -14,7 +13,7 @@ permissions:
   checks: write
 
 concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  group: '${{ github.workflow }}-${{ github.head_ref || github.ref || github.run_id }}'
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -25,6 +24,7 @@ jobs:
         validation_script: ['lint', 'type-check', 'format:check', 'test:ci']
     name: 'Code Validation: ${{ matrix.validation_script }}'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       # Arrange
       - name: Checkout repository
@@ -58,3 +58,44 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           report_type: 'test_results'
+
+  playwright-run:
+    name: Playwright Run
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-noble
+      options: --user 1001
+    env:
+      NEXT_PUBLIC_API_MOCKING: 'enabled'
+      HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
+      HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
+      CURRENTS_PROJECT_ID: ${{ secrets.CURRENTS_PROJECT_ID }}
+      CURRENTS_RECORD_KEY: ${{ secrets.CURRENTS_RECORD_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - name: Setup Node.js
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+
+      # https://nextjs.org/docs/app/guides/ci-build-caching#github-actions
+      - name: Cache bundle
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm run happo -- pnpm run e2e
