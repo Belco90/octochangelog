@@ -66,7 +66,7 @@ We recommend you follow this process:
 ## Mocked API
 
 We use [MSW](https://mswjs.io/) to mock API calls.
-Now you can run Jest tests, Cypress tests and the local environment against this mocked API, without needing a real connection or reaching GitHub API's limit.
+Now you can run Vitest tests, Playwright tests and the local environment against this mocked API, without needing a real connection or reaching GitHub API's limit.
 
 ### Toggling the mocked API
 
@@ -132,7 +132,6 @@ export default Footer
 
 ### Running E2E
 
-Our E2E tests are implemented with Cypress.
-They are ran against a mocked API with MSW.
+Our E2E tests are implemented with Playwright, and are run against a mocked GitHub API with MSW.
 
-We run a weekly smoke test on the real GitHub API.
+You can run them locally with `pnpm e2e` or `pnpm e2e:ui` if you want to interact with the UI.

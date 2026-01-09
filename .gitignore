@@ -5,7 +5,6 @@ node_modules
 
 # testing
 /coverage
-/cypress/videos
 lib-cov
 test-report.junit.xml
 
@@ -17,7 +16,6 @@ test-report.junit.xml
 # misc
 .DS_Store
 .env*.local
-cypress.env.json
 .idea
 
 # package managers
@@ -35,3 +33,10 @@ yarn-error.log*
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

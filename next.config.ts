@@ -49,7 +49,7 @@ export default withSentryConfig(nextConfig, {
 	release: {
 		deploy: {
 			// If deployed to Netlify, it will be tagged as production, deploy-preview, or branch-deploy.
-			// Otherwise, we don't know what environment is being run on (e.g. local, cypress, CI).
+			// Otherwise, we don't know what environment is being run on (e.g. local, CI).
 			env: process.env.CONTEXT || 'unknown',
 		},
 	},

@@ -1,4 +1,7 @@
 // @ts-check
+import { fileURLToPath } from 'node:url'
+
+import { includeIgnoreFile } from '@eslint/compat'
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
 import stylistic from '@stylistic/eslint-plugin'
@@ -6,13 +9,15 @@ import tanstackQuery from '@tanstack/eslint-plugin-query'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
-import cypress from 'eslint-plugin-cypress'
 import * as importX from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import playwright from 'eslint-plugin-playwright'
 import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import * as tsEslint from 'typescript-eslint'
+
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url))
 
 export default defineConfig(
 	eslint.configs.recommended,
@@ -63,16 +68,12 @@ export default defineConfig(
 				'error',
 				{
 					name: '@testing-library/react',
-					message: 'Please import from `test-utils` instead.',
+					message: 'Please import from `test-utils` instead',
 				},
 				{
-					name: 'next/router',
-					message: 'Please import from `next/navigation` instead.',
-				},
-				{
-					name: '@chakra-ui/next-js',
-					importNames: ['Link'],
-					message: 'Please import from `ChakraNextLink` instead.',
+					name: '@playwright/test',
+					message: 'Please import from `e2e/playwright-utils` instead',
+					importNames: ['test'],
 				},
 			],
 
@@ -169,30 +170,16 @@ export default defineConfig(
 		...vitest.configs.recommended,
 	},
 	{
-		name: 'Cypress',
-		files: ['cypress/**/*.[jt]s'],
-		...cypress.configs.recommended,
-	},
-	{
-		name: 'Happo',
-		files: ['.happo.js'],
-		rules: {
-			'@typescript-eslint/no-require-imports': 'off',
-		},
+		name: 'Playwright',
+		files: ['e2e/**'],
+		extends: [playwright.configs['flat/recommended']],
 	},
 	{
 		name: 'Config files',
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
 		extends: [tsEslint.configs.disableTypeChecked],
 	},
-	globalIgnores([
-		'**/node_modules',
-		'coverage',
-		'**/.next',
-		'**/public',
-		'**/.env*',
-		'**/next-env.d.ts',
-		'**/src/fixtures/**',
-	]),
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+	globalIgnores(['**/public', '**/next-env.d.ts', '**/src/fixtures/**']),
 	prettierConfig, // should always be the last one
 )
