@@ -269,6 +269,64 @@ test('should show changelog results when preloading from URL with "latest"', asy
 	})
 })
 
+test(
+	'should show changelog results for repos with scoped versions',
+	{
+		annotation: {
+			type: 'issue',
+			description: 'https://github.com/Belco90/octochangelog/issues/3038',
+		},
+	},
+	async ({ page }) => {
+		await page.goto('compare')
+
+		await expect(page).toHaveTitle('Compare | Octochangelog')
+
+		await page
+			.getByRole('combobox', { name: /enter repository name/i })
+			.fill('yarn')
+
+		await page
+			.getByRole('listbox', { name: /enter repository name/i })
+			.getByText('yarnpkg/berry')
+			.click()
+
+		await expect(page).toHaveURL(/.+repo=yarnpkg%2Fberry.*/)
+		await expect(
+			page.getByRole('heading', {
+				name: 'berry',
+			}),
+		).toBeVisible()
+
+		await page
+			.getByLabel(/select from release/i)
+			.selectOption('@yarnpkg/cli/4.10.3')
+		await expect(page).toHaveURL(/.+from=%40yarnpkg%2Fcli%2F4\.10\.3.*/)
+		await page
+			.getByLabel(/select to release/i)
+			.selectOption('@yarnpkg/cli/4.12.0')
+		await expect(page).toHaveURL(/.+to=%40yarnpkg%2Fcli%2F4\.12\.0.*/)
+
+		await expect(
+			page.getByRole('heading', {
+				name: /changes from 4\.10\.3 to 4\.12\.0/i,
+			}),
+		).toBeVisible()
+
+		// Check that releases with scoped tags are displayed correctly
+		await expect(page.getByRole('link', { name: '4.11.0' })).toHaveCount(4)
+		await expect(page.getByRole('link', { name: '4.12.0' })).toHaveCount(3)
+
+		// Check for specific changelog content from the releases
+		await expect(
+			page.getByText(/Improves 'yarn workspaces focus' tests/),
+		).toBeVisible() // from 4.11.0 release
+		await expect(
+			page.getByText(/Implements npm web login support/),
+		).toBeVisible() // from 4.12.0 release
+	},
+)
+
 /**
  * Relates to #741
  *
