@@ -8,7 +8,11 @@ import type {
 	Repository,
 	RepositoryQueryParams,
 } from '@/models'
-import { isStableRelease, mapRepositoryToQueryParams } from '@/utils'
+import {
+	extractVersionFromTag,
+	isStableRelease,
+	mapRepositoryToQueryParams,
+} from '@/utils'
 
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 
@@ -62,13 +66,16 @@ function useReleasesQuery(
 				const hasNextPage = !!headers.link && getHasNextPage(headers.link)
 				const isMaxAutoPaginationReached = pagination > MAX_AUTO_PAGINATION
 				const lastReleaseFetched = releasesBatch[releasesBatch.length - 1]
+				const lastReleaseVersion = extractVersionFromTag(
+					lastReleaseFetched.tag_name,
+				)
 				const isFromReleaseFetched =
 					!hasFromVersion ||
-					semver.gte(fromVersion, lastReleaseFetched.tag_name)
+					semver.gte(extractVersionFromTag(fromVersion), lastReleaseVersion)
 				const isToReleaseFetched =
 					!hasToVersion ||
 					toVersion === 'latest' ||
-					semver.gte(toVersion, lastReleaseFetched.tag_name)
+					semver.gte(extractVersionFromTag(toVersion), lastReleaseVersion)
 
 				shouldKeepPaginating =
 					hasNextPage &&

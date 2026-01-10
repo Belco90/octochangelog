@@ -1,6 +1,7 @@
 import { Badge, Box, Container, Heading, Link, Text } from '@chakra-ui/react'
 
 import type { Repository } from '@/models'
+import { extractVersionFromTag } from '@/utils'
 
 interface Props {
 	repository: Repository
@@ -31,7 +32,7 @@ const RepositoryReleasesChangelogHeading = ({
 						lineHeight={1.5}
 						color="secondary.800"
 					>
-						{fromVersion}
+						{extractVersionFromTag(fromVersion)}
 					</Badge>{' '}
 					to{' '}
 					<Badge
@@ -41,7 +42,7 @@ const RepositoryReleasesChangelogHeading = ({
 						lineHeight={1.5}
 						color="secondary.800"
 					>
-						{toVersion}
+						{extractVersionFromTag(toVersion)}
 					</Badge>
 				</Heading>
 			) : (

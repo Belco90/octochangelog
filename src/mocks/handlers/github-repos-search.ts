@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw'
 import {
 	renovateResults,
 	testingLibraryResults,
+	yarnpkgResults,
 } from '@/fixtures/github/search'
 import type { RepoSearchResultItem } from '@/models'
 
@@ -21,6 +22,10 @@ const githubReposSearchHandlers: Array<RequestHandler> = [
 
 		if (cleanSearchQuery.includes('reno')) {
 			items.push(...renovateResults)
+		}
+
+		if (cleanSearchQuery.includes('yarn')) {
+			items.push(...yarnpkgResults)
 		}
 
 		return HttpResponse.json({

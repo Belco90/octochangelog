@@ -4,6 +4,7 @@ import type { Release, Repository, RepositoryQueryParams } from '@/models'
 import {
 	compareReleaseGroupsByPriority,
 	compareReleasesByVersion,
+	extractVersionFromTag,
 	filterReleasesByVersionRange,
 	getMdastContentNodeTitle,
 	getMdastContentReleaseGroup,
@@ -62,6 +63,29 @@ describe('mapStringToRepositoryQueryParams util', () => {
 	)
 })
 
+describe('extractVersionFromTag util', () => {
+	it.each`
+		label                                            | input                      | output
+		${'scoped tag with @yarnpkg/cli format'}         | ${'@yarnpkg/cli/4.9.4'}    | ${'4.9.4'}
+		${'scoped tag with another scope'}               | ${'@scope/package/1.2.3'}  | ${'1.2.3'}
+		${'scoped tag with v prefix'}                    | ${'@scope/pkg/v2.0.0'}     | ${'v2.0.0'}
+		${'standard tag with v prefix'}                  | ${'v1.2.3'}                | ${'v1.2.3'}
+		${'standard tag without v prefix'}               | ${'1.2.3'}                 | ${'1.2.3'}
+		${'tag with multiple slashes keeping only last'} | ${'@scope/sub/pkg/3.4.5'}  | ${'3.4.5'}
+		${'prerelease scoped tag'}                       | ${'@scope/pkg/1.0.0-beta'} | ${'1.0.0-beta'}
+		${'prerelease standard tag'}                     | ${'v2.0.0-alpha.1'}        | ${'v2.0.0-alpha.1'}
+		${'tag without slashes'}                         | ${'5.0.0'}                 | ${'5.0.0'}
+		${'invalid version with slash returns full tag'} | ${'invalid/notversion'}    | ${'invalid/notversion'}
+	`(
+		'should extract $label',
+		({ input, output }: { label: string; input: string; output: string }) => {
+			const result = extractVersionFromTag(input)
+
+			expect(result).toBe(output)
+		},
+	)
+})
+
 describe('getReleaseVersion util', () => {
 	it.each`
 		tagName     | releaseName    | output
@@ -87,6 +111,33 @@ describe('getReleaseVersion util', () => {
 			expect(result).toEqual(output)
 		},
 	)
+
+	describe('with scoped tags', () => {
+		it.each`
+			tagName                   | releaseName    | output
+			${'@yarnpkg/cli/4.9.4'}   | ${'ignore me'} | ${'4.9.4'}
+			${'@scope/package/1.2.3'} | ${''}          | ${'1.2.3'}
+			${'@scope/pkg/v2.0.0'}    | ${'Version 2'} | ${'v2.0.0'}
+		`(
+			'should extract version from scoped tag $tagName',
+			({
+				tagName,
+				releaseName,
+				output,
+			}: {
+				tagName: string
+				releaseName: string
+				output: string
+			}) => {
+				const result = getReleaseVersion({
+					tag_name: tagName,
+					name: releaseName,
+				} as Release)
+
+				expect(result).toEqual(output)
+			},
+		)
+	})
 })
 
 describe('filterReleasesByVersionRange util', () => {
@@ -164,6 +215,68 @@ describe('filterReleasesByVersionRange util', () => {
 			}),
 		).toThrow(TypeError('Invalid Version: 1'))
 	})
+
+	describe('with scoped tags', () => {
+		const getScopedReleases = (): Array<Release> => {
+			return [
+				{ tag_name: '@yarnpkg/cli/4.9.4' },
+				{ tag_name: '@yarnpkg/cli/4.9.2' },
+				{ tag_name: '@yarnpkg/cli/4.8.0' },
+				{ tag_name: '@yarnpkg/cli/4.7.1' },
+				{ tag_name: '@yarnpkg/cli/4.7.0' },
+				{ tag_name: '@yarnpkg/cli/4.6.0' },
+			] as Array<Release>
+		}
+
+		it('should filter scoped releases by provided range', () => {
+			const result = filterReleasesByVersionRange({
+				releases: getScopedReleases(),
+				from: '@yarnpkg/cli/4.6.0',
+				to: '@yarnpkg/cli/4.8.0',
+			})
+
+			expect(result).toEqual([
+				{ tag_name: '@yarnpkg/cli/4.8.0' },
+				{ tag_name: '@yarnpkg/cli/4.7.1' },
+				{ tag_name: '@yarnpkg/cli/4.7.0' },
+			])
+		})
+
+		it('should filter scoped releases until latest', () => {
+			const result = filterReleasesByVersionRange({
+				releases: getScopedReleases(),
+				from: '@yarnpkg/cli/4.7.0',
+				to: 'latest',
+			})
+
+			expect(result).toEqual([
+				{ tag_name: '@yarnpkg/cli/4.9.4' },
+				{ tag_name: '@yarnpkg/cli/4.9.2' },
+				{ tag_name: '@yarnpkg/cli/4.8.0' },
+				{ tag_name: '@yarnpkg/cli/4.7.1' },
+			])
+		})
+
+		it('should work with mixed scoped and non-scoped versions', () => {
+			const mixedReleases = [
+				{ tag_name: '@scope/pkg/3.0.0' },
+				{ tag_name: 'v2.5.0' },
+				{ tag_name: '@scope/pkg/2.0.0' },
+				{ tag_name: 'v1.5.0' },
+			] as Array<Release>
+
+			const result = filterReleasesByVersionRange({
+				releases: mixedReleases,
+				from: 'v1.5.0',
+				to: 'v2.5.0',
+			})
+
+			expect(result).toEqual([
+				{ tag_name: 'v2.5.0' },
+				{ tag_name: '@scope/pkg/2.0.0' },
+			])
+		})
+	})
 })
 
 describe('isStableRelease util', () => {
@@ -183,6 +296,26 @@ describe('isStableRelease util', () => {
 			expect(result).toBe(output)
 		},
 	)
+
+	describe('with scoped tags', () => {
+		it.each`
+			tagName                         | output
+			${'@yarnpkg/cli/4.9.4'}         | ${true}
+			${'@scope/package/1.0.0'}       | ${true}
+			${'@scope/pkg/2.5.7'}           | ${true}
+			${'@scope/pkg/5.0.0-alpha.3'}   | ${false}
+			${'@scope/pkg/4.0.0-beta.4'}    | ${false}
+			${'@scope/pkg/1.0.0-rc.1'}      | ${false}
+			${'@scope/notaversion/invalid'} | ${false}
+		`(
+			'should return $output for scoped tag $tagName',
+			({ tagName, output }: { tagName: string; output: boolean }) => {
+				const result = isStableRelease({ tag_name: tagName } as Release)
+
+				expect(result).toBe(output)
+			},
+		)
+	})
 })
 
 describe('sanitizeReleaseGroupTitle', () => {
@@ -327,6 +460,67 @@ describe('compareReleasesByVersion', () => {
 			{ tag_name: 'v4.5.1' },
 			{ tag_name: 'v5.0.0' },
 		])
+	})
+
+	describe('with scoped tags', () => {
+		const getScopedUnsortedReleases = (): Array<Release> => {
+			return [
+				{ tag_name: '@yarnpkg/cli/4.5.0' },
+				{ tag_name: '@yarnpkg/cli/1.0.0' },
+				{ tag_name: '@yarnpkg/cli/4.9.4' },
+				{ tag_name: '@yarnpkg/cli/4.5.1' },
+				{ tag_name: '@yarnpkg/cli/5.0.0' },
+				{ tag_name: '@yarnpkg/cli/1.1.0' },
+			] as Array<Release>
+		}
+
+		it('should sort scoped versions by desc order', () => {
+			const releases = getScopedUnsortedReleases()
+
+			releases.sort(compareReleasesByVersion)
+
+			expect(releases).toEqual([
+				{ tag_name: '@yarnpkg/cli/5.0.0' },
+				{ tag_name: '@yarnpkg/cli/4.9.4' },
+				{ tag_name: '@yarnpkg/cli/4.5.1' },
+				{ tag_name: '@yarnpkg/cli/4.5.0' },
+				{ tag_name: '@yarnpkg/cli/1.1.0' },
+				{ tag_name: '@yarnpkg/cli/1.0.0' },
+			])
+		})
+
+		it('should sort scoped versions by asc order', () => {
+			const releases = getScopedUnsortedReleases()
+
+			releases.sort((a, b) => compareReleasesByVersion(a, b, 'asc'))
+
+			expect(releases).toEqual([
+				{ tag_name: '@yarnpkg/cli/1.0.0' },
+				{ tag_name: '@yarnpkg/cli/1.1.0' },
+				{ tag_name: '@yarnpkg/cli/4.5.0' },
+				{ tag_name: '@yarnpkg/cli/4.5.1' },
+				{ tag_name: '@yarnpkg/cli/4.9.4' },
+				{ tag_name: '@yarnpkg/cli/5.0.0' },
+			])
+		})
+
+		it('should sort mixed scoped and non-scoped versions', () => {
+			const mixedReleases = [
+				{ tag_name: '@scope/pkg/3.0.0' },
+				{ tag_name: 'v2.0.0' },
+				{ tag_name: '@scope/pkg/1.0.0' },
+				{ tag_name: 'v4.0.0' },
+			] as Array<Release>
+
+			mixedReleases.sort(compareReleasesByVersion)
+
+			expect(mixedReleases).toEqual([
+				{ tag_name: 'v4.0.0' },
+				{ tag_name: '@scope/pkg/3.0.0' },
+				{ tag_name: 'v2.0.0' },
+				{ tag_name: '@scope/pkg/1.0.0' },
+			])
+		})
 	})
 })
 
