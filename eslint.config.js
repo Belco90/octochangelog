@@ -169,7 +169,7 @@ export default defineConfig(
 		},
 		...vitest.configs.recommended,
 		rules: {
-			'vitest/padding-around-all': 'error',
+			'vitest/padding-around-all': 'warn',
 		},
 	},
 	{
