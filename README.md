@@ -6,7 +6,7 @@
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
   >
   <p>
-    <span role="img" aria-label="Crystall ball">🔮</span> https://www.octochangelog.com/
+    <span role="img" aria-label="Crystall ball">🔮</span> [octochangelog.com](https://www.octochangelog.com/)
   </p>
   <p>Compare GitHub changelogs across multiple releases in a single view.</p>
 
@@ -14,7 +14,7 @@
 
 <hr>
 
-[![CI](https://github.com/Belco90/octochangelog/actions/workflows/ci.yml/badge.svg)](https://github.com/octochangelog/octochangelog-webapp/actions/workflows/ci.yml)
+[![CI](https://github.com/Belco90/octochangelog/actions/workflows/ci.yml/badge.svg)](https://github.com/octochangelog/octochangelog-webapp/actions/workflows/verifications.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4ef576fd-d384-4327-a1fc-54a73e71066f/deploy-status)](https://app.netlify.com/projects/octochangelog/deploys)
 
 ## What is Octochangelog?
