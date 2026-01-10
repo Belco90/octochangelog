@@ -28,6 +28,11 @@ type Repository = components['schemas']['full-repository']
 
 type Release = components['schemas']['release']
 
+type ReleaseFixture = Pick<
+	Release,
+	'id' | 'tag_name' | 'name' | 'html_url' | 'body'
+>
+
 type RepoSearchResultItem = components['schemas']['repo-search-result-item']
 
 interface ProcessedRelease extends Omit<Release, 'body'> {
@@ -58,6 +63,7 @@ export type {
 	RepositoryQueryParams,
 	Repository,
 	Release,
+	ReleaseFixture,
 	RepoSearchResultItem,
 	ProcessedRelease,
 	ProcessedReleasesCollection,
