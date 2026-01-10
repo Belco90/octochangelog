@@ -93,7 +93,7 @@
 		"eslint-plugin-react-hooks": "7.0.1",
 		"eslint-plugin-unicorn": "62.0.0",
 		"globals": "17.0.0",
-		"happo": "6.2.1",
+		"happo": "6.2.2",
 		"husky": "9.1.7",
 		"lint-staged": "16.2.7",
 		"msw": "2.12.7",
