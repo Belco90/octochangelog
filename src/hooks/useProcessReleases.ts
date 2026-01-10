@@ -4,9 +4,9 @@ import parse from 'remark-parse'
 import { unified } from 'unified'
 
 import type {
+	MinimalRelease,
 	ProcessedRelease,
 	ProcessedReleasesCollection,
-	Release,
 } from '@/models'
 import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
 
@@ -34,7 +34,7 @@ function processedReleaseIsEmpty(processedRelease: ProcessedRelease): boolean {
 const processor = unified().use(parse).use(gfm) as Processor<Root>
 
 function processReleases(
-	releases: Array<Release>,
+	releases: Array<MinimalRelease>,
 ): ProcessedReleasesCollection {
 	const processedReleasesCollection: ProcessedReleasesCollection = {}
 
@@ -134,7 +134,7 @@ const initialState: ProcessReleasesState = {
 }
 
 function useProcessReleases(
-	releases: Array<Release> | null,
+	releases: Array<MinimalRelease> | null,
 ): UseProcessReleasesReturn {
 	const [state, dispatch] = useReducer(processReleasesReducer, initialState)
 

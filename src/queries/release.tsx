@@ -3,7 +3,7 @@ import * as semver from 'semver'
 
 import { octokit } from '@/github-client'
 import type {
-	Release,
+	MinimalRelease,
 	ReleaseVersion,
 	Repository,
 	RepositoryQueryParams,
@@ -16,7 +16,7 @@ import {
 
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 
-type ReleasesQueryResults = Array<Release>
+type ReleasesQueryResults = Array<MinimalRelease>
 type ReleasesQueryParams = {
 	repository?: Repository | null
 	fromVersion?: ReleaseVersion | null
@@ -48,7 +48,7 @@ function useReleasesQuery(
 		queryKey: [QUERY_KEY, finalParams],
 		queryFn: async () => {
 			const { owner, repo } = finalParams
-			const releases: Array<Release> = []
+			const releases: Array<MinimalRelease> = []
 			let shouldKeepPaginating = true
 			let pagination = 1
 

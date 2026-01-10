@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 
-import type { Release } from '@/models'
+import type { MinimalRelease } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
 import type { FormControlProps } from '@chakra-ui/react'
@@ -12,7 +12,7 @@ interface CustomProps {
 	placeholder?: string
 	value?: string
 	isLoading?: boolean
-	options: Array<Release>
+	options: Array<MinimalRelease>
 	onChange(version: string): void
 }
 
@@ -20,7 +20,7 @@ type ReleaseVersionFormControlProps = CustomProps &
 	Except<FormControlProps, 'children' | 'onChange'>
 
 function renderReleasesOptions(
-	releases?: Array<Release>,
+	releases?: Array<MinimalRelease>,
 ): Array<ReactNode> | null {
 	if (!releases) {
 		return null

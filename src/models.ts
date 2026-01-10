@@ -26,11 +26,18 @@ type RepositoryQueryParams = {
 
 type Repository = components['schemas']['full-repository']
 
-type Release = components['schemas']['release']
+/**
+ * Minimal properties from a GitHub Release that are used across the webapp.
+ * This type is primarily used in test fixtures to reduce file size.
+ */
+type MinimalRelease = Pick<
+	components['schemas']['release'],
+	'id' | 'tag_name' | 'name' | 'html_url' | 'body'
+>
 
 type RepoSearchResultItem = components['schemas']['repo-search-result-item']
 
-interface ProcessedRelease extends Omit<Release, 'body'> {
+interface ProcessedRelease extends Omit<MinimalRelease, 'body'> {
 	title: string
 	originalTitle: string
 	descriptionMdast: Root
@@ -57,7 +64,7 @@ export type {
 	ReleaseGroup,
 	RepositoryQueryParams,
 	Repository,
-	Release,
+	MinimalRelease,
 	RepoSearchResultItem,
 	ProcessedRelease,
 	ProcessedReleasesCollection,

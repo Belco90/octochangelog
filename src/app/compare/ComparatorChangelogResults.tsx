@@ -4,8 +4,8 @@ import ProcessedReleaseChangeDescription from '@/app/compare/ProcessedReleaseCha
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessReleases from '@/hooks/useProcessReleases'
 import type {
+	MinimalRelease,
 	ProcessedRelease,
-	Release,
 	ReleaseGroup,
 	Repository,
 } from '@/models'
@@ -56,7 +56,7 @@ const ReleaseChangelogGroup = ({
 }
 
 interface ComparatorChangelogResultsProps {
-	releases: Array<Release>
+	releases: Array<MinimalRelease>
 	repository: Repository
 }
 

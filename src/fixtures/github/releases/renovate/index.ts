@@ -1,4 +1,4 @@
-import type { Release } from '@/models'
+import type { MinimalRelease } from '@/models'
 
 import { renovateReleasesPage1 } from './page1'
 import { renovateReleasesPage10 } from './page10'
@@ -18,7 +18,7 @@ import { renovateReleasesPage9 } from './page9'
  *
  * This generates 12 pages of 100 items.
  */
-const renovateReleases: Array<Release> = [
+const renovateReleases: Array<MinimalRelease> = [
 	...renovateReleasesPage1,
 	...renovateReleasesPage2,
 	...renovateReleasesPage3,
