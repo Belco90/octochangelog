@@ -3,12 +3,13 @@ import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
 import ProcessedReleaseChangeDescription from '@/app/compare/ProcessedReleaseChangeDescription'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessReleases from '@/hooks/useProcessReleases'
-import type { ProcessedRelease, ReleaseGroup, Repository } from '@/models'
+import type {
+	MinimalRelease,
+	ProcessedRelease,
+	ReleaseGroup,
+	Repository,
+} from '@/models'
 import { compareReleaseGroupsByPriority } from '@/utils'
-
-import type { components } from '@octokit/openapi-types'
-
-type Release = components['schemas']['release']
 
 const ReleaseChangelogGroup = ({
 	title,
@@ -55,7 +56,7 @@ const ReleaseChangelogGroup = ({
 }
 
 interface ComparatorChangelogResultsProps {
-	releases: Array<Release>
+	releases: Array<MinimalRelease>
 	repository: Repository
 }
 

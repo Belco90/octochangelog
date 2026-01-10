@@ -3,14 +3,15 @@ import gfm from 'remark-gfm'
 import parse from 'remark-parse'
 import { unified } from 'unified'
 
-import type { ProcessedRelease, ProcessedReleasesCollection } from '@/models'
+import type {
+	MinimalRelease,
+	ProcessedRelease,
+	ProcessedReleasesCollection,
+} from '@/models'
 import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
 
-import type { components } from '@octokit/openapi-types'
 import type { Root } from 'mdast'
 import type { Processor } from 'unified'
-
-type Release = components['schemas']['release']
 
 function insertReleaseInGroup(
 	newProcessedRelease: ProcessedRelease,
@@ -33,7 +34,7 @@ function processedReleaseIsEmpty(processedRelease: ProcessedRelease): boolean {
 const processor = unified().use(parse).use(gfm) as Processor<Root>
 
 function processReleases(
-	releases: Array<Release>,
+	releases: Array<MinimalRelease>,
 ): ProcessedReleasesCollection {
 	const processedReleasesCollection: ProcessedReleasesCollection = {}
 
@@ -133,7 +134,7 @@ const initialState: ProcessReleasesState = {
 }
 
 function useProcessReleases(
-	releases: Array<Release> | null,
+	releases: Array<MinimalRelease> | null,
 ): UseProcessReleasesReturn {
 	const [state, dispatch] = useReducer(processReleasesReducer, initialState)
 

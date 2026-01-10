@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import type { Repository, RepositoryQueryParams } from '@/models'
+import type {
+	MinimalRelease,
+	Repository,
+	RepositoryQueryParams,
+} from '@/models'
 import {
 	compareReleaseGroupsByPriority,
 	compareReleasesByVersion,
@@ -16,10 +20,7 @@ import {
 	sanitizeReleaseGroupTitle,
 } from '@/utils'
 
-import type { components } from '@octokit/openapi-types'
 import type { RootContent } from 'mdast'
-
-type Release = components['schemas']['release']
 
 describe('mapRepositoryToQueryParams util', () => {
 	it.each`
@@ -109,7 +110,7 @@ describe('getReleaseVersion util', () => {
 			const result = getReleaseVersion({
 				tag_name: tagName,
 				name: releaseName,
-			} as Release)
+			} as MinimalRelease)
 
 			expect(result).toEqual(output)
 		},
@@ -135,7 +136,7 @@ describe('getReleaseVersion util', () => {
 				const result = getReleaseVersion({
 					tag_name: tagName,
 					name: releaseName,
-				} as Release)
+				} as MinimalRelease)
 
 				expect(result).toEqual(output)
 			},
@@ -144,7 +145,7 @@ describe('getReleaseVersion util', () => {
 })
 
 describe('filterReleasesByVersionRange util', () => {
-	const getFakeReleases = (): Array<Release> => {
+	const getFakeReleases = (): Array<MinimalRelease> => {
 		return [
 			{ tag_name: 'v2.9.23' },
 			{ tag_name: 'v2.9.15' },
@@ -156,7 +157,7 @@ describe('filterReleasesByVersionRange util', () => {
 			{ tag_name: 'v1.1.1' },
 			{ tag_name: 'v1.1.0' },
 			{ tag_name: 'v1.0.0' },
-		] as Array<Release>
+		] as Array<MinimalRelease>
 	}
 
 	it('should filter by provided range excluding the "from" but including the "to"', () => {
@@ -220,7 +221,7 @@ describe('filterReleasesByVersionRange util', () => {
 	})
 
 	describe('with scoped tags', () => {
-		const getScopedReleases = (): Array<Release> => {
+		const getScopedReleases = (): Array<MinimalRelease> => {
 			return [
 				{ tag_name: '@yarnpkg/cli/4.9.4' },
 				{ tag_name: '@yarnpkg/cli/4.9.2' },
@@ -228,7 +229,7 @@ describe('filterReleasesByVersionRange util', () => {
 				{ tag_name: '@yarnpkg/cli/4.7.1' },
 				{ tag_name: '@yarnpkg/cli/4.7.0' },
 				{ tag_name: '@yarnpkg/cli/4.6.0' },
-			] as Array<Release>
+			] as Array<MinimalRelease>
 		}
 
 		it('should filter scoped releases by provided range', () => {
@@ -266,7 +267,7 @@ describe('filterReleasesByVersionRange util', () => {
 				{ tag_name: 'v2.5.0' },
 				{ tag_name: '@scope/pkg/2.0.0' },
 				{ tag_name: 'v1.5.0' },
-			] as Array<Release>
+			] as Array<MinimalRelease>
 
 			const result = filterReleasesByVersionRange({
 				releases: mixedReleases,
@@ -294,7 +295,7 @@ describe('isStableRelease util', () => {
 	`(
 		'should return $output for tag $tagName',
 		({ tagName, output }: { tagName: string; output: boolean }) => {
-			const result = isStableRelease({ tag_name: tagName } as Release)
+			const result = isStableRelease({ tag_name: tagName } as MinimalRelease)
 
 			expect(result).toBe(output)
 		},
@@ -313,7 +314,7 @@ describe('isStableRelease util', () => {
 		`(
 			'should return $output for scoped tag $tagName',
 			({ tagName, output }: { tagName: string; output: boolean }) => {
-				const result = isStableRelease({ tag_name: tagName } as Release)
+				const result = isStableRelease({ tag_name: tagName } as MinimalRelease)
 
 				expect(result).toBe(output)
 			},
@@ -421,7 +422,7 @@ describe('compareReleaseGroupsByPriority util', () => {
 })
 
 describe('compareReleasesByVersion', () => {
-	const getUnsortedReleases = (): Array<Release> => {
+	const getUnsortedReleases = (): Array<MinimalRelease> => {
 		return [
 			{ tag_name: 'v4.5.0' },
 			{ tag_name: 'v1.0.0' },
@@ -430,7 +431,7 @@ describe('compareReleasesByVersion', () => {
 			{ tag_name: 'v5.0.0' },
 			{ tag_name: 'v1.1.0' },
 			{ tag_name: 'v1.0.1' },
-		] as Array<Release>
+		] as Array<MinimalRelease>
 	}
 
 	it('should sort versions by desc order', () => {
@@ -466,7 +467,7 @@ describe('compareReleasesByVersion', () => {
 	})
 
 	describe('with scoped tags', () => {
-		const getScopedUnsortedReleases = (): Array<Release> => {
+		const getScopedUnsortedReleases = (): Array<MinimalRelease> => {
 			return [
 				{ tag_name: '@yarnpkg/cli/4.5.0' },
 				{ tag_name: '@yarnpkg/cli/1.0.0' },
@@ -474,7 +475,7 @@ describe('compareReleasesByVersion', () => {
 				{ tag_name: '@yarnpkg/cli/4.5.1' },
 				{ tag_name: '@yarnpkg/cli/5.0.0' },
 				{ tag_name: '@yarnpkg/cli/1.1.0' },
-			] as Array<Release>
+			] as Array<MinimalRelease>
 		}
 
 		it('should sort scoped versions by desc order', () => {
@@ -513,7 +514,7 @@ describe('compareReleasesByVersion', () => {
 				{ tag_name: 'v2.0.0' },
 				{ tag_name: '@scope/pkg/1.0.0' },
 				{ tag_name: 'v4.0.0' },
-			] as Array<Release>
+			] as Array<MinimalRelease>
 
 			mixedReleases.sort(compareReleasesByVersion)
 

@@ -1,20 +1,18 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 
+import type { MinimalRelease } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
 import type { FormControlProps } from '@chakra-ui/react'
-import type { components } from '@octokit/openapi-types'
 import type { ChangeEvent, ReactNode } from 'react'
 import type { Except } from 'type-fest'
-
-type Release = components['schemas']['release']
 
 interface CustomProps {
 	label: string
 	placeholder?: string
 	value?: string
 	isLoading?: boolean
-	options: Array<Release>
+	options: Array<MinimalRelease>
 	onChange(version: string): void
 }
 
@@ -22,7 +20,7 @@ type ReleaseVersionFormControlProps = CustomProps &
 	Except<FormControlProps, 'children' | 'onChange'>
 
 function renderReleasesOptions(
-	releases?: Array<Release>,
+	releases?: Array<MinimalRelease>,
 ): Array<ReactNode> | null {
 	if (!releases) {
 		return null

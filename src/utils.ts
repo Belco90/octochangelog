@@ -3,16 +3,14 @@ import * as semver from 'semver'
 
 import { HIGH_PRIORITY_GROUP_TITLES, LOW_PRIORITY_GROUP_TITLES } from '@/common'
 import type {
+	MinimalRelease,
 	ReleaseGroup,
 	ReleaseVersion,
 	Repository,
 	RepositoryQueryParams,
 } from '@/models'
 
-import type { components } from '@octokit/openapi-types'
 import type { RootContent } from 'mdast'
-
-type Release = components['schemas']['release']
 
 /**
  * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.
@@ -56,7 +54,7 @@ function mapStringToRepositoryQueryParams(str: string): RepositoryQueryParams {
 	return { owner, repo }
 }
 
-function getReleaseVersion(release: Release): string {
+function getReleaseVersion(release: MinimalRelease): string {
 	if (release.tag_name === 'latest') {
 		return release.name || release.tag_name
 	}
@@ -68,14 +66,14 @@ function getReleaseVersion(release: Release): string {
  * releases - Must be in desc order
  */
 type FilterReleasesNodes = {
-	releases: Array<Release>
+	releases: Array<MinimalRelease>
 	from: ReleaseVersion
 	to: ReleaseVersion
 }
 
 function filterReleasesByVersionRange(
 	args: FilterReleasesNodes,
-): Array<Release> {
+): Array<MinimalRelease> {
 	const { releases, from, to: originalTo } = args
 
 	const to =
@@ -93,7 +91,7 @@ function filterReleasesByVersionRange(
 	})
 }
 
-function isStableRelease(release: Release): boolean {
+function isStableRelease(release: MinimalRelease): boolean {
 	const { tag_name } = release
 	const version = extractVersionFromTag(tag_name)
 
@@ -201,8 +199,8 @@ function compareReleaseGroupsByPriority(a: string, b: string): number {
 }
 
 const compareReleasesByVersion = (
-	a: Release,
-	b: Release,
+	a: MinimalRelease,
+	b: MinimalRelease,
 	order: 'asc' | 'desc' = 'desc',
 ): number => {
 	const { tag_name: tagA } = a
