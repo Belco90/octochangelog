@@ -3,15 +3,14 @@ import gfm from 'remark-gfm'
 import parse from 'remark-parse'
 import { unified } from 'unified'
 
-import type {
-	ProcessedRelease,
-	ProcessedReleasesCollection,
-	Release,
-} from '@/models'
+import type { ProcessedRelease, ProcessedReleasesCollection } from '@/models'
 import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
 
+import type { components } from '@octokit/openapi-types'
 import type { Root } from 'mdast'
 import type { Processor } from 'unified'
+
+type Release = components['schemas']['release']
 
 function insertReleaseInGroup(
 	newProcessedRelease: ProcessedRelease,

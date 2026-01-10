@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { Release, Repository, RepositoryQueryParams } from '@/models'
+import type { Repository, RepositoryQueryParams } from '@/models'
 import {
 	compareReleaseGroupsByPriority,
 	compareReleasesByVersion,
@@ -16,7 +16,10 @@ import {
 	sanitizeReleaseGroupTitle,
 } from '@/utils'
 
+import type { components } from '@octokit/openapi-types'
 import type { RootContent } from 'mdast'
+
+type Release = components['schemas']['release']
 
 describe('mapRepositoryToQueryParams util', () => {
 	it.each`

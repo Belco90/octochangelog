@@ -5,7 +5,7 @@ import {
 	renovateReleases,
 	yarnpkgBerryReleases,
 } from '@/fixtures/github/releases'
-import type { ReleaseFixture } from '@/models'
+import type { MinimalRelease } from '@/models'
 import { paginateList } from '@/utils'
 
 import type { RequestHandler } from 'msw'
@@ -20,7 +20,7 @@ interface RepoReleasesParams {
 	repoName: string
 }
 
-const REPO_FIXTURES_MAPPING: Record<string, Array<ReleaseFixture> | undefined> =
+const REPO_FIXTURES_MAPPING: Record<string, Array<MinimalRelease> | undefined> =
 	{
 		'dom-testing-library': domTestingLibraryReleases,
 		renovate: renovateReleases,
@@ -51,7 +51,7 @@ const githubReposReleasesHandlers: Array<RequestHandler> = [
 				pageIndex,
 			)
 
-			const responseJson = HttpResponse.json<Array<ReleaseFixture>>(data)
+			const responseJson = HttpResponse.json<Array<MinimalRelease>>(data)
 
 			if (hasNext) {
 				const nextPage = pageIndex + 1

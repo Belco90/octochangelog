@@ -1,6 +1,6 @@
-import type { ReleaseFixture } from '@/models'
+import type { MinimalRelease } from '@/models'
 
-const renovateReleasesPage6: Array<ReleaseFixture> = [
+const renovateReleasesPage6: Array<MinimalRelease> = [
 	{
 		id: 59535418,
 		tag_name: '31.81.6',

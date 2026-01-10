@@ -1,11 +1,13 @@
 import { FormControl, FormLabel, Select } from '@chakra-ui/react'
 
-import type { Release } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
 import type { FormControlProps } from '@chakra-ui/react'
+import type { components } from '@octokit/openapi-types'
 import type { ChangeEvent, ReactNode } from 'react'
 import type { Except } from 'type-fest'
+
+type Release = components['schemas']['release']
 
 interface CustomProps {
 	label: string

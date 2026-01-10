@@ -3,7 +3,6 @@ import * as semver from 'semver'
 
 import { octokit } from '@/github-client'
 import type {
-	Release,
 	ReleaseVersion,
 	Repository,
 	RepositoryQueryParams,
@@ -14,7 +13,10 @@ import {
 	mapRepositoryToQueryParams,
 } from '@/utils'
 
+import type { components } from '@octokit/openapi-types'
 import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
+
+type Release = components['schemas']['release']
 
 type ReleasesQueryResults = Array<Release>
 type ReleasesQueryParams = {

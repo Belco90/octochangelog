@@ -28,7 +28,11 @@ type Repository = components['schemas']['full-repository']
 
 type Release = components['schemas']['release']
 
-type ReleaseFixture = Pick<
+/**
+ * Minimal properties from a GitHub Release that are used across the webapp.
+ * This type is primarily used in test fixtures to reduce file size.
+ */
+type MinimalRelease = Pick<
 	Release,
 	'id' | 'tag_name' | 'name' | 'html_url' | 'body'
 >
@@ -62,8 +66,7 @@ export type {
 	ReleaseGroup,
 	RepositoryQueryParams,
 	Repository,
-	Release,
-	ReleaseFixture,
+	MinimalRelease,
 	RepoSearchResultItem,
 	ProcessedRelease,
 	ProcessedReleasesCollection,

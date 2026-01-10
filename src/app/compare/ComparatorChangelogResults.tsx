@@ -3,13 +3,12 @@ import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
 import ProcessedReleaseChangeDescription from '@/app/compare/ProcessedReleaseChangeDescription'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessReleases from '@/hooks/useProcessReleases'
-import type {
-	ProcessedRelease,
-	Release,
-	ReleaseGroup,
-	Repository,
-} from '@/models'
+import type { ProcessedRelease, ReleaseGroup, Repository } from '@/models'
 import { compareReleaseGroupsByPriority } from '@/utils'
+
+import type { components } from '@octokit/openapi-types'
+
+type Release = components['schemas']['release']
 
 const ReleaseChangelogGroup = ({
 	title,

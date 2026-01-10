@@ -1,11 +1,11 @@
-import type { ReleaseFixture } from '@/models'
+import type { MinimalRelease } from '@/models'
 
 /**
  * Sample data for yarnpkg/berry repo:
  *
  * 3 releases: from v4.10.3 to v4.12.0
  */
-const yarnpkgBerryReleases: Array<ReleaseFixture> = [
+const yarnpkgBerryReleases: Array<MinimalRelease> = [
 	{
 		id: 264606583,
 		tag_name: '@yarnpkg/cli/4.12.0',

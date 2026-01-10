@@ -1,11 +1,11 @@
-import type { ReleaseFixture } from '@/models'
+import type { MinimalRelease } from '@/models'
 
 /**
  * 286 releases: from v8.17.1 to v1.1.0
  *
  * This generates 3 pages of 100 items.
  */
-const domTestingLibraryReleases: Array<ReleaseFixture> = [
+const domTestingLibraryReleases: Array<MinimalRelease> = [
 	{
 		id: 73997306,
 		tag_name: 'v8.17.1',
