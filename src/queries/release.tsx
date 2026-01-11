@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query'
 import * as semver from 'semver'
 
 import { octokit } from '@/github-client'
@@ -14,17 +14,12 @@ import {
 	mapRepositoryToQueryParams,
 } from '@/utils'
 
-import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
-
 type ReleasesQueryResults = Array<MinimalRelease>
 type ReleasesQueryParams = {
 	repository?: Repository | null
 	fromVersion?: ReleaseVersion | null
 	toVersion?: ReleaseVersion | null
 }
-type ConfigArg =
-	| Omit<UseQueryOptions<ReleasesQueryResults, Error>, 'queryKey' | 'queryFn'>
-	| undefined
 
 const QUERY_KEY = 'releases'
 const MAX_AUTO_PAGINATION = 10
@@ -33,10 +28,7 @@ function getHasNextPage(link: string): boolean {
 	return link.includes('rel="next"')
 }
 
-function useReleasesQuery(
-	params: ReleasesQueryParams,
-	config?: ConfigArg,
-): UseQueryResult<ReleasesQueryResults, Error> {
+function releasesQueryOptions(params: ReleasesQueryParams) {
 	const finalParams: RepositoryQueryParams = mapRepositoryToQueryParams(
 		params.repository ?? undefined,
 	)
@@ -44,7 +36,7 @@ function useReleasesQuery(
 	const hasFromVersion = !!fromVersion
 	const hasToVersion = !!toVersion
 
-	return useQuery<ReleasesQueryResults, Error>({
+	return queryOptions<ReleasesQueryResults, Error>({
 		queryKey: [QUERY_KEY, finalParams],
 		queryFn: async () => {
 			const { owner, repo } = finalParams
@@ -87,8 +79,7 @@ function useReleasesQuery(
 			return releases
 		},
 		enabled: Boolean(params.repository),
-		...config,
 	})
 }
 
-export { useReleasesQuery }
+export { releasesQueryOptions }

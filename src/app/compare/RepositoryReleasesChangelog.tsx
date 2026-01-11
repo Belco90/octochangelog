@@ -6,10 +6,11 @@ import {
 	Flex,
 	Skeleton,
 } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 
 import TextSkeleton from '@/components/TextSkeleton'
 import type { ReleaseVersion, Repository } from '@/models'
-import { useReleasesQuery } from '@/queries/release'
+import { releasesQueryOptions } from '@/queries/release'
 import { compareReleasesByVersion, filterReleasesByVersionRange } from '@/utils'
 
 import ComparatorChangelogResults from './ComparatorChangelogResults'
@@ -25,11 +26,13 @@ const RepositoryReleasesChangelog = ({
 	fromVersion,
 	toVersion,
 }: RepositoryReleasesChangelogProps) => {
-	const { data, isFetching } = useReleasesQuery({
-		repository,
-		fromVersion,
-		toVersion,
-	})
+	const { data, isFetching } = useQuery(
+		releasesQueryOptions({
+			repository,
+			fromVersion,
+			toVersion,
+		}),
+	)
 
 	const filteredReleases = (() => {
 		if (data && fromVersion && toVersion) {

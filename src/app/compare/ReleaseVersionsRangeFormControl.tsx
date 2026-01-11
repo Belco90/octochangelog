@@ -1,7 +1,8 @@
 import { Stack } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 
 import type { MinimalRelease } from '@/models'
-import { useReleasesQuery } from '@/queries/release'
+import { releasesQueryOptions } from '@/queries/release'
 import { getReleaseVersion, compareReleasesByVersion } from '@/utils'
 
 import ReleaseVersionFormControl from './ReleaseVersionFormControl'
@@ -40,11 +41,13 @@ const ReleaseVersionsRangeFormControl = (props: StackProps) => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 	const { setFromVersion, setToVersion } = useComparatorUpdater()
 
-	const { data: releases, isFetching } = useReleasesQuery({
-		repository,
-		fromVersion,
-		toVersion,
-	})
+	const { data: releases, isFetching } = useQuery(
+		releasesQueryOptions({
+			repository,
+			fromVersion,
+			toVersion,
+		}),
+	)
 
 	const [fromReleases, toReleases] = mapReleasesRange(releases)
 
