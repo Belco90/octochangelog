@@ -4,7 +4,7 @@ import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
 import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
 import customTheme from '@/custom-theme'
-import { interFont, robotoMonoFont } from '@/fonts'
+import '@/fonts'
 
 import Providers from './Providers'
 import { getMetadataBase, openGraph } from './shared-metadata'
@@ -37,11 +37,7 @@ export const viewport: Viewport = {
 }
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => (
-	<html
-		lang="en"
-		className={`${interFont.variable} ${robotoMonoFont.variable}`}
-		suppressHydrationWarning
-	>
+	<html lang="en" suppressHydrationWarning>
 		<body suppressHydrationWarning>
 			<PirschAnalytics />
 			<ColorModeScript initialColorMode={customTheme.config.initialColorMode} />

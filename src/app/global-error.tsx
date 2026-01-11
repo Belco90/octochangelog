@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 
 import customTheme from '@/custom-theme'
-import { interFont, robotoMonoFont } from '@/fonts'
+import '@/fonts'
 import type { NextErrorPageProps } from '@/models'
 
 import Providers from './Providers'
@@ -19,11 +19,7 @@ const GlobalError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	}, [error])
 
 	return (
-		<html
-			lang="en"
-			className={`${interFont.variable} ${robotoMonoFont.variable}`}
-			suppressHydrationWarning
-		>
+		<html lang="en" suppressHydrationWarning>
 			<body suppressHydrationWarning>
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
