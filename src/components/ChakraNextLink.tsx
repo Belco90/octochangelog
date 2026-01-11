@@ -4,13 +4,18 @@ import { Link as ChakraLink } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
 import type { LinkProps as ChakraLinkProps } from '@chakra-ui/react'
-import type { ComponentProps } from 'react'
+import type { UrlObject } from 'url'
 
-// Extract props from Next Link component
-type NextLinkProps = ComponentProps<typeof NextLink>
+// Define Next.js Link props that we want to support
+interface NextLinkSpecificProps {
+	href: string | UrlObject
+	replace?: boolean
+	scroll?: boolean
+	prefetch?: boolean | null
+}
 
-// Combine props from both Chakra Link and Next Link
-type CombinedLinkProps = ChakraLinkProps & NextLinkProps
+// Combine props: Chakra props + Next.js specific props, excluding href from Chakra to avoid conflicts
+type CombinedLinkProps = Omit<ChakraLinkProps, 'href'> & NextLinkSpecificProps
 
 export function Link({
 	href,
@@ -22,7 +27,7 @@ export function Link({
 	return (
 		<ChakraLink
 			as={NextLink}
-			href={href}
+			href={href as string}
 			replace={replace}
 			scroll={scroll}
 			prefetch={prefetch}
