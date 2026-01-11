@@ -9,15 +9,15 @@ type ReposQueryResults = ReposQueryResponse['data']
 type ReposQueryParams = RestEndpointMethodTypes['search']['repos']['parameters']
 
 function searchRepositoriesQueryOptions(
-	params: ReposQueryParams,
-	options?: { enabled?: boolean },
+	params: ReposQueryParams & { enabled?: boolean },
 ) {
-	const finalParams = { per_page: 100, ...params }
+	const { enabled, ...searchParams } = params
+	const finalParams = { per_page: 100, ...searchParams }
 	return queryOptions<ReposQueryResponse, Error, ReposQueryResults>({
 		queryKey: ['repos', finalParams],
 		queryFn: async () => octokit.search.repos(finalParams),
 		select: (response) => response.data,
-		enabled: options?.enabled,
+		enabled,
 	})
 }
 
