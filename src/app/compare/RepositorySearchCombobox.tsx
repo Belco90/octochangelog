@@ -13,13 +13,14 @@ import {
 	ListItem,
 	Text,
 } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 import { useCombobox } from 'downshift'
 import { debounce } from 'es-toolkit'
 import { useEffect, useMemo, useState } from 'react'
 import { HiArrowDown, HiArrowUp } from 'react-icons/hi'
 
 import type { Repository } from '@/models'
-import { useSearchRepositoriesQuery } from '@/queries/repository'
+import { searchRepositoriesQueryOptions } from '@/queries/repository'
 
 interface Props {
 	onSelect: (repo?: Repository) => void
@@ -37,7 +38,10 @@ const RepositorySearchCombobox = ({
 		data,
 		refetch,
 		isFetching: isQueryLoading,
-	} = useSearchRepositoriesQuery({ q: inputValue }, { enabled: false })
+	} = useQuery({
+		...searchRepositoriesQueryOptions({ q: inputValue }),
+		enabled: false,
+	})
 
 	const {
 		isOpen,

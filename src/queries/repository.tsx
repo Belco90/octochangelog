@@ -1,29 +1,20 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions } from '@tanstack/react-query'
 
 import { octokit } from '@/github-client'
 
 import type { RestEndpointMethodTypes } from '@octokit/rest'
-import type { UseQueryOptions, UseQueryResult } from '@tanstack/react-query'
 
 type ReposQueryResponse = RestEndpointMethodTypes['search']['repos']['response']
 type ReposQueryResults = ReposQueryResponse['data']
 type ReposQueryParams = RestEndpointMethodTypes['search']['repos']['parameters']
-type ConfigArg = Omit<
-	UseQueryOptions<ReposQueryResponse, Error, ReposQueryResults>,
-	'queryKey' | 'queryFn'
->
 
-function useSearchRepositoriesQuery(
-	params: ReposQueryParams,
-	config?: ConfigArg,
-): UseQueryResult<ReposQueryResults, Error> {
+function searchRepositoriesQueryOptions(params: ReposQueryParams) {
 	const finalParams = { per_page: 100, ...params }
-	return useQuery<ReposQueryResponse, Error, ReposQueryResults>({
-		...config,
+	return queryOptions<ReposQueryResponse, Error, ReposQueryResults>({
 		queryKey: ['repos', finalParams],
 		queryFn: async () => octokit.search.repos(finalParams),
 		select: (response) => response.data,
 	})
 }
 
-export { useSearchRepositoriesQuery }
+export { searchRepositoriesQueryOptions }
