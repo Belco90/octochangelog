@@ -14,7 +14,7 @@
 
 <hr>
 
-[![CI](https://github.com/Belco90/octochangelog/actions/workflows/ci.yml/badge.svg)](https://github.com/octochangelog/octochangelog-webapp/actions/workflows/verifications.yml)
+[![CI](https://github.com/Belco90/octochangelog/actions/workflows/verifications.yml/badge.svg)](https://github.com/octochangelog/octochangelog-webapp/actions/workflows/verifications.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4ef576fd-d384-4327-a1fc-54a73e71066f/deploy-status)](https://app.netlify.com/projects/octochangelog/deploys)
 
 ## What is Octochangelog?
