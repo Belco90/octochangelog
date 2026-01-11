@@ -63,6 +63,7 @@ const Header = (props: BoxProps) => {
 										alt=""
 										height={70}
 										width={70}
+										priority
 									/>
 								</Box>
 								<Heading

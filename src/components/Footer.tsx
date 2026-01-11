@@ -70,6 +70,7 @@ const Footer = () => {
 								alt="Deploys by Netlify"
 								width={114}
 								height={50}
+								loading="lazy"
 							/>
 						</Link>
 					</Box>

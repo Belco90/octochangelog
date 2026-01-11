@@ -61,7 +61,7 @@ const MainSection = () => (
 				width={mascotIcon.width}
 				height={mascotIcon.height}
 				priority
-				operations={{ q: 100 }}
+				layout="constrained"
 			/>
 		</Center>
 	</Stack>
