@@ -6,7 +6,7 @@
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
   >
   <p>
-    <span role="img" aria-label="Crystall ball">🔮</span> [octochangelog.com](https://www.octochangelog.com/)
+    <span role="img" aria-label="Crystall ball">🔮</span> octochangelog.com
   </p>
   <p>Compare GitHub changelogs across multiple releases in a single view.</p>
 
