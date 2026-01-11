@@ -168,6 +168,9 @@ export default defineConfig(
 			vitest,
 		},
 		...vitest.configs.recommended,
+		rules: {
+			'vitest/padding-around-all': 'warn',
+		},
 	},
 	{
 		name: 'Playwright',
