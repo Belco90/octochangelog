@@ -1,26 +1,28 @@
-# GitHub Copilot Setup Steps Workflow
-#
-# This workflow defines the setup steps required to set up the development environment
-# for the Octochangelog repository. This workflow is used by GitHub Copilot Workspace
-# to automatically configure the development environment when coding agents are invoked.
-#
-# For more information, see:
-# https://docs.github.com/en/enterprise-cloud@latest/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment
+name: 'Copilot Setup Steps'
 
-name: Copilot Setup Steps
-
+# Automatically run the setup steps when they are changed to allow for easy validation, and
+# allow manual testing through the repository's "Actions" tab
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
 
 jobs:
-  setup:
-    name: Setup Development Environment
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Setup project dependencies
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Setup project
         uses: ./.github/actions/setup-project
 
       - name: Verify installation
