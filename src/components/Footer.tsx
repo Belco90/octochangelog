@@ -1,5 +1,6 @@
 import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
-import Image from 'next/image'
+
+import { OptimizedImage } from '@/components/OptimizedImage'
 
 const Footer = () => {
 	return (
@@ -64,7 +65,7 @@ const Footer = () => {
 							href="https://www.netlify.com"
 							title="Deploys by Netlify"
 						>
-							<Image
+							<OptimizedImage
 								src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
 								alt="Deploys by Netlify"
 								width={114}

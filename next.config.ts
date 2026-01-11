@@ -14,15 +14,6 @@ const nextConfig: NextConfig = {
 		},
 	},
 	typedRoutes: true,
-	images: {
-		qualities: [75, 100],
-		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: 'www.netlify.com',
-			},
-		],
-	},
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async redirects() {
 		return [

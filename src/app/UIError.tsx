@@ -7,9 +7,9 @@ import {
 	VStack,
 } from '@chakra-ui/react'
 import * as Sentry from '@sentry/nextjs'
-import Image from 'next/image'
 import { useEffect } from 'react'
 
+import { OptimizedImage } from '@/components/OptimizedImage'
 import type { NextErrorPageProps } from '@/models'
 import mascotIcon from '@/public/mascot-icon.png'
 
@@ -23,7 +23,7 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
-				<Image src={mascotIcon} alt="" width={250} height={250} />
+				<OptimizedImage src={mascotIcon.src} alt="" width={250} height={250} />
 				<Stack
 					shouldWrapChildren
 					alignItems="center"

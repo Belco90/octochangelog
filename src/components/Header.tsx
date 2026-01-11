@@ -9,12 +9,12 @@ import {
 	Icon,
 	Link,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import * as React from 'react'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
 import { Link as RouteLink } from '@/components/ChakraNextLink'
+import { OptimizedImage } from '@/components/OptimizedImage'
 import ToggleColorModeButton from '@/components/ToggleColorModeButton'
 import mascotIcon from '@/public/mascot-icon.png'
 
@@ -58,7 +58,12 @@ const Header = (props: BoxProps) => {
 						>
 							<HStack spacing={{ base: 1, lg: 2 }}>
 								<Box h={LOGO_SIZES} w={LOGO_SIZES}>
-									<Image src={mascotIcon} alt="" height={70} width={70} />
+									<OptimizedImage
+										src={mascotIcon.src}
+										alt=""
+										height={70}
+										width={70}
+									/>
 								</Box>
 								<Heading
 									as="h1"
