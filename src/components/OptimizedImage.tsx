@@ -19,7 +19,6 @@ export function OptimizedImage({
 	height,
 	priority,
 	loading,
-	fetchpriority,
 	...remainingProps
 }: OptimizedImageProps) {
 	const netlifyOperations = Object.assign(
@@ -32,9 +31,6 @@ export function OptimizedImage({
 		operations,
 	)
 
-	// Set fetchpriority based on priority if not explicitly provided
-	const finalFetchpriority = fetchpriority ?? (priority ? 'high' : undefined)
-
 	return (
 		// @ts-expect-error -- unpic types are not correctly inferred here for "layout" prop
 		<Image
@@ -44,7 +40,6 @@ export function OptimizedImage({
 			height={height}
 			priority={priority}
 			loading={loading}
-			fetchpriority={finalFetchpriority}
 			cdn={process.env.NODE_ENV === 'production' ? 'netlify' : undefined}
 			operations={{
 				netlify: netlifyOperations,
