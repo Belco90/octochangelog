@@ -1,0 +1,385 @@
+# Copilot Instructions for Octochangelog
+
+## Project Overview
+
+**Octochangelog** is a Next.js 15 web application that compares GitHub changelogs across multiple releases in a single view. It parses, normalizes, groups, and sorts release notes from GitHub repositories to help users quickly identify breaking changes, features, and bug fixes between version ranges.
+
+- **Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, Chakra UI, TanStack Query
+- **Key Features**: Markdown parsing with unified.js, GitHub API integration via Octokit, MSW for API mocking
+- **Deployment**: Static site generation on Netlify
+- **Testing**: Vitest for unit tests, Playwright for E2E tests
+- **Repository Size**: ~1.8GB with dependencies, ~70 TypeScript/TSX source files
+
+## Package Management
+
+**CRITICAL**: This project uses **pnpm** (v10.26.0+), NOT npm or yarn.
+
+- **Node.js version**: v22.21.1 (specified in `.nvmrc`)
+- **pnpm version**: ^10.26.0 (required, specified in `package.json` engines)
+- **Package manager**: pnpm@10.26.2 (specified in `packageManager` field)
+
+### Bootstrap Commands
+
+```bash
+# Install pnpm if not available
+npm install -g pnpm@10.26.2
+
+# Install dependencies - ALWAYS run this first
+pnpm install
+
+# The postinstall script automatically runs:
+# - pnpm gen:theme-typings (generates Chakra UI theme types)
+# - husky (sets up git hooks)
+```
+
+## Build & Development Commands
+
+### Installation (Always First)
+
+```bash
+pnpm install
+```
+
+**IMPORTANT**: Always run `pnpm install` before any other commands, especially after:
+
+- Cloning the repository
+- Switching branches
+- Pulling new changes
+- Adding or updating dependencies
+
+### Development
+
+```bash
+# Start development server (localhost:3000)
+pnpm dev
+
+# Start with Turbopack (experimental, faster)
+pnpm dev:turbo
+```
+
+### Build
+
+```bash
+# Production build
+pnpm build
+```
+
+**Build Timing**: ~30-60 seconds on CI, may vary locally.
+
+**Known Build Issue**: The build requires internet access to Google Fonts. In environments without internet access (or with restricted domains), the build will fail with:
+
+```
+Failed to fetch `Inter` from Google Fonts
+Failed to fetch `Roboto Mono` from Google Fonts
+```
+
+This is expected behavior in sandboxed/offline environments. The build works correctly in CI and production with internet access.
+
+### Testing
+
+```bash
+# Run unit tests with Vitest
+pnpm test
+
+# Run unit tests in watch mode
+pnpm test:watch
+
+# Run unit tests with coverage (used in CI)
+pnpm test:ci
+```
+
+**Test Output**: Creates `test-report.junit.xml` and coverage reports in CI mode.
+
+### E2E Testing
+
+```bash
+# Run Playwright E2E tests
+pnpm e2e
+
+# Run with UI mode (interactive)
+pnpm e2e:ui
+
+# Show test report
+pnpm e2e:report
+```
+
+**E2E Requirements**:
+
+- Requires the build artifact (`.next` directory) to exist (in CI)
+- Uses MSW to mock GitHub API calls
+- Runs against `http://localhost:3000`
+- In CI: runs `pnpm start` (requires prior `pnpm build`)
+- Locally: runs `pnpm dev` automatically via webServer config
+
+### Linting & Formatting
+
+```bash
+# Run ESLint (fails on warnings in CI)
+pnpm lint
+
+# Auto-fix linting issues
+pnpm lint:fix
+
+# Check code formatting with Prettier
+pnpm format:check
+
+# Auto-format code with Prettier
+pnpm format
+```
+
+### Type Checking
+
+```bash
+# Type check TypeScript
+pnpm type-check
+
+# Generate Next.js route types
+pnpm type-gen
+```
+
+## CI/CD Pipeline
+
+### GitHub Actions Workflow
+
+The main workflow is `.github/workflows/verifications.yml` which runs on PRs and pushes to `main`.
+
+**Environment Variables in CI**:
+
+- `NEXT_PUBLIC_API_MOCKING=enabled` (enables MSW mocking)
+- Various secrets for Happo, Currents, Sentry, and Codecov
+
+**Jobs**:
+
+1. **code_validation** (matrix job with 10min timeout):
+   - `pnpm lint` - ESLint validation
+   - `pnpm type-check` - TypeScript type checking
+   - `pnpm format:check` - Prettier formatting check
+   - `pnpm test:ci` - Vitest unit tests with coverage
+
+2. **build** (5min timeout):
+   - `pnpm build` - Next.js production build
+   - Caches `.next/cache` for faster subsequent builds
+   - Uploads `.next` artifact for E2E tests
+
+3. **e2e-tests** (10min timeout, depends on build):
+   - Runs in Playwright container (mcr.microsoft.com/playwright:v1.57.0-noble)
+   - Matrix sharded across 3 parallel jobs
+   - Downloads build artifact
+   - Runs: `pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=N/3`
+
+4. **e2e-finalize** (5min timeout, runs after e2e-tests):
+   - Finalizes Happo visual regression testing
+   - Runs even if e2e-tests are cancelled
+
+**Setup Action**: `.github/actions/setup-project/action.yml`
+
+- Sets up pnpm
+- Sets up Node.js (from `.nvmrc`)
+- Runs `pnpm install`
+
+## Git Hooks
+
+**Pre-commit Hook** (`.husky/pre-commit`):
+
+- Runs `lint-staged` to lint and format only changed files
+- Prevents commits directly to `main` branch (use `-n` flag to bypass)
+- Configuration in `lint-staged.config.js`:
+  - Runs `eslint --fix` on JS/TS files
+  - Runs `prettier --write` on all files
+
+## Project Structure
+
+```
+octochangelog/
+├── .github/
+│   ├── actions/setup-project/    # Reusable CI setup action
+│   ├── workflows/verifications.yml  # Main CI workflow
+│   └── pull_request_template.md
+├── src/
+│   ├── app/                       # Next.js App Router pages
+│   │   ├── compare/              # Main comparator feature
+│   │   │   ├── page.tsx          # Compare page
+│   │   │   ├── comparator-context.tsx  # State management
+│   │   │   ├── RepositoryReleasesComparator.tsx
+│   │   │   ├── ComparatorChangelogResults.tsx
+│   │   │   └── [other components]
+│   │   ├── auth/callback/        # GitHub OAuth callback
+│   │   ├── layout.tsx            # Root layout
+│   │   ├── page.tsx              # Home page redirect
+│   │   └── [error pages, metadata]
+│   ├── components/               # Shared React components
+│   ├── hooks/                    # Custom React hooks
+│   │   ├── useProcessDescriptionMdast.ts  # Markdown processing
+│   │   └── useProcessReleases.ts          # Release processing
+│   ├── queries/                  # TanStack Query hooks
+│   │   ├── release.tsx           # GitHub releases API
+│   │   └── repository.tsx        # GitHub repos API
+│   ├── mocks/                    # MSW mock handlers
+│   │   ├── handlers/
+│   │   ├── browser.ts            # Browser MSW setup
+│   │   └── server.ts             # Node MSW setup
+│   ├── fixtures/                 # Test data/fixtures
+│   │   └── github/               # GitHub API response fixtures
+│   ├── __tests__/                # Unit tests
+│   ├── custom-theme.ts           # Chakra UI theme
+│   ├── github-auth.ts            # GitHub OAuth logic
+│   ├── github-client.ts          # Octokit client
+│   ├── utils.ts                  # Utility functions
+│   ├── test-utils.tsx            # Testing utilities
+│   └── vitest.setup.ts           # Vitest setup
+├── e2e/                          # Playwright E2E tests
+│   ├── compare.spec.ts
+│   ├── auth.spec.ts
+│   ├── home.spec.ts
+│   ├── not-found.spec.ts
+│   └── playwright-utils.ts
+├── public/                       # Static assets
+├── eslint.config.js              # ESLint flat config
+├── tsconfig.json                 # TypeScript config
+├── vitest.config.ts              # Vitest config
+├── playwright.config.ts          # Playwright config
+├── next.config.ts                # Next.js config (with Sentry)
+├── package.json                  # Dependencies & scripts
+├── pnpm-lock.yaml                # pnpm lockfile
+├── pnpm-workspace.yaml           # pnpm workspace config
+└── [other config files]
+```
+
+## Key Configuration Files
+
+- **TypeScript**: `tsconfig.json` - Path aliases: `@/*` → `./src/*`, `@/public/*` → `./public/*`
+- **ESLint**: `eslint.config.js` - Flat config with React, TypeScript, import sorting, a11y rules
+- **Prettier**: `.prettierrc` - Single quotes, no semicolons, tabs
+- **Vitest**: `vitest.config.ts` - Setup file: `src/vitest.setup.ts`, excludes `e2e/`
+- **Playwright**: `playwright.config.ts` - Test dir: `e2e/`, runs against localhost:3000
+- **Next.js**: `next.config.ts` - Static export, Sentry integration, ESLint disabled during builds
+
+## Code Style & Conventions
+
+- **Import Order**: Enforced by ESLint (import-x plugin)
+  - Builtin → External → Internal (`@/*`) → Parent/Sibling → Type imports
+  - Newlines between groups, alphabetically sorted
+- **TypeScript**: Strict mode enabled, no unused locals/parameters
+- **React**: Prefer type imports, consistent type exports, array types as `Array<T>`
+- **Testing**: Import from `@/test-utils` (wraps Testing Library), not `@testing-library/react` directly
+- **Playwright**: Import test from `e2e/playwright-utils`, not `@playwright/test` directly
+- **No console.log**: Warns on console statements (use proper logging if needed)
+
+## Environment Variables
+
+**Development** (`.env` checked in, `.env.local` for overrides):
+
+```bash
+NEXT_PUBLIC_GITHUB_APP_CLIENT_ID=notset
+NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
+```
+
+**Optional Feature Flags** (for `.env.local`):
+
+```bash
+NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true  # Enable dark mode toggle
+```
+
+**CI Environment Variables** (from GitHub secrets):
+
+- `HAPPO_API_KEY`, `HAPPO_API_SECRET` - Visual regression testing
+- `CURRENTS_PROJECT_ID`, `CURRENTS_RECORD_KEY` - Playwright dashboard
+- `CODECOV_TOKEN` - Code coverage reporting
+- Sentry auth tokens (optional, warnings if not set)
+
+## Testing Strategy
+
+### Unit Tests (Vitest)
+
+- Located in: `src/__tests__/`
+- Run with: `pnpm test` or `pnpm test:watch`
+- Uses: React Testing Library via `src/test-utils.tsx`
+- MSW mocking: Controlled by `NEXT_PUBLIC_API_MOCKING` env var
+- Coverage: ~16% (focused on utility functions)
+
+### E2E Tests (Playwright)
+
+- Located in: `e2e/`
+- Run with: `pnpm e2e` (requires build in CI, uses dev server locally)
+- Browsers: Chromium, Firefox, WebKit
+- MSW mocking: Always enabled (`NEXT_PUBLIC_API_MOCKING=enabled` in CI)
+- Sharding: 3 shards in CI for parallel execution
+- Visual testing: Integrated with Happo
+
+### Test Fixtures
+
+- Mock data in: `src/fixtures/github/`
+- MSW handlers in: `src/mocks/handlers/`
+- Limited search results: Only "testing library" and "renovate" repositories
+
+## Common Commands Summary
+
+```bash
+# Setup
+pnpm install                    # Install dependencies (always first)
+
+# Development
+pnpm dev                        # Start dev server
+
+# Validation (runs in CI)
+pnpm lint                       # Lint code
+pnpm type-check                 # Check types
+pnpm format:check               # Check formatting
+pnpm test:ci                    # Run tests with coverage
+
+# Build
+pnpm build                      # Production build
+pnpm start                      # Start production server (requires build)
+
+# E2E
+pnpm e2e                        # Run E2E tests
+pnpm e2e:ui                     # Run E2E with UI
+
+# Fixes
+pnpm lint:fix                   # Auto-fix lint issues
+pnpm format                     # Auto-format code
+```
+
+## Important Notes
+
+1. **Always use pnpm**: Never use `npm` or `yarn` commands
+2. **Run pnpm install first**: Before any build, test, or development commands
+3. **Build requires internet**: Google Fonts fetch will fail in offline environments (expected)
+4. **MSW API Mocking**: Limited repository search (testing-library, renovate only)
+5. **No direct main commits**: Pre-commit hook prevents commits to main branch
+6. **Type generation**: Runs automatically via postinstall and before type-check
+7. **CI timeouts**: code_validation and e2e-tests: 10min, build: 5min
+8. **Path aliases**: Use `@/` prefix for src imports, `@/public/` for public assets
+
+## Troubleshooting
+
+**Build fails with Google Fonts error**:
+
+- Expected in offline/sandboxed environments
+- Build works correctly with internet access (CI/production)
+
+**pnpm command not found**:
+
+- Install globally: `npm install -g pnpm@10.26.2`
+
+**Type errors after changes**:
+
+- Run `pnpm type-gen` to regenerate Next.js route types
+
+**Pre-commit hook blocks commit**:
+
+- If on main branch: Switch to feature branch or use `git commit -n` to bypass
+- If linting fails: Run `pnpm lint:fix` and `pnpm format`
+
+**E2E tests fail locally**:
+
+- Ensure dev server is not already running on port 3000
+- Check that `NEXT_PUBLIC_API_MOCKING=enabled` if needed
+
+## Trust These Instructions
+
+These instructions have been validated by running all commands successfully. Only search for additional information if:
+
+- These instructions are incomplete for your specific task
+- You encounter errors not documented here
+- You need details about specific code implementation (not build/test process)
