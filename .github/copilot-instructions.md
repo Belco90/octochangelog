@@ -21,8 +21,8 @@
 ### Bootstrap Commands
 
 ```bash
-# Install pnpm if not available
-npm install -g pnpm@10.26.2
+# Enable corepack if not already enabled (manages pnpm automatically)
+corepack enable
 
 # Install dependencies - ALWAYS run this first
 pnpm install
@@ -360,7 +360,8 @@ pnpm format                     # Auto-format code
 
 **pnpm command not found**:
 
-- Install globally: `npm install -g pnpm@10.26.2`
+- Enable corepack: `corepack enable`
+- Corepack will automatically install the correct pnpm version based on `packageManager` field in package.json
 
 **Type errors after changes**:
 

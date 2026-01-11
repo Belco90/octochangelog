@@ -20,15 +20,16 @@ prerequisites:
     description: pnpm package manager (CRITICAL - do not use npm or yarn)
     required: true
     check_command: 'pnpm --version'
-    install_command: 'npm install -g pnpm@10.26.2'
+    install_command: 'corepack enable'
 
 # Setup steps that should be executed in order
 steps:
-  - name: Install pnpm
-    description: Install pnpm package manager if not already available
-    command: 'npm install -g pnpm@10.26.2'
+  - name: Enable Corepack
+    description: Enable corepack to manage pnpm automatically based on packageManager field
+    command: 'corepack enable'
     condition: 'pnpm not found'
     critical: true
+    notes: 'Corepack is included with Node.js v16.9.0+ and will install the correct pnpm version from package.json'
 
   - name: Install Dependencies
     description: Install all project dependencies using pnpm
@@ -152,7 +153,7 @@ notes:
 # Troubleshooting common issues
 troubleshooting:
   - issue: 'pnpm command not found'
-    solution: 'Install pnpm globally: npm install -g pnpm@10.26.2'
+    solution: 'Enable corepack: corepack enable (corepack will automatically install the correct pnpm version based on packageManager field in package.json)'
 
   - issue: 'Build fails with Google Fonts error'
     solution: 'Expected in offline/sandboxed environments. Build works correctly with internet access in CI/production.'
