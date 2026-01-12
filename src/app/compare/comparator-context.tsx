@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation'
 import {
 	createContext,
 	use,
+	useCallback,
 	useEffect,
 	useEffectEvent,
+	useMemo,
 	useReducer,
 } from 'react'
 
@@ -120,51 +122,69 @@ const ComparatorProvider = ({
 		void getInitialRepository()
 	}, [])
 
-	const updateUrl = (newRepo?: string, newFrom?: string, newTo?: string) => {
-		const params = new URLSearchParams()
-		if (newRepo) params.set('repo', newRepo)
-		if (newFrom) params.set('from', newFrom)
-		if (newTo) params.set('to', newTo)
+	const updateUrl = useCallback(
+		(newRepo?: string, newFrom?: string, newTo?: string) => {
+			const params = new URLSearchParams()
+			if (newRepo) params.set('repo', newRepo)
+			if (newFrom) params.set('from', newFrom)
+			if (newTo) params.set('to', newTo)
 
-		const query = params.toString()
-		const newHref = query ? `/compare?${query}` : '/compare'
-		router.replace(newHref as Route)
-	}
+			const query = params.toString()
+			const newHref = query ? `/compare?${query}` : '/compare'
+			router.replace(newHref as Route)
+		},
+		[router],
+	)
 
-	const setSelectedRepository = (newRepository?: Repository | null) => {
-		dispatch({ type: 'SET_REPOSITORY', payload: newRepository ?? null })
-		updateUrl(newRepository?.full_name)
-	}
+	const setSelectedRepository = useCallback(
+		(newRepository?: Repository | null) => {
+			dispatch({ type: 'SET_REPOSITORY', payload: newRepository ?? null })
+			updateUrl(newRepository?.full_name)
+		},
+		[updateUrl],
+	)
 
-	const setSelectedFromVersion = (newFrom?: string | null) => {
-		dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
-		updateUrl(
-			state.repository?.full_name,
-			newFrom ?? undefined,
-			state.toVersion ?? undefined,
-		)
-	}
+	const setSelectedFromVersion = useCallback(
+		(newFrom?: string | null) => {
+			dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
+			updateUrl(
+				state.repository?.full_name,
+				newFrom ?? undefined,
+				state.toVersion ?? undefined,
+			)
+		},
+		[updateUrl, state.repository?.full_name, state.toVersion],
+	)
 
-	const setSelectedToVersion = (newTo?: string | null) => {
-		dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
-		updateUrl(
-			state.repository?.full_name,
-			state.fromVersion ?? undefined,
-			newTo ?? undefined,
-		)
-	}
+	const setSelectedToVersion = useCallback(
+		(newTo?: string | null) => {
+			dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
+			updateUrl(
+				state.repository?.full_name,
+				state.fromVersion ?? undefined,
+				newTo ?? undefined,
+			)
+		},
+		[updateUrl, state.repository?.full_name, state.fromVersion],
+	)
 
-	const stateValue: ComparatorStateContextValue = {
-		repository: state.repository,
-		fromVersion: state.fromVersion,
-		toVersion: state.toVersion,
-	}
+	const stateValue: ComparatorStateContextValue = useMemo(
+		() => ({
+			repository: state.repository,
+			fromVersion: state.fromVersion,
+			toVersion: state.toVersion,
+		}),
+		[state.repository, state.fromVersion, state.toVersion],
+	)
 
-	const updaterValue: ComparatorUpdaterContextValue = {
-		setRepository: setSelectedRepository,
-		setFromVersion: setSelectedFromVersion,
-		setToVersion: setSelectedToVersion,
-	}
+	const updaterValue: ComparatorUpdaterContextValue = useMemo(
+		() => ({
+			setRepository: setSelectedRepository,
+			setFromVersion: setSelectedFromVersion,
+			setToVersion: setSelectedToVersion,
+		}),
+		[setSelectedRepository, setSelectedFromVersion, setSelectedToVersion],
+	)
 
 	return (
 		<ComparatorStateContext value={stateValue}>
