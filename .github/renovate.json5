@@ -42,8 +42,8 @@
 		{
 			// TODO: Remove once Chakra UI updates to v3
 			description: "Disable updates for Chakra UI packages",
-			matchPackagePatterns: ["^@chakra-ui/"],
 			enabled: false,
+			matchPackageNames: ["^@chakra-ui/"],
 		},
 	],
 }
