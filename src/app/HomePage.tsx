@@ -13,7 +13,6 @@ import {
 	Stack,
 	useColorModeValue,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import NextLink from 'next/link'
 import {
 	HiOutlineFilter,
@@ -24,6 +23,7 @@ import {
 } from 'react-icons/hi'
 
 import { BRIEF_DESCRIPTION } from '@/common'
+import { OptimizedImage } from '@/components/OptimizedImage'
 import mascotIcon from '@/public/mascot-icon.png'
 
 import type { ReactNode } from 'react'
@@ -55,7 +55,13 @@ const MainSection = () => (
 			</Flex>
 		</Stack>
 		<Center width="full">
-			<Image src={mascotIcon} alt="" priority quality={100} />
+			<OptimizedImage
+				src={mascotIcon.src}
+				alt=""
+				width={mascotIcon.width}
+				height={mascotIcon.height}
+				priority
+			/>
 		</Center>
 	</Stack>
 )

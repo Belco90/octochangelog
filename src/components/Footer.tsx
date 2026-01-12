@@ -1,5 +1,5 @@
 import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
-import Image from 'next/image'
+import { Image } from '@unpic/react'
 
 const Footer = () => {
 	return (

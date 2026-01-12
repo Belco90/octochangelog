@@ -6,10 +6,10 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import NextLink from 'next/link'
 
 import { Link } from '@/components/ChakraNextLink'
+import { OptimizedImage } from '@/components/OptimizedImage'
 import mascotIcon from '@/public/mascot-icon.png'
 
 import { openGraph } from './shared-metadata'
@@ -25,7 +25,13 @@ const NotFound: FC = () => {
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
-				<Image src={mascotIcon} alt="" width={250} height={250} />
+				<OptimizedImage
+					src={mascotIcon.src}
+					alt=""
+					width={250}
+					height={250}
+					priority
+				/>
 				<Stack
 					shouldWrapChildren
 					alignItems="center"
