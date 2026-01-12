@@ -13,10 +13,6 @@ import type {
 import type { RootContent } from 'mdast'
 
 /**
- * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.
- */
-
-/**
  * Extracts a semantic version from a tag name that may include scope prefixes.
  * Handles various tag formats:
  * - Scoped tags: @yarnpkg/cli/4.9.4 -> 4.9.4

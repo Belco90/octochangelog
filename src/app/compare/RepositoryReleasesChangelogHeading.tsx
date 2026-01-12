@@ -18,7 +18,7 @@ const RepositoryReleasesChangelogHeading = ({
 		<Container variant="fluid">
 			<Heading as="h2" size="lg" mb={2}>
 				<Link isExternal href={repository.html_url}>
-					{repository.name}
+					{repository.full_name}
 				</Link>
 			</Heading>
 
