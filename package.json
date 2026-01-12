@@ -67,7 +67,7 @@
 		"@chakra-ui/utils": "2.0.14",
 		"@currents/playwright": "1.20.1",
 		"@eslint-react/eslint-plugin": "2.5.1",
-		"@eslint/compat": "2.0.0",
+		"@eslint/compat": "2.0.1",
 		"@eslint/js": "9.39.2",
 		"@msw/playwright": "0.4.2",
 		"@octokit/openapi-types": "25.1.0",
