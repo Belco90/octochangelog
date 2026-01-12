@@ -19,7 +19,11 @@ const ComparatorClientView = ({
 }: ComparatorClientViewProps) => {
 	return (
 		<Box height="full" width="full" bgColor="background3">
-			<ComparatorProvider repo={repo} from={from} to={to}>
+			<ComparatorProvider
+				initialRepoFullName={repo}
+				initialFrom={from}
+				initialTo={to}
+			>
 				<RepositoryReleasesComparator />
 			</ComparatorProvider>
 		</Box>

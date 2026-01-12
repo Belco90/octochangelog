@@ -77,22 +77,22 @@ const loadingElement = (
 
 interface ComparatorProviderProps {
 	children: ReactNode
-	repo?: string
-	from?: string
-	to?: string
+	initialRepoFullName?: string
+	initialFrom?: string
+	initialTo?: string
 }
 
 const ComparatorProvider = ({
 	children,
-	repo,
-	from,
-	to,
+	initialRepoFullName,
+	initialFrom,
+	initialTo,
 }: ComparatorProviderProps) => {
 	const [state, dispatch] = useReducer(comparatorReducer, {
 		isReady: false,
 		repository: null,
-		fromVersion: from ?? null,
-		toVersion: to ?? null,
+		fromVersion: initialFrom ?? null,
+		toVersion: initialTo ?? null,
 	})
 
 	const initializedRef = useRef(false)
@@ -104,8 +104,9 @@ const ComparatorProvider = ({
 		}
 
 		const getInitialRepository = async () => {
-			if (repo) {
-				const repositoryQueryParams = mapStringToRepositoryQueryParams(repo)
+			if (initialRepoFullName) {
+				const repositoryQueryParams =
+					mapStringToRepositoryQueryParams(initialRepoFullName)
 
 				if (repositoryQueryParams.repo && repositoryQueryParams.owner) {
 					const response = await octokit.repos.get(repositoryQueryParams)
@@ -117,7 +118,7 @@ const ComparatorProvider = ({
 		}
 
 		void getInitialRepository()
-	}, [repo])
+	}, [initialRepoFullName])
 
 	const updateUrl = (newRepo?: string, newFrom?: string, newTo?: string) => {
 		const params = new URLSearchParams()
