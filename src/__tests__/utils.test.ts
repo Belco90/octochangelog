@@ -11,7 +11,7 @@ import {
 	extractVersionFromTag,
 	filterReleasesByVersionRange,
 	getMdastContentNodeTitle,
-	getMdastContentReleaseGroup,
+	getSemVerReleaseGroup,
 	getReleaseVersion,
 	isStableRelease,
 	mapRepositoryToQueryParams,
@@ -365,28 +365,26 @@ describe('getMdastContentNodeTitle util', () => {
 	})
 })
 
-describe('getMdastContentReleaseGroup util', () => {
+describe('getSemVerReleaseGroup util', () => {
 	it.each`
 		input                 | output
-		${'Major Features'}   | ${'features'}
-		${'🐙 Features'}      | ${'features'}
-		${'Minor changes'}    | ${'features'}
-		${'Breaking Changes'} | ${'breaking changes'}
-		${'Major release'}    | ${'breaking changes'}
-		${'🐞 Bug fixes'}     | ${'bug fixes'}
+		${'major features'}   | ${'features'}
+		${'features'}         | ${'features'}
+		${'minor changes'}    | ${'features'}
+		${'breaking changes'} | ${'breaking changes'}
+		${'major release'}    | ${'breaking changes'}
+		${'bug fixes'}        | ${'bug fixes'}
 		${'bugs'}             | ${'bug fixes'}
-		${'Patch release'}    | ${'bug fixes'}
-		${'Thanks to'}        | ${'thanks'}
-		${'Artifacts'}        | ${'artifacts'}
-		${'Credits to'}       | ${'credits'}
-		${'📑 Documentation'} | ${'documentation'}
-		${'Core changes:'}    | ${'core changes'}
+		${'patch release'}    | ${'bug fixes'}
+		${'thanks to'}        | ${'thanks'}
+		${'artifacts'}        | ${'artifacts'}
+		${'credits to'}       | ${'credits'}
+		${'documentation'}    | ${'documentation'}
+		${'core changes'}     | ${'core changes'}
 	`(
-		'should return the group $output for a node with the title $input',
+		'should return the group $output for the sanitized title $input',
 		({ input, output }: { input: string; output: string }) => {
-			const result = getMdastContentReleaseGroup({
-				children: [{ value: input }],
-			} as RootContent)
+			const result = getSemVerReleaseGroup(input)
 
 			expect(result).toBe(output)
 		},

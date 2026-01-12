@@ -9,7 +9,21 @@ import type {
 	ReleaseGroup,
 	Repository,
 } from '@/models'
-import { compareReleaseGroupsByPriority } from '@/utils'
+import {
+	compareReleaseGroupsByPriority,
+	getSemVerReleaseGroup,
+	stripEmojis,
+} from '@/utils'
+
+function getDisplayTitle(originalTitle: string, processedTitle: string) {
+	if (processedTitle === 'others') {
+		return processedTitle
+	}
+
+	return originalTitle
+		? getSemVerReleaseGroup(stripEmojis(originalTitle).trim())
+		: processedTitle
+}
 
 const ReleaseChangelogGroup = ({
 	title,
@@ -22,6 +36,9 @@ const ReleaseChangelogGroup = ({
 	repository: Repository
 	shouldShowTitle: boolean
 }) => {
+	const originalTitle = releaseGroup[0]?.originalTitle
+	const displayTitle = getDisplayTitle(originalTitle, title)
+
 	const textTransform =
 		title === 'breaking changes' ? 'uppercase' : 'capitalize'
 
@@ -38,7 +55,7 @@ const ReleaseChangelogGroup = ({
 					position="sticky"
 					top={0}
 				>
-					{title}
+					{displayTitle}
 				</Heading>
 			)}
 			<Box mb={4}>
