@@ -49,7 +49,8 @@ const RemarkP = (props: RemarkComponentProps) => <Text mb="2" {...props} />
 
 const RemarkA = ({ href, children, ...rest }: LinkProps) => (
 	<Link isExternal href={href} {...rest}>
-		{children} <Icon as={HiOutlineExternalLink} mx="2px" />
+		<span>{children}</span>{' '}
+		<Icon as={HiOutlineExternalLink} mx={0.5} verticalAlign="middle" />
 	</Link>
 )
 

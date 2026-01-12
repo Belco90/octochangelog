@@ -1,4 +1,13 @@
-import { Badge, Box, Container, Heading, Link, Text } from '@chakra-ui/react'
+import {
+	Badge,
+	Box,
+	Container,
+	Heading,
+	Icon,
+	Link,
+	Text,
+} from '@chakra-ui/react'
+import { HiOutlineExternalLink } from 'react-icons/hi'
 
 import type { Repository } from '@/models'
 import { extractVersionFromTag } from '@/utils'
@@ -18,7 +27,8 @@ const RepositoryReleasesChangelogHeading = ({
 		<Container variant="fluid">
 			<Heading as="h2" size="lg" mb={2}>
 				<Link isExternal href={repository.html_url}>
-					{repository.name}
+					<span>{repository.full_name}</span>
+					<Icon as={HiOutlineExternalLink} ml={1} verticalAlign="middle" />
 				</Link>
 			</Heading>
 

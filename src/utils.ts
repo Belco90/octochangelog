@@ -13,10 +13,6 @@ import type {
 import type { RootContent } from 'mdast'
 
 /**
- * Consider API should be mocked if the mechanism is enabled, and it's not deployed to Vercel env.
- */
-
-/**
  * Extracts a semantic version from a tag name that may include scope prefixes.
  * Handles various tag formats:
  * - Scoped tags: @yarnpkg/cli/4.9.4 -> 4.9.4
@@ -119,37 +115,41 @@ function sanitizeReleaseGroupTitle(groupTitle: string): string {
 	return lowerCase(cleanGroupTitle)
 }
 
-function getMdastContentReleaseGroup(mdastNode: RootContent): ReleaseGroup {
-	const nodeTitle = getMdastContentNodeTitle(mdastNode)
-	const mdastTitle = sanitizeReleaseGroupTitle(nodeTitle)
-
+/**
+ * Analyzes the input text and categorizes it into a semantic version release group.
+ * The release groups are determined based on keywords found in the input text, such as "feature",
+ * "breaking change", "bug", and others.
+ *
+ * The original input text is returned if no match is found.
+ */
+function getSemVerReleaseGroup(text: string): ReleaseGroup {
 	// Check features before than breaking changes to group here "Major Features"
 	// and avoid grouping them under breaking changes group
-	if (/^.*(feature|minor).*$/i.exec(mdastTitle)) {
+	if (/^.*(feature|minor).*$/i.exec(text)) {
 		return 'features'
 	}
 
-	if (/^.*(breaking.*change|major).*$/i.exec(mdastTitle)) {
+	if (/^.*(breaking.*change|major).*$/i.exec(text)) {
 		return 'breaking changes'
 	}
 
-	if (/^.*(bug|fix|patch).*$/i.exec(mdastTitle)) {
+	if (/^.*(bug|fix|patch).*$/i.exec(text)) {
 		return 'bug fixes'
 	}
 
-	if (/^.*thank.*$/.exec(mdastTitle)) {
+	if (/^.*thank.*$/.exec(text)) {
 		return 'thanks'
 	}
 
-	if (/^.*artifact.*$/.exec(mdastTitle)) {
+	if (/^.*artifact.*$/.exec(text)) {
 		return 'artifacts'
 	}
 
-	if (/^.*credit.*$/.exec(mdastTitle)) {
+	if (/^.*credit.*$/.exec(text)) {
 		return 'credits'
 	}
 
-	return mdastTitle
+	return text
 }
 
 const getReleaseGroupPriority = (titleParam: ReleaseGroup): -1 | 0 | 1 => {
@@ -249,10 +249,11 @@ export {
 	filterReleasesByVersionRange,
 	isStableRelease,
 	getMdastContentNodeTitle,
-	getMdastContentReleaseGroup,
+	getSemVerReleaseGroup,
 	getReleaseVersion,
 	compareReleasesByVersion,
 	compareReleaseGroupsByPriority,
 	paginateList,
 	sanitizeReleaseGroupTitle,
+	stripEmojis,
 }

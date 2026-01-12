@@ -8,7 +8,11 @@ import type {
 	ProcessedRelease,
 	ProcessedReleasesCollection,
 } from '@/models'
-import { getMdastContentNodeTitle, getMdastContentReleaseGroup } from '@/utils'
+import {
+	getMdastContentNodeTitle,
+	getSemVerReleaseGroup,
+	sanitizeReleaseGroupTitle,
+} from '@/utils'
 
 import type { Root } from 'mdast'
 import type { Processor } from 'unified'
@@ -61,7 +65,8 @@ function processReleases(
 				}
 
 				// ... and create new release if proper header found
-				const title = getMdastContentReleaseGroup(mdastNode)
+				const sanitizedTitle = sanitizeReleaseGroupTitle(originalTitle)
+				const title = getSemVerReleaseGroup(sanitizedTitle)
 				if (title) {
 					newProcessedRelease = {
 						title,
