@@ -2,7 +2,13 @@
 
 import { CircularProgress, Flex } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import { createContext, use, useEffect, useReducer, useRef } from 'react'
+import {
+	createContext,
+	use,
+	useEffect,
+	useEffectEvent,
+	useReducer,
+} from 'react'
 
 import { octokit } from '@/github-client'
 import type { ReleaseVersion, Repository } from '@/models'
@@ -95,30 +101,24 @@ const ComparatorProvider = ({
 		toVersion: initialTo ?? null,
 	})
 
-	const initializedRef = useRef(false)
 	const router = useRouter()
 
-	useEffect(() => {
-		if (initializedRef.current) {
-			return
-		}
+	const getInitialRepository = useEffectEvent(async () => {
+		if (initialRepoFullName) {
+			const repositoryQueryParams =
+				mapStringToRepositoryQueryParams(initialRepoFullName)
 
-		const getInitialRepository = async () => {
-			if (initialRepoFullName) {
-				const repositoryQueryParams =
-					mapStringToRepositoryQueryParams(initialRepoFullName)
-
-				if (repositoryQueryParams.repo && repositoryQueryParams.owner) {
-					const response = await octokit.repos.get(repositoryQueryParams)
-					dispatch({ type: 'SET_INITIAL_REPOSITORY', payload: response.data })
-				}
+			if (repositoryQueryParams.repo && repositoryQueryParams.owner) {
+				const response = await octokit.repos.get(repositoryQueryParams)
+				dispatch({ type: 'SET_INITIAL_REPOSITORY', payload: response.data })
 			}
-			dispatch({ type: 'SET_READY', payload: true })
-			initializedRef.current = true
 		}
+		dispatch({ type: 'SET_READY', payload: true })
+	})
 
+	useEffect(() => {
 		void getInitialRepository()
-	}, [initialRepoFullName])
+	}, [])
 
 	const updateUrl = (newRepo?: string, newFrom?: string, newTo?: string) => {
 		const params = new URLSearchParams()
