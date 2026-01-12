@@ -71,7 +71,7 @@
 		"@msw/playwright": "0.4.2",
 		"@octokit/openapi-types": "25.1.0",
 		"@playwright/test": "1.57.0",
-		"@stylistic/eslint-plugin": "5.6.1",
+		"@stylistic/eslint-plugin": "5.7.0",
 		"@tanstack/eslint-plugin-query": "5.91.2",
 		"@tanstack/react-query-devtools": "5.91.2",
 		"@testing-library/react": "16.3.1",
