@@ -1,16 +1,8 @@
 'use client'
 
 import { CircularProgress, Flex } from '@chakra-ui/react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import {
-	createContext,
-	use,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react'
+import { useRouter } from 'next/navigation'
+import { createContext, use, useEffect, useReducer, useRef } from 'react'
 
 import { octokit } from '@/github-client'
 import type { ReleaseVersion, Repository } from '@/models'
@@ -31,10 +23,43 @@ interface ComparatorUpdaterContextValue {
 	setToVersion: (newVersion?: ReleaseVersion | null) => void
 }
 
-interface FiltersQuerystring {
-	repo?: string | null
-	from?: string | null
-	to?: string | null
+interface ComparatorState {
+	isReady: boolean
+	repository: Repository | null
+	fromVersion: string | null
+	toVersion: string | null
+}
+
+type ComparatorAction =
+	| { type: 'SET_INITIAL_REPOSITORY'; payload: Repository | null }
+	| { type: 'SET_REPOSITORY'; payload: Repository | null }
+	| { type: 'SET_FROM_VERSION'; payload: string | null }
+	| { type: 'SET_TO_VERSION'; payload: string | null }
+	| { type: 'SET_READY'; payload: boolean }
+
+function comparatorReducer(
+	state: ComparatorState,
+	action: ComparatorAction,
+): ComparatorState {
+	switch (action.type) {
+		case 'SET_INITIAL_REPOSITORY':
+			return { ...state, repository: action.payload }
+		case 'SET_REPOSITORY':
+			return {
+				...state,
+				repository: action.payload,
+				fromVersion: null, // reset the version range when switching repositories
+				toVersion: null,
+			}
+		case 'SET_FROM_VERSION':
+			return { ...state, fromVersion: action.payload }
+		case 'SET_TO_VERSION':
+			return { ...state, toVersion: action.payload }
+		case 'SET_READY':
+			return { ...state, isReady: action.payload }
+		default:
+			return state
+	}
 }
 
 const ComparatorStateContext = createContext<
@@ -44,118 +69,106 @@ const ComparatorUpdaterContext = createContext<
 	ComparatorUpdaterContextValue | undefined
 >(undefined)
 
-type InitStatus = 'done' | 'loading' | 'mount'
-
 const loadingElement = (
 	<Flex align="center" justify="center" height="100%">
 		<CircularProgress isIndeterminate size="8" color="primary.400" />
 	</Flex>
 )
 
-const ComparatorProvider = ({ children }: { children: ReactNode }) => {
-	const statusRef = useRef<InitStatus>('mount')
-	const [isReady, setIsReady] = useState<boolean>(false)
-	const [repository, setRepository] = useState<Repository | null>(null)
+interface ComparatorProviderProps {
+	children: ReactNode
+	repo?: string
+	from?: string
+	to?: string
+}
+
+const ComparatorProvider = ({
+	children,
+	repo,
+	from,
+	to,
+}: ComparatorProviderProps) => {
+	const [state, dispatch] = useReducer(comparatorReducer, {
+		isReady: false,
+		repository: null,
+		fromVersion: from ?? null,
+		toVersion: to ?? null,
+	})
+
+	const initializedRef = useRef(false)
 	const router = useRouter()
-	const searchParams = useSearchParams()
-	const pathname = usePathname()
 
-	const searchParamsObject = useMemo(() => {
-		return searchParams ? Object.fromEntries(searchParams.entries()) : {}
-	}, [searchParams])
-
-	const { repo, from, to } = searchParamsObject
-
-	const setQuerystringParams = useCallback(
-		(newFilters: FiltersQuerystring) => {
-			const mergedFilters: FiltersQuerystring = {
-				...searchParamsObject,
-				...newFilters,
-			}
-			const newQuery = Object.fromEntries(
-				Object.entries(mergedFilters).filter(([, value]) => Boolean(value)),
-			)
-			const newSearchParams = new URLSearchParams(newQuery)
-
-			const newHref = `${pathname}?${newSearchParams.toString()}`
-
-			router.replace(newHref as Route)
-		},
-		[pathname, router, searchParamsObject],
-	)
-
-	const setSelectedRepository = useCallback(
-		(newRepository?: Repository | null) => {
-			setRepository(newRepository ?? null)
-			setQuerystringParams({
-				repo: newRepository?.full_name,
-				from: null, // Clear from and to when changing repo
-				to: null,
-			})
-		},
-		[setQuerystringParams],
-	)
-
-	const setSelectedFromVersion = useCallback(
-		(newFrom?: string | null) => {
-			setQuerystringParams({ from: newFrom })
-		},
-		[setQuerystringParams],
-	)
-
-	const setSelectedToVersion = useCallback(
-		(newTo?: string | null) => {
-			setQuerystringParams({ to: newTo })
-		},
-		[setQuerystringParams],
-	)
-
-	// TODO: move this to the /compare React Server Component
 	useEffect(() => {
+		if (initializedRef.current) {
+			return
+		}
+
 		const getInitialRepository = async () => {
 			if (repo) {
-				statusRef.current = 'loading'
-
 				const repositoryQueryParams = mapStringToRepositoryQueryParams(repo)
 
 				if (repositoryQueryParams.repo && repositoryQueryParams.owner) {
 					const response = await octokit.repos.get(repositoryQueryParams)
-
-					setRepository(response.data)
+					dispatch({ type: 'SET_INITIAL_REPOSITORY', payload: response.data })
 				}
 			}
-
-			statusRef.current = 'done'
-			setIsReady(true)
+			dispatch({ type: 'SET_READY', payload: true })
+			initializedRef.current = true
 		}
 
-		if (statusRef.current === 'mount') {
-			void getInitialRepository()
-		}
+		void getInitialRepository()
 	}, [repo])
 
-	const stateValue = useMemo<ComparatorStateContextValue>(
-		() => ({
-			repository,
-			fromVersion: from,
-			toVersion: to,
-		}),
-		[from, repository, to],
-	)
+	const updateUrl = (newRepo?: string, newFrom?: string, newTo?: string) => {
+		const params = new URLSearchParams()
+		if (newRepo) params.set('repo', newRepo)
+		if (newFrom) params.set('from', newFrom)
+		if (newTo) params.set('to', newTo)
 
-	const updaterValue = useMemo<ComparatorUpdaterContextValue>(
-		() => ({
-			setRepository: setSelectedRepository,
-			setFromVersion: setSelectedFromVersion,
-			setToVersion: setSelectedToVersion,
-		}),
-		[setSelectedFromVersion, setSelectedRepository, setSelectedToVersion],
-	)
+		const query = params.toString()
+		const newHref = query ? `/compare?${query}` : '/compare'
+		router.replace(newHref as Route)
+	}
+
+	const setSelectedRepository = (newRepository?: Repository | null) => {
+		dispatch({ type: 'SET_REPOSITORY', payload: newRepository ?? null })
+		updateUrl(newRepository?.full_name)
+	}
+
+	const setSelectedFromVersion = (newFrom?: string | null) => {
+		dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
+		updateUrl(
+			state.repository?.full_name,
+			newFrom ?? undefined,
+			state.toVersion ?? undefined,
+		)
+	}
+
+	const setSelectedToVersion = (newTo?: string | null) => {
+		dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
+		updateUrl(
+			state.repository?.full_name,
+			state.fromVersion ?? undefined,
+			newTo ?? undefined,
+		)
+	}
+
+	const stateValue: ComparatorStateContextValue = {
+		repository: state.repository,
+		fromVersion: state.fromVersion,
+		toVersion: state.toVersion,
+	}
+
+	const updaterValue: ComparatorUpdaterContextValue = {
+		setRepository: setSelectedRepository,
+		setFromVersion: setSelectedFromVersion,
+		setToVersion: setSelectedToVersion,
+	}
 
 	return (
 		<ComparatorStateContext value={stateValue}>
 			<ComparatorUpdaterContext value={updaterValue}>
-				{isReady ? children : loadingElement}
+				{state.isReady ? children : loadingElement}
 			</ComparatorUpdaterContext>
 		</ComparatorStateContext>
 	)

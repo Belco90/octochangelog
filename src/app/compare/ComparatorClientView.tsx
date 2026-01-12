@@ -1,20 +1,27 @@
 'use client'
 
 import { Box } from '@chakra-ui/react'
-import { Suspense } from 'react'
 
 import RepositoryReleasesComparator from '@/app/compare/RepositoryReleasesComparator'
 
 import { ComparatorProvider } from './comparator-context'
 
-const ComparatorClientView = () => {
+interface ComparatorClientViewProps {
+	repo?: string
+	from?: string
+	to?: string
+}
+
+const ComparatorClientView = ({
+	repo,
+	from,
+	to,
+}: ComparatorClientViewProps) => {
 	return (
 		<Box height="full" width="full" bgColor="background3">
-			<Suspense>
-				<ComparatorProvider>
-					<RepositoryReleasesComparator />
-				</ComparatorProvider>
-			</Suspense>
+			<ComparatorProvider repo={repo} from={from} to={to}>
+				<RepositoryReleasesComparator />
+			</ComparatorProvider>
 		</Box>
 	)
 }
