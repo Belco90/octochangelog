@@ -19,31 +19,8 @@ export function OptimizedImage({
 	height,
 	priority,
 	loading,
-	src,
 	...remainingProps
 }: OptimizedImageProps) {
-	// Check if the src is an external URL (starts with http:// or https://)
-	const isExternalUrl =
-		typeof src === 'string' &&
-		(src.startsWith('http://') || src.startsWith('https://'))
-
-	// For external URLs, use a regular img tag without CDN processing
-	if (isExternalUrl) {
-		const loadingAttr = loading ?? (priority ? 'eager' : 'lazy')
-
-		return (
-			<img
-				{...remainingProps}
-				src={src}
-				alt={alt}
-				width={width}
-				height={height}
-				loading={loadingAttr}
-			/>
-		)
-	}
-
-	// For local images, use unpic with Netlify CDN
 	const netlifyOperations = Object.assign(
 		{
 			q: 75,
@@ -58,7 +35,6 @@ export function OptimizedImage({
 		// @ts-expect-error -- unpic types are not correctly inferred here for "layout" prop
 		<Image
 			{...remainingProps}
-			src={src}
 			alt={alt}
 			width={width}
 			height={height}
