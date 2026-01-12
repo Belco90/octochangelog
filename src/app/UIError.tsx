@@ -23,7 +23,13 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
-				<OptimizedImage src={mascotIcon.src} alt="" width={250} height={250} />
+				<OptimizedImage
+					src={mascotIcon.src}
+					alt=""
+					width={250}
+					height={250}
+					priority
+				/>
 				<Stack
 					shouldWrapChildren
 					alignItems="center"

@@ -61,7 +61,6 @@ const MainSection = () => (
 				width={mascotIcon.width}
 				height={mascotIcon.height}
 				priority
-				layout="constrained"
 			/>
 		</Center>
 	</Stack>

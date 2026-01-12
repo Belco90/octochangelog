@@ -12,13 +12,14 @@ type OptimizedImageProps = BaseImageProps & {
 	operations?: NetlifyOperations
 }
 
+const isProdMode = process.env.NODE_ENV === 'production'
+
 export function OptimizedImage({
 	alt,
 	operations,
 	width,
 	height,
 	priority,
-	loading,
 	...remainingProps
 }: OptimizedImageProps) {
 	const netlifyOperations = Object.assign(
@@ -38,9 +39,8 @@ export function OptimizedImage({
 			alt={alt}
 			width={width}
 			height={height}
-			priority={priority}
-			loading={loading}
-			cdn={process.env.NODE_ENV === 'production' ? 'netlify' : undefined}
+			priority={isProdMode ? priority : undefined} // priority is not transformed if not cdn setup, so the boolean value sent to the DOM is incorrect
+			cdn={isProdMode ? 'netlify' : undefined}
 			operations={{
 				netlify: netlifyOperations,
 			}}
