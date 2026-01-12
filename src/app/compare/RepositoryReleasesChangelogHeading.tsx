@@ -26,15 +26,9 @@ const RepositoryReleasesChangelogHeading = ({
 	<Box width="full" py={1} mb={{ base: 4, md: 8 }}>
 		<Container variant="fluid">
 			<Heading as="h2" size="lg" mb={2}>
-				<Link
-					isExternal
-					href={repository.html_url}
-					display="flex"
-					alignItems="flex-end"
-					gap={1}
-				>
-					{repository.full_name}
-					<Icon as={HiOutlineExternalLink} />
+				<Link isExternal href={repository.html_url}>
+					<span>{repository.full_name}</span>
+					<Icon as={HiOutlineExternalLink} ml={1} verticalAlign="middle" />
 				</Link>
 			</Heading>
 
