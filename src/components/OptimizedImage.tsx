@@ -12,7 +12,7 @@ type OptimizedImageProps = BaseImageProps & {
 	operations?: NetlifyOperations
 }
 
-const isProdMode = process.env.NODE_ENV === 'production'
+const isHosted = Boolean(process.env.NETLIFY)
 
 export function OptimizedImage({
 	alt,
@@ -39,8 +39,8 @@ export function OptimizedImage({
 			alt={alt}
 			width={width}
 			height={height}
-			priority={isProdMode ? priority : undefined} // priority is not transformed if not cdn setup, so the boolean value sent to the DOM is incorrect
-			cdn={isProdMode ? 'netlify' : undefined}
+			priority={isHosted ? priority : undefined} // priority is not transformed if not cdn setup, so the boolean value sent to the DOM is incorrect
+			cdn={isHosted ? 'netlify' : undefined}
 			operations={{
 				netlify: netlifyOperations,
 			}}
