@@ -1,7 +1,7 @@
 import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
 import { Image } from '@unpic/react'
 
-const Footer = () => {
+export function Footer() {
 	return (
 		<Box
 			as="footer"
@@ -69,6 +69,7 @@ const Footer = () => {
 								alt="Deploys by Netlify"
 								width={114}
 								height={50}
+								loading="lazy"
 							/>
 						</Link>
 					</Box>
@@ -77,5 +78,3 @@ const Footer = () => {
 		</Box>
 	)
 }
-
-export default Footer

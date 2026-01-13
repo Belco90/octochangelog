@@ -7,6 +7,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router'
 
+import { MainLayout } from '@/components/MainLayout'
 import { Providers } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
@@ -86,7 +87,9 @@ function RootLayout() {
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
 				<Providers>
-					<Outlet />
+					<MainLayout>
+						<Outlet />
+					</MainLayout>
 				</Providers>
 				<Scripts />
 			</body>

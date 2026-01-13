@@ -1,4 +1,4 @@
-import HomePage from './HomePage'
+import HomePage from '../components/HomePage'
 
 import type { FC } from 'react'
 

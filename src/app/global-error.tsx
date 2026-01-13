@@ -8,8 +8,8 @@ import customTheme from '@/custom-theme'
 import '@/fonts'
 import type { NextErrorPageProps } from '@/models'
 
-import Providers from './Providers'
 import UIError from './UIError'
+import Providers from '../components/Providers'
 
 import type { FC } from 'react'
 

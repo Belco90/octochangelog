@@ -6,7 +6,7 @@ import { BRIEF_DESCRIPTION, SITE_TITLE } from '@/common'
 import customTheme from '@/custom-theme'
 import '@/fonts'
 
-import Providers from './Providers'
+import Providers from '../components/Providers'
 
 import type { Viewport } from 'next'
 import type { FC, ReactNode } from 'react'
