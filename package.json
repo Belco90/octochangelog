@@ -102,7 +102,7 @@
 		"type-fest": "5.3.1",
 		"typescript": "5.9.3",
 		"typescript-eslint": "8.52.0",
-		"vite-tsconfig-paths": "6.0.3",
+		"vite-tsconfig-paths": "6.0.4",
 		"vitest": "4.0.16"
 	},
 	"browserslist": {
