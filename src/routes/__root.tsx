@@ -33,6 +33,14 @@ export const Route = createRootRoute({
 			...seo(),
 		],
 		links: [],
+		scripts: [
+			{
+				defer: true,
+				src: 'https://api.pirsch.io/pa.js',
+				id: 'pianjs',
+				'data-code': import.meta.env.VITE_PIRSCH_ID_CODE,
+			},
+		],
 	}),
 	component: RootLayout,
 })
