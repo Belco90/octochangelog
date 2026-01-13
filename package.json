@@ -107,19 +107,6 @@
 		"vite-tsconfig-paths": "6.0.4",
 		"vitest": "4.0.16"
 	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all",
-			"not ie 11"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
 	"msw": {
 		"workerDirectory": "public"
 	}
