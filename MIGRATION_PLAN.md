@@ -34,7 +34,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 1.2 Project Configuration Files
 
-- [ ] Create `vite.config.ts` with TanStack Start plugin:
+- [x] Create `vite.config.ts` with TanStack Start plugin:
 
   ```ts
   import netlify from '@netlify/vite-plugin-tanstack-start'
@@ -59,7 +59,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   })
   ```
 
-- [ ] Remove `next.config.ts`
+- [x] Remove `next.config.ts`
 - [ ] Remove `next-env.d.ts`
 - [ ] Update `tsconfig.json`:
   - Add `"moduleResolution": "Bundler"` (recommended for Vite)
@@ -67,7 +67,6 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [ ] Update `.gitignore`:
   - Remove `.next/`
   - Add `dist/` (Vite output)
-  - Add `.vinxi/` (TanStack Start cache)
 
 ### 1.3 Routing Setup
 
