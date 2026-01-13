@@ -8,20 +8,13 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react'
-import * as Sentry from '@sentry/nextjs'
-import { useEffect } from 'react'
+import NextLink from 'next/link'
 
+import { Link } from '@/components/ChakraNextLink'
 import { OptimizedImage } from '@/components/OptimizedImage'
-import type { NextErrorPageProps } from '@/models'
 import mascotIcon from '@/public/mascot-icon.png'
 
-import type { FC } from 'react'
-
-const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
-	useEffect(() => {
-		Sentry.captureException(error)
-	}, [error])
-
+export function NotFound() {
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
@@ -46,19 +39,22 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 						fontWeight="black"
 						letterSpacing="tight"
 					>
-						Something went wrong!
+						This page could not be found.
 					</Heading>
 					<Text as="p" color="secondaryText" fontSize="2xl" fontWeight="black">
-						Octochangelog could not handle the workload properly.
+						Octochangelog cannot divine the page you wanted.
 					</Text>
 				</Stack>
 			</VStack>
-
 			<VStack mt={12} spacing={5}>
-				<Button onClick={() => reset()}>Try again</Button>
+				<Button as={NextLink} variant="cta" href="/compare">
+					Go to compare
+				</Button>
+
+				<Link href="/" fontWeight="black">
+					Or go to homepage
+				</Link>
 			</VStack>
 		</Container>
 	)
 }
-
-export default UIError

@@ -1,17 +1,4 @@
-import {
-	Button,
-	Container,
-	Heading,
-	Stack,
-	Text,
-	VStack,
-} from '@chakra-ui/react'
-import NextLink from 'next/link'
-
-import { Link } from '@/components/ChakraNextLink'
-import { OptimizedImage } from '@/components/OptimizedImage'
-import mascotIcon from '@/public/mascot-icon.png'
-
+import { NotFound } from './NotFound'
 import { openGraph } from './shared-metadata'
 
 import type { FC } from 'react'
@@ -21,49 +8,8 @@ export const metadata = {
 	openGraph: { ...openGraph, title: 'Not Found' },
 }
 
-const NotFound: FC = () => {
-	return (
-		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
-			<VStack px="10">
-				<OptimizedImage
-					src={mascotIcon.src}
-					alt=""
-					width={250}
-					height={250}
-					priority
-				/>
-				<Stack
-					shouldWrapChildren
-					alignItems="center"
-					spacing="2"
-					flexGrow={1}
-					flexBasis={0}
-				>
-					<Heading
-						as="h2"
-						color="primaryText"
-						fontSize="4xl"
-						fontWeight="black"
-						letterSpacing="tight"
-					>
-						This page could not be found.
-					</Heading>
-					<Text as="p" color="secondaryText" fontSize="2xl" fontWeight="black">
-						Octochangelog cannot divine the page you wanted.
-					</Text>
-				</Stack>
-			</VStack>
-			<VStack mt={12} spacing={5}>
-				<Button as={NextLink} variant="cta" href="/compare">
-					Go to compare
-				</Button>
-
-				<Link href="/" fontWeight="black">
-					Or go to homepage
-				</Link>
-			</VStack>
-		</Container>
-	)
+const NotFoundPage: FC = () => {
+	return <NotFound />
 }
 
-export default NotFound
+export default NotFoundPage
