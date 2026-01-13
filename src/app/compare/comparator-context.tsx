@@ -102,7 +102,6 @@ const ComparatorProvider = ({
 		fromVersion: initialFrom ?? null,
 		toVersion: initialTo ?? null,
 	})
-
 	const router = useRouter()
 
 	const getInitialRepository = useEffectEvent(async () => {
@@ -122,51 +121,43 @@ const ComparatorProvider = ({
 		void getInitialRepository()
 	}, [])
 
-	const updateUrl = useCallback(
-		(newRepo?: string, newFrom?: string, newTo?: string) => {
+	useEffect(
+		function syncQueryParams() {
+			if (!state.isReady) return
+
 			const params = new URLSearchParams()
-			if (newRepo) params.set('repo', newRepo)
-			if (newFrom) params.set('from', newFrom)
-			if (newTo) params.set('to', newTo)
+			if (state.repository?.full_name)
+				params.set('repo', state.repository.full_name)
+			if (state.fromVersion) params.set('from', state.fromVersion)
+			if (state.toVersion) params.set('to', state.toVersion)
 
 			const query = params.toString()
 			const newHref = query ? `/compare?${query}` : '/compare'
 			router.replace(newHref as Route)
 		},
-		[router],
+		[
+			state.repository?.full_name,
+			state.fromVersion,
+			state.toVersion,
+			state.isReady,
+			router,
+		],
 	)
 
 	const setSelectedRepository = useCallback(
 		(newRepository?: Repository | null) => {
 			dispatch({ type: 'SET_REPOSITORY', payload: newRepository ?? null })
-			updateUrl(newRepository?.full_name)
 		},
-		[updateUrl],
+		[],
 	)
 
-	const setSelectedFromVersion = useCallback(
-		(newFrom?: string | null) => {
-			dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
-			updateUrl(
-				state.repository?.full_name,
-				newFrom ?? undefined,
-				state.toVersion ?? undefined,
-			)
-		},
-		[updateUrl, state.repository?.full_name, state.toVersion],
-	)
+	const setSelectedFromVersion = useCallback((newFrom?: string | null) => {
+		dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
+	}, [])
 
-	const setSelectedToVersion = useCallback(
-		(newTo?: string | null) => {
-			dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
-			updateUrl(
-				state.repository?.full_name,
-				state.fromVersion ?? undefined,
-				newTo ?? undefined,
-			)
-		},
-		[updateUrl, state.repository?.full_name, state.fromVersion],
-	)
+	const setSelectedToVersion = useCallback((newTo?: string | null) => {
+		dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
+	}, [])
 
 	const stateValue: ComparatorStateContextValue = useMemo(
 		() => ({
