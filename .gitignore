@@ -17,6 +17,7 @@ test-report.junit.xml
 .DS_Store
 .env*.local
 .idea
+.ai
 
 # package managers
 npm-debug.log*
