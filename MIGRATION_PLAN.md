@@ -324,6 +324,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [ ] Remove `.next/` build artifacts
 - [ ] Clean up any temporary migration code or comments
 - [ ] Run formatter on all files
+- [ ] Remove "use client"
 
 ### 6.3 Image Optimization
 

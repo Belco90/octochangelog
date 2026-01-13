@@ -1,3 +1,4 @@
+import { ColorModeScript } from '@chakra-ui/react'
 import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
 import {
 	Outlet,
@@ -6,6 +7,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router'
 
+import { Providers } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
 
@@ -80,7 +82,12 @@ function RootLayout() {
 				<HeadContent />
 			</head>
 			<body>
-				<Outlet />
+				<ColorModeScript
+					initialColorMode={customTheme.config.initialColorMode}
+				/>
+				<Providers>
+					<Outlet />
+				</Providers>
 				<Scripts />
 			</body>
 		</html>

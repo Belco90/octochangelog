@@ -1,5 +1,3 @@
-'use client'
-
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -7,9 +5,11 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import customTheme from '@/custom-theme'
 import { queryClient } from '@/query-client'
 
-import type { FC, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-const Providers: FC<{ children: ReactNode }> = ({ children }) => {
+type ProvidersProps = { children: ReactNode }
+
+export function Providers({ children }: ProvidersProps) {
 	return (
 		<ChakraProvider theme={customTheme}>
 			<QueryClientProvider client={queryClient}>
@@ -19,5 +19,3 @@ const Providers: FC<{ children: ReactNode }> = ({ children }) => {
 		</ChakraProvider>
 	)
 }
-
-export default Providers
