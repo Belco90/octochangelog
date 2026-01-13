@@ -1,42 +1,44 @@
 {
 	"compilerOptions": {
+		/* Base options */
 		"baseUrl": ".",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"target": "ES2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+		"incremental": true,
+
+		/* Strictness */
+		"strict": true,
+		"alwaysStrict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+
+		/* TanStack Start suggestions */
+		"jsx": "react-jsx",
+		"moduleResolution": "Bundler",
+		"module": "preserve",
+		"noEmit": true,
+		"strictNullChecks": true,
+
+		/* Code runs in the DOM */
+		"lib": ["es2022", "dom", "dom.iterable"],
+
+		/* Aliases */
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/public/*": ["./public/*"]
 		},
-		"allowJs": true,
-		"alwaysStrict": true,
-		"esModuleInterop": true,
+
+		/* Others */
 		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
-		"jsx": "react-jsx",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"module": "preserve", // "moduleResolution": "bundler" is implied
-		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"strict": true,
-		"target": "esnext",
-		"allowSyntheticDefaultImports": true,
-		"incremental": true,
-		"plugins": [
-			{
-				"name": "next"
-			}
-		]
+		"allowSyntheticDefaultImports": true
 	},
-	"include": [
-		"next-env.d.ts",
-		"additional.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.mts",
-		".next/types/**/*.ts",
-		".next/dev/types/**/*.ts"
-	],
-	"exclude": ["node_modules"]
+	"include": ["**/*.ts", "**/*.tsx", "**/*.mts"]
 }

@@ -60,8 +60,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   ```
 
 - [x] Remove `next.config.ts`
-- [ ] Remove `next-env.d.ts`
-- [ ] Update `tsconfig.json`:
+- [x] Remove `next-env.d.ts`
+- [x] Update `tsconfig.json`:
   - Add `"moduleResolution": "Bundler"` (recommended for Vite)
   - Add TanStack Router types if needed
 - [ ] Update `.gitignore`:
