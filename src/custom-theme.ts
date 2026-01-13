@@ -153,7 +153,7 @@ const customTheme = extendTheme(
 		},
 		styles: {
 			global: {
-				'html, body, #__next': { height: '100%' },
+				'html, body': { height: '100%' },
 			},
 		},
 		config: themeConfig,
