@@ -9,7 +9,6 @@ import {
 	Icon,
 	Link,
 } from '@chakra-ui/react'
-import * as React from 'react'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'

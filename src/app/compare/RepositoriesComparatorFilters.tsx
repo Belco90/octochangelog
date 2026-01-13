@@ -1,5 +1,4 @@
 import { Stack } from '@chakra-ui/react'
-import * as React from 'react'
 
 import ReleaseVersionsRangeFormControl from './ReleaseVersionsRangeFormControl'
 import RepositorySearchCombobox from './RepositorySearchCombobox'

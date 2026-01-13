@@ -4,10 +4,6 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
-	eslint: {
-		// Disable ESLint during builds since there is a lint job in CI.
-		ignoreDuringBuilds: true,
-	},
 	logging: {
 		fetches: {
 			fullUrl: true,
@@ -57,17 +53,21 @@ export default withSentryConfig(nextConfig, {
 	// Upload a larger set of source maps for prettier stack traces (increases build time)
 	widenClientFileUpload: true,
 
-	// Automatically annotate React components to show their full name in breadcrumbs and session replay
-	reactComponentAnnotation: {
-		enabled: true,
-	},
-
 	// Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
 	// This can increase your server load as well as your hosting bill.
 	// Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
 	// side errors will fail.
 	tunnelRoute: '/monitoring',
 
-	// Automatically tree-shake Sentry logger statements to reduce bundle size
-	disableLogger: true,
+	// Webpack-specific options
+	webpack: {
+		// Automatically annotate React components to show their full name in breadcrumbs and session replay
+		reactComponentAnnotation: {
+			enabled: true,
+		},
+		// Automatically tree-shake Sentry logger statements to reduce bundle size
+		treeshake: {
+			removeDebugLogging: true,
+		},
+	},
 })
