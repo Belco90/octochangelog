@@ -18,14 +18,14 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [x] Install TanStack Start core packages:
   - `@tanstack/react-router@^1.143.4`
   - `@tanstack/react-start@^1.143.4`
-- [ ] Install Netlify Vite plugin:
+- [x] Install Netlify Vite plugin:
   - `@netlify/vite-plugin-tanstack-start` (dev dependency)
-- [ ] Keep React 19 (already at v19.2.3, compatible)
-- [ ] Keep `@vitejs/plugin-react` or install `@vitejs/plugin-react-swc` for better performance
-- [ ] Remove Next.js specific dependencies:
+- [x] Keep React 19 (already at v19.2.3, compatible)
+- [x] Keep `@vitejs/plugin-react` or install `@vitejs/plugin-react-swc` for better performance
+- [x] Remove Next.js specific dependencies:
   - `next`
   - `@sentry/nextjs` (will be replaced with `@sentry/react` and `@sentry/vite-plugin`)
-- [ ] Update `package.json` scripts:
+- [x] Update `package.json` scripts:
   - `"dev": "vite dev"`
   - `"build": "vite build"`
   - `"preview": "vite preview"`
