@@ -27,5 +27,9 @@ export default defineConfig({
 		'ios-safari': {
 			type: 'ios-safari',
 		},
+		a11y: {
+			type: 'accessibility',
+			viewport: DESKTOP_VIEWPORT,
+		},
 	},
 })

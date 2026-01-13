@@ -8,7 +8,7 @@
   <p>
     <span role="img" aria-label="Crystall ball">🔮</span> <a href="https://www.octochangelog.com/">octochangelog.com</a>
   </p>
-  <p>Compare GitHub changelogs across multiple releases in a single view.</p>
+  <p>Compare GitHub changelogs in a single view</p>
 
 </div>
 
