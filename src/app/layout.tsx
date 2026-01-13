@@ -7,34 +7,9 @@ import customTheme from '@/custom-theme'
 import '@/fonts'
 
 import Providers from './Providers'
-import { getMetadataBase, openGraph } from './shared-metadata'
 
 import type { Viewport } from 'next'
 import type { FC, ReactNode } from 'react'
-
-export const metadata = {
-	title: {
-		template: `%s | ${SITE_TITLE}`,
-		default: SITE_TITLE,
-	},
-	description: BRIEF_DESCRIPTION,
-	metadataBase: getMetadataBase(),
-	openGraph: { ...openGraph },
-}
-
-export const viewport: Viewport = {
-	colorScheme: 'light dark',
-	themeColor: [
-		{
-			media: '(prefers-color-scheme: light)',
-			color: customTheme.colors.primary['300'],
-		},
-		{
-			media: '(prefers-color-scheme: dark)',
-			color: customTheme.colors.primary['700'],
-		},
-	],
-}
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => (
 	<html lang="en" suppressHydrationWarning>

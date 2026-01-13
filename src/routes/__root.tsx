@@ -5,6 +5,9 @@ import {
 	Scripts,
 } from '@tanstack/react-router'
 
+import customTheme from '@/custom-theme'
+import { seo } from '@/seo'
+
 export const Route = createRootRoute({
 	head: () => ({
 		meta: [
@@ -17,7 +20,17 @@ export const Route = createRootRoute({
 				name: 'color-scheme',
 				content: 'light dark',
 			},
-			{ title: 'TanStack Start Starter' },
+			{
+				name: 'theme-color',
+				content: customTheme.colors.primary['50'],
+				media: '(prefers-color-scheme: light)',
+			},
+			{
+				name: 'theme-color',
+				content: customTheme.colors.primary['900'],
+				media: '(prefers-color-scheme: dark)',
+			},
+			...seo(),
 		],
 		links: [],
 	}),
