@@ -4,10 +4,6 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
-	eslint: {
-		// Disable ESLint during builds since there is a lint job in CI.
-		ignoreDuringBuilds: true,
-	},
 	logging: {
 		fetches: {
 			fullUrl: true,
