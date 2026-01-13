@@ -1,9 +1,7 @@
 savePrefix: ''
 verifyDepsBeforeRun: 'error'
 allowBuilds:
+  '@parcel/watcher': true
   '@sentry/cli': true
-  '@swc/core': true
-  esbuild: true
   msw: true
-  sharp: true
   unrs-resolver: true
