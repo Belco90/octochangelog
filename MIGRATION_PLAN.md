@@ -78,18 +78,15 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - Next.js: `src/app/layout.tsx` → TanStack: `src/routes/__root.tsx`
   - Next.js: `src/app/auth/callback/page.tsx` → TanStack: `src/routes/auth/callback.tsx`
 
-- [ ] Create `src/routes/__root.tsx` (replaces `src/app/layout.tsx`):
+- [x] Create `src/routes/__root.tsx` (replaces `src/app/layout.tsx`):
   - Import and setup `<Outlet />` from `@tanstack/react-router`
   - Move layout/provider logic here
-  - Setup error boundaries with `errorComponent`
 
-- [ ] Create `src/routes/index.tsx` (home page)
+- [ ] Setup error boundaries with `errorComponent`
+- [x] Create `src/routes/index.tsx` (home page)
 - [ ] Create `src/routes/compare.tsx` (compare page)
 - [ ] Create `src/routes/auth.callback.tsx` or `src/routes/auth/callback.tsx` (auth callback)
 - [ ] Handle 404s with `notFoundComponent` in `__root.tsx`
-- [ ] Setup redirects using TanStack Router's `beforeLoad` hooks or middleware:
-  - `/comparator` → `/compare`
-  - `/` with `?repo` query → `/compare`
 
 **Note**: TanStack Router uses flat file routing. Routes can be:
 
@@ -103,17 +100,17 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 2.1 Layout & Root Components
 
-- [ ] Migrate `src/app/layout.tsx` to TanStack Start root route
-- [ ] Migrate `src/app/UILayout.tsx`
-- [ ] Migrate `src/app/Providers.tsx` (React Query, Chakra UI, etc.)
-- [ ] Migrate fonts setup (`src/fonts.ts`)
-- [ ] Migrate theme setup (`src/custom-theme.ts`)
-- [ ] Ensure Chakra UI Provider works correctly
+- [x] Migrate `src/app/layout.tsx` to TanStack Start root route
+- [x] Migrate `src/app/UILayout.tsx`
+- [x] Migrate `src/app/Providers.tsx` (React Query, Chakra UI, etc.)
+- [x] Migrate fonts setup (`src/fonts.ts`)
+- [x] Migrate theme setup (`src/custom-theme.ts`)
+- [x] Ensure Chakra UI Provider works correctly
 
 ### 2.2 Page Components
 
-- [ ] Migrate `src/app/page.tsx` (home page)
-- [ ] Migrate `src/app/HomePage.tsx`
+- [x] Migrate `src/app/page.tsx` (home page)
+- [x] Migrate `src/app/HomePage.tsx`
 - [ ] Migrate `src/app/compare/page.tsx`
 - [ ] Migrate `src/app/compare/ComparatorClientView.tsx`
 - [ ] Migrate `src/app/auth/callback/` OAuth callback route

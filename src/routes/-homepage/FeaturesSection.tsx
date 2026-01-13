@@ -1,16 +1,11 @@
 import {
 	Box,
-	Button,
-	Center,
-	Container,
 	Flex,
 	Heading,
 	Icon,
 	SimpleGrid,
-	Stack,
 	useColorModeValue,
 } from '@chakra-ui/react'
-import NextLink from 'next/link'
 import {
 	HiOutlineFilter,
 	HiOutlineFire,
@@ -19,51 +14,10 @@ import {
 	HiOutlineTag,
 } from 'react-icons/hi'
 
-import { BRIEF_DESCRIPTION } from '@/common'
-import { OptimizedImage } from '@/components/OptimizedImage'
-import mascotIcon from '@/public/mascot-icon.png'
-
 import type { ReactNode } from 'react'
 import type { IconType } from 'react-icons'
 
-const MainSection = () => (
-	<Stack
-		alignItems="center"
-		justifyContent="center"
-		direction={{ base: 'column-reverse', lg: 'row' }}
-		spacing={{ base: 10, lg: 1 }}
-	>
-		<Stack alignItems={{ base: 'center', lg: 'start' }} spacing="24">
-			<Heading
-				as="h2"
-				color="primaryText"
-				fontSize={{ base: '3xl', md: '5xl' }}
-				fontWeight="black"
-				textAlign={{ base: 'center', lg: 'left' }}
-				letterSpacing="tight"
-				px={{ base: 12, lg: 0 }}
-			>
-				{BRIEF_DESCRIPTION}.
-			</Heading>
-			<Flex justify="center" align="center">
-				<Button as={NextLink} variant="cta" href="/compare">
-					Try me now!
-				</Button>
-			</Flex>
-		</Stack>
-		<Center width="full">
-			<OptimizedImage
-				src={mascotIcon.src}
-				alt=""
-				width={mascotIcon.width}
-				height={mascotIcon.height}
-				priority
-			/>
-		</Center>
-	</Stack>
-)
-
-interface FeatureItemProps {
+type FeatureItemProps = {
 	icon: IconType
 	title: string
 	children: ReactNode
@@ -127,7 +81,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 	},
 ]
 
-const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
+function FeatureItem({ icon, title, children }: FeatureItemProps) {
 	const iconColor = useColorModeValue('secondary.700', 'secondary.200')
 	const iconBgColor = useColorModeValue('secondary.200', 'secondary.800')
 	return (
@@ -155,24 +109,14 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 	)
 }
 
-const HomePage = () => {
+export function FeaturesSection() {
 	return (
-		<Box py={{ base: 8, lg: 16 }} mb={10}>
-			<Container maxWidth="container.lg">
-				<MainSection />
-
-				<Box mt={40} />
-
-				<SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 10, md: 32 }}>
-					{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
-						<FeatureItem key={title} icon={icon} title={title}>
-							{children}
-						</FeatureItem>
-					))}
-				</SimpleGrid>
-			</Container>
-		</Box>
+		<SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 10, md: 32 }}>
+			{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
+				<FeatureItem key={title} icon={icon} title={title}>
+					{children}
+				</FeatureItem>
+			))}
+		</SimpleGrid>
 	)
 }
-
-export default HomePage
