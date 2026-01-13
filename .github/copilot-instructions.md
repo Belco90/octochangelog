@@ -4,11 +4,10 @@
 
 **Octochangelog** is a Next.js 15 web application that compares GitHub changelogs across multiple releases in a single view. It parses, normalizes, groups, and sorts release notes from GitHub repositories to help users quickly identify breaking changes, features, and bug fixes between version ranges.
 
-- **Tech Stack**: Next.js 15 (App Router), React 19, TypeScript, Chakra UI, TanStack Query
+- **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript, Chakra UI, TanStack Query
 - **Key Features**: Markdown parsing with unified.js, GitHub API integration via Octokit, MSW for API mocking
 - **Deployment**: Static site generation on Netlify
 - **Testing**: Vitest for unit tests, Playwright for E2E tests
-- **Repository Size**: ~1.8GB with dependencies, ~70 TypeScript/TSX source files
 
 ## Package Management
 
