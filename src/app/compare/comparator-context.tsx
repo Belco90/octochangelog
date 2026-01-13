@@ -159,7 +159,7 @@ const ComparatorProvider = ({
 		dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
 	}, [])
 
-	const stateValue: ComparatorStateContextValue = useMemo(
+	const stateValue = useMemo<ComparatorStateContextValue>(
 		() => ({
 			repository: state.repository,
 			fromVersion: state.fromVersion,
@@ -168,7 +168,7 @@ const ComparatorProvider = ({
 		[state.repository, state.fromVersion, state.toVersion],
 	)
 
-	const updaterValue: ComparatorUpdaterContextValue = useMemo(
+	const updaterValue = useMemo<ComparatorUpdaterContextValue>(
 		() => ({
 			setRepository: setSelectedRepository,
 			setFromVersion: setSelectedFromVersion,
