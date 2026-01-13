@@ -8,7 +8,6 @@ import {
 	Flex,
 	Heading,
 	Icon,
-	List,
 	SimpleGrid,
 	Stack,
 	useColorModeValue,
@@ -77,7 +76,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: HiOutlineSwitchHorizontal,
 		title: 'Compare releases easily',
 		children: (
-			<Box>
+			<Box as="p">
 				Sifting through changelogs on GitHub taking too much time?
 				<br />
 				Let Octochangelog put the list of changes in a single view!
@@ -88,7 +87,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: HiOutlineShare,
 		title: 'Share changelogs',
 		children: (
-			<Box>
+			<Box as="p">
 				Want to let your team review the changes in a dependency?
 				<br />
 				Give them a link!
@@ -99,7 +98,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: HiOutlineFire,
 		title: "Don't miss breaking changes",
 		children: (
-			<Box>
+			<Box as="p">
 				Octochangelog finds all breaking changes, and lists them at the top.
 				<br />
 				You can’t miss those pesky gotcha’s now!
@@ -110,7 +109,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: HiOutlineFilter,
 		title: 'No manual sorting',
 		children: (
-			<Box>
+			<Box as="p">
 				Want a list of major, minor and patch level changes?
 				<br />
 				Octochangelog groups changes into categories for you!
@@ -121,7 +120,7 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: HiOutlineTag,
 		title: 'Changes per version',
 		children: (
-			<Box>
+			<Box as="p">
 				Want to know which version introduced a certain change?
 				<br />
 				Octochangelog labels each change with the version number.
@@ -134,7 +133,7 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 	const iconColor = useColorModeValue('secondary.700', 'secondary.200')
 	const iconBgColor = useColorModeValue('secondary.200', 'secondary.800')
 	return (
-		<Box>
+		<Flex direction="column" gap={2}>
 			<Flex
 				boxSize={10}
 				bgColor={iconBgColor}
@@ -144,7 +143,7 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 			>
 				<Icon as={icon} boxSize="18px" color={iconColor} />
 			</Flex>
-			<Heading as="h3" color="primaryText" fontSize="2xl" mt={2}>
+			<Heading as="h3" color="primaryText" fontSize="2xl">
 				{title}
 			</Heading>
 			<Box
@@ -154,7 +153,7 @@ const FeatureItem = ({ icon, title, children }: FeatureItemProps) => {
 			>
 				{children}
 			</Box>
-		</Box>
+		</Flex>
 	)
 }
 
@@ -166,18 +165,13 @@ const HomePage = () => {
 
 				<Box mt={40} />
 
-				<List fontSize="" color="secondaryText">
-					<SimpleGrid
-						columns={{ base: 1, md: 2 }}
-						spacing={{ base: 10, md: 32 }}
-					>
-						{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
-							<FeatureItem key={title} icon={icon} title={title}>
-								{children}
-							</FeatureItem>
-						))}
-					</SimpleGrid>
-				</List>
+				<SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 10, md: 32 }}>
+					{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
+						<FeatureItem key={title} icon={icon} title={title}>
+							{children}
+						</FeatureItem>
+					))}
+				</SimpleGrid>
 			</Container>
 		</Box>
 	)
