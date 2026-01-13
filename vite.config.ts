@@ -16,6 +16,7 @@ export default defineConfig({
 	plugins: [
 		tsconfigPaths(),
 		tanstackStart({
+			prerender: { enabled: process.env.NODE_ENV === 'production' },
 			sitemap: {
 				host: 'https://octochangelog.com/',
 			},
