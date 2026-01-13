@@ -9,9 +9,8 @@
 	"packageManager": "pnpm@10.26.2",
 	"scripts": {
 		"start": "next start",
-		"dev": "next dev",
-		"dev:turbo": "pnpm dev --turbo",
-		"build": "next build",
+		"dev": "next dev --webpack",
+		"build": "next build --webpack",
 		"type-gen": "next typegen",
 		"type-check": "pnpm type-gen && tsc --noEmit",
 		"lint": "eslint --max-warnings 0 .",
