@@ -13,7 +13,7 @@ test('should display the corresponding information', async ({
 	const metaDescription = page.locator('meta[name="description"]')
 	await expect(metaDescription).toHaveAttribute(
 		'content',
-		'Compare GitHub changelogs across multiple releases in a single view',
+		'Compare GitHub changelogs in a single view',
 	)
 
 	await expect(

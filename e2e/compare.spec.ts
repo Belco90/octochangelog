@@ -13,7 +13,7 @@ test('should show changelog results when filling the form', async ({
 
 	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 		'content',
-		'Compare GitHub changelogs across multiple releases in a single view',
+		'Compare GitHub changelogs in a single view',
 	)
 
 	await page
@@ -126,7 +126,7 @@ test('should show changelog results when preloading from URL', async ({
 	await expect(page).toHaveTitle('Compare | Octochangelog')
 	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 		'content',
-		'Compare GitHub changelogs across multiple releases in a single view',
+		'Compare GitHub changelogs in a single view',
 	)
 
 	// Check that the form is pre-filled with the URL params
@@ -222,7 +222,7 @@ test('should show changelog results when preloading from URL with "latest"', asy
 	await expect(page).toHaveTitle('Compare | Octochangelog')
 	await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 		'content',
-		'Compare GitHub changelogs across multiple releases in a single view',
+		'Compare GitHub changelogs in a single view',
 	)
 
 	// Check that the form is pre-filled with the URL params
@@ -379,7 +379,7 @@ test(
 		await expect(page).toHaveTitle('Compare | Octochangelog')
 		await expect(page.locator('meta[name="description"]')).toHaveAttribute(
 			'content',
-			'Compare GitHub changelogs across multiple releases in a single view',
+			'Compare GitHub changelogs in a single view',
 		)
 
 		// Check that the form is pre-filled with the URL params

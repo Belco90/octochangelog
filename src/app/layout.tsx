@@ -2,7 +2,7 @@ import { ColorModeScript } from '@chakra-ui/react'
 
 import { PirschAnalytics } from '@/app/PirschAnalytics'
 import UILayout from '@/app/UILayout'
-import { FULL_DESCRIPTION, SITE_TITLE } from '@/common'
+import { BRIEF_DESCRIPTION, SITE_TITLE } from '@/common'
 import customTheme from '@/custom-theme'
 import '@/fonts'
 
@@ -17,7 +17,7 @@ export const metadata = {
 		template: `%s | ${SITE_TITLE}`,
 		default: SITE_TITLE,
 	},
-	description: FULL_DESCRIPTION,
+	description: BRIEF_DESCRIPTION,
 	metadataBase: getMetadataBase(),
 	openGraph: { ...openGraph },
 }
