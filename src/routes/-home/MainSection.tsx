@@ -31,7 +31,7 @@ export function MainSection() {
 				</Flex>
 			</Stack>
 			<Center width="full">
-				<OptimizedImage src="mascot-icon.png" alt="" priority />
+				<OptimizedImage src="/mascot-icon.png" alt="" priority />
 			</Center>
 		</Stack>
 	)
