@@ -7,15 +7,17 @@ import { queryClient } from '@/query-client'
 
 import type { ReactNode } from 'react'
 
-type ProvidersProps = { children: ReactNode }
+type ProviderComponentProps = { children: ReactNode }
 
-export function Providers({ children }: ProvidersProps) {
+export function ThemeProvider({ children }: ProviderComponentProps) {
+	return <ChakraProvider theme={customTheme}>{children}</ChakraProvider>
+}
+
+export function QueryProvider({ children }: ProviderComponentProps) {
 	return (
-		<ChakraProvider theme={customTheme}>
-			<QueryClientProvider client={queryClient}>
-				{children}
-				<ReactQueryDevtools initialIsOpen={false} />
-			</QueryClientProvider>
-		</ChakraProvider>
+		<QueryClientProvider client={queryClient}>
+			{children}
+			<ReactQueryDevtools initialIsOpen={false} />
+		</QueryClientProvider>
 	)
 }

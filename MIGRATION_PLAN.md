@@ -141,17 +141,17 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 2.4 Metadata & SEO
 
-- [ ] Migrate `src/app/shared-metadata.ts`:
+- [x] Migrate `src/app/shared-metadata.ts`:
   - Use `meta()` function in route definitions
   - Return array of meta tags: `[{ title: 'Page Title' }, { name: 'description', content: '...' }]`
-- [ ] Migrate `src/app/manifest.ts`:
+- [x] Migrate `src/app/manifest.ts`:
   - Convert to static `public/manifest.json` file
   - Or use dynamic route if needed
 - [ ] Create `public/robots.txt` (static file)
 - [ ] Setup sitemap generation:
   - Already configured in `vite.config.ts` with `sitemap: { host: '...' }`
   - TanStack Start auto-generates sitemap from routes
-- [ ] Migrate favicon handling:
+- [x] Migrate favicon handling:
   - Move `src/app/favicon.ico` to `public/favicon.ico`
   - Keep favicon in public folder
 

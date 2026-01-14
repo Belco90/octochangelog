@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { Providers } from '@/components/Providers'
+import { ThemeProvider } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
 
@@ -17,66 +17,69 @@ import '@/fonts'
 import type { ReactNode } from 'react'
 
 export const Route = createRootRoute({
-	head: () => ({
-		meta: [
-			{ charSet: 'utf-8' },
-			{
-				name: 'viewport',
-				content: 'width=device-width, initial-scale=1',
-			},
-			{
-				name: 'color-scheme',
-				content: 'light dark',
-			},
-			{
-				name: 'theme-color',
-				content: customTheme.colors.primary['50'],
-				media: '(prefers-color-scheme: light)',
-			},
-			{
-				name: 'theme-color',
-				content: customTheme.colors.primary['900'],
-				media: '(prefers-color-scheme: dark)',
-			},
-			...seo(),
-		],
-		links: [
-			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-			{
-				rel: 'apple-touch-icon',
-				sizes: '180x180',
-				href: '/apple-touch-icon.png',
-			},
-			{
-				rel: 'icon',
-				type: 'image/png',
-				sizes: '32x32',
-				href: '/favicon-32x32.png',
-			},
-			{
-				rel: 'icon',
-				type: 'image/png',
-				sizes: '16x16',
-				href: '/favicon-16x16.png',
-			},
-			{ rel: 'manifest', href: '/manifest.json' },
-			{
-				rel: 'preload',
-				href: interWoff2,
-				as: 'font',
-				type: 'font/woff2',
-				crossOrigin: '',
-			},
-		],
-		scripts: [
-			{
-				defer: true,
-				src: 'https://api.pirsch.io/pa.js',
-				id: 'pianjs',
-				'data-code': import.meta.env.VITE_PIRSCH_ID_CODE,
-			},
-		],
-	}),
+	head: ({ match }) => {
+		const customTitle = match.globalNotFound ? '404 Not Found' : undefined
+		return {
+			meta: [
+				{ charSet: 'utf-8' },
+				{
+					name: 'viewport',
+					content: 'width=device-width, initial-scale=1',
+				},
+				{
+					name: 'color-scheme',
+					content: 'light dark',
+				},
+				{
+					name: 'theme-color',
+					content: customTheme.colors.primary['50'],
+					media: '(prefers-color-scheme: light)',
+				},
+				{
+					name: 'theme-color',
+					content: customTheme.colors.primary['900'],
+					media: '(prefers-color-scheme: dark)',
+				},
+				...seo({ title: customTitle }),
+			],
+			links: [
+				{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+				{
+					rel: 'apple-touch-icon',
+					sizes: '180x180',
+					href: '/apple-touch-icon.png',
+				},
+				{
+					rel: 'icon',
+					type: 'image/png',
+					sizes: '32x32',
+					href: '/favicon-32x32.png',
+				},
+				{
+					rel: 'icon',
+					type: 'image/png',
+					sizes: '16x16',
+					href: '/favicon-16x16.png',
+				},
+				{ rel: 'manifest', href: '/manifest.json' },
+				{
+					rel: 'preload',
+					href: interWoff2,
+					as: 'font',
+					type: 'font/woff2',
+					crossOrigin: '',
+				},
+			],
+			scripts: [
+				{
+					defer: true,
+					src: 'https://api.pirsch.io/pa.js',
+					id: 'pianjs',
+					'data-code': import.meta.env.VITE_PIRSCH_ID_CODE,
+				},
+			],
+		}
+	},
 	component: () => (
 		<DocumentWrapper>
 			<Outlet />
@@ -105,9 +108,9 @@ function DocumentWrapper({ children }: { children: ReactNode }) {
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
-				<Providers>
+				<ThemeProvider>
 					<MainLayout>{children}</MainLayout>
-				</Providers>
+				</ThemeProvider>
 				<Scripts />
 			</body>
 		</html>
