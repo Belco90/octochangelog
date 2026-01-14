@@ -192,7 +192,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [ ] Migrate theme mode selector/toggle
 - [ ] Verify Chakra UI theme switching works with TanStack Start
-- [ ] Test all UI components render correctly
+- [x] Test all UI components render correctly
 
 ---
 
@@ -204,7 +204,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [ ] Remove `@sentry/nextjs` dependency
 - [ ] Install Sentry for Vite/React:
-  - [`@sentry/tanstackstart-react`](https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/)
+  - [`@sentry/tanstackstart-react`](https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/) ([example](https://github.com/TanStack/router/tree/main/e2e/react-router/sentry-integration))
 - [ ] Remove Next.js specific Sentry files:
   - `sentry.edge.config.ts`
   - `sentry.server.config.ts`
