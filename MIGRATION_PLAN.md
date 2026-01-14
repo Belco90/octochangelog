@@ -72,7 +72,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 **Important**: TanStack Router uses a different file structure than Next.js App Router
 
-- [ ] Move routing from `src/app/` to `src/routes/`:
+- [x] Move routing from `src/app/` to `src/routes/`:
   - Next.js: `src/app/page.tsx` → TanStack: `src/routes/index.tsx`
   - Next.js: `src/app/compare/page.tsx` → TanStack: `src/routes/compare.tsx`
   - Next.js: `src/app/layout.tsx` → TanStack: `src/routes/__root.tsx`
@@ -84,8 +84,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [ ] Setup error boundaries with `errorComponent`
 - [x] Create `src/routes/index.tsx` (home page)
-- [ ] Create `src/routes/compare.tsx` (compare page)
-- [ ] Create `src/routes/auth.callback.tsx` or `src/routes/auth/callback.tsx` (auth callback)
+- [x] Create `src/routes/compare.tsx` (compare page)
+- [x] Create `src/routes/auth.callback.tsx` or `src/routes/auth/callback.tsx` (auth callback)
 - [ ] Handle 404s with `notFoundComponent` in `__root.tsx`
 
 **Note**: TanStack Router uses flat file routing. Routes can be:
