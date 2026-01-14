@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
 import type { CompareSearchParams } from '@/models'
 import { seo } from '@/seo'
@@ -7,6 +8,8 @@ import { seo } from '@/seo'
 import { RepositoryReleasesComparator } from './-compare/RepositoryReleasesComparator'
 import { ComparatorProvider } from './-compare/comparator-context'
 import hljsCss from './-compare/hljs.css?url'
+
+import type { ErrorComponentProps } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/compare')({
 	head: () => ({
@@ -23,6 +26,7 @@ export const Route = createFileRoute('/compare')({
 		}
 	},
 	component: ComparePage,
+	errorComponent: CompareErrorPage,
 })
 
 function ComparePage() {
@@ -37,6 +41,33 @@ function ComparePage() {
 			>
 				<RepositoryReleasesComparator />
 			</ComparatorProvider>
+		</Box>
+	)
+}
+
+function CompareErrorPage({ error, reset }: ErrorComponentProps) {
+	useEffect(() => {
+		console.log('TODO: capture exception in Sentry (include info?)', error)
+	}, [error])
+
+	return (
+		<Box height="full" width="full" bgColor="background3">
+			<Container variant="fluid" height="full">
+				<VStack
+					px="10"
+					alignItems="center"
+					spacing={4}
+					justifyContent="center"
+					height="full"
+				>
+					<Heading>Something went wrong!</Heading>
+					<Text as="p">
+						Octochangelog could not process the releases changelogs to be
+						compared.
+					</Text>
+					<Button onClick={() => reset()}>Try again</Button>
+				</VStack>
+			</Container>
 		</Box>
 	)
 }

@@ -116,7 +116,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [ ] Migrate `src/app/auth/callback/` OAuth callback route
 - [ ] Migrate `src/app/error.tsx` error page
 - [ ] Migrate `src/app/global-error.tsx` error page
-- [ ] Migrate `src/app/compare/error.tsx` error page
+- [x] Migrate `src/app/compare/error.tsx` error page
 - [ ] Migrate `src/app/not-found.tsx` and `src/app/NotFound.tsx`
 
 ### 2.3 Data Fetching & Server Functions
