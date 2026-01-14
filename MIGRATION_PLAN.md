@@ -82,11 +82,11 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - Import and setup `<Outlet />` from `@tanstack/react-router`
   - Move layout/provider logic here
 
-- [ ] Setup error boundaries with `errorComponent`
+- [x] Setup error boundaries with `errorComponent`
 - [x] Create `src/routes/index.tsx` (home page)
 - [x] Create `src/routes/compare.tsx` (compare page)
 - [x] Create `src/routes/auth.callback.tsx` or `src/routes/auth/callback.tsx` (auth callback)
-- [ ] Handle 404s with `notFoundComponent` in `__root.tsx`
+- [x] Handle 404s with `notFoundComponent` in `__root.tsx`
 
 **Note**: TanStack Router uses flat file routing. Routes can be:
 

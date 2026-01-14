@@ -5,13 +5,16 @@ import {
 	createRootRoute,
 	HeadContent,
 	Scripts,
+	ErrorComponent,
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
 import { Providers } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
+
 import '@/fonts'
+import type { ReactNode } from 'react'
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -74,10 +77,25 @@ export const Route = createRootRoute({
 			},
 		],
 	}),
-	component: RootLayout,
+	component: () => (
+		<DocumentWrapper>
+			<Outlet />
+		</DocumentWrapper>
+	),
+	errorComponent: (props) => (
+		<DocumentWrapper>
+			<div>TODO: ERROR CAUGHT</div>
+			<ErrorComponent {...props} />
+		</DocumentWrapper>
+	),
+	notFoundComponent: () => (
+		<DocumentWrapper>
+			<div>TODO: 404 - NOT FOUND</div>
+		</DocumentWrapper>
+	),
 })
 
-function RootLayout() {
+function DocumentWrapper({ children }: { children: ReactNode }) {
 	return (
 		<html lang="en">
 			<head>
@@ -88,9 +106,7 @@ function RootLayout() {
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
 				<Providers>
-					<MainLayout>
-						<Outlet />
-					</MainLayout>
+					<MainLayout>{children}</MainLayout>
 				</Providers>
 				<Scripts />
 			</body>
