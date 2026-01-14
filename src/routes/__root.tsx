@@ -1,5 +1,5 @@
 import { ColorModeScript } from '@chakra-ui/react'
-import interWoff2 from '@fontsource-variable/inter/files/inter-latin-standard-normal.woff2?url'
+import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
 import {
 	Outlet,
 	createRootRoute,
