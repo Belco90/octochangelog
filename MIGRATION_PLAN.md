@@ -160,17 +160,17 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 3.1 Compare Page Components
 
-- [ ] Migrate `src/app/compare/comparator-context.tsx`
-- [ ] Migrate `src/app/compare/RepositoryReleasesComparator.tsx`
-- [ ] Migrate `src/app/compare/RepositoriesComparatorFilters.tsx`
-- [ ] Migrate `src/app/compare/RepositorySearchCombobox.tsx`
-- [ ] Migrate `src/app/compare/ReleaseVersionFormControl.tsx`
-- [ ] Migrate `src/app/compare/ReleaseVersionsRangeFormControl.tsx`
-- [ ] Migrate `src/app/compare/ComparatorChangelogResults.tsx`
-- [ ] Migrate `src/app/compare/RepositoryReleasesChangelog.tsx`
-- [ ] Migrate `src/app/compare/RepositoryReleasesChangelogHeading.tsx`
-- [ ] Migrate `src/app/compare/ProcessedReleaseChangeDescription.tsx`
-- [ ] Migrate `src/app/compare/AuthMessageSection.tsx`
+- [x] Migrate `src/app/compare/comparator-context.tsx`
+- [x] Migrate `src/app/compare/RepositoryReleasesComparator.tsx`
+- [x] Migrate `src/app/compare/RepositoriesComparatorFilters.tsx`
+- [x] Migrate `src/app/compare/RepositorySearchCombobox.tsx`
+- [x] Migrate `src/app/compare/ReleaseVersionFormControl.tsx`
+- [x] Migrate `src/app/compare/ReleaseVersionsRangeFormControl.tsx`
+- [x] Migrate `src/app/compare/ComparatorChangelogResults.tsx`
+- [x] Migrate `src/app/compare/RepositoryReleasesChangelog.tsx`
+- [x] Migrate `src/app/compare/RepositoryReleasesChangelogHeading.tsx`
+- [x] Migrate `src/app/compare/ProcessedReleaseChangeDescription.tsx`
+- [x] Migrate `src/app/compare/AuthMessageSection.tsx`
 
 ### 3.2 Shared Components
 
@@ -219,10 +219,10 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 4.2 MSW (Mock Service Worker)
 
-- [ ] Move MSW initialization to `src/router.ts` (client) and `instrument.server.mjs` (server)
-- [ ] Update MSW initialization if needed (check `src/mocks/`)
-- [ ] Ensure `public/mockServiceWorker.js` is still valid
-- [ ] Test mocks in development mode
+- [x] Move MSW initialization to `src/router.ts` (client) and `instrument.server.mjs` (server)
+- [x] Update MSW initialization if needed (check `src/mocks/`)
+- [x] Ensure `public/mockServiceWorker.js` is still valid
+- [x] Test mocks in development mode
 
 ### 4.3 Analytics
 

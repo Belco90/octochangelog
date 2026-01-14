@@ -33,15 +33,3 @@ Sentry.init({
 })
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
-
-// This part configures the MSW initialization on the client side if enabled.
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
-	import('./mocks/browser')
-		.then((mod) => {
-			void mod?.worker?.start()
-		})
-		.catch(() => {
-			// eslint-disable-next-line no-console
-			console.error('Failed to start MSW on the client')
-		})
-}

@@ -3,6 +3,7 @@
 interface ImportMetaEnv {
 	// Client-side environment variables
 	readonly VITE_PIRSCH_ID_CODE: string
+	readonly VITE_API_MOCKING: string
 }
 
 interface ImportMeta {
@@ -14,7 +15,6 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			readonly NODE_ENV: 'development' | 'production' | 'test'
-			readonly GITHUB_ACCESS_TOKEN: string
 		}
 	}
 }
