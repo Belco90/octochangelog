@@ -5,21 +5,30 @@ import { DiGithubBadge } from 'react-icons/di'
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { getGitHubAuthUrl } from '@/github-auth'
 
-import type { MouseEvent, PropsWithChildren } from 'react'
+import type { ButtonProps } from '@chakra-ui/react'
+import type { PropsWithChildren } from 'react'
 
 type GitHubLoginButtonProps = PropsWithChildren
 
 const GitHubLoginButton = ({
 	children = 'Login with GitHub',
 }: GitHubLoginButtonProps) => {
-	const search = useSearch({ strict: false })
+	const { repo, from, to } = useSearch({ strict: false })
 
-	const handleClick = (event: MouseEvent) => {
+	const handleClick: ButtonProps['onClick'] = (event) => {
 		event.preventDefault()
 
-		const searchParams = new URLSearchParams(search).toString()
-
-		sessionStorage.setItem(AUTH_REDIRECT_STORAGE_KEY, searchParams)
+		const filledSearchParams = new URLSearchParams(
+			Object.fromEntries(
+				Object.entries({ repo, from, to }).filter(
+					([, value]) => typeof value === 'string',
+				),
+			) as Record<string, string>,
+		)
+		sessionStorage.setItem(
+			AUTH_REDIRECT_STORAGE_KEY,
+			filledSearchParams.toString(),
+		)
 
 		window.location.href = getGitHubAuthUrl({
 			redirectUrl: window.location.origin,

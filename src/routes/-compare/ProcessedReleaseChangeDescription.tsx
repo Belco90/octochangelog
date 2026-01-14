@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
-import BlockQuote from '@/components/BlockQuote'
+import { BlockQuote } from '@/components/BlockQuote'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, Repository } from '@/models'

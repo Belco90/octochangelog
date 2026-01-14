@@ -113,7 +113,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [x] Migrate `src/app/HomePage.tsx`
 - [x] Migrate `src/app/compare/page.tsx`
 - [x] Migrate `src/app/compare/ComparatorClientView.tsx`
-- [ ] Migrate `src/app/auth/callback/` OAuth callback route
+- [x] Migrate `src/app/auth/callback/` OAuth callback route
 - [ ] Migrate `src/app/error.tsx` error page
 - [ ] Migrate `src/app/global-error.tsx` error page
 - [x] Migrate `src/app/compare/error.tsx` error page
@@ -123,8 +123,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 **Important**: TanStack Start uses different patterns than Next.js Server Components
 
-- [ ] Audit current data fetching patterns in Next.js pages
-- [ ] Replace Next.js patterns with TanStack Router loaders:
+- [x] Audit current data fetching patterns in Next.js pages
+- [x] Replace Next.js patterns with TanStack Router loaders:
   - Use `loader` function in route files for SSR data fetching
   - Use `createServerFn()` from `@tanstack/start` for server functions
   - Server functions use `'use server'` directive (similar to Next.js)
@@ -132,7 +132,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - TanStack Router loaders work seamlessly with React Query
   - Use `dehydrate` and `hydrate` for SSR hydration if needed
   - Keep existing `src/queries/` React Query hooks
-- [ ] Migrate GitHub API calls:
+- [x] Migrate GitHub API calls:
   - Move server-side GitHub API calls to server functions
   - Update `src/github-client.ts` to work with TanStack Start
   - Update `src/github-auth.ts` OAuth flow (may need adjustments for routing)
@@ -192,7 +192,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [ ] Migrate theme mode selector/toggle
 - [ ] Verify Chakra UI theme switching works with TanStack Start
-- [x] Test all UI components render correctly
+- [ ] Test all UI components render correctly
 
 ---
 
@@ -226,8 +226,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 4.3 Analytics
 
-- [ ] Migrate `src/app/PirschAnalytics.tsx` to TanStack Start
-- [ ] Verify analytics tracking works on route changes
+- [x] Migrate `src/app/PirschAnalytics.tsx` to TanStack Start
+- [x] Verify analytics tracking works on route changes
 
 ---
 
