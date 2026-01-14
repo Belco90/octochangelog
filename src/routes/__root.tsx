@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { ThemeProvider } from '@/components/Providers'
+import { AllProviders } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
 
@@ -108,9 +108,9 @@ function DocumentWrapper({ children }: { children: ReactNode }) {
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
-				<ThemeProvider>
+				<AllProviders>
 					<MainLayout>{children}</MainLayout>
-				</ThemeProvider>
+				</AllProviders>
 				<Scripts />
 			</body>
 		</html>

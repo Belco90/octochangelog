@@ -1,7 +1,5 @@
-'use client'
-
 import { CircularProgress, Flex } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+import { getRouteApi } from '@tanstack/react-router'
 import {
 	createContext,
 	use,
@@ -13,10 +11,9 @@ import {
 } from 'react'
 
 import { octokit } from '@/github-client'
-import type { ReleaseVersion, Repository } from '@/models'
+import type { CompareSearchParams, ReleaseVersion, Repository } from '@/models'
 import { mapStringToRepositoryQueryParams } from '@/utils'
 
-import type { Route } from 'next'
 import type { ReactNode } from 'react'
 
 interface ComparatorStateContextValue {
@@ -90,19 +87,22 @@ interface ComparatorProviderProps {
 	initialTo?: string
 }
 
-const ComparatorProvider = ({
+const route = getRouteApi('/compare')
+
+// TODO: revisit this workflow after TSS migration
+function ComparatorProvider({
 	children,
 	initialRepoFullName,
 	initialFrom,
 	initialTo,
-}: ComparatorProviderProps) => {
+}: ComparatorProviderProps) {
 	const [state, dispatch] = useReducer(comparatorReducer, {
 		isReady: false,
 		repository: null,
 		fromVersion: initialFrom ?? null,
 		toVersion: initialTo ?? null,
 	})
-	const router = useRouter()
+	const navigate = route.useNavigate()
 
 	const getInitialRepository = useEffectEvent(async () => {
 		if (initialRepoFullName) {
@@ -125,22 +125,23 @@ const ComparatorProvider = ({
 		function syncQueryParams() {
 			if (!state.isReady) return
 
-			const params = new URLSearchParams()
+			const updatedSearch: CompareSearchParams = {}
 			if (state.repository?.full_name)
-				params.set('repo', state.repository.full_name)
-			if (state.fromVersion) params.set('from', state.fromVersion)
-			if (state.toVersion) params.set('to', state.toVersion)
+				updatedSearch.repo = state.repository.full_name
+			if (state.fromVersion) updatedSearch.from = state.fromVersion
+			if (state.toVersion) updatedSearch.to = state.toVersion
 
-			const query = params.toString()
-			const newHref = query ? `/compare?${query}` : '/compare'
-			router.replace(newHref as Route)
+			void navigate({
+				replace: true,
+				search: (prev) => ({ ...prev, ...updatedSearch }),
+			})
 		},
 		[
 			state.repository?.full_name,
 			state.fromVersion,
 			state.toVersion,
 			state.isReady,
-			router,
+			navigate,
 		],
 	)
 

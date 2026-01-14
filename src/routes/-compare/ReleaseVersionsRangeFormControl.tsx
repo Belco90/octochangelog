@@ -5,7 +5,7 @@ import type { MinimalRelease } from '@/models'
 import { releasesQueryOptions } from '@/queries/release'
 import { getReleaseVersion, compareReleasesByVersion } from '@/utils'
 
-import ReleaseVersionFormControl from './ReleaseVersionFormControl'
+import { ReleaseVersionFormControl } from './ReleaseVersionFormControl'
 import { useComparatorState, useComparatorUpdater } from './comparator-context'
 
 import type { StackProps } from '@chakra-ui/react'
@@ -37,7 +37,7 @@ function mapReleasesRange(
 	return [fromReleases, toReleases]
 }
 
-const ReleaseVersionsRangeFormControl = (props: StackProps) => {
+export const ReleaseVersionsRangeFormControl = (props: StackProps) => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 	const { setFromVersion, setToVersion } = useComparatorUpdater()
 
@@ -81,5 +81,3 @@ const ReleaseVersionsRangeFormControl = (props: StackProps) => {
 		</Stack>
 	)
 }
-
-export default ReleaseVersionsRangeFormControl

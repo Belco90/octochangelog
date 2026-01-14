@@ -1,10 +1,10 @@
 import { Stack } from '@chakra-ui/react'
 
-import ReleaseVersionsRangeFormControl from './ReleaseVersionsRangeFormControl'
-import RepositorySearchCombobox from './RepositorySearchCombobox'
+import { ReleaseVersionsRangeFormControl } from './ReleaseVersionsRangeFormControl'
+import { RepositorySearchCombobox } from './RepositorySearchCombobox'
 import { useComparatorState, useComparatorUpdater } from './comparator-context'
 
-const RepositoriesComparatorFilters = () => {
+export const RepositoriesComparatorFilters = () => {
 	const { repository } = useComparatorState()
 	const { setRepository } = useComparatorUpdater()
 
@@ -24,5 +24,3 @@ const RepositoriesComparatorFilters = () => {
 		</Stack>
 	)
 }
-
-export default RepositoriesComparatorFilters

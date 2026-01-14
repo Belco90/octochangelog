@@ -21,3 +21,11 @@ export function QueryProvider({ children }: ProviderComponentProps) {
 		</QueryClientProvider>
 	)
 }
+
+export function AllProviders({ children }: ProviderComponentProps) {
+	return (
+		<ThemeProvider>
+			<QueryProvider>{children}</QueryProvider>
+		</ThemeProvider>
+	)
+}

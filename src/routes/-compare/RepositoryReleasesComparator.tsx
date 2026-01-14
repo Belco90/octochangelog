@@ -1,16 +1,12 @@
 import { Box, Container, Divider, Flex } from '@chakra-ui/react'
-import dynamic from 'next/dynamic'
 
-import AuthMessageSection from './AuthMessageSection'
-import RepositoriesComparatorFilters from './RepositoriesComparatorFilters'
-import RepositoryReleasesChangelogHeading from './RepositoryReleasesChangelogHeading'
+import { AuthMessageSection } from './AuthMessageSection'
+import { RepositoriesComparatorFilters } from './RepositoriesComparatorFilters'
+import { RepositoryReleasesChangelog } from './RepositoryReleasesChangelog'
+import { RepositoryReleasesChangelogHeading } from './RepositoryReleasesChangelogHeading'
 import { useComparatorState } from './comparator-context'
 
-const RepositoryReleasesChangelog = dynamic(
-	() => import('./RepositoryReleasesChangelog'),
-)
-
-const RepositoryReleasesComparator = () => {
+export const RepositoryReleasesComparator = () => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 
 	return (
@@ -44,5 +40,3 @@ const RepositoryReleasesComparator = () => {
 		</Flex>
 	)
 }
-
-export default RepositoryReleasesComparator

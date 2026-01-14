@@ -111,13 +111,12 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [x] Migrate `src/app/page.tsx` (home page)
 - [x] Migrate `src/app/HomePage.tsx`
-- [ ] Migrate `src/app/compare/page.tsx`
-- [ ] Migrate `src/app/compare/ComparatorClientView.tsx`
+- [x] Migrate `src/app/compare/page.tsx`
+- [x] Migrate `src/app/compare/ComparatorClientView.tsx`
 - [ ] Migrate `src/app/auth/callback/` OAuth callback route
-- [ ] Migrate error pages:
-  - `src/app/error.tsx`
-  - `src/app/global-error.tsx`
-  - `src/app/compare/error.tsx`
+- [ ] Migrate `src/app/error.tsx` error page
+- [ ] Migrate `src/app/global-error.tsx` error page
+- [ ] Migrate `src/app/compare/error.tsx` error page
 - [ ] Migrate `src/app/not-found.tsx` and `src/app/NotFound.tsx`
 
 ### 2.3 Data Fetching & Server Functions

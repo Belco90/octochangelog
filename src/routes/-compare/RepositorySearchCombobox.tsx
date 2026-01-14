@@ -22,15 +22,15 @@ import { HiArrowDown, HiArrowUp } from 'react-icons/hi'
 import type { Repository } from '@/models'
 import { searchRepositoriesQueryOptions } from '@/queries/repository'
 
-interface Props {
+type RepositorySearchComboboxProps = {
 	onSelect: (repo?: Repository) => void
 	initialInputValue?: string
 }
 
-const RepositorySearchCombobox = ({
+export const RepositorySearchCombobox = ({
 	onSelect,
 	initialInputValue = '',
-}: Props) => {
+}: RepositorySearchComboboxProps) => {
 	const [inputValue, setInputValue] = useState('')
 	const [isTyping, setIsTyping] = useState(false)
 
@@ -165,5 +165,3 @@ const RepositorySearchCombobox = ({
 		</FormControl>
 	)
 }
-
-export default RepositorySearchCombobox

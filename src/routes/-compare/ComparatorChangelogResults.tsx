@@ -1,6 +1,5 @@
 import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
 
-import ProcessedReleaseChangeDescription from '@/app/compare/ProcessedReleaseChangeDescription'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessReleases from '@/hooks/useProcessReleases'
 import type {
@@ -14,6 +13,8 @@ import {
 	getSemVerReleaseGroup,
 	stripEmojis,
 } from '@/utils'
+
+import { ProcessedReleaseChangeDescription } from './ProcessedReleaseChangeDescription'
 
 function getDisplayTitle(originalTitle: string, processedTitle: string) {
 	if (processedTitle === 'others') {
@@ -37,7 +38,9 @@ const ReleaseChangelogGroup = ({
 	shouldShowTitle: boolean
 }) => {
 	const originalTitle = releaseGroup[0]?.originalTitle
-	const displayTitle = getDisplayTitle(originalTitle, title)
+	const displayTitle = originalTitle
+		? getDisplayTitle(originalTitle, title)
+		: title
 
 	const textTransform =
 		title === 'breaking changes' ? 'uppercase' : 'capitalize'
@@ -71,13 +74,12 @@ const ReleaseChangelogGroup = ({
 		</Box>
 	)
 }
-
-interface ComparatorChangelogResultsProps {
+type ComparatorChangelogResultsProps = {
 	releases: Array<MinimalRelease>
 	repository: Repository
 }
 
-const ComparatorChangelogResults = ({
+export const ComparatorChangelogResults = ({
 	releases,
 	repository,
 }: ComparatorChangelogResultsProps) => {
@@ -124,5 +126,3 @@ const ComparatorChangelogResults = ({
 		</Stack>
 	)
 }
-
-export default ComparatorChangelogResults

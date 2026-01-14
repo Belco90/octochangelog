@@ -7,7 +7,7 @@ import type { FormControlProps } from '@chakra-ui/react'
 import type { ChangeEvent, ReactNode } from 'react'
 import type { Except } from 'type-fest'
 
-interface CustomProps {
+type CustomProps = {
 	label: string
 	placeholder?: string
 	value?: string
@@ -33,7 +33,7 @@ function renderReleasesOptions(
 	))
 }
 
-const ReleaseVersionFormControl = ({
+export const ReleaseVersionFormControl = ({
 	options,
 	label,
 	id,
@@ -63,5 +63,3 @@ const ReleaseVersionFormControl = ({
 		</FormControl>
 	)
 }
-
-export default ReleaseVersionFormControl

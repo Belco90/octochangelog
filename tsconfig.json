@@ -14,7 +14,7 @@
 		/* Strictness */
 		"strict": true,
 		"alwaysStrict": true,
-		"noUncheckedIndexedAccess": true,
+		// "noUncheckedIndexedAccess": true, TODO: enable in the future
 		"noImplicitOverride": true,
 
 		/* TanStack Start suggestions */

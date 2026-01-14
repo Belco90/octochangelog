@@ -108,12 +108,12 @@ const remarkReactComponents = {
 	blockquote: RemarkBlockquote,
 }
 
-interface ProcessedReleaseChangeProps extends BoxProps {
+type ProcessedReleaseChangeProps = BoxProps & {
 	repository: Repository
 	processedReleaseChange: ProcessedRelease
 }
 
-const ProcessedReleaseChangeDescription = ({
+export const ProcessedReleaseChangeDescription = ({
 	processedReleaseChange,
 	repository,
 	...rest
@@ -149,5 +149,3 @@ const ProcessedReleaseChangeDescription = ({
 		</Box>
 	)
 }
-
-export default ProcessedReleaseChangeDescription

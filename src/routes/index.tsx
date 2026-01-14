@@ -1,8 +1,8 @@
 import { Container } from '@chakra-ui/react'
 import { createFileRoute } from '@tanstack/react-router'
 
-import { FeaturesSection } from './-components/FeaturesSection'
-import { MainSection } from './-components/MainSection'
+import { FeaturesSection } from './-home/FeaturesSection'
+import { MainSection } from './-home/MainSection'
 
 export const Route = createFileRoute('/')({
 	component: HomePage,

@@ -12,17 +12,17 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 import type { Repository } from '@/models'
 import { extractVersionFromTag } from '@/utils'
 
-interface Props {
+type RepositoryReleasesChangelogHeadingProps = {
 	repository: Repository
 	fromVersion?: string
 	toVersion?: string
 }
 
-const RepositoryReleasesChangelogHeading = ({
+export const RepositoryReleasesChangelogHeading = ({
 	repository,
 	fromVersion,
 	toVersion,
-}: Props) => (
+}: RepositoryReleasesChangelogHeadingProps) => (
 	<Box width="full" py={1} mb={{ base: 4, md: 8 }}>
 		<Container variant="fluid">
 			<Heading as="h2" size="lg" mb={2}>
@@ -63,5 +63,3 @@ const RepositoryReleasesChangelogHeading = ({
 		</Container>
 	</Box>
 )
-
-export default RepositoryReleasesChangelogHeading
