@@ -146,8 +146,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [x] Migrate `src/app/manifest.ts`:
   - Convert to static `public/manifest.json` file
   - Or use dynamic route if needed
-- [ ] Create `public/robots.txt` (static file)
-- [ ] Setup sitemap generation:
+- [x] Create `public/robots.txt` (static file)
+- [x] Setup sitemap generation:
   - Already configured in `vite.config.ts` with `sitemap: { host: '...' }`
   - TanStack Start auto-generates sitemap from routes
 - [x] Migrate favicon handling:
