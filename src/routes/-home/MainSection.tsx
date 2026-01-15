@@ -3,6 +3,7 @@ import { Link as TanStackLink } from '@tanstack/react-router'
 
 import { BRIEF_DESCRIPTION } from '@/common'
 import { OptimizedImage } from '@/components/OptimizedImage'
+import mascotLogo from '@/images/mascot-logo.png'
 
 export function MainSection() {
 	return (
@@ -31,7 +32,13 @@ export function MainSection() {
 				</Flex>
 			</Stack>
 			<Center width="full">
-				<OptimizedImage src="/mascot-icon.png" alt="" priority />
+				<OptimizedImage
+					src={mascotLogo}
+					alt=""
+					width={500}
+					height={500}
+					priority
+				/>
 			</Center>
 		</Stack>
 	)

@@ -13,6 +13,7 @@ import { REPO_URL } from '@/common'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { RouteLink } from '@/components/RouteLink'
 import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
+import mascotLogo from '@/images/mascot-logo.png'
 
 import type { BoxProps } from '@chakra-ui/react'
 
@@ -55,7 +56,7 @@ export const Header = (props: BoxProps) => {
 							<HStack spacing={{ base: 1, lg: 2 }}>
 								<Box h={LOGO_SIZES} w={LOGO_SIZES}>
 									<OptimizedImage
-										src="/mascot-icon.png"
+										src={mascotLogo}
 										alt=""
 										height={70}
 										width={70}
