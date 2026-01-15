@@ -1,5 +1,3 @@
-'use client'
-
 import {
 	Button,
 	Container,
@@ -8,18 +6,18 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react'
-import NextLink from 'next/link'
+import { Link as TanStackLink } from '@tanstack/react-router'
 
-import { Link } from '@/components/ChakraNextLink'
 import { OptimizedImage } from '@/components/OptimizedImage'
-import mascotIcon from '@/public/mascot-icon.png'
+import { RouteLink } from '@/components/RouteLink'
+import mascotLogo from '@/images/mascot-logo.png'
 
 export function NotFound() {
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
 				<OptimizedImage
-					src={mascotIcon.src}
+					src={mascotLogo}
 					alt=""
 					width={250}
 					height={250}
@@ -47,13 +45,13 @@ export function NotFound() {
 				</Stack>
 			</VStack>
 			<VStack mt={12} spacing={5}>
-				<Button as={NextLink} variant="cta" href="/compare">
+				<Button as={TanStackLink} variant="cta" to="/compare">
 					Go to compare
 				</Button>
 
-				<Link href="/" fontWeight="black">
+				<RouteLink to="/" fontWeight="black">
 					Or go to homepage
-				</Link>
+				</RouteLink>
 			</VStack>
 		</Container>
 	)

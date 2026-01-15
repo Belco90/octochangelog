@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
+import { NotFound } from '@/components/NotFound'
 import { AllProviders } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import { seo } from '@/seo'
@@ -91,11 +92,7 @@ export const Route = createRootRoute({
 			<ErrorComponent {...props} />
 		</DocumentWrapper>
 	),
-	notFoundComponent: () => (
-		<DocumentWrapper>
-			<div>TODO: 404 - NOT FOUND</div>
-		</DocumentWrapper>
-	),
+	notFoundComponent: () => <NotFound />,
 })
 
 function DocumentWrapper({ children }: { children: ReactNode }) {
