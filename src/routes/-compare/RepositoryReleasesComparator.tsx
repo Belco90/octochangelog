@@ -1,10 +1,16 @@
 import { Box, Container, Divider, Flex } from '@chakra-ui/react'
+import { lazy, Suspense } from 'react'
 
 import { AuthMessageSection } from './AuthMessageSection'
 import { RepositoriesComparatorFilters } from './RepositoriesComparatorFilters'
-import { RepositoryReleasesChangelog } from './RepositoryReleasesChangelog'
 import { RepositoryReleasesChangelogHeading } from './RepositoryReleasesChangelogHeading'
 import { useComparatorState } from './comparator-context'
+
+const RepositoryReleasesChangelog = lazy(() =>
+	import('./RepositoryReleasesChangelog').then((m) => ({
+		default: m.RepositoryReleasesChangelog,
+	})),
+)
 
 export const RepositoryReleasesComparator = () => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
@@ -26,11 +32,13 @@ export const RepositoryReleasesComparator = () => {
 							toVersion={toVersion ?? undefined}
 						/>
 						<Container variant="fluid">
-							<RepositoryReleasesChangelog
-								repository={repository}
-								fromVersion={fromVersion ?? undefined}
-								toVersion={toVersion ?? undefined}
-							/>
+							<Suspense>
+								<RepositoryReleasesChangelog
+									repository={repository}
+									fromVersion={fromVersion ?? undefined}
+									toVersion={toVersion ?? undefined}
+								/>
+							</Suspense>
 						</Container>
 					</>
 				)}
