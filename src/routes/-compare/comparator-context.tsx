@@ -1,22 +1,21 @@
-import { CircularProgress, Flex } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 import { getRouteApi } from '@tanstack/react-router'
 import {
 	createContext,
 	use,
 	useCallback,
 	useEffect,
-	useEffectEvent,
 	useMemo,
 	useReducer,
 } from 'react'
 
-import { octokit } from '@/github-client'
 import type {
 	CompareSearchParams,
 	PropsWithRequiredChildren,
 	ReleaseVersion,
 	Repository,
 } from '@/models'
+import { getRepositoryQueryOptions } from '@/queries/repository'
 import { mapStringToRepositoryQueryParams } from '@/utils'
 
 interface ComparatorStateContextValue {
@@ -32,26 +31,21 @@ interface ComparatorUpdaterContextValue {
 }
 
 interface ComparatorState {
-	isReady: boolean
 	repository: Repository | null
 	fromVersion: string | null
 	toVersion: string | null
 }
 
 type ComparatorAction =
-	| { type: 'SET_INITIAL_REPOSITORY'; payload: Repository | null }
 	| { type: 'SET_REPOSITORY'; payload: Repository | null }
 	| { type: 'SET_FROM_VERSION'; payload: string | null }
 	| { type: 'SET_TO_VERSION'; payload: string | null }
-	| { type: 'SET_READY'; payload: boolean }
 
 function comparatorReducer(
 	state: ComparatorState,
 	action: ComparatorAction,
 ): ComparatorState {
 	switch (action.type) {
-		case 'SET_INITIAL_REPOSITORY':
-			return { ...state, repository: action.payload }
 		case 'SET_REPOSITORY':
 			return {
 				...state,
@@ -63,8 +57,6 @@ function comparatorReducer(
 			return { ...state, fromVersion: action.payload }
 		case 'SET_TO_VERSION':
 			return { ...state, toVersion: action.payload }
-		case 'SET_READY':
-			return { ...state, isReady: action.payload }
 		default:
 			return state
 	}
@@ -77,12 +69,6 @@ const ComparatorUpdaterContext = createContext<
 	ComparatorUpdaterContextValue | undefined
 >(undefined)
 
-const loadingElement = (
-	<Flex align="center" justify="center" height="100%">
-		<CircularProgress isIndeterminate size="8" color="primary.400" />
-	</Flex>
-)
-
 type ComparatorProviderProps = PropsWithRequiredChildren<{
 	initialRepoFullName?: string
 	initialFrom?: string
@@ -91,42 +77,34 @@ type ComparatorProviderProps = PropsWithRequiredChildren<{
 
 const route = getRouteApi('/compare')
 
-// TODO: revisit this workflow after TSS migration
 function ComparatorProvider({
 	children,
 	initialRepoFullName,
 	initialFrom,
 	initialTo,
 }: ComparatorProviderProps) {
+	const repositoryQueryParams = initialRepoFullName
+		? mapStringToRepositoryQueryParams(initialRepoFullName)
+		: undefined
+
+	const shouldFetchRepo = Boolean(
+		repositoryQueryParams?.repo && repositoryQueryParams?.owner,
+	)
+
+	const { data: initialRepository } = useQuery(
+		getRepositoryQueryOptions(repositoryQueryParams),
+	)
+
 	const [state, dispatch] = useReducer(comparatorReducer, {
-		isReady: false,
-		repository: null,
+		// @ts-expect-error Repository types from 'search/repos' and 'repos/get' don't match, fix it defining MinimalRepo type
+		repository: shouldFetchRepo ? initialRepository : null,
 		fromVersion: initialFrom ?? null,
 		toVersion: initialTo ?? null,
 	})
 	const navigate = route.useNavigate()
 
-	const getInitialRepository = useEffectEvent(async () => {
-		if (initialRepoFullName) {
-			const repositoryQueryParams =
-				mapStringToRepositoryQueryParams(initialRepoFullName)
-
-			if (repositoryQueryParams.repo && repositoryQueryParams.owner) {
-				const response = await octokit.repos.get(repositoryQueryParams)
-				dispatch({ type: 'SET_INITIAL_REPOSITORY', payload: response.data })
-			}
-		}
-		dispatch({ type: 'SET_READY', payload: true })
-	})
-
-	useEffect(() => {
-		void getInitialRepository()
-	}, [])
-
 	useEffect(
 		function syncQueryParams() {
-			if (!state.isReady) return
-
 			const updatedSearch: CompareSearchParams = {}
 			if (state.repository?.full_name)
 				updatedSearch.repo = state.repository.full_name
@@ -138,13 +116,7 @@ function ComparatorProvider({
 				search: (prev) => ({ ...prev, ...updatedSearch }),
 			})
 		},
-		[
-			state.repository?.full_name,
-			state.fromVersion,
-			state.toVersion,
-			state.isReady,
-			navigate,
-		],
+		[state.repository?.full_name, state.fromVersion, state.toVersion, navigate],
 	)
 
 	const setSelectedRepository = useCallback(
@@ -183,7 +155,7 @@ function ComparatorProvider({
 	return (
 		<ComparatorStateContext value={stateValue}>
 			<ComparatorUpdaterContext value={updaterValue}>
-				{state.isReady ? children : loadingElement}
+				{children}
 			</ComparatorUpdaterContext>
 		</ComparatorStateContext>
 	)

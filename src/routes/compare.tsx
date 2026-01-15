@@ -3,7 +3,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 import type { CompareSearchParams } from '@/models'
+import { getRepositoryQueryOptions } from '@/queries/repository'
 import { seo } from '@/seo'
+import { mapStringToRepositoryQueryParams } from '@/utils'
 
 import { RepositoryReleasesComparator } from './-compare/RepositoryReleasesComparator'
 import { ComparatorProvider } from './-compare/comparator-context'
@@ -17,6 +19,22 @@ export const Route = createFileRoute('/compare')({
 			repo: search.repo as string | undefined,
 			from: search.from as string | undefined,
 			to: search.to as string | undefined,
+		}
+	},
+	loaderDeps: ({ search }) => {
+		const { repo } = search
+		return { repo }
+	},
+	loader: async ({ context, deps }) => {
+		const { repo } = deps
+
+		if (repo) {
+			const repositoryQueryParams = mapStringToRepositoryQueryParams(repo)
+			if (repositoryQueryParams.owner && repositoryQueryParams.repo) {
+				await context.queryClient.ensureQueryData(
+					getRepositoryQueryOptions(repositoryQueryParams),
+				)
+			}
 		}
 	},
 	head: () => ({
