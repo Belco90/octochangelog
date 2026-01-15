@@ -12,12 +12,6 @@ import hljsCss from './-compare/hljs.css?url'
 import type { ErrorComponentProps } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/compare')({
-	head: () => ({
-		meta: seo({
-			title: 'Compare',
-		}),
-		links: [{ rel: 'stylesheet', href: hljsCss }],
-	}),
 	validateSearch: (search): CompareSearchParams => {
 		return {
 			repo: search.repo as string | undefined,
@@ -25,6 +19,12 @@ export const Route = createFileRoute('/compare')({
 			to: search.to as string | undefined,
 		}
 	},
+	head: () => ({
+		meta: seo({
+			title: 'Compare',
+		}),
+		links: [{ rel: 'stylesheet', href: hljsCss }],
+	}),
 	component: ComparePage,
 	errorComponent: CompareErrorPage,
 })

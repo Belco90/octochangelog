@@ -5,7 +5,8 @@ import { includeIgnoreFile } from '@eslint/compat'
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
 import stylistic from '@stylistic/eslint-plugin'
-import tanstackQuery from '@tanstack/eslint-plugin-query'
+import tanStackQuery from '@tanstack/eslint-plugin-query'
+import tanStackRouter from '@tanstack/eslint-plugin-router'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
@@ -26,7 +27,8 @@ export default defineConfig(
 	importX.flatConfigs.recommended,
 	importX.flatConfigs.typescript,
 	importX.flatConfigs.react,
-	tanstackQuery.configs['flat/recommended'],
+	tanStackQuery.configs['flat/recommended'],
+	tanStackRouter.configs['flat/recommended'],
 	eslintReact.configs['recommended-type-checked'],
 	reactHooks.configs.flat.recommended,
 	jsxA11y.flatConfigs.recommended,

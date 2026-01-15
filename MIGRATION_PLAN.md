@@ -280,10 +280,10 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 5.4 Linting & Formatting
 
-- [ ] Update ESLint config (`eslint.config.js`) for TanStack Start
-- [ ] Remove Next.js specific ESLint rules
-- [ ] Add TanStack Router ESLint plugin if available
-- [ ] Verify prettier config still works
+- [x] Update ESLint config (`eslint.config.js`) for TanStack Start
+- [x] Remove Next.js specific ESLint rules
+- [x] Add TanStack Router ESLint plugin if available
+- [x] Verify prettier config still works
 
 ### 5.5 Visual Testing
 

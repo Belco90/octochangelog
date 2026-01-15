@@ -52,11 +52,6 @@ const getRedirectSearchParams = createClientOnlyFn(() => {
 })
 
 export const Route = createFileRoute('/auth/callback')({
-	head: () => ({
-		meta: seo({
-			title: 'Authorizing on GitHub',
-		}),
-	}),
 	validateSearch: (search) => {
 		if (search.code == null) {
 			throw MISSING_CODE_ERROR
@@ -69,12 +64,17 @@ export const Route = createFileRoute('/auth/callback')({
 		return { code }
 	},
 	loader: async ({ deps }) => getAuthResult({ data: deps }),
+	head: () => ({
+		meta: seo({
+			title: 'Authorizing on GitHub',
+		}),
+	}),
 	onError: () => {
 		// TODO: capture exception in Sentry (include info?)
 	},
 	// Do not cache this route's data after it's unloaded
 	gcTime: 0,
-	// Only reload the route when the user navigates to it or when deps change
+	// Only reload the route when the user navigates to it or when deps change.
 	shouldReload: false,
 	pendingComponent: () => (
 		<AuthLayout>
