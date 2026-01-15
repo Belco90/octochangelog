@@ -27,7 +27,7 @@ type RepositoryQueryParams = {
 // TODO: rename to MinimalRepository
 type Repository = Pick<
 	components['schemas']['repository'],
-	'owner' | 'html_url' | 'full_name'
+	'id' | 'owner' | 'html_url' | 'full_name' | 'name'
 >
 
 /**
