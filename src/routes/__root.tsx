@@ -1,5 +1,6 @@
 import { ColorModeScript } from '@chakra-ui/react'
 import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
 	createRootRoute,
@@ -8,7 +9,6 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { NotFound } from '@/components/NotFound'
 import { AllProviders } from '@/components/Providers'
 import customTheme from '@/custom-theme'
 import type { PropsWithRequiredChildren } from '@/models'
@@ -85,7 +85,6 @@ export const Route = createRootRoute({
 			<Outlet />
 		</DocumentWrapper>
 	),
-	notFoundComponent: NotFound,
 })
 
 function DocumentWrapper({ children }: PropsWithRequiredChildren) {
@@ -98,6 +97,8 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
+				<ReactQueryDevtools />
+
 				<AllProviders>
 					<MainLayout>{children}</MainLayout>
 				</AllProviders>

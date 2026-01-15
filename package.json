@@ -39,6 +39,7 @@
 		"@sentry/tanstackstart-react": "10.33.0",
 		"@tanstack/react-query": "5.90.16",
 		"@tanstack/react-router": "1.147.3",
+		"@tanstack/react-router-ssr-query": "1.150.0",
 		"@tanstack/react-start": "1.149.2",
 		"@unpic/react": "1.0.2",
 		"downshift": "9.0.13",
