@@ -1,11 +1,14 @@
 import { createRouter } from '@tanstack/react-router'
 
+import { GenericError } from '@/components/GenericError'
+
 import { routeTree } from './routeTree.gen'
 
 export async function getRouter() {
 	const router = createRouter({
 		routeTree,
 		scrollRestoration: true,
+		defaultErrorComponent: GenericError,
 	})
 
 	// init integrations

@@ -5,7 +5,6 @@ import {
 	createRootRoute,
 	HeadContent,
 	Scripts,
-	ErrorComponent,
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
@@ -86,13 +85,7 @@ export const Route = createRootRoute({
 			<Outlet />
 		</DocumentWrapper>
 	),
-	errorComponent: (props) => (
-		<DocumentWrapper>
-			<div>TODO: ERROR CAUGHT</div>
-			<ErrorComponent {...props} />
-		</DocumentWrapper>
-	),
-	notFoundComponent: () => <NotFound />,
+	notFoundComponent: NotFound,
 })
 
 function DocumentWrapper({ children }: PropsWithRequiredChildren) {

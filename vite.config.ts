@@ -21,8 +21,11 @@ export default defineConfig({
 			prerender: {
 				enabled: isNodeEnvProd,
 				filter: ({ path }) => {
-					// Prevent prerendering auth routes
-					return !path.includes('/auth')
+					// Prevent prerendering routes for auth
+					if (path.includes('/auth')) return false
+					// Prevent prerendering routes for testing errors
+					if (path.includes('/test-errors')) return false
+					return true
 				},
 			},
 			sitemap: {

@@ -1,5 +1,3 @@
-'use client'
-
 import {
 	Button,
 	Container,
@@ -8,25 +6,25 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react'
-import * as Sentry from '@sentry/nextjs'
 import { useEffect } from 'react'
 
 import { OptimizedImage } from '@/components/OptimizedImage'
-import type { NextErrorPageProps } from '@/models'
-import mascotIcon from '@/public/mascot-icon.png'
+import mascotIcon from '@/images/mascot-logo.png'
 
-import type { FC } from 'react'
+import type { ErrorComponentProps } from '@tanstack/react-router'
 
-const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
+export function GenericError({ error, reset }: ErrorComponentProps) {
 	useEffect(() => {
-		Sentry.captureException(error)
+		// TODO: sentry (sent info?)
+		console.error(error)
+		// Sentry.captureException(error)
 	}, [error])
 
 	return (
 		<Container variant="fluid" pb={{ base: 8, lg: 16 }}>
 			<VStack px="10">
 				<OptimizedImage
-					src={mascotIcon.src}
+					src={mascotIcon}
 					alt=""
 					width={250}
 					height={250}
@@ -60,5 +58,3 @@ const UIError: FC<NextErrorPageProps> = ({ error, reset }) => {
 		</Container>
 	)
 }
-
-export default UIError

@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TestErrorsServerSideRouteImport } from './routes/test-errors/server-side'
+import { Route as TestErrorsClientSideRouteImport } from './routes/test-errors/client-side'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 
 const CompareRoute = CompareRouteImport.update({
@@ -23,6 +25,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestErrorsServerSideRoute = TestErrorsServerSideRouteImport.update({
+  id: '/test-errors/server-side',
+  path: '/test-errors/server-side',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestErrorsClientSideRoute = TestErrorsClientSideRouteImport.update({
+  id: '/test-errors/client-side',
+  path: '/test-errors/client-side',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
@@ -33,30 +45,54 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/test-errors/client-side': typeof TestErrorsClientSideRoute
+  '/test-errors/server-side': typeof TestErrorsServerSideRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/test-errors/client-side': typeof TestErrorsClientSideRoute
+  '/test-errors/server-side': typeof TestErrorsServerSideRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/test-errors/client-side': typeof TestErrorsClientSideRoute
+  '/test-errors/server-side': typeof TestErrorsServerSideRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/compare' | '/auth/callback'
+  fullPaths:
+    | '/'
+    | '/compare'
+    | '/auth/callback'
+    | '/test-errors/client-side'
+    | '/test-errors/server-side'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/compare' | '/auth/callback'
-  id: '__root__' | '/' | '/compare' | '/auth/callback'
+  to:
+    | '/'
+    | '/compare'
+    | '/auth/callback'
+    | '/test-errors/client-side'
+    | '/test-errors/server-side'
+  id:
+    | '__root__'
+    | '/'
+    | '/compare'
+    | '/auth/callback'
+    | '/test-errors/client-side'
+    | '/test-errors/server-side'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompareRoute: typeof CompareRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
+  TestErrorsClientSideRoute: typeof TestErrorsClientSideRoute
+  TestErrorsServerSideRoute: typeof TestErrorsServerSideRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +111,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/test-errors/server-side': {
+      id: '/test-errors/server-side'
+      path: '/test-errors/server-side'
+      fullPath: '/test-errors/server-side'
+      preLoaderRoute: typeof TestErrorsServerSideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test-errors/client-side': {
+      id: '/test-errors/client-side'
+      path: '/test-errors/client-side'
+      fullPath: '/test-errors/client-side'
+      preLoaderRoute: typeof TestErrorsClientSideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/callback': {
       id: '/auth/callback'
       path: '/auth/callback'
@@ -89,6 +139,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompareRoute: CompareRoute,
   AuthCallbackRoute: AuthCallbackRoute,
+  TestErrorsClientSideRoute: TestErrorsClientSideRoute,
+  TestErrorsServerSideRoute: TestErrorsServerSideRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
