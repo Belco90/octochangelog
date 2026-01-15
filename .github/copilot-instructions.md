@@ -273,12 +273,6 @@ NEXT_PUBLIC_GITHUB_APP_CLIENT_ID=notset
 NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 ```
 
-**Optional Feature Flags** (for `.env.local`):
-
-```bash
-NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true  # Enable dark mode toggle
-```
-
 **CI Environment Variables** (from GitHub secrets):
 
 - `HAPPO_API_KEY`, `HAPPO_API_SECRET` - Visual regression testing

@@ -103,7 +103,7 @@ function invertSemanticToken(token: SemanticToken): SemanticToken {
 }
 
 const themeConfig: ThemeConfig = {
-	useSystemColorMode: !!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE,
+	useSystemColorMode: true,
 }
 
 type CustomTheme = Theme & {

@@ -86,16 +86,7 @@ Use the following query string to check the comparator output:
 ?repo=testing-library%2Fdom-testing-library&from=v6.16.0&to=v8.1.0
 ```
 
-## Working on dark mode locally
-
-We've hidden the color mode behind a feature flag called `NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE`.
-This way we can work on the dark mode without publishing the feature.
-
-Do the following to get a ugly button to toggle between light/dark mode:
-
-1. Create a file named `.env.local` in the root of the project (this file is on the `.gitignore` list so it won't be committed accidentally)
-1. Put `NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true` inside the `.env.local` file.
-1. You can now use the button in the header to switch between light/dark mode
+## Dark mode
 
 ### Setting colors for light/dark mode
 
@@ -130,7 +121,7 @@ const Footer = () => {
 export default Footer
 ```
 
-### Running E2E
+## Running E2E
 
 Our E2E tests are implemented with Playwright, and are run against a mocked GitHub API with MSW.
 
