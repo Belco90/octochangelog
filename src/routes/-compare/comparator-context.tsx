@@ -31,7 +31,7 @@ interface ComparatorUpdaterContextValue {
 }
 
 interface ComparatorState {
-	repository: Repository | null
+	repository: Repository | null | undefined
 	fromVersion: string | null
 	toVersion: string | null
 }
@@ -96,7 +96,6 @@ function ComparatorProvider({
 	)
 
 	const [state, dispatch] = useReducer(comparatorReducer, {
-		// @ts-expect-error Repository types from 'search/repos' and 'repos/get' don't match, fix it defining MinimalRepo type
 		repository: shouldFetchRepo ? initialRepository : null,
 		fromVersion: initialFrom ?? null,
 		toVersion: initialTo ?? null,

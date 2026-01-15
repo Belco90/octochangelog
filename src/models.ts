@@ -24,7 +24,11 @@ type RepositoryQueryParams = {
 	owner: string
 }
 
-type Repository = components['schemas']['full-repository']
+// TODO: rename to MinimalRepository
+type Repository = Pick<
+	components['schemas']['repository'],
+	'owner' | 'html_url' | 'full_name'
+>
 
 /**
  * Minimal properties from a GitHub Release that are used across the webapp.

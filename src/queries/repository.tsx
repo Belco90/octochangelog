@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { octokit } from '@/github-client'
-import type { Repository } from '@/models'
+import type { Repository, RepositoryQueryParams } from '@/models'
 
 import type { RestEndpointMethodTypes } from '@octokit/rest'
 
@@ -18,13 +18,9 @@ function searchRepositoriesQueryOptions(params: ReposQueryParams) {
 	})
 }
 
-type GetRepoRequiredParams = Pick<
-	RestEndpointMethodTypes['repos']['get']['parameters'],
-	'owner' | 'repo'
->
 type GetRepoResponse = RestEndpointMethodTypes['repos']['get']['response']
 
-function getRepositoryQueryOptions(params?: GetRepoRequiredParams) {
+function getRepositoryQueryOptions(params?: RepositoryQueryParams) {
 	return queryOptions<GetRepoResponse, Error, Repository>({
 		queryKey: ['repo', params],
 		queryFn: async () => octokit.repos.get(params),
