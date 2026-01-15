@@ -3,17 +3,14 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import customTheme from '@/custom-theme'
+import type { PropsWithRequiredChildren } from '@/models'
 import { queryClient } from '@/query-client'
 
-import type { ReactNode } from 'react'
-
-type ProviderComponentProps = { children: ReactNode }
-
-export function ThemeProvider({ children }: ProviderComponentProps) {
+export function ThemeProvider({ children }: PropsWithRequiredChildren) {
 	return <ChakraProvider theme={customTheme}>{children}</ChakraProvider>
 }
 
-export function QueryProvider({ children }: ProviderComponentProps) {
+export function QueryProvider({ children }: PropsWithRequiredChildren) {
 	return (
 		<QueryClientProvider client={queryClient}>
 			{children}
@@ -22,7 +19,7 @@ export function QueryProvider({ children }: ProviderComponentProps) {
 	)
 }
 
-export function AllProviders({ children }: ProviderComponentProps) {
+export function AllProviders({ children }: PropsWithRequiredChildren) {
 	return (
 		<ThemeProvider>
 			<QueryProvider>{children}</QueryProvider>

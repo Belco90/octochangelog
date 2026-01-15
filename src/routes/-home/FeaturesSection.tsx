@@ -14,14 +14,14 @@ import {
 	HiOutlineTag,
 } from 'react-icons/hi'
 
-import type { ReactNode } from 'react'
+import type { PropsWithRequiredChildren } from '@/models'
+
 import type { IconType } from 'react-icons'
 
-type FeatureItemProps = {
+type FeatureItemProps = PropsWithRequiredChildren<{
 	icon: IconType
 	title: string
-	children: ReactNode
-}
+}>
 
 const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 	{

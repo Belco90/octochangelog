@@ -11,10 +11,13 @@ import {
 } from 'react'
 
 import { octokit } from '@/github-client'
-import type { CompareSearchParams, ReleaseVersion, Repository } from '@/models'
+import type {
+	CompareSearchParams,
+	PropsWithRequiredChildren,
+	ReleaseVersion,
+	Repository,
+} from '@/models'
 import { mapStringToRepositoryQueryParams } from '@/utils'
-
-import type { ReactNode } from 'react'
 
 interface ComparatorStateContextValue {
 	repository?: Repository | null
@@ -80,12 +83,11 @@ const loadingElement = (
 	</Flex>
 )
 
-interface ComparatorProviderProps {
-	children: ReactNode
+type ComparatorProviderProps = PropsWithRequiredChildren<{
 	initialRepoFullName?: string
 	initialFrom?: string
 	initialTo?: string
-}
+}>
 
 const route = getRouteApi('/compare')
 

@@ -3,6 +3,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, renderHook } from '@testing-library/react'
 
+import type { PropsWithRequiredChildren } from '@/models'
+
 import customTheme from './custom-theme'
 
 import type {
@@ -10,7 +12,7 @@ import type {
 	RenderHookResult,
 	RenderOptions,
 } from '@testing-library/react'
-import type { FC, ReactElement, ReactNode } from 'react'
+import type { ReactElement } from 'react'
 
 /**
  * Testing recommendations by TanStack Query
@@ -29,7 +31,7 @@ const testingQueryClient = new QueryClient({
  * Custom render setup
  * https://testing-library.com/docs/react-testing-library/setup#custom-render
  */
-const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => {
+function AllTheProviders({ children }: PropsWithRequiredChildren) {
 	return (
 		<QueryClientProvider client={testingQueryClient}>
 			<ChakraProvider theme={customTheme}>{children}</ChakraProvider>

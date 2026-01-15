@@ -3,25 +3,25 @@ import {
 	AlertDescription,
 	AlertIcon,
 	AlertTitle,
+	Button,
 	Center,
+	Code,
 	Container,
 	Heading,
 	Spinner,
 	Text,
 	VStack,
-	Button,
-	Code,
 } from '@chakra-ui/react'
 import { createFileRoute, Link as TanStackLink } from '@tanstack/react-router'
-import { createServerFn, createClientOnlyFn } from '@tanstack/react-start'
-import { setCookie, deleteCookie } from '@tanstack/react-start/server'
+import { createClientOnlyFn, createServerFn } from '@tanstack/react-start'
+import { deleteCookie, setCookie } from '@tanstack/react-start/server'
 
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { exchangeCodeByAccessToken, GITHUB_STORAGE_KEY } from '@/github-auth'
+import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 
 import type { ErrorComponentProps } from '@tanstack/react-router'
-import type { ReactNode } from 'react'
 
 const MISSING_CODE_ERROR = new Error('Missing GitHub code')
 
@@ -85,7 +85,7 @@ export const Route = createFileRoute('/auth/callback')({
 	),
 })
 
-function AuthLayout({ children }: { children: ReactNode }) {
+function AuthLayout({ children }: PropsWithRequiredChildren) {
 	return (
 		<Container
 			maxWidth="container.lg"

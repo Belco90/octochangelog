@@ -1,6 +1,10 @@
 import type { components } from '@octokit/openapi-types'
 import type { Root } from 'mdast'
-import type { ReactElement } from 'react'
+import type { ReactElement, PropsWithChildren, ReactNode } from 'react'
+
+type PropsWithRequiredChildren<TProps = unknown> = PropsWithChildren<TProps> & {
+	children: ReactNode
+}
 
 type CompareSearchParams = {
 	repo?: string
@@ -53,6 +57,7 @@ type ComponentLike<
 type ComponentsMapping = Record<string, ComponentLike<ReactElement>>
 
 export type {
+	PropsWithRequiredChildren,
 	CompareSearchParams,
 	SemVerGroup,
 	MiscGroup,

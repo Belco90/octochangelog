@@ -12,10 +12,10 @@ import { MainLayout } from '@/components/MainLayout'
 import { NotFound } from '@/components/NotFound'
 import { AllProviders } from '@/components/Providers'
 import customTheme from '@/custom-theme'
+import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 
 import '@/fonts'
-import type { ReactNode } from 'react'
 
 export const Route = createRootRoute({
 	head: ({ match }) => {
@@ -95,7 +95,7 @@ export const Route = createRootRoute({
 	notFoundComponent: () => <NotFound />,
 })
 
-function DocumentWrapper({ children }: { children: ReactNode }) {
+function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 	return (
 		<html lang="en">
 			<head>
