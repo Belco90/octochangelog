@@ -63,11 +63,19 @@ export const Route = createFileRoute('/auth/callback')({
 		}
 		return search as { code: string }
 	},
+	ssr: 'data-only',
 	loaderDeps: ({ search }) => {
 		const { code } = search
 		return { code }
 	},
 	loader: async ({ deps }) => getAuthResult({ data: deps }),
+	onError: () => {
+		// TODO: capture exception in Sentry (include info?)
+	},
+	// Do not cache this route's data after it's unloaded
+	gcTime: 0,
+	// Only reload the route when the user navigates to it or when deps change
+	shouldReload: false,
 	pendingComponent: () => (
 		<AuthLayout>
 			<AuthCallbackPending />
@@ -102,7 +110,8 @@ function AuthLayout({ children }: PropsWithRequiredChildren) {
 }
 
 function AuthCallbackPage() {
-	Route.useLoaderData()
+	// No need to call `Route.useLoaderData()` since reaching
+	// this client component means the OAuth flow was successful.
 
 	const redirectSearchParams = getRedirectSearchParams()
 	const compareUrl = redirectSearchParams

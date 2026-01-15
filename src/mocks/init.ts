@@ -13,7 +13,6 @@ export async function enableMocking(isServer: boolean): StartReturnType {
 	if (isServer) {
 		const { server } = await import('@/mocks/server')
 		server.listen()
-		console.info('[MSW] Server mocking enabled.')
 		return
 	} else {
 		const { worker } = await import('@/mocks/browser')
