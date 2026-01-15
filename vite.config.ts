@@ -9,6 +9,8 @@ import {
 	defaultExclude,
 } from 'vitest/config'
 
+const isNodeEnvProd = process.env.NODE_ENV === 'production'
+
 export default defineConfig({
 	server: {
 		port: 3000,
@@ -16,7 +18,13 @@ export default defineConfig({
 	plugins: [
 		tsconfigPaths(),
 		tanstackStart({
-			prerender: { enabled: process.env.NODE_ENV === 'production' },
+			prerender: {
+				enabled: isNodeEnvProd,
+				filter: ({ path }) => {
+					// Prevent prerendering auth routes
+					return !path.includes('/auth')
+				},
+			},
 			sitemap: {
 				host: 'https://octochangelog.com/',
 			},
@@ -26,10 +34,8 @@ export default defineConfig({
 		viteReact(),
 
 		// Netlify adapter for TanStack Start (anywhere in the array is fine)
-		// Only enable Netlify plugin during build or when NETLIFY env is set
-		...(process.env.NETLIFY || process.env.NODE_ENV === 'production'
-			? [netlify()]
-			: []),
+		// Only enable Netlify plugin in prod bundle or when NETLIFY env is set
+		...(process.env.NETLIFY || isNodeEnvProd ? [netlify()] : []),
 	],
 	test: {
 		clearMocks: true,
