@@ -1,9 +1,15 @@
 /// <reference types="vite/client" />
 
+type NETLIFY_CONTEXT = 'production' | 'deploy-preview' | 'branch-deploy' | 'dev'
+
+// Client-side environment variables
 interface ImportMetaEnv {
-	// Client-side environment variables
 	readonly VITE_PIRSCH_ID_CODE: string
 	readonly VITE_API_MOCKING: string
+	readonly VITE_GITHUB_APP_CLIENT_ID: string
+
+	// Re-export Netlify context to the client-side
+	readonly VITE_CONTEXT: NETLIFY_CONTEXT | undefined
 }
 
 interface ImportMeta {
@@ -15,12 +21,8 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			readonly NODE_ENV: 'development' | 'production' | 'test'
-			readonly CONTEXT:
-				| 'production'
-				| 'deploy-preview'
-				| 'branch-deploy'
-				| 'dev'
-				| undefined
+			readonly CONTEXT: NETLIFY_CONTEXT | undefined
+			readonly GITHUB_APP_CLIENT_SECRET: string
 		}
 	}
 }

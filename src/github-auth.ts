@@ -33,8 +33,7 @@ async function exchangeCodeByAccessToken(code: string): Promise<OAuthData> {
 		},
 		body: JSON.stringify({
 			code,
-			// TODO: update these env vars
-			client_id: process.env.NEXT_PUBLIC_GITHUB_APP_CLIENT_ID,
+			client_id: process.env.VITE_GITHUB_APP_CLIENT_ID,
 			client_secret: process.env.GITHUB_APP_CLIENT_SECRET,
 		}),
 	})
@@ -52,7 +51,7 @@ function getGitHubAuthUrl({ redirectUrl }: { redirectUrl: string }): URL {
 	githubAuthUrl.pathname = '/login/oauth/authorize'
 	githubAuthUrl.searchParams.append(
 		'client_id',
-		String(process.env.NEXT_PUBLIC_GITHUB_APP_CLIENT_ID),
+		import.meta.env.VITE_GITHUB_APP_CLIENT_ID,
 	)
 	githubAuthUrl.searchParams.append('scope', '')
 	githubAuthUrl.searchParams.append(

@@ -269,7 +269,7 @@ octochangelog/
 **Development** (`.env` checked in, `.env.local` for overrides):
 
 ```bash
-NEXT_PUBLIC_GITHUB_APP_CLIENT_ID=notset
+VITE_GITHUB_APP_CLIENT_ID=notset
 NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 ```
 
