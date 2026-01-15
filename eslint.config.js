@@ -144,6 +144,7 @@ export default defineConfig(
 			'unicorn/no-array-reduce': 'error',
 
 			// JSX A11Y
+			'jsx-a11y/accessible-emoji': 'error',
 			'jsx-a11y/alt-text': [
 				'warn',
 				{

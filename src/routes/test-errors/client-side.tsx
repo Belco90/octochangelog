@@ -17,7 +17,10 @@ function RouteComponent() {
 					throw new Error('BOOOOM: Client error')
 				}}
 			>
-				Click me 💣
+				Click me{' '}
+				<span role="img" aria-label="bomb">
+					💣
+				</span>
 			</button>
 		</div>
 	)
