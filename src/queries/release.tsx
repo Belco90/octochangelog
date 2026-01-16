@@ -36,8 +36,9 @@ function releasesQueryOptions(params: ReleasesQueryParams) {
 	const hasFromVersion = !!fromVersion
 	const hasToVersion = !!toVersion
 
-	return queryOptions<ReleasesQueryResults, Error>({
+	return queryOptions<ReleasesQueryResults>({
 		queryKey: [QUERY_KEY, finalParams],
+		// TODO: move this logic to usePaginatedQuery
 		queryFn: async () => {
 			const { owner, repo } = finalParams
 			const releases: Array<MinimalRelease> = []

@@ -19,11 +19,11 @@ import { debounce } from 'es-toolkit'
 import { useEffect, useMemo, useState } from 'react'
 import { HiArrowDown, HiArrowUp } from 'react-icons/hi'
 
-import type { Repository } from '@/models'
+import type { FullRepository } from '@/models'
 import { searchRepositoriesQueryOptions } from '@/queries/repository'
 
 type RepositorySearchComboboxProps = {
-	onSelect: (repo?: Repository) => void
+	onSelect: (repo?: FullRepository | null) => void
 	initialInputValue?: string
 }
 
@@ -71,7 +71,7 @@ export const RepositorySearchCombobox = ({
 		},
 		onSelectedItemChange: ({ selectedItem }) => {
 			setIsTyping(false)
-			onSelect(selectedItem as unknown as Repository)
+			onSelect(selectedItem as unknown as FullRepository | null)
 		},
 	})
 

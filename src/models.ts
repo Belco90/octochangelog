@@ -24,9 +24,12 @@ type RepositoryQueryParams = {
 	owner: string
 }
 
+// We don't use the full repo, but it's useful for typing query responses
+type FullRepository = components['schemas']['full-repository']
+
 // TODO: rename to MinimalRepository
 type Repository = Pick<
-	components['schemas']['repository'],
+	FullRepository,
 	'id' | 'owner' | 'html_url' | 'full_name' | 'name'
 >
 
@@ -67,6 +70,7 @@ export type {
 	MiscGroup,
 	ReleaseGroup,
 	RepositoryQueryParams,
+	FullRepository,
 	Repository,
 	MinimalRelease,
 	RepoSearchResultItem,

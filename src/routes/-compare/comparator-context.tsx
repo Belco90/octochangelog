@@ -4,6 +4,7 @@ import { createContext, use } from 'react'
 
 import type {
 	CompareSearchParams,
+	FullRepository,
 	PropsWithRequiredChildren,
 	ReleaseVersion,
 	Repository,
@@ -19,7 +20,7 @@ type ComparatorStateContextValue = {
 }
 
 type ComparatorUpdaterContextValue = {
-	setRepository: (newRepository?: Repository | null) => void
+	setRepository: (newRepository?: FullRepository | null) => void
 	setFromVersion: (newVersion?: ReleaseVersion | null) => void
 	setToVersion: (newVersion?: ReleaseVersion | null) => void
 }
@@ -55,28 +56,30 @@ function ComparatorProvider({ children }: ComparatorProviderProps) {
 		})
 	}
 
-	function setSelectedRepository(newRepository?: Repository | null) {
-		if (newRepository != null && newRepository.id !== repository?.id) {
-			queryClient.setQueryData(
-				getRepositoryQueryOptions(repositoryQueryParams).queryKey,
-				// @ts-expect-error Figure out later
-				newRepository,
-			)
+	const setSelectedRepository: ComparatorUpdaterContextValue['setRepository'] =
+		(newRepository) => {
+			if (newRepository != null && newRepository.id !== repository?.id) {
+				queryClient.setQueryData(
+					getRepositoryQueryOptions(repositoryQueryParams).queryKey,
+					newRepository,
+				)
+			}
 
 			void updateSearchParams({
-				repo: newRepository.full_name,
+				repo: newRepository?.full_name,
 				from: undefined, // reset versions range after selecting a new repository
 				to: undefined,
 			})
-		} else {
-			void updateSearchParams({ repo: undefined })
 		}
-	}
 
-	function setSelectedFromVersion(newFrom?: ReleaseVersion | null) {
-		void updateSearchParams({ from: newFrom ?? undefined })
-	}
-	function setSelectedToVersion(newTo?: ReleaseVersion | null) {
+	const setSelectedFromVersion: ComparatorUpdaterContextValue['setFromVersion'] =
+		(newFrom) => {
+			void updateSearchParams({ from: newFrom ?? undefined })
+		}
+
+	const setSelectedToVersion: ComparatorUpdaterContextValue['setToVersion'] = (
+		newTo,
+	) => {
 		void updateSearchParams({ to: newTo ?? undefined })
 	}
 
