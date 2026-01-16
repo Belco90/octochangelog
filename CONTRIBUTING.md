@@ -5,7 +5,7 @@ Read this document for information on how to get started.
 
 ## General overview of project
 
-We use [Next.js](https://nextjs.org/) to generate the static website.
+We use [TanStack Start](https://tanstack.com/start) with [Vite](https://vite.dev/) to build and generate the static website.
 All our website styling is done with the [Chakra UI](https://chakra-ui.com/) framework.
 
 ## What you'll need to know to be able to help
@@ -17,7 +17,7 @@ It's even better if you know a bit of React and the basics of TypeScript.
 
 - Git
 - pnpm package manager (version specified in "engines" property within `package.json`)
-- Latest version of Node.js 16 (optional)
+- Node.js v22 (specified in `.nvmrc`, optional - pnpm can manage Node.js version for you)
 
 This guide assumes you'll run the code on your workstation directly.
 
@@ -43,7 +43,7 @@ Create a new feature branch for each bit of work!
 
 ## Installing development dependencies
 
-We use Yarn v1 to manage our dependencies.
+We use pnpm to manage our dependencies.
 Run the `pnpm install` command in your own Octochangelog directory to install all dependencies:
 
 ```bash
