@@ -63,6 +63,15 @@ Octochangelog is possible thanks to these awesome sponsors:
       </a>
     </td>
     <td>
+      <a href="https://sentry.io/welcome//?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/sentry.svg"
+          alt="Sentry application monitoring software"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
       <a href="https://currents.dev/?utm_source=octochangelog&utm_campaign=oss">
         <img
           src="public/sponsors/currents.png"
