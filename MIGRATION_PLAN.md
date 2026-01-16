@@ -174,7 +174,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 3.2 Shared Components
 
-- [ ] Audit components in `src/components/` and verify compatibility
+- [x] Audit components in `src/components/` and verify compatibility
 - [x] Update all Next.js specific imports:
   - **Images**: `next/image` → `@unpic/react` (already in dependencies)
     - `<Image>` from `next/image` → `<Image>` from `@unpic/react`
@@ -190,9 +190,9 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 3.3 Theme & UI
 
-- [ ] Migrate theme mode selector/toggle
-- [ ] Verify Chakra UI theme switching works with TanStack Start
-- [ ] Test all UI components render correctly
+- [x] Migrate theme mode selector/toggle
+- [x] Verify Chakra UI theme switching works with TanStack Start
+- [x] Test all UI components render correctly
 
 ---
 

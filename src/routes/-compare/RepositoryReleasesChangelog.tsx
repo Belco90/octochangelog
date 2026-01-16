@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 
-import TextSkeleton from '@/components/TextSkeleton'
+import { TextSkeleton } from '@/components/TextSkeleton'
 import type { ReleaseVersion, MinimalRepository } from '@/models'
 import { releasesQueryOptions } from '@/queries/release'
 import { compareReleasesByVersion, filterReleasesByVersionRange } from '@/utils'

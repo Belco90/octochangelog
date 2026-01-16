@@ -13,7 +13,7 @@ import {
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
 import { BlockQuote } from '@/components/BlockQuote'
-import TextSkeleton from '@/components/TextSkeleton'
+import { TextSkeleton } from '@/components/TextSkeleton'
 import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, MinimalRepository } from '@/models'
 import { getReleaseVersion } from '@/utils'

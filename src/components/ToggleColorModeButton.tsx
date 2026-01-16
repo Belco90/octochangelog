@@ -1,5 +1,3 @@
-'use client'
-
 import { Icon, IconButton, useColorMode } from '@chakra-ui/react'
 import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi'
 
