@@ -11,6 +11,7 @@ import {
 } from 'vitest/config'
 
 const isNodeEnvProd = process.env.NODE_ENV === 'production'
+const isVitest = process.env.VITEST === 'true'
 
 export default defineConfig({
 	server: {
@@ -54,19 +55,23 @@ export default defineConfig({
 		...(process.env.NETLIFY || isNodeEnvProd ? [netlify()] : []),
 
 		// Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
-		sentryVitePlugin({
-			org: 'octochangelog-eu',
-			project: 'octochangelog-webapp',
-			authToken: process.env.SENTRY_AUTH_TOKEN,
-			sourcemaps: {
-				// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
-				filesToDeleteAfterUpload: [
-					'./**/*.map',
-					'.*/**/public/**/*.map',
-					'./dist/**/client/**/*.map',
-				],
-			},
-		}),
+		...(isVitest
+			? [] // Disable Sentry integration when running tests
+			: [
+					sentryVitePlugin({
+						org: 'octochangelog-eu',
+						project: 'octochangelog-webapp',
+						authToken: process.env.SENTRY_AUTH_TOKEN,
+						sourcemaps: {
+							// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
+							filesToDeleteAfterUpload: [
+								'./**/*.map',
+								'.*/**/public/**/*.map',
+								'./dist/**/client/**/*.map',
+							],
+						},
+					}),
+				]),
 	],
 
 	test: {
