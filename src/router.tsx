@@ -30,11 +30,8 @@ export async function getRouter() {
 		initSentry(router)
 	}
 
-	// enable mocking if conditions are met
-	if (
-		import.meta.env.VITE_NETLIFY &&
-		import.meta.env.VITE_API_MOCKING === 'enabled'
-	) {
+	// enable mocking if explicitly enabled via VITE_API_MOCKING
+	if (import.meta.env.VITE_API_MOCKING === 'enabled') {
 		const { enableMocking } = await import('@/mocks/init')
 		await enableMocking(router.isServer)
 	}

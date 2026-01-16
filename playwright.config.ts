@@ -2,7 +2,7 @@ import { currentsReporter } from '@currents/playwright'
 import { defineConfig, devices } from '@playwright/test'
 
 const isRunningOnCI = Boolean(process.env.CI)
-const webServerPort = isRunningOnCI ? 4173 : 3000
+const webServerPort = 3000 // Use same port for both CI and local (dev server)
 const webServerUrl = `http://localhost:${webServerPort}`
 
 /**
@@ -51,9 +51,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: isRunningOnCI
-			? 'pnpm run preview' // `pnpm run build` must be run beforehand
-			: 'pnpm run dev',
+		command: 'pnpm run dev', // Use dev server for both CI and local - it supports SSR and server functions
 		url: webServerUrl,
 		reuseExistingServer: !isRunningOnCI,
 	},
