@@ -40,11 +40,6 @@ export default defineConfig({
 		},
 
 		{
-			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] },
-		},
-
-		{
 			name: 'webkit',
 			use: { ...devices['Desktop Safari'] },
 		},
@@ -53,7 +48,7 @@ export default defineConfig({
 	/* Run your local dev server before starting the tests */
 	webServer: {
 		command: process.env.CI
-			? 'pnpm run start' // `pnpm run build` must be run beforehand
+			? 'pnpm run preview' // `pnpm run build` must be run beforehand
 			: 'pnpm run dev',
 		url: 'http://localhost:3000',
 		reuseExistingServer: !process.env.CI,

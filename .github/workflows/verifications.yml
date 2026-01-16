@@ -17,7 +17,8 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  NEXT_PUBLIC_API_MOCKING: 'enabled'
+  VITE_API_MOCKING: 'enabled'
+  BUNDLE_PATH: 'dist'
   NONCE_ID: '${{ github.run_id || github.event.pull_request.head.label || github.head_ref || github.ref }}'
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
@@ -68,16 +69,6 @@ jobs:
       - name: Setup project
         uses: ./.github/actions/setup-project
 
-      # https://nextjs.org/docs/app/guides/ci-build-caching#github-actions
-      - name: Cache bundle
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
-        id: cache-bundle
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextcache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextcache-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
       - name: Build
         run: pnpm build
 
@@ -86,8 +77,7 @@ jobs:
         with:
           name: bundle
           if-no-files-found: error
-          include-hidden-files: true
-          path: .next
+          path: ${{ env.BUNDLE_PATH }}
 
   e2e-tests:
     name: E2E tests
@@ -111,7 +101,7 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: bundle
-          path: .next
+          path: ${{ env.BUNDLE_PATH }}
 
       - name: Run tests
         run: pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=${{matrix.shard_index}}/${{strategy.job-total}}

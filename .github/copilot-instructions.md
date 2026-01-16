@@ -144,7 +144,7 @@ The main workflow is `.github/workflows/verifications.yml` which runs on PRs and
 
 **Environment Variables in CI**:
 
-- `NEXT_PUBLIC_API_MOCKING=enabled` (enables MSW mocking)
+- `VITE_API_MOCKING=enabled` (enables MSW mocking)
 - Various secrets for Happo, Currents, Sentry, and Codecov
 
 **Jobs**:
@@ -270,7 +270,7 @@ octochangelog/
 
 ```bash
 VITE_GITHUB_APP_CLIENT_ID=notset
-NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
+VITE_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 ```
 
 **CI Environment Variables** (from GitHub secrets):
@@ -287,7 +287,7 @@ NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 - Located in: `src/__tests__/`
 - Run with: `pnpm test` or `pnpm test:watch`
 - Uses: React Testing Library via `src/test-utils.tsx`
-- MSW mocking: Controlled by `NEXT_PUBLIC_API_MOCKING` env var
+- MSW mocking: Controlled by `VITE_API_MOCKING` env var
 - Coverage: ~16% (focused on utility functions)
 
 ### E2E Tests (Playwright)
@@ -295,7 +295,7 @@ NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 - Located in: `e2e/`
 - Run with: `pnpm e2e` (requires build in CI, uses dev server locally)
 - Browsers: Chromium, Firefox, WebKit
-- MSW mocking: Always enabled (`NEXT_PUBLIC_API_MOCKING=enabled` in CI)
+- MSW mocking: Always enabled (`VITE_API_MOCKING=enabled` in CI)
 - Sharding: 3 shards in CI for parallel execution
 - Visual testing: Integrated with Happo
 
@@ -368,7 +368,7 @@ pnpm format                     # Auto-format code
 **E2E tests fail locally**:
 
 - Ensure dev server is not already running on port 3000
-- Check that `NEXT_PUBLIC_API_MOCKING=enabled` if needed
+- Check that `VITE_API_MOCKING=enabled` if needed
 
 ## Trust These Instructions
 

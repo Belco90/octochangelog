@@ -70,9 +70,9 @@ Now you can run Vitest tests, Playwright tests and the local environment against
 
 ### Toggling the mocked API
 
-This mocked API can be toggled through the `NEXT_PUBLIC_API_MOCKING` environment variable, which is disabled by default for local development (but enabled in CI). Use `enabled` to start it alongside the project, or `disabled` to stop it.
+This mocked API can be toggled through the `VITE_API_MOCKING` environment variable, which is disabled by default for local development (but enabled in CI). Use `enabled` to start it alongside the project, or `disabled` to stop it.
 
-You can put it in your `.env.local` with `NEXT_PUBLIC_API_MOCKING=enabled` (restarting the local server if already started).
+You can put it in your `.env.local` with `VITE_API_MOCKING=enabled` (restarting the local server if already started).
 
 ### Limitations
 
