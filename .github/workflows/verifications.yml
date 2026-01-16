@@ -69,9 +69,8 @@ jobs:
       - name: Setup project
         uses: ./.github/actions/setup-project
 
-      - name: Build (dev mode)
-        # Use dev mode so MSW can intercept API calls
-        run: pnpm build --mode development
+      - name: Build
+        run: pnpm build
 
       - name: Upload bundle artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0

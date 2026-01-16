@@ -32,7 +32,7 @@ export async function getRouter() {
 
 	// enable mocking if conditions are met
 	if (
-		import.meta.env.MODE !== 'production' &&
+		import.meta.env.VITE_NETLIFY &&
 		import.meta.env.VITE_API_MOCKING === 'enabled'
 	) {
 		const { enableMocking } = await import('@/mocks/init')
