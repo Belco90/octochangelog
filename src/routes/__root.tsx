@@ -101,7 +101,7 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
-				<ReactQueryDevtools />
+				<ReactQueryDevtools buttonPosition="bottom-left" />
 
 				<AllProviders>
 					<MainLayout>{children}</MainLayout>

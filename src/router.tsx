@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/tanstackstart-react'
 import { QueryClient } from '@tanstack/react-query'
 import { createRouter } from '@tanstack/react-router'
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query'
@@ -24,6 +25,11 @@ export async function getRouter() {
 
 	setupRouterSsrQueryIntegration({ router, queryClient })
 
+	// Initialize Sentry on the client
+	if (!router.isServer) {
+		initSentry(router)
+	}
+
 	// enable mocking if conditions are met
 	if (
 		import.meta.env.MODE !== 'production' &&
@@ -36,8 +42,39 @@ export async function getRouter() {
 	return router
 }
 
+type GetRouterReturn = ReturnType<typeof getRouter>
+
+function initSentry(router: Awaited<GetRouterReturn>) {
+	Sentry.init({
+		dsn: import.meta.env.VITE_SENTRY_DSN,
+		// Setting this option to true will send default PII data to Sentry.
+		// https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/configuration/options/#sendDefaultPii
+		sendDefaultPii: true,
+
+		integrations: [
+			Sentry.tanstackRouterBrowserTracingIntegration(router),
+			Sentry.replayIntegration({ maskAllText: false, blockAllMedia: false }),
+			Sentry.feedbackIntegration(),
+		],
+
+		environment: import.meta.env.VITE_CONTEXT ?? 'unknown',
+
+		// Enable logs to be sent to Sentry
+		enableLogs: true,
+
+		// Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+		// We recommend adjusting this value in production.
+		// Learn more at https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
+		tracesSampleRate: 1.0,
+
+		// Capture Replay for 10% of all sessions, plus for 100% of sessions with an error.
+		replaysSessionSampleRate: 0.1,
+		replaysOnErrorSampleRate: 1.0,
+	})
+}
+
 declare module '@tanstack/react-router' {
 	interface Register {
-		router: ReturnType<typeof getRouter>
+		router: GetRouterReturn
 	}
 }

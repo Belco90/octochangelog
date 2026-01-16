@@ -39,8 +39,9 @@ async function exchangeCodeByAccessToken(code: string): Promise<OAuthData> {
 	})
 
 	if (!response.ok) {
-		// TODO: should log the error to sentry
-		throw new Error('Something went wrong exchanging the code.')
+		const err = new Error('Something went wrong exchanging the code.')
+		err.stack = await response.text()
+		throw err
 	}
 
 	return (await response.json()) as OAuthData

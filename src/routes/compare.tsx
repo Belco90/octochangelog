@@ -1,4 +1,5 @@
 import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
+import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
@@ -61,7 +62,7 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 	const { queryClient } = Route.useRouteContext()
 	const navigate = Route.useNavigate()
 	useEffect(() => {
-		console.log('TODO: capture exception in Sentry (include info?)', error)
+		Sentry.captureException(error)
 	}, [error])
 
 	const handleReset = () => {

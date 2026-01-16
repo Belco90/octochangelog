@@ -202,10 +202,11 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 **Major Change**: Complete Sentry reconfiguration required
 
-- [ ] Remove `@sentry/nextjs` dependency
-- [ ] Install Sentry for Vite/React:
-  - [`@sentry/tanstackstart-react`](https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/) ([example](https://github.com/TanStack/router/tree/main/e2e/react-router/sentry-integration))
-- [ ] Remove Next.js specific Sentry files:
+- [x] Remove `@sentry/nextjs` dependency
+- [x] Install Sentry for Vite/React:
+  - [`@sentry/tanstackstart-react`](https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/)
+  - [TanStack Start - Observability](https://tanstack.com/start/latest/docs/framework/react/guide/observability)
+- [x] Remove Next.js specific Sentry files:
   - `sentry.edge.config.ts`
   - `sentry.server.config.ts`
   - `sentry.properties` (if not needed)

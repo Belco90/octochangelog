@@ -15,11 +15,13 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+
 	optimizeDeps: {
 		// Exclude msw to avoid bundling it in the client bundle,
-		// and prevent dep optimization errors because of "ClientRequest" in @mswjs/interceptors
+		// and prevent deps optimization errors because of "ClientRequest" in @mswjs/interceptors
 		exclude: ['msw', '@mswjs/interceptors'],
 	},
+
 	plugins: [
 		tsconfigPaths(),
 		tanstackStart({
@@ -45,6 +47,7 @@ export default defineConfig({
 		// Only enable Netlify plugin in prod bundle or when NETLIFY env is set
 		...(process.env.NETLIFY || isNodeEnvProd ? [netlify()] : []),
 	],
+
 	test: {
 		clearMocks: true,
 		setupFiles: ['src/vitest.setup.ts'],

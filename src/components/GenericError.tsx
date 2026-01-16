@@ -6,6 +6,7 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react'
+import * as Sentry from '@sentry/tanstackstart-react'
 import { useEffect } from 'react'
 
 import { OptimizedImage } from '@/components/OptimizedImage'
@@ -15,9 +16,7 @@ import type { ErrorComponentProps } from '@tanstack/react-router'
 
 export function GenericError({ error, reset }: ErrorComponentProps) {
 	useEffect(() => {
-		// TODO: sentry (sent info?)
-		console.error(error)
-		// Sentry.captureException(error)
+		Sentry.captureException(error)
 	}, [error])
 
 	return (

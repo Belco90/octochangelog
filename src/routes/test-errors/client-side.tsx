@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { RouteLink } from '@/components/RouteLink'
@@ -14,6 +15,7 @@ function RouteComponent() {
 			<button
 				type="button"
 				onClick={() => {
+					Sentry.metrics.count('test_counter', 1)
 					throw new Error('BOOOOM: Client error')
 				}}
 			>
