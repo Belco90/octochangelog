@@ -257,7 +257,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
     publish = "dist/client"
   ```
 
-- [ ] Verify Vite build outputs to `dist/client` (for static assets) and `dist/server` (for SSR)
+- [x] Verify Vite build outputs to `dist/client` (for static assets) and `dist/server` (for SSR)
 - [ ] Test production build locally: `pnpm build && pnpm preview`
 - [ ] Verify bundle size is acceptable
 
@@ -332,7 +332,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 ### 7.1 Comprehensive Testing
 
 - [ ] Test all routes and pages manually
-- [ ] Test OAuth flow end-to-end
+- [ ] Test OAuth flow end-to-end (auth token is used on SSR)
 - [ ] Test repository comparison functionality
 - [ ] Test error states and error boundaries
 - [ ] Test 404 page

@@ -34,17 +34,14 @@ export const RepositoryReleasesChangelog = ({
 		}),
 	)
 
-	const filteredReleases = (() => {
-		if (data && fromVersion && toVersion) {
-			return filterReleasesByVersionRange({
-				releases: data,
-				from: fromVersion,
-				to: toVersion,
-			}).sort((a, b) => compareReleasesByVersion(a, b, 'asc'))
-		} else {
-			return null
-		}
-	})()
+	const filteredReleases =
+		data && fromVersion && toVersion
+			? filterReleasesByVersionRange({
+					releases: data,
+					from: fromVersion,
+					to: toVersion,
+				}).sort((a, b) => compareReleasesByVersion(a, b, 'asc'))
+			: null
 
 	const hasFilteredReleases =
 		Array.isArray(filteredReleases) && filteredReleases.length > 0

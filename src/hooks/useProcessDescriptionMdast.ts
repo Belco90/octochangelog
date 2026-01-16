@@ -18,13 +18,14 @@ import type {
 import type { ReactNode } from 'react'
 import type { Options as RehypeReactOptions } from 'rehype-react'
 
-const rehypeReactOptions: RehypeReactOptions = prod
-
 async function processDescriptionAsync(
 	description: ProcessedRelease['descriptionMdast'],
 	components: ComponentsMapping,
 ): Promise<ReactNode> {
-	rehypeReactOptions.components = components
+	const rehypeReactOptions: RehypeReactOptions = {
+		...prod,
+		components,
+	}
 
 	return new Promise<ReactNode>((resolve, reject) => {
 		const baseProcessor = unified()
