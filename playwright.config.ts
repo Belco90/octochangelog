@@ -1,6 +1,10 @@
 import { currentsReporter } from '@currents/playwright'
 import { defineConfig, devices } from '@playwright/test'
 
+const isRunningOnCI = Boolean(process.env.CI)
+const webServerPort = isRunningOnCI ? 4173 : 3000
+const webServerUrl = `http://localhost:${webServerPort}`
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -9,25 +13,25 @@ export default defineConfig({
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 	/* Fail the build on CI if you accidentally left test.only in the source code. */
-	forbidOnly: !!process.env.CI,
+	forbidOnly: isRunningOnCI,
 	/* Retry on CI only */
-	retries: process.env.CI ? 2 : 0,
+	retries: isRunningOnCI ? 2 : 0,
 	/* Limit the number of workers on CI, use default locally */
-	workers: process.env.CI ? '50%' : undefined,
+	workers: isRunningOnCI ? '50%' : undefined,
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-	reporter: process.env.CI
+	reporter: isRunningOnCI
 		? [['github'], currentsReporter()] // GitHub for PRs annotations, and Currents for Playwright dashboard
 		: 'html',
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
-		baseURL: 'http://localhost:3000',
-		trace: process.env.CI
+		baseURL: webServerUrl,
+		trace: isRunningOnCI
 			? 'on' // necessary for Currents integration
 			: 'on-first-retry',
-		video: process.env.CI
+		video: isRunningOnCI
 			? 'on' // necessary for Currents integration
 			: undefined,
-		screenshot: process.env.CI
+		screenshot: isRunningOnCI
 			? 'on' // necessary for Currents integration
 			: undefined,
 	},
@@ -47,10 +51,10 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: process.env.CI
+		command: isRunningOnCI
 			? 'pnpm run preview' // `pnpm run build` must be run beforehand
 			: 'pnpm run dev',
-		url: 'http://localhost:3000',
-		reuseExistingServer: !process.env.CI,
+		url: webServerUrl,
+		reuseExistingServer: !isRunningOnCI,
 	},
 })
