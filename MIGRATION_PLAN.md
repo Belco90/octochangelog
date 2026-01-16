@@ -128,7 +128,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - Use `loader` function in route files for SSR data fetching
   - Use `createServerFn()` from `@tanstack/start` for server functions
   - Server functions use `'use server'` directive (similar to Next.js)
-- [ ] Setup React Query (already in dependencies):
+- [x] Setup React Query (already in dependencies):
   - TanStack Router loaders work seamlessly with React Query
   - Use `dehydrate` and `hydrate` for SSR hydration if needed
   - Keep existing `src/queries/` React Query hooks
@@ -136,7 +136,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - Move server-side GitHub API calls to server functions
   - Update `src/github-client.ts` to work with TanStack Start
   - Update `src/github-auth.ts` OAuth flow (may need adjustments for routing)
-- [ ] Test data fetching works on both client and server
+- [x] Test data fetching works on both client and server
 
 ### 2.4 Metadata & SEO
 
@@ -175,7 +175,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 ### 3.2 Shared Components
 
 - [ ] Audit components in `src/components/` and verify compatibility
-- [ ] Update all Next.js specific imports:
+- [x] Update all Next.js specific imports:
   - **Images**: `next/image` → `@unpic/react` (already in dependencies)
     - `<Image>` from `next/image` → `<Image>` from `@unpic/react`
     - Remove `width` and `height` props (unpic handles this)
@@ -249,16 +249,12 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 5.2 Build Configuration
 
-- [ ] Update `netlify.toml`:
+- [x] Update `netlify.toml`:
 
   ```toml
   [build]
     command = "pnpm build"
     publish = "dist/client"
-
-  [dev]
-    command = "pnpm dev"
-    port = 3000
   ```
 
 - [ ] Verify Vite build outputs to `dist/client` (for static assets) and `dist/server` (for SSR)
@@ -267,16 +263,16 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 5.3 Testing
 
-- [ ] Update `vitest.config.ts` if needed
-- [ ] Run unit tests and fix any broken tests in `src/__tests__/`
-- [ ] Update test utilities in `src/test-utils.tsx`
-- [ ] Update Playwright config (`playwright.config.ts`) for new dev server
-- [ ] Run e2e tests and fix issues:
+- [x] Update `vitest.config.ts` if needed
+- [x] Run unit tests and fix any broken tests in `src/__tests__/`
+- [x] Update test utilities in `src/test-utils.tsx`
+- [x] Update Playwright config (`playwright.config.ts`) for new dev server
+- [x] Run e2e tests and fix issues:
   - `e2e/auth.spec.ts`
   - `e2e/compare.spec.ts`
   - `e2e/home.spec.ts`
   - `e2e/not-found.spec.ts`
-- [ ] Update `e2e/playwright-utils.ts` if needed
+- [x] Update `e2e/playwright-utils.ts` if needed
 
 ### 5.4 Linting & Formatting
 
@@ -287,8 +283,8 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 5.5 Visual Testing
 
-- [ ] Update Happo config (`happo.config.ts`)
-- [ ] Test visual regression tests work
+- [x] Update Happo config (`happo.config.ts`)
+- [x] Test visual regression tests work
 
 ### 5.6 CI/CD Pipeline
 
@@ -321,6 +317,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [ ] Clean up any temporary migration code or comments
 - [ ] Run formatter on all files
 - [ ] Remove "use client"
+- [ ] Remove error pages
 
 ### 6.3 Image Optimization
 
@@ -360,7 +357,6 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [ ] Deploy to production
 - [ ] Monitor production for issues
 - [ ] Monitor analytics for traffic
-- [ ] Remove test errors routes
 
 ---
 
