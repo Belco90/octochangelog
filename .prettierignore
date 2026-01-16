@@ -1,6 +1,4 @@
 package-lock.json
 pnpm-lock.yaml
-.next
 public
-next-env.d.ts
 routeTree.gen.ts

@@ -215,7 +215,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - Setup `Sentry.init()` with DSN and environment
 - [x] Update/remove `src/instrumentation.ts` and `src/instrumentation-client.ts`
 - [x] Test error tracking in development
-- [ ] Test source maps upload in production build
+- [x] Test source maps upload in production build
 - [x] Update Sentry environment variables in Netlify
 
 ### 4.2 MSW (Mock Service Worker)
@@ -292,9 +292,9 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 - [x] Update GitHub Actions workflows in `.github/workflows/`
 - [x] Update bundle cache configuration
 - [x] Update build commands in CI
-- [ ] Test deployment to Netlify
-- [ ] Verify preview deployments work
-- [ ] Verify production deployment works
+- [x] Test deployment to Netlify
+- [x] Verify preview deployments work
+- [x] Verify production deployment works
 
 ---
 
@@ -312,13 +312,13 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 6.2 Code Cleanup
 
-- [ ] Remove all Next.js specific files and folders
+- [x] Remove all Next.js specific files and folders
 - [ ] Remove unused dependencies
 - [x] Remove `.next/` build artifacts
 - [ ] Clean up any temporary migration code or comments
 - [x] Run formatter on all files
 - [x] Remove "use client"
-- [x] Remove error pages
+- [ ] Remove error pages
 
 ### 6.3 Image Optimization
 
