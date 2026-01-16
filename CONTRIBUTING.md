@@ -88,6 +88,15 @@ Use the following query string to check the comparator output:
 
 ## Dark mode
 
+We've hidden the color mode behind a feature flag called `VITE_FEATURE_FLAG_DARK_MODE`.
+This way we can work on the dark mode without publishing the feature.
+
+Do the following to get an ugly button to toggle between light/dark modes:
+
+1. Create a file named `.env.local` in the root of the project (this file is on the `.gitignore` list so it won't be committed accidentally)
+1. Put `VITE_FEATURE_FLAG_DARK_MODE=enabled` inside the `.env.local` file.
+1. You can now use the button in the header to switch between light/dark mode
+
 ### Setting colors for light/dark mode
 
 You only need to pass 2 values to `useColorModeValue`:

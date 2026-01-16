@@ -76,7 +76,12 @@ export const Header = (props: BoxProps) => {
 						</RouteLink>
 					</Flex>
 					<HStack spacing={{ base: 4, md: 10 }}>
-						<ToggleColorModeButton boxSize={LOGO_SIZES} minWidth={LOGO_SIZES} />
+						{import.meta.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled' && (
+							<ToggleColorModeButton
+								boxSize={LOGO_SIZES}
+								minWidth={LOGO_SIZES}
+							/>
+						)}
 						<Link
 							href={REPO_URL}
 							aria-label="Octochangelog repository on GitHub"
