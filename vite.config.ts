@@ -15,6 +15,11 @@ export default defineConfig({
 	server: {
 		port: 3000,
 	},
+	optimizeDeps: {
+		// Exclude msw to avoid bundling it in the client bundle,
+		// and prevent dep optimization errors because of "ClientRequest" in @mswjs/interceptors
+		exclude: ['msw', '@mswjs/interceptors'],
+	},
 	plugins: [
 		tsconfigPaths(),
 		tanstackStart({
