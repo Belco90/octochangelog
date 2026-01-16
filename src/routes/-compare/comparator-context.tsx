@@ -7,13 +7,13 @@ import type {
 	FullRepository,
 	PropsWithRequiredChildren,
 	ReleaseVersion,
-	Repository,
+	MinimalRepository,
 } from '@/models'
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { mapStringToRepositoryQueryParams } from '@/utils'
 
 type ComparatorStateContextValue = {
-	repository?: Repository | null
+	repository?: MinimalRepository | null
 	fromVersion?: ReleaseVersion | null
 	toVersion?: ReleaseVersion | null
 	error: Error | null

@@ -1,6 +1,6 @@
-import type { Repository } from '@/models'
+import type { MinimalRepository } from '@/models'
 
-const yarnpkgBerryRepoDetails: Repository = {
+const yarnpkgBerryRepoDetails: MinimalRepository = {
 	id: 148228732,
 	name: 'berry',
 	full_name: 'yarnpkg/berry',

@@ -6,7 +6,7 @@ import type {
 	MinimalRelease,
 	ProcessedRelease,
 	ReleaseGroup,
-	Repository,
+	MinimalRepository,
 } from '@/models'
 import {
 	compareReleaseGroupsByPriority,
@@ -34,7 +34,7 @@ const ReleaseChangelogGroup = ({
 }: {
 	title: ReleaseGroup
 	releaseGroup: Array<ProcessedRelease>
-	repository: Repository
+	repository: MinimalRepository
 	shouldShowTitle: boolean
 }) => {
 	const originalTitle = releaseGroup[0]?.originalTitle
@@ -76,7 +76,7 @@ const ReleaseChangelogGroup = ({
 }
 type ComparatorChangelogResultsProps = {
 	releases: Array<MinimalRelease>
-	repository: Repository
+	repository: MinimalRepository
 }
 
 export const ComparatorChangelogResults = ({

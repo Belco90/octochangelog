@@ -6,7 +6,7 @@ import type {
 	MinimalRelease,
 	ReleaseGroup,
 	ReleaseVersion,
-	Repository,
+	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
 
@@ -37,7 +37,7 @@ function extractVersionFromTag(tag: string): string {
 }
 
 function mapRepositoryToQueryParams(
-	repository?: Repository,
+	repository?: MinimalRepository,
 ): RepositoryQueryParams {
 	return {
 		owner: repository?.owner.login ?? '',

@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw'
 import { domTestingLibraryRepoDetails } from '@/fixtures/github/repos/dom-testing-library'
 import { renovateRepoDetails } from '@/fixtures/github/repos/renovate'
 import { yarnpkgBerryRepoDetails } from '@/fixtures/github/repos/yarnpkg-berry'
-import type { Repository } from '@/models'
+import type { MinimalRepository } from '@/models'
 
 import type { RequestHandler } from 'msw'
 
@@ -20,7 +20,9 @@ const NOT_FOUND_DATA: NotFoundResponse = {
 	message: 'Not Found',
 }
 
-function getRepoDetailsFixture(repoFullName: string): Repository | undefined {
+function getRepoDetailsFixture(
+	repoFullName: string,
+): MinimalRepository | undefined {
 	if (repoFullName.includes('dom-testing-library')) {
 		return domTestingLibraryRepoDetails
 	}

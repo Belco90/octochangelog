@@ -15,7 +15,7 @@ import { HiOutlineExternalLink } from 'react-icons/hi'
 import { BlockQuote } from '@/components/BlockQuote'
 import TextSkeleton from '@/components/TextSkeleton'
 import useProcessDescriptionMdast from '@/hooks/useProcessDescriptionMdast'
-import type { ProcessedRelease, Repository } from '@/models'
+import type { ProcessedRelease, MinimalRepository } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
 import type { BoxProps, LinkProps, ListItemProps } from '@chakra-ui/react'
@@ -109,7 +109,7 @@ const remarkReactComponents = {
 }
 
 type ProcessedReleaseChangeProps = BoxProps & {
-	repository: Repository
+	repository: MinimalRepository
 	processedReleaseChange: ProcessedRelease
 }
 

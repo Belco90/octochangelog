@@ -9,14 +9,14 @@ import {
 import { useQuery } from '@tanstack/react-query'
 
 import TextSkeleton from '@/components/TextSkeleton'
-import type { ReleaseVersion, Repository } from '@/models'
+import type { ReleaseVersion, MinimalRepository } from '@/models'
 import { releasesQueryOptions } from '@/queries/release'
 import { compareReleasesByVersion, filterReleasesByVersionRange } from '@/utils'
 
 import { ComparatorChangelogResults } from './ComparatorChangelogResults'
 
 type RepositoryReleasesChangelogProps = {
-	repository: Repository
+	repository: MinimalRepository
 	fromVersion?: ReleaseVersion
 	toVersion?: ReleaseVersion
 }

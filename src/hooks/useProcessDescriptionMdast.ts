@@ -9,7 +9,11 @@ import remark2rehype from 'remark-rehype'
 import markdown from 'remark-stringify'
 import { unified } from 'unified'
 
-import type { ComponentsMapping, ProcessedRelease, Repository } from '@/models'
+import type {
+	ComponentsMapping,
+	ProcessedRelease,
+	MinimalRepository,
+} from '@/models'
 
 import type { ReactNode } from 'react'
 import type { Options as RehypeReactOptions } from 'rehype-react'
@@ -51,7 +55,7 @@ async function processDescriptionAsync(
 }
 
 interface HookArgs {
-	repository: Repository
+	repository: MinimalRepository
 	description: ProcessedRelease['descriptionMdast']
 	componentsMapping: ComponentsMapping
 }

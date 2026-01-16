@@ -9,11 +9,11 @@ import {
 } from '@chakra-ui/react'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
-import type { Repository } from '@/models'
+import type { MinimalRepository } from '@/models'
 import { extractVersionFromTag } from '@/utils'
 
 type RepositoryReleasesChangelogHeadingProps = {
-	repository: Repository
+	repository: MinimalRepository
 	fromVersion?: string
 	toVersion?: string
 }

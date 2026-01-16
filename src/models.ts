@@ -27,15 +27,16 @@ type RepositoryQueryParams = {
 // We don't use the full repo, but it's useful for typing query responses
 type FullRepository = components['schemas']['full-repository']
 
-// TODO: rename to MinimalRepository
-type Repository = Pick<
+/**
+ * Minimal properties from a GitHub repository that are used across the webapp.
+ */
+type MinimalRepository = Pick<
 	FullRepository,
 	'id' | 'owner' | 'html_url' | 'full_name' | 'name'
 >
 
 /**
- * Minimal properties from a GitHub Release that are used across the webapp.
- * This type is primarily used in test fixtures to reduce file size.
+ * Minimal properties from a GitHub release that are used across the webapp.
  */
 type MinimalRelease = Pick<
 	components['schemas']['release'],
@@ -71,7 +72,7 @@ export type {
 	ReleaseGroup,
 	RepositoryQueryParams,
 	FullRepository,
-	Repository,
+	MinimalRepository,
 	MinimalRelease,
 	RepoSearchResultItem,
 	ProcessedRelease,

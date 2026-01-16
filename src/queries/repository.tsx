@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { octokit } from '@/github-client'
 import type {
 	FullRepository,
-	Repository,
+	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
 
@@ -14,18 +14,18 @@ type SearchReposResponse =
 type SearchReposParams =
 	RestEndpointMethodTypes['search']['repos']['parameters']
 type SearchReposReturnData = Omit<SearchReposResponse['data'], 'items'> & {
-	items: Array<Repository>
+	items: Array<MinimalRepository>
 }
 
-type FullRepositoryLike = Repository &
-	Partial<Omit<FullRepository, keyof Repository>>
+type FullRepositoryLike = MinimalRepository &
+	Partial<Omit<FullRepository, keyof MinimalRepository>>
 
 /**
  * Extracts minimal repository information from a full repository object (DTO).
  */
 function selectMinimalRepository(
 	fullRepository: FullRepositoryLike,
-): Repository {
+): MinimalRepository {
 	return {
 		id: fullRepository.id,
 		owner: fullRepository.owner,
@@ -72,7 +72,7 @@ function searchRepositoriesQueryOptions(params: SearchReposParams) {
 type GetRepoResponse = RestEndpointMethodTypes['repos']['get']['response']
 
 function getRepositoryQueryOptions(params?: RepositoryQueryParams) {
-	return queryOptions<GetRepoResponse['data'], Error, Repository>({
+	return queryOptions<GetRepoResponse['data'], Error, MinimalRepository>({
 		queryKey: ['repo', params],
 		queryFn: async () => {
 			const response = await octokit.repos.get(params)

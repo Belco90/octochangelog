@@ -1,6 +1,6 @@
-import type { Repository } from '@/models'
+import type { MinimalRepository } from '@/models'
 
-const domTestingLibraryRepoDetails: Repository = {
+const domTestingLibraryRepoDetails: MinimalRepository = {
 	id: 128396076,
 	name: 'dom-testing-library',
 	full_name: 'testing-library/dom-testing-library',

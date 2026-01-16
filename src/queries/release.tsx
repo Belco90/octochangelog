@@ -5,7 +5,7 @@ import { octokit } from '@/github-client'
 import type {
 	MinimalRelease,
 	ReleaseVersion,
-	Repository,
+	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
 import {
@@ -16,7 +16,7 @@ import {
 
 type ReleasesQueryResults = Array<MinimalRelease>
 type ReleasesQueryParams = {
-	repository?: Repository | null
+	repository?: MinimalRepository | null
 	fromVersion?: ReleaseVersion | null
 	toVersion?: ReleaseVersion | null
 }

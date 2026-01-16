@@ -1,6 +1,6 @@
-import type { Repository } from '@/models'
+import type { MinimalRepository } from '@/models'
 
-const renovateRepoDetails: Repository = {
+const renovateRepoDetails: MinimalRepository = {
 	id: 76734068,
 	name: 'renovate',
 	full_name: 'renovatebot/renovate',
