@@ -5,7 +5,7 @@ import { render, renderHook } from '@testing-library/react'
 
 import type { PropsWithRequiredChildren } from '@/models'
 
-import customTheme from './custom-theme'
+import { customTheme } from './custom-theme'
 
 import type {
 	RenderHookOptions,

@@ -110,7 +110,7 @@ type CustomTheme = Theme & {
 	colors: { primary: ColorHues; secondary: ColorHues }
 }
 
-const customTheme = extendTheme(
+export const customTheme = extendTheme(
 	{
 		colors: {
 			primary: fuchsia,
@@ -203,5 +203,3 @@ const customTheme = extendTheme(
 		components: ['Code', 'BlockQuote'],
 	}),
 ) as CustomTheme
-
-export default customTheme

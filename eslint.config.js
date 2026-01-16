@@ -159,6 +159,14 @@ export default defineConfig(
 		},
 	},
 	{
+		name: 'src/',
+		files: ['src/**/*.{js,mjs,cjs,jsx,mjsx,ts,mts,tsx,mtsx}'],
+		rules: {
+			// Enforce named exports in the source code
+			'import-x/no-default-export': 'error',
+		},
+	},
+	{
 		name: 'Vitest',
 		files: [
 			'src/**/__tests__/**/*.[jt]s?(x)',

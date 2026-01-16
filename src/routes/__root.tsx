@@ -10,7 +10,7 @@ import {
 
 import { MainLayout } from '@/components/MainLayout'
 import { AllProviders } from '@/components/Providers'
-import customTheme from '@/custom-theme'
+import { customTheme } from '@/custom-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 

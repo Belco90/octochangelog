@@ -55,13 +55,13 @@ async function processDescriptionAsync(
 	})
 }
 
-interface HookArgs {
+type HookArgs = {
 	repository: MinimalRepository
 	description: ProcessedRelease['descriptionMdast']
 	componentsMapping: ComponentsMapping
 }
 
-function useProcessDescriptionMdast({
+export function useProcessDescriptionMdast({
 	repository,
 	description,
 	componentsMapping,
@@ -96,5 +96,3 @@ function useProcessDescriptionMdast({
 
 	return data
 }
-
-export default useProcessDescriptionMdast

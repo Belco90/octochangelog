@@ -1,6 +1,6 @@
 import { Container, Flex, Text } from '@chakra-ui/react'
 
-import GitHubLoginButton from '@/components/GitHubLoginButton'
+import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 import { getIsAuth } from '@/github-auth'
 
 export const AuthMessageSection = () => {

@@ -10,7 +10,7 @@ import type { PropsWithChildren } from 'react'
 
 type GitHubLoginButtonProps = PropsWithChildren
 
-const GitHubLoginButton = ({
+export const GitHubLoginButton = ({
 	children = 'Login with GitHub',
 }: GitHubLoginButtonProps) => {
 	const { repo, from, to } = useSearch({ strict: false })
@@ -46,5 +46,3 @@ const GitHubLoginButton = ({
 		</Button>
 	)
 }
-
-export default GitHubLoginButton

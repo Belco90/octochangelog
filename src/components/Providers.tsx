@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 
-import customTheme from '@/custom-theme'
+import { customTheme } from '@/custom-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 
 export function ThemeProvider({ children }: PropsWithRequiredChildren) {
