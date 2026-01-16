@@ -25,6 +25,7 @@ declare global {
 			readonly NODE_ENV: 'development' | 'production' | 'test'
 			readonly CONTEXT: NETLIFY_CONTEXT | undefined
 			readonly GITHUB_APP_CLIENT_SECRET: string
+			readonly SENTRY_AUTH_TOKEN: string
 		}
 	}
 }

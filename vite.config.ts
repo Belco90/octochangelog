@@ -1,4 +1,5 @@
 import netlify from '@netlify/vite-plugin-tanstack-start'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
@@ -14,6 +15,11 @@ const isNodeEnvProd = process.env.NODE_ENV === 'production'
 export default defineConfig({
 	server: {
 		port: 3000,
+	},
+
+	build: {
+		// Generate sourcemaps for Sentry
+		sourcemap: 'hidden',
 	},
 
 	optimizeDeps: {
@@ -46,6 +52,21 @@ export default defineConfig({
 		// Netlify adapter for TanStack Start (anywhere in the array is fine)
 		// Only enable Netlify plugin in prod bundle or when NETLIFY env is set
 		...(process.env.NETLIFY || isNodeEnvProd ? [netlify()] : []),
+
+		// Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
+		sentryVitePlugin({
+			org: 'octochangelog-eu',
+			project: 'octochangelog-webapp',
+			authToken: process.env.SENTRY_AUTH_TOKEN,
+			sourcemaps: {
+				// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
+				filesToDeleteAfterUpload: [
+					'./**/*.map',
+					'.*/**/public/**/*.map',
+					'./dist/**/client/**/*.map',
+				],
+			},
+		}),
 	],
 
 	test: {

@@ -210,13 +210,13 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   - `sentry.edge.config.ts`
   - `sentry.server.config.ts`
   - `sentry.properties` (if not needed)
-- [ ] Create new Sentry initialization:
+- [x] Create new Sentry initialization:
   - Initialize in `src/routes/__root.tsx` or app entry point
   - Setup `Sentry.init()` with DSN and environment
-- [ ] Update/remove `src/instrumentation.ts` and `src/instrumentation-client.ts`
-- [ ] Test error tracking in development
+- [x] Update/remove `src/instrumentation.ts` and `src/instrumentation-client.ts`
+- [x] Test error tracking in development
 - [ ] Test source maps upload in production build
-- [ ] Update Sentry environment variables in Netlify
+- [x] Update Sentry environment variables in Netlify
 
 ### 4.2 MSW (Mock Service Worker)
 
@@ -238,15 +238,15 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 **Critical**: Vite has different environment variable conventions than Next.js
 
-- [ ] Audit `.env` and `.env.local` files
-- [ ] Rename environment variables:
+- [x] Audit `.env` and `.env.local` files
+- [x] Rename environment variables:
   - `NEXT_PUBLIC_*` → `VITE_*` (for client-side variables)
   - Server-only variables can keep their names (no `VITE_` prefix)
-- [ ] Update all code references:
+- [x] Update all code references:
   - `process.env.NEXT_PUBLIC_*` → `import.meta.env.VITE_*`
   - Server code: `process.env.*` stays the same
-- [ ] Update Netlify environment variables in dashboard (if applicable)
-- [ ] Document required environment variable changes in README
+- [x] Update Netlify environment variables in dashboard (if applicable)
+- [x] Document required environment variable changes in README
 
 ### 5.2 Build Configuration
 
@@ -259,7 +259,7 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
   ```
 
 - [x] Verify Vite build outputs to `dist/client` (for static assets) and `dist/server` (for SSR)
-- [ ] Test production build locally: `pnpm build && pnpm preview`
+- [x] Test production build locally: `pnpm build && pnpm preview`
 - [ ] Verify bundle size is acceptable
 
 ### 5.3 Testing
@@ -289,9 +289,9 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 ### 5.6 CI/CD Pipeline
 
-- [ ] Update GitHub Actions workflows in `.github/workflows/`
-- [ ] Update bundle cache configuration
-- [ ] Update build commands in CI
+- [x] Update GitHub Actions workflows in `.github/workflows/`
+- [x] Update bundle cache configuration
+- [x] Update build commands in CI
 - [ ] Test deployment to Netlify
 - [ ] Verify preview deployments work
 - [ ] Verify production deployment works
@@ -314,11 +314,11 @@ This document tracks the migration from Next.js v16 to TanStack Start framework 
 
 - [ ] Remove all Next.js specific files and folders
 - [ ] Remove unused dependencies
-- [ ] Remove `.next/` build artifacts
+- [x] Remove `.next/` build artifacts
 - [ ] Clean up any temporary migration code or comments
-- [ ] Run formatter on all files
-- [ ] Remove "use client"
-- [ ] Remove error pages
+- [x] Run formatter on all files
+- [x] Remove "use client"
+- [x] Remove error pages
 
 ### 6.3 Image Optimization
 
