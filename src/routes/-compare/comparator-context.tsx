@@ -1,13 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { getRouteApi } from '@tanstack/react-router'
-import {
-	createContext,
-	use,
-	useCallback,
-	useEffect,
-	useMemo,
-	useReducer,
-} from 'react'
+import { getRouteApi, useRouteContext } from '@tanstack/react-router'
+import { createContext, use } from 'react'
 
 import type {
 	CompareSearchParams,
@@ -18,48 +11,17 @@ import type {
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { mapStringToRepositoryQueryParams } from '@/utils'
 
-interface ComparatorStateContextValue {
+type ComparatorStateContextValue = {
 	repository?: Repository | null
 	fromVersion?: ReleaseVersion | null
 	toVersion?: ReleaseVersion | null
+	error: Error | null
 }
 
-interface ComparatorUpdaterContextValue {
+type ComparatorUpdaterContextValue = {
 	setRepository: (newRepository?: Repository | null) => void
 	setFromVersion: (newVersion?: ReleaseVersion | null) => void
 	setToVersion: (newVersion?: ReleaseVersion | null) => void
-}
-
-interface ComparatorState {
-	repository: Repository | null | undefined
-	fromVersion: string | null
-	toVersion: string | null
-}
-
-type ComparatorAction =
-	| { type: 'SET_REPOSITORY'; payload: Repository | null }
-	| { type: 'SET_FROM_VERSION'; payload: string | null }
-	| { type: 'SET_TO_VERSION'; payload: string | null }
-
-function comparatorReducer(
-	state: ComparatorState,
-	action: ComparatorAction,
-): ComparatorState {
-	switch (action.type) {
-		case 'SET_REPOSITORY':
-			return {
-				...state,
-				repository: action.payload,
-				fromVersion: null, // reset the version range when switching repositories
-				toVersion: null,
-			}
-		case 'SET_FROM_VERSION':
-			return { ...state, fromVersion: action.payload }
-		case 'SET_TO_VERSION':
-			return { ...state, toVersion: action.payload }
-		default:
-			return state
-	}
 }
 
 const ComparatorStateContext = createContext<
@@ -69,87 +31,67 @@ const ComparatorUpdaterContext = createContext<
 	ComparatorUpdaterContextValue | undefined
 >(undefined)
 
-type ComparatorProviderProps = PropsWithRequiredChildren<{
-	initialRepoFullName?: string
-	initialFrom?: string
-	initialTo?: string
-}>
+type ComparatorProviderProps = PropsWithRequiredChildren
 
-const route = getRouteApi('/compare')
+const routeApi = getRouteApi('/compare')
 
-function ComparatorProvider({
-	children,
-	initialRepoFullName,
-	initialFrom,
-	initialTo,
-}: ComparatorProviderProps) {
-	const repositoryQueryParams = initialRepoFullName
-		? mapStringToRepositoryQueryParams(initialRepoFullName)
+function ComparatorProvider({ children }: ComparatorProviderProps) {
+	const { queryClient } = useRouteContext({ from: '/compare' })
+	const { repo, from, to } = routeApi.useSearch()
+	const navigate = routeApi.useNavigate()
+
+	const repositoryQueryParams = repo
+		? mapStringToRepositoryQueryParams(repo)
 		: undefined
 
-	const shouldFetchRepo = Boolean(
-		repositoryQueryParams?.repo && repositoryQueryParams?.owner,
-	)
-
-	const { data: initialRepository } = useQuery(
+	const { data: repository, error } = useQuery(
 		getRepositoryQueryOptions(repositoryQueryParams),
 	)
 
-	const [state, dispatch] = useReducer(comparatorReducer, {
-		repository: shouldFetchRepo ? initialRepository : null,
-		fromVersion: initialFrom ?? null,
-		toVersion: initialTo ?? null,
-	})
-	const navigate = route.useNavigate()
+	function updateSearchParams(patch: Partial<CompareSearchParams>) {
+		return navigate({
+			replace: true,
+			search: (prev) => ({ ...prev, ...patch }),
+		})
+	}
 
-	useEffect(
-		function syncQueryParams() {
-			const updatedSearch: CompareSearchParams = {}
-			if (state.repository?.full_name)
-				updatedSearch.repo = state.repository.full_name
-			if (state.fromVersion) updatedSearch.from = state.fromVersion
-			if (state.toVersion) updatedSearch.to = state.toVersion
+	function setSelectedRepository(newRepository?: Repository | null) {
+		if (newRepository != null && newRepository.id !== repository?.id) {
+			queryClient.setQueryData(
+				getRepositoryQueryOptions(repositoryQueryParams).queryKey,
+				// @ts-expect-error Figure out later
+				newRepository,
+			)
 
-			void navigate({
-				replace: true,
-				search: (prev) => ({ ...prev, ...updatedSearch }),
+			void updateSearchParams({
+				repo: newRepository.full_name,
+				from: undefined, // reset versions range after selecting a new repository
+				to: undefined,
 			})
-		},
-		[state.repository?.full_name, state.fromVersion, state.toVersion, navigate],
-	)
+		} else {
+			void updateSearchParams({ repo: undefined })
+		}
+	}
 
-	const setSelectedRepository = useCallback(
-		(newRepository?: Repository | null) => {
-			dispatch({ type: 'SET_REPOSITORY', payload: newRepository ?? null })
-		},
-		[],
-	)
+	function setSelectedFromVersion(newFrom?: ReleaseVersion | null) {
+		void updateSearchParams({ from: newFrom ?? undefined })
+	}
+	function setSelectedToVersion(newTo?: ReleaseVersion | null) {
+		void updateSearchParams({ to: newTo ?? undefined })
+	}
 
-	const setSelectedFromVersion = useCallback((newFrom?: string | null) => {
-		dispatch({ type: 'SET_FROM_VERSION', payload: newFrom ?? null })
-	}, [])
+	const stateValue: ComparatorStateContextValue = {
+		repository,
+		fromVersion: from,
+		toVersion: to,
+		error,
+	}
 
-	const setSelectedToVersion = useCallback((newTo?: string | null) => {
-		dispatch({ type: 'SET_TO_VERSION', payload: newTo ?? null })
-	}, [])
-
-	const stateValue = useMemo<ComparatorStateContextValue>(
-		() => ({
-			repository: state.repository,
-			fromVersion: state.fromVersion,
-			toVersion: state.toVersion,
-		}),
-		[state.repository, state.fromVersion, state.toVersion],
-	)
-
-	const updaterValue = useMemo<ComparatorUpdaterContextValue>(
-		() => ({
-			setRepository: setSelectedRepository,
-			setFromVersion: setSelectedFromVersion,
-			setToVersion: setSelectedToVersion,
-		}),
-		[setSelectedRepository, setSelectedFromVersion, setSelectedToVersion],
-	)
+	const updaterValue: ComparatorUpdaterContextValue = {
+		setRepository: setSelectedRepository,
+		setFromVersion: setSelectedFromVersion,
+		setToVersion: setSelectedToVersion,
+	}
 
 	return (
 		<ComparatorStateContext value={stateValue}>

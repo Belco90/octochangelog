@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw'
 
 import { domTestingLibraryRepoDetails } from '@/fixtures/github/repos/dom-testing-library'
 import { renovateRepoDetails } from '@/fixtures/github/repos/renovate'
+import { yarnpkgBerryRepoDetails } from '@/fixtures/github/repos/yarnpkg-berry'
 import type { Repository } from '@/models'
 
 import type { RequestHandler } from 'msw'
@@ -19,18 +20,20 @@ const NOT_FOUND_DATA: NotFoundResponse = {
 	message: 'Not Found',
 }
 
-function getRepoDetailsFixture(
-	repoName: string,
-): Repository | NotFoundResponse {
-	if (repoName === 'dom-testing-library') {
+function getRepoDetailsFixture(repoFullName: string): Repository | undefined {
+	if (repoFullName.includes('dom-testing-library')) {
 		return domTestingLibraryRepoDetails
 	}
 
-	if (repoName === 'renovate') {
+	if (repoFullName.includes('renovate')) {
 		return renovateRepoDetails
 	}
 
-	return NOT_FOUND_DATA
+	if (repoFullName.includes('berry')) {
+		return yarnpkgBerryRepoDetails
+	}
+
+	return undefined
 }
 
 const githubReposDetailsHandlers: Array<RequestHandler> = [
@@ -39,7 +42,11 @@ const githubReposDetailsHandlers: Array<RequestHandler> = [
 		({ params }) => {
 			const { repoName } = params
 
-			const data = getRepoDetailsFixture(repoName)
+			const data = getRepoDetailsFixture(`${params.repoOwner}/${repoName}`)
+
+			if (!data) {
+				return HttpResponse.json(NOT_FOUND_DATA, { status: 404 })
+			}
 
 			return HttpResponse.json(data)
 		},

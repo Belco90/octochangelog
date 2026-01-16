@@ -19,12 +19,21 @@ function searchRepositoriesQueryOptions(params: ReposQueryParams) {
 }
 
 type GetRepoResponse = RestEndpointMethodTypes['repos']['get']['response']
+type GetRepoResponseData = GetRepoResponse['data']
 
 function getRepositoryQueryOptions(params?: RepositoryQueryParams) {
-	return queryOptions<GetRepoResponse, Error, Repository>({
+	return queryOptions<GetRepoResponseData, Error, Repository>({
 		queryKey: ['repo', params],
-		queryFn: async () => octokit.repos.get(params),
-		select: (response) => response.data,
+		queryFn: async () => {
+			const response = await octokit.repos.get(params)
+			console.log('repo/get response', response.status, response)
+			if (response.status < 200 || response.status >= 300) {
+				throw new Error(
+					`Could not fetch repository details (${response.status})`,
+				)
+			}
+			return response.data
+		},
 		enabled: Boolean(params),
 	})
 }

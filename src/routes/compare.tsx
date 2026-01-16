@@ -48,15 +48,9 @@ export const Route = createFileRoute('/compare')({
 })
 
 function ComparePage() {
-	const { repo, from, to } = Route.useSearch()
-
 	return (
 		<Box height="full" width="full" bgColor="background3">
-			<ComparatorProvider
-				initialRepoFullName={repo}
-				initialFrom={from}
-				initialTo={to}
-			>
+			<ComparatorProvider>
 				<RepositoryReleasesComparator />
 			</ComparatorProvider>
 		</Box>
@@ -64,9 +58,17 @@ function ComparePage() {
 }
 
 function CompareErrorPage({ error, reset }: ErrorComponentProps) {
+	const { queryClient } = Route.useRouteContext()
+	const navigate = Route.useNavigate()
 	useEffect(() => {
 		console.log('TODO: capture exception in Sentry (include info?)', error)
 	}, [error])
+
+	const handleReset = () => {
+		void queryClient.resetQueries()
+		void navigate({ replace: true, search: undefined })
+		reset()
+	}
 
 	return (
 		<Box height="full" width="full" bgColor="background3">
@@ -83,7 +85,7 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 						Octochangelog could not process the releases changelogs to be
 						compared.
 					</Text>
-					<Button onClick={() => reset()}>Try again</Button>
+					<Button onClick={handleReset}>Try again</Button>
 				</VStack>
 			</Container>
 		</Box>
