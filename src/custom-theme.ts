@@ -203,3 +203,7 @@ export const customTheme = extendTheme(
 		components: ['Code', 'BlockQuote'],
 	}),
 ) as CustomTheme
+
+// Default import needed for `chakra-cli tokens` command
+// eslint-disable-next-line import-x/no-default-export
+export default customTheme
