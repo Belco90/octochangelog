@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
+  VITE_API_MOCKING: 'enabled'
   BUNDLE_PATH: 'dist'
   NONCE_ID: '${{ github.run_id || github.event.pull_request.head.label || github.head_ref || github.ref }}'
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
@@ -57,33 +58,12 @@ jobs:
         with:
           report_type: 'test_results'
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Setup project
-        uses: ./.github/actions/setup-project
-
-      - name: Build
-        run: pnpm build
-
-      - name: Upload bundle artifact
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: bundle
-          if-no-files-found: error
-          path: ${{ env.BUNDLE_PATH }}
-
   e2e-tests:
     name: E2E tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: build
     env:
-      VITE_API_MOCKING: 'enabled'
+      VITE_GITHUB_APP_CLIENT_ID: 'mock-client-id'
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
       options: --user 1001
@@ -96,12 +76,6 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup project
         uses: ./.github/actions/setup-project
-
-      - name: Download bundle artifact
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          name: bundle
-          path: ${{ env.BUNDLE_PATH }}
 
       - name: Run tests
         run: pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=${{matrix.shard_index}}/${{strategy.job-total}}
