@@ -17,8 +17,6 @@ concurrency:
 
 env:
   VITE_API_MOCKING: 'enabled'
-  BUNDLE_PATH: 'dist'
-  NONCE_ID: '${{ github.run_id || github.event.pull_request.head.label || github.head_ref || github.ref }}'
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
   CURRENTS_PROJECT_ID: ${{ secrets.CURRENTS_PROJECT_ID }}
@@ -62,15 +60,9 @@ jobs:
     name: E2E tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      VITE_GITHUB_APP_CLIENT_ID: 'mock-client-id'
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
       options: --user 1001
-    strategy:
-      fail-fast: false
-      matrix:
-        shard_index: [1, 2, 3]
     steps:
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -78,19 +70,4 @@ jobs:
         uses: ./.github/actions/setup-project
 
       - name: Run tests
-        run: pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=${{matrix.shard_index}}/${{strategy.job-total}}
-
-  e2e-finalize:
-    name: E2E finalize
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    if: ${{ !cancelled() }}
-    needs: e2e-tests
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Setup project
-        uses: ./.github/actions/setup-project
-
-      - name: Finalize Happo
-        run: pnpm run happo finalize --nonce $NONCE_ID
+        run: pnpm run happo -- pnpm run e2e
