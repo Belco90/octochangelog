@@ -31,7 +31,8 @@ export async function getRouter() {
 	}
 
 	// Initialize server-side MSW if flagged by msw.server.mjs (loaded via NODE_OPTIONS)
-	// Use import.meta.env.SSR to prevent Vite from analyzing this import during client build
+	// IMPORTANT: import.meta.env.SSR check is required to prevent Vite from analyzing
+	// this import during client build, even though the env var is only set on server
 	if (import.meta.env.SSR && process.env.__MSW_SERVER_INIT_PENDING__) {
 		const { initMswServer } = await import('@/mocks/init.server')
 		initMswServer()
