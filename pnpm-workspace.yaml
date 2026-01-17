@@ -3,8 +3,15 @@ allowBuilds:
   '@sentry/cli': true
   esbuild: true
   msw: true
+  sharp: true
   unrs-resolver: true
 
+# Disable auto-installation of peer dependencies, mainly because `@unpic/react` has nextjs as peer dep,
+# and don't want to install it.
+autoInstallPeers: false
+
 savePrefix: ''
+
+strictPeerDependencies: true
 
 verifyDepsBeforeRun: error

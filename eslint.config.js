@@ -69,10 +69,6 @@ export default defineConfig(
 			'no-restricted-imports': [
 				'error',
 				{
-					name: '@testing-library/react',
-					message: 'Please import from `test-utils` instead',
-				},
-				{
 					name: '@playwright/test',
 					message: 'Please import from `e2e/playwright-utils` instead',
 					importNames: ['test'],

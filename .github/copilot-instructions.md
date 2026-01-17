@@ -246,7 +246,6 @@ octochangelog/
   - Newlines between groups, alphabetically sorted
 - **TypeScript**: Strict mode enabled, no unused locals/parameters
 - **React**: Prefer type imports, consistent type exports, array types as `Array<T>`
-- **Testing**: Import from `@/test-utils` (wraps Testing Library), not `@testing-library/react` directly
 - **Playwright**: Import test from `e2e/playwright-utils`, not `@playwright/test` directly
 - **No console.log**: Warns on console statements (use proper logging if needed)
 
