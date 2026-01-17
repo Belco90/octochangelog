@@ -122,8 +122,8 @@ importers:
         specifier: 9.39.2
         version: 9.39.2
       '@msw/playwright':
-        specifier: 0.4.2
-        version: 0.4.2(msw@2.12.7(@types/node@22.19.6)(typescript@5.9.3))
+        specifier: 0.4.5
+        version: 0.4.5(msw@2.12.7(@types/node@22.19.6)(typescript@5.9.3))
       '@octokit/openapi-types':
         specifier: 25.1.0
         version: 25.1.0
@@ -1472,15 +1472,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@msw/playwright@0.4.2':
-    resolution: {integrity: sha512-xJnHJBkxCF+wcusYAFTDTW1kiD+WVsuYMSxcqvaAbe/mhy73oxkcqUbsiqZsKPdNrXIQQtkCyX5vSP5ZaPUHdA==}
+  '@msw/playwright@0.4.5':
+    resolution: {integrity: sha512-t6tft9LrAmq8busJkzFcWhpPLGuk3h8tEXp5GGv7xhFpiB6xiRo5CgCatZ9x+e1kjcU2PgYi077B4qJ4E9vp4g==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       msw: ^2.10.3
-
-  '@mswjs/interceptors@0.39.8':
-    resolution: {integrity: sha512-2+BzZbjRO7Ct61k8fMNHEtoKjeWI9pIlHFTqBwZ5icHpqszIgEZbjb1MW5Z0+bITTCTl3gk4PDBxs9tA/csXvA==}
-    engines: {node: '>=18'}
 
   '@mswjs/interceptors@0.40.0':
     resolution: {integrity: sha512-EFd6cVbHsgLa6wa4RljGj6Wk75qoHxUSyc5asLyyPSyuhIcdS2Q3Phw6ImS1q+CkALthJRShiYfKANcQMuMqsQ==}
@@ -7142,20 +7138,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@msw/playwright@0.4.2(msw@2.12.7(@types/node@22.19.6)(typescript@5.9.3))':
+  '@msw/playwright@0.4.5(msw@2.12.7(@types/node@22.19.6)(typescript@5.9.3))':
     dependencies:
-      '@mswjs/interceptors': 0.39.8
+      '@mswjs/interceptors': 0.40.0
       msw: 2.12.7(@types/node@22.19.6)(typescript@5.9.3)
       outvariant: 1.4.3
-
-  '@mswjs/interceptors@0.39.8':
-    dependencies:
-      '@open-draft/deferred-promise': 2.2.0
-      '@open-draft/logger': 0.3.0
-      '@open-draft/until': 2.1.0
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      strict-event-emitter: 0.5.1
 
   '@mswjs/interceptors@0.40.0':
     dependencies:
