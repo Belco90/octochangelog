@@ -34,8 +34,6 @@
 		"@chakra-ui/react": "2.8.2",
 		"@emotion/react": "11.14.0",
 		"@emotion/styled": "11.14.1",
-		"@fontsource-variable/inter": "5.2.8",
-		"@fontsource-variable/roboto-mono": "5.2.8",
 		"@octokit/auth-callback": "6.0.0",
 		"@octokit/rest": "22.0.1",
 		"@sentry/tanstackstart-react": "10.33.0",

@@ -1,5 +1,4 @@
 import { ColorModeScript } from '@chakra-ui/react'
-import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
@@ -13,10 +12,9 @@ import { AllProviders } from '@/components/Providers'
 import { customTheme } from '@/custom-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
+import appCss from '@/styles/app.css?url'
 
 import type { QueryClient } from '@tanstack/react-query'
-
-import '@/fonts'
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 	{
@@ -46,6 +44,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					...seo({ title: customTitle }),
 				],
 				links: [
+					{ rel: 'stylesheet', href: appCss },
 					{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
 					{
 						rel: 'apple-touch-icon',
@@ -67,7 +66,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					{ rel: 'manifest', href: '/manifest.json' },
 					{
 						rel: 'preload',
-						href: interWoff2,
+						href: '/fonts/inter.woff2',
 						as: 'font',
 						type: 'font/woff2',
 						crossOrigin: '',
