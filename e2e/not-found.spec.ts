@@ -7,7 +7,7 @@ test('should display a custom "not found" page for non-existing page', async ({
 }) => {
 	await page.goto('/not-existing-page')
 
-	await expect(page).toHaveTitle('Not Found | Octochangelog')
+	await expect(page).toHaveTitle('404 Not Found | Octochangelog')
 
 	await expect(
 		page.getByRole('heading', { name: 'This page could not be found.' }),
