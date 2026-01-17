@@ -44,12 +44,9 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: 'pnpm run dev', // Use dev server for both CI and local - it supports SSR and server functions
+		command:
+			'VITE_API_MOCKING=enabled VITE_GITHUB_APP_CLIENT_ID=mock-client-id pnpm run dev', // Use dev server for both CI and local - it supports SSR and server functions
 		url: 'http://localhost:3000',
 		reuseExistingServer: !isRunningOnCI,
-		env: {
-			VITE_API_MOCKING: 'enabled',
-			VITE_GITHUB_APP_CLIENT_ID: 'mock-client-id',
-		},
 	},
 })
