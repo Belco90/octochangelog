@@ -30,13 +30,25 @@ export async function getRouter() {
 		initSentry(router)
 	}
 
-	// enable mocking if not on Netlify and explicitly enabled via VITE_API_MOCKING
+	// Initialize server-side MSW if flagged by msw.server.mjs (loaded via NODE_OPTIONS)
+	// Use import.meta.env.SSR to prevent Vite from analyzing this import during client build
 	if (
+		import.meta.env.SSR &&
+		router.isServer &&
+		process.env.__MSW_SERVER_INIT_PENDING__
+	) {
+		const { initMswServer } = await import('@/mocks/init.server')
+		initMswServer()
+	}
+
+	// enable browser-side mocking if not on Netlify and explicitly enabled via VITE_API_MOCKING
+	if (
+		!router.isServer &&
 		!import.meta.env.VITE_NETLIFY &&
 		import.meta.env.VITE_API_MOCKING === 'enabled'
 	) {
 		const { enableMocking } = await import('@/mocks/init')
-		await enableMocking(router.isServer)
+		await enableMocking()
 	}
 
 	return router
