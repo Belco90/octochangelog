@@ -1,4 +1,5 @@
 import { Box, Container, Divider, Flex } from '@chakra-ui/react'
+import { ClientOnly } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
 
 import { AuthMessageSection } from './AuthMessageSection'
@@ -43,7 +44,9 @@ export const RepositoryReleasesComparator = () => {
 					</>
 				)}
 
-				<AuthMessageSection />
+				<ClientOnly fallback={null}>
+					<AuthMessageSection />
+				</ClientOnly>
 			</Box>
 		</Flex>
 	)

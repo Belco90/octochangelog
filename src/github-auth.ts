@@ -1,3 +1,4 @@
+import { createServerOnlyFn } from '@tanstack/react-start'
 import Cookies from 'js-cookie'
 
 const GITHUB_STORAGE_KEY = 'octochangelog-github-access-token'
@@ -24,28 +25,33 @@ type OAuthData = {
  * Should be used only in the server since it's the only side where
  * `client_secret` is available.
  */
-async function exchangeCodeByAccessToken(code: string): Promise<OAuthData> {
-	const response = await fetch('https://github.com/login/oauth/access_token', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-		body: JSON.stringify({
-			code,
-			client_id: process.env.VITE_GITHUB_APP_CLIENT_ID,
-			client_secret: process.env.GITHUB_APP_CLIENT_SECRET,
-		}),
-	})
+const exchangeCodeByAccessToken = createServerOnlyFn(
+	async (code: string): Promise<OAuthData> => {
+		const response = await fetch(
+			'https://github.com/login/oauth/access_token',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				},
+				body: JSON.stringify({
+					code,
+					client_id: process.env.VITE_GITHUB_APP_CLIENT_ID,
+					client_secret: process.env.GITHUB_APP_CLIENT_SECRET,
+				}),
+			},
+		)
 
-	if (!response.ok) {
-		const err = new Error('Something went wrong exchanging the code.')
-		err.stack = await response.text()
-		throw err
-	}
+		if (!response.ok) {
+			const err = new Error('Something went wrong exchanging the code.')
+			err.stack = await response.text()
+			throw err
+		}
 
-	return (await response.json()) as OAuthData
-}
+		return (await response.json()) as OAuthData
+	},
+)
 
 function getGitHubAuthUrl({ redirectUrl }: { redirectUrl: string }): URL {
 	const githubAuthUrl = new URL('https://github.com')
