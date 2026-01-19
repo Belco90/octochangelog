@@ -24,7 +24,7 @@ test('should complete GitHub OAuth flow successfully', async ({ page }) => {
 		'Temporary code exchanged by access token successfully',
 	).toBeVisible()
 
-	await page.getByRole('button', { name: /back to compare/i }).click()
+	await page.getByRole('link', { name: /back to compare/i }).click()
 	await expect(page, 'Redirected to compare page').toHaveURL('/compare')
 
 	// Verify the access token cookie is set
@@ -68,7 +68,7 @@ test('should preserve query parameters during GitHub OAuth flow', async ({
 	).toBeVisible()
 
 	// Verify we're redirected back with the original query parameters
-	await page.getByRole('button', { name: /back to compare/i }).click()
+	await page.getByRole('link', { name: /back to compare/i }).click()
 	await expect(
 		page,
 		'Redirected to compare page preserving query params',

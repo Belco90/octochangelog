@@ -1,11 +1,9 @@
-'use client'
-
 import { Icon, IconButton, useColorMode } from '@chakra-ui/react'
 import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi'
 
 import type { IconButtonProps } from '@chakra-ui/react'
 
-const ToggleColorModeButton = (props: Partial<IconButtonProps>) => {
+export function ToggleColorModeButton(props: Partial<IconButtonProps>) {
 	const { colorMode, toggleColorMode } = useColorMode()
 	const isLightMode = colorMode === 'light'
 	const iconMode = isLightMode ? HiOutlineSun : HiOutlineMoon
@@ -22,5 +20,3 @@ const ToggleColorModeButton = (props: Partial<IconButtonProps>) => {
 		/>
 	)
 }
-
-export default ToggleColorModeButton

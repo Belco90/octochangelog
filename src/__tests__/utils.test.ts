@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type {
 	MinimalRelease,
-	Repository,
+	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
 import {
@@ -34,7 +34,7 @@ describe('mapRepositoryToQueryParams util', () => {
 			input,
 			output,
 		}: {
-			input: undefined | Repository
+			input: undefined | MinimalRepository
 			output: RepositoryQueryParams
 		}) => {
 			const result = mapRepositoryToQueryParams(input)

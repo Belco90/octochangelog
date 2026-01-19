@@ -1,0 +1,106 @@
+/* Highlight JS code */
+:root {
+	/* Light theme colors */
+	--hljs-comment: #998;
+	--hljs-keyword: #333;
+	--hljs-number: #008080;
+	--hljs-string: #d14;
+	--hljs-title: #900;
+	--hljs-type: #458;
+	--hljs-tag: #000080;
+	--hljs-regexp: #009926;
+	--hljs-symbol: #990073;
+	--hljs-builtin: #0086b3;
+	--hljs-meta: #999;
+	--hljs-deletion-bg: #fdd;
+	--hljs-addition-bg: #dfd;
+}
+
+[data-theme="dark"] {
+	--hljs-comment: #7c8796;
+	--hljs-keyword: #e5c07b;
+	--hljs-number: #d19a66;
+	--hljs-string: #98c379;
+	--hljs-title: #61afef;
+	--hljs-type: #e5c07b;
+	--hljs-tag: #e06c75;
+	--hljs-regexp: #56b6c2;
+	--hljs-symbol: #c678dd;
+	--hljs-builtin: #61afef;
+	--hljs-meta: #abb2bf;
+	--hljs-deletion-bg: #4a2d2d;
+	--hljs-addition-bg: #2d4a2d;
+}
+
+/* Apply the variables */
+.hljs-comment,
+.hljs-quote {
+	color: var(--hljs-comment);
+	font-style: italic;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+	color: var(--hljs-keyword);
+	font-weight: bold;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+	color: var(--hljs-number);
+}
+.hljs-string,
+.hljs-doctag {
+	color: var(--hljs-string);
+}
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+	color: var(--hljs-title);
+	font-weight: bold;
+}
+.hljs-subst {
+	font-weight: normal;
+}
+.hljs-type,
+.hljs-class .hljs-title {
+	color: var(--hljs-type);
+	font-weight: bold;
+}
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+	color: var(--hljs-tag);
+	font-weight: normal;
+}
+.hljs-regexp,
+.hljs-link {
+	color: var(--hljs-regexp);
+}
+.hljs-symbol,
+.hljs-bullet {
+	color: var(--hljs-symbol);
+}
+.hljs-built_in,
+.hljs-builtin-name {
+	color: var(--hljs-builtin);
+}
+.hljs-meta {
+	color: var(--hljs-meta);
+	font-weight: bold;
+}
+.hljs-deletion {
+	background: var(--hljs-deletion-bg);
+}
+.hljs-addition {
+	background: var(--hljs-addition-bg);
+}
+.hljs-emphasis {
+	font-style: italic;
+}
+.hljs-strong {
+	font-weight: bold;
+}

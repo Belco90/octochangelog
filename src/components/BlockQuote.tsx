@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react'
 
 import type { BoxProps } from '@chakra-ui/react'
 
-const BlockQuote = (props: BoxProps) => (
+export const BlockQuote = (props: BoxProps) => (
 	<Text
 		as="blockquote"
 		px={4}
@@ -12,5 +12,3 @@ const BlockQuote = (props: BoxProps) => (
 		{...props}
 	/>
 )
-
-export default BlockQuote

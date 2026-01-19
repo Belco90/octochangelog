@@ -1,35 +1,38 @@
-'use client'
-
 import { Button, Icon } from '@chakra-ui/react'
-import { useSearchParams } from 'next/navigation'
+import { useSearch } from '@tanstack/react-router'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { getGitHubAuthUrl } from '@/github-auth'
 
-import type { ReactNode, MouseEvent } from 'react'
+import type { ButtonProps } from '@chakra-ui/react'
+import type { PropsWithChildren } from 'react'
 
-interface GitHubLoginButtonProps {
-	children?: ReactNode
-}
+type GitHubLoginButtonProps = PropsWithChildren
 
-const GitHubLoginButton = ({
+export const GitHubLoginButton = ({
 	children = 'Login with GitHub',
 }: GitHubLoginButtonProps) => {
-	const searchParams = useSearchParams()
+	const { repo, from, to } = useSearch({ strict: false })
 
-	const handleClick = (event: MouseEvent) => {
+	const handleClick: ButtonProps['onClick'] = (event) => {
 		event.preventDefault()
 
+		const filledSearchParams = new URLSearchParams(
+			Object.fromEntries(
+				Object.entries({ repo, from, to }).filter(
+					([, value]) => typeof value === 'string',
+				),
+			) as Record<string, string>,
+		)
 		sessionStorage.setItem(
 			AUTH_REDIRECT_STORAGE_KEY,
-			searchParams?.toString() ?? '',
+			filledSearchParams.toString(),
 		)
 
-		const githubAuthUrl = getGitHubAuthUrl({
+		window.location.href = getGitHubAuthUrl({
 			redirectUrl: window.location.origin,
 		}).toString()
-		window.location.href = githubAuthUrl
 	}
 
 	return (
@@ -43,5 +46,3 @@ const GitHubLoginButton = ({
 		</Button>
 	)
 }
-
-export default GitHubLoginButton

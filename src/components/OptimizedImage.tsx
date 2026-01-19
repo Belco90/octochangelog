@@ -12,7 +12,7 @@ type OptimizedImageProps = BaseImageProps & {
 	operations?: NetlifyOperations
 }
 
-const isHosted = Boolean(process.env.NETLIFY)
+const isHosted = Boolean(import.meta.env.NETLIFY)
 
 export function OptimizedImage({
 	alt,
