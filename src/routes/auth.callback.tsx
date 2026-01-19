@@ -69,9 +69,6 @@ export const Route = createFileRoute('/auth/callback')({
 			title: 'Authorizing on GitHub',
 		}),
 	}),
-	onError: () => {
-		// TODO: capture exception in Sentry (include info?)
-	},
 	// Do not cache this route's data after it's unloaded
 	gcTime: 0,
 	// Only reload the route when the user navigates to it or when deps change.

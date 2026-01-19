@@ -1,5 +1,6 @@
 import { Button, Icon } from '@chakra-ui/react'
-import { useSearch } from '@tanstack/react-router'
+import { ClientOnly, useSearch } from '@tanstack/react-router'
+import { createClientOnlyFn } from '@tanstack/react-start'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
@@ -10,14 +11,8 @@ import type { PropsWithChildren } from 'react'
 
 type GitHubLoginButtonProps = PropsWithChildren
 
-export const GitHubLoginButton = ({
-	children = 'Login with GitHub',
-}: GitHubLoginButtonProps) => {
-	const { repo, from, to } = useSearch({ strict: false })
-
-	const handleClick: ButtonProps['onClick'] = (event) => {
-		event.preventDefault()
-
+const redirectToGitHubAuth = createClientOnlyFn(
+	({ repo, from, to }: { repo?: string; from?: string; to?: string }) => {
 		const filledSearchParams = new URLSearchParams(
 			Object.fromEntries(
 				Object.entries({ repo, from, to }).filter(
@@ -33,6 +28,17 @@ export const GitHubLoginButton = ({
 		window.location.href = getGitHubAuthUrl({
 			redirectUrl: window.location.origin,
 		}).toString()
+	},
+)
+
+export function GitHubLoginButtonInner({
+	children = 'Login with GitHub',
+}: GitHubLoginButtonProps) {
+	const { repo, from, to } = useSearch({ strict: false })
+
+	const handleClick: ButtonProps['onClick'] = (event) => {
+		event.preventDefault()
+		redirectToGitHubAuth({ repo, from, to })
 	}
 
 	return (
@@ -44,5 +50,13 @@ export const GitHubLoginButton = ({
 		>
 			{children} <Icon as={DiGithubBadge} ml={2} boxSize={6} />
 		</Button>
+	)
+}
+
+export function GitHubLoginButton(props: GitHubLoginButtonProps) {
+	return (
+		<ClientOnly fallback={null}>
+			<GitHubLoginButtonInner {...props} />
+		</ClientOnly>
 	)
 }
