@@ -10,8 +10,7 @@ import {
 	defaultExclude,
 } from 'vitest/config'
 
-const isNodeEnvProd = process.env.NODE_ENV === 'production'
-const isVitest = process.env.VITEST === 'true'
+const isHosted = Boolean(process.env.NETLIFY)
 
 export default defineConfig({
 	server: {
@@ -33,7 +32,7 @@ export default defineConfig({
 		tsconfigPaths(),
 		tanstackStart({
 			prerender: {
-				enabled: isNodeEnvProd,
+				enabled: isHosted,
 				filter: ({ path }) => {
 					// Prevent prerendering routes for auth
 					if (path.includes('/auth')) return false
@@ -51,13 +50,13 @@ export default defineConfig({
 		viteReact(),
 
 		// Netlify adapter for TanStack Start (anywhere in the array is fine)
-		// Only enable Netlify plugin in prod bundle or when NETLIFY env is set
-		...(process.env.NETLIFY || isNodeEnvProd ? [netlify()] : []),
+		// (Enable only when hosted)
+		...(isHosted ? [netlify()] : []),
 
 		// Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
-		...(isVitest
-			? [] // Disable Sentry integration when running tests
-			: [
+		// (Enable only when hosted)
+		...(isHosted
+			? [
 					sentryVitePlugin({
 						org: 'octochangelog-eu',
 						project: 'octochangelog-webapp',
@@ -71,7 +70,8 @@ export default defineConfig({
 							],
 						},
 					}),
-				]),
+				]
+			: []),
 	],
 
 	test: {
