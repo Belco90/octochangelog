@@ -1,9 +1,17 @@
 /* eslint-disable no-console */
-import type { SetupWorker } from 'msw/browser'
+import { createClientOnlyFn, createServerOnlyFn } from '@tanstack/react-start'
 
-type StartReturnType = ReturnType<SetupWorker['start']>
+const enableServerMocking = createServerOnlyFn(async () => {
+	const { server } = await import('@/mocks/server')
+	server.listen()
+	console.info('[MSW] Server mocking enabled.')
+})
 
-// TODO: split server and browser mocks with TSS server/client only utils.
+const enableBrowserMocking = createClientOnlyFn(async () => {
+	const { worker } = await import('@/mocks/browser')
+	await worker.start()
+	if (window.msw) window.msw.isWorkerReady = true
+})
 
 /**
  * Enable mocking in the browser or server.
@@ -12,15 +20,10 @@ type StartReturnType = ReturnType<SetupWorker['start']>
  * in a separate file to avoid Vite analyzing the dynamic imports
  * for client/server side during build.
  */
-export async function enableMocking(isServer: boolean): StartReturnType {
+export async function enableMocking(isServer: boolean): Promise<void> {
 	if (isServer) {
-		const { server } = await import('@/mocks/server')
-		server.listen()
-		console.info('[MSW] Server mocking enabled.')
-		return
+		await enableServerMocking()
 	} else {
-		const { worker } = await import('@/mocks/browser')
-		await worker.start()
-		if (window.msw) window.msw.isWorkerReady = true
+		await enableBrowserMocking()
 	}
 }

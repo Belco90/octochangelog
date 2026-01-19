@@ -2,6 +2,8 @@ import { currentsReporter } from '@currents/playwright'
 import { defineConfig, devices } from '@playwright/test'
 
 const isRunningOnCI = Boolean(process.env.CI)
+const webServerPort = isRunningOnCI ? 4173 : 3000
+const webServerUrl = `http://localhost:${webServerPort}`
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -22,7 +24,7 @@ export default defineConfig({
 		: 'html',
 	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 	use: {
-		baseURL: 'http://localhost:3000',
+		baseURL: webServerUrl,
 		trace: isRunningOnCI
 			? 'on' // necessary for Currents integration
 			: 'on-first-retry',
@@ -44,8 +46,10 @@ export default defineConfig({
 
 	/* Run local dev server before starting the tests */
 	webServer: {
-		command: 'pnpm run dev:mock', // Use dev server for both CI and local - it supports SSR and server functions
-		url: 'http://localhost:3000',
+		command: isRunningOnCI
+			? 'pnpm run preview' // `pnpm run build` must be run beforehand
+			: 'pnpm run dev:mock',
+		url: webServerUrl,
 		reuseExistingServer: !isRunningOnCI,
 	},
 })

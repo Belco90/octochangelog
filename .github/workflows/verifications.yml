@@ -68,6 +68,8 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup project
         uses: ./.github/actions/setup-project
+      - name: Build webapp
+        run: pnpm build # VITE_API_MOCKING is set to 'enabled' at the top of the file
 
       - name: Run tests
         run: pnpm run happo -- pnpm run e2e
