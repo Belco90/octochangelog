@@ -100,7 +100,9 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<ColorModeScript
 					initialColorMode={customTheme.config.initialColorMode}
 				/>
-				<ReactQueryDevtools buttonPosition="bottom-left" />
+				<div data-happo-hide>
+					<ReactQueryDevtools buttonPosition="bottom-left" />
+				</div>
 
 				<AllProviders>
 					<MainLayout>{children}</MainLayout>
