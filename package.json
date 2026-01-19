@@ -69,7 +69,6 @@
 		"@eslint-react/eslint-plugin": "2.6.0",
 		"@eslint/compat": "2.0.1",
 		"@eslint/js": "9.39.2",
-		"@msw/playwright": "0.4.5",
 		"@netlify/vite-plugin-tanstack-start": "1.2.6",
 		"@octokit/openapi-types": "25.1.0",
 		"@playwright/test": "1.57.0",

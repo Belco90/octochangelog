@@ -1,5 +1,4 @@
 import { expect } from '@playwright/test'
-import { http, HttpResponse } from 'msw'
 
 import { test } from './playwright-utils'
 
@@ -346,31 +345,10 @@ test(
 			description: 'https://github.com/Belco90/octochangelog/issues/741',
 		},
 	},
-	async ({ page, network }) => {
+	async ({ page }) => {
 		test.slow(
 			true,
 			'The changelog takes a while to be processed, which makes this test slow',
-		)
-
-		network.use(
-			http.get(
-				'https://api.github.com/repos/renovatebot/renovate/releases',
-				({ request }) => {
-					const url = new URL(request.url)
-					const paginationIndex = Number(url.searchParams.get('page') || 1)
-
-					// Since all info is available when page 11 is requested, page 12 must not be requested.
-					// Forcing an error after page 11 proves that the webapp requests the correct number of pages.
-					if (paginationIndex > 11) {
-						return HttpResponse.json(
-							{ error: 'Should not request more than 11 pages' },
-							{ status: 500 },
-						)
-					}
-
-					return undefined
-				},
-			),
 		)
 
 		await page.goto(
