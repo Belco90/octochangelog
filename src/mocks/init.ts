@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 import type { SetupWorker } from 'msw/browser'
 
 type StartReturnType = ReturnType<SetupWorker['start']>
+
+// TODO: split server and browser mocks with TSS server/client only utils.
 
 /**
  * Enable mocking in the browser or server.
@@ -13,9 +16,11 @@ export async function enableMocking(isServer: boolean): StartReturnType {
 	if (isServer) {
 		const { server } = await import('@/mocks/server')
 		server.listen()
+		console.info('[MSW] Server mocking enabled.')
 		return
 	} else {
 		const { worker } = await import('@/mocks/browser')
-		return worker.start()
+		await worker.start()
+		if (window.msw) window.msw.isWorkerReady = true
 	}
 }

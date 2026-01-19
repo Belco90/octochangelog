@@ -5,7 +5,7 @@ type NETLIFY_CONTEXT = 'production' | 'deploy-preview' | 'branch-deploy' | 'dev'
 // Client-side environment variables
 interface ImportMetaEnv {
 	readonly VITE_PIRSCH_ID_CODE: string
-	readonly VITE_API_MOCKING: string
+	readonly VITE_API_MOCKING: 'enabled' | undefined
 	readonly VITE_GITHUB_APP_CLIENT_ID: string
 	readonly VITE_SENTRY_DSN: string
 	readonly VITE_FEATURE_FLAG_DARK_MODE: 'enabled' | undefined

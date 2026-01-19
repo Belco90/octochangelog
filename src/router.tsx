@@ -23,13 +23,6 @@ export async function getRouter() {
 		defaultNotFoundComponent: NotFound,
 	})
 
-	setupRouterSsrQueryIntegration({ router, queryClient })
-
-	// Initialize Sentry on the client
-	if (!router.isServer) {
-		initSentry(router)
-	}
-
 	// enable mocking if not on Netlify and explicitly enabled via VITE_API_MOCKING
 	if (
 		!import.meta.env.VITE_NETLIFY &&
@@ -37,6 +30,13 @@ export async function getRouter() {
 	) {
 		const { enableMocking } = await import('@/mocks/init')
 		await enableMocking(router.isServer)
+	}
+
+	setupRouterSsrQueryIntegration({ router, queryClient })
+
+	// Initialize Sentry on the client
+	if (!router.isServer) {
+		initSentry(router)
 	}
 
 	return router
