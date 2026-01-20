@@ -5,7 +5,8 @@ vi.mock('@tanstack/react-router', () => ({
 	createLink: vi.fn((Component: unknown) => Component),
 }))
 
-import { RouteLink } from '../RouteLink'
+import { RouteLink } from '@/components/RouteLink'
+
 import { render } from './test-utils'
 
 it('should render children correctly', async () => {

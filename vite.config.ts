@@ -90,13 +90,39 @@ export default defineConfig({
 		outputFile: {
 			junit: 'test-report.junit.xml',
 		},
-		// Browser mode configuration for component testing
-		browser: {
-			enabled: true,
-			provider: playwright(),
-			instances: [{ browser: 'chromium' }],
-			headless: !!process.env.CI,
-			screenshotFailures: false,
-		},
+		// Separate projects for unit and browser testing
+		projects: [
+			{
+				plugins: [tsconfigPaths()],
+				test: {
+					name: 'unit',
+					include: [
+						'src/__tests__/unit/**/*.test.{ts,tsx}', // Unit tests directory
+						'src/**/*.unit.test.{ts,tsx}', // Explicit .unit.test files anywhere
+					],
+					environment: 'node',
+				},
+			},
+			{
+				plugins: [tsconfigPaths(), viteReact()],
+				define: {
+					'process.env': 'import.meta.env',
+				},
+				test: {
+					name: 'browser',
+					include: [
+						'src/__tests__/browser/**/*.test.{ts,tsx}', // Browser tests directory
+						'src/**/*.browser.test.{ts,tsx}', // Explicit .browser.test files anywhere
+					],
+					browser: {
+						enabled: true,
+						provider: playwright(),
+						instances: [{ browser: 'chromium' }],
+						headless: !!process.env.CI,
+						screenshotFailures: false,
+					},
+				},
+			},
+		],
 	},
 })

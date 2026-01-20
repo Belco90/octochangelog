@@ -12,19 +12,121 @@ The project has three primary testing strategies:
 
 All layers use mocked GitHub API responses for consistency and reliability.
 
+## Test Projects Configuration
+
+This project uses [Vitest's projects feature](https://vitest.dev/guide/workspace.html) to separate unit and browser tests into distinct projects. This enables:
+
+- **Faster unit tests**: Run in Node environment without browser overhead
+- **Isolated browser tests**: Run only component tests that need real browser APIs
+- **Selective test execution**: Run specific test types independently
+- **Better organization**: Clear separation between test environments
+
+The configuration is defined in `vite.config.ts`:
+
+```typescript
+test: {
+  projects: [
+    {
+      name: 'unit',
+      test: {
+        include: [
+          'src/__tests__/unit/**/*.test.{ts,tsx}',  // Unit tests directory
+          'src/**/*.unit.test.{ts,tsx}',            // Explicit .unit.test files anywhere
+        ],
+        environment: 'node',
+      },
+    },
+    {
+      name: 'browser',
+      test: {
+        include: [
+          'src/__tests__/browser/**/*.test.{ts,tsx}',  // Browser tests directory
+          'src/**/*.browser.test.{ts,tsx}',            // Explicit .browser.test files anywhere
+        ],
+        browser: {
+          enabled: true,
+          provider: playwright(),
+          instances: [{ browser: 'chromium' }],
+        },
+      },
+    },
+  ],
+}
+```
+
+### Test File Organization
+
+Tests are organized into dedicated directories and by naming convention:
+
+**Unit Tests (run in Node environment):**
+
+- `src/__tests__/unit/` - Primary location for unit tests
+  - Example: `src/__tests__/unit/utils.test.ts`
+- `src/**/*.unit.test.ts` - Explicit unit tests anywhere (TypeScript)
+- `src/**/*.unit.test.tsx` - Explicit unit tests anywhere (React/TSX)
+  - Example: `src/services/api.unit.test.ts`
+
+**Browser Tests (run in Chromium browser):**
+
+- `src/__tests__/browser/` - Primary location for component/browser tests
+  - Example: `src/__tests__/browser/Button.test.tsx`
+  - Shared utilities: `src/__tests__/browser/test-utils.tsx`
+- `src/**/*.browser.test.ts` - Explicit browser tests anywhere (TypeScript)
+- `src/**/*.browser.test.tsx` - Explicit browser tests anywhere (React/TSX)
+  - Example: `src/utils/dom.browser.test.ts`
+
+**Naming Convention Guidelines:**
+
+**Prefer directory-based organization** (recommended):
+
+- Place unit tests in `src/__tests__/unit/` directory
+- Place browser/component tests in `src/__tests__/browser/` directory
+- This is the primary organization method for the project
+
+**Use explicit naming** (`.unit.test.*` or `.browser.test.*`) when:
+
+- You need to co-locate unit and browser tests for the same module
+- Testing browser-specific utilities outside of the main test directories
+- A test file could be ambiguous about which environment it needs
+
+Examples:
+
+```
+src/__tests__/
+  unit/
+    utils.test.ts              # Unit tests (preferred location)
+    apiHelpers.test.ts
+  browser/
+    Button.test.tsx            # Browser tests (preferred location)
+    Modal.test.tsx
+    test-utils.tsx             # Shared browser test utilities
+
+src/services/
+  github.unit.test.ts          # Co-located unit test (explicit naming)
+
+src/utils/
+  dom.browser.test.ts          # Browser-specific util test (explicit naming)
+```
+
 ## Unit Testing
 
 ### Running Unit Tests
 
 ```bash
-# Interactive mode for development
+# Run all tests (both unit and browser)
+pnpm test
+
+# Run only unit tests (faster - Node environment)
+pnpm test:unit
+
+# Watch mode for unit tests only
+pnpm test:unit:watch
+
+# Watch mode for all tests
 pnpm test:watch
 
-# Single run with coverage
+# All tests with coverage (used in CI)
 pnpm test:ci
-
-# Quick run without coverage
-pnpm test
 ```
 
 ### Unit Test Capabilities
@@ -53,7 +155,7 @@ Component tests use **Vitest Browser Mode** to test React components in a real b
 ### Running Component Tests
 
 ```bash
-# Run in headed mode (browser visible) - useful for debugging
+# Run only browser tests (browser visible) - useful for debugging
 pnpm test:browser
 
 # Run with Vitest UI for better debugging experience
@@ -61,7 +163,12 @@ pnpm test:browser:ui
 
 # Run in headless mode (no visible browser) - used in CI
 pnpm test:browser:headless
+
+# Run all tests (both unit and browser)
+pnpm test
 ```
+
+The `test:browser` commands now use the `--project browser` flag to run only component tests in the browser project, making them faster by skipping unit tests.
 
 ### When to Use Component Tests vs Unit Tests
 
@@ -82,25 +189,38 @@ pnpm test:browser:headless
 
 ### Test File Location
 
-Component tests are located alongside the components they test:
+Component/browser tests are centrally located in the `src/__tests__/browser/` directory:
 
 ```
 src/
+  __tests__/
+    browser/
+      test-utils.tsx          # Shared test utilities for browser tests
+      Button.test.tsx         # Component tests
+      Modal.test.tsx
+      OptimizedImage.test.tsx
   components/
-    __tests__/
-      test-utils.tsx          # Shared test utilities
-      ComponentName.test.tsx  # Component tests
-    ComponentName.tsx         # Component source
+    Button.tsx                # Component source files
+    Modal.tsx
+    OptimizedImage.tsx
 ```
+
+This centralized structure:
+
+- Makes it easy to find all browser tests in one location
+- Keeps component source files clean and focused
+- Provides a clear home for shared test utilities (`test-utils.tsx`)
+- Aligns with the unit test structure in `src/__tests__/unit/`
 
 ### Writing Component Tests
 
 #### Basic Example
 
 ```typescript
+// src/__tests__/browser/MyComponent.test.tsx
 import { render, userEvent } from './test-utils'
 import { expect } from 'vitest'
-import { MyComponent } from '../MyComponent'
+import { MyComponent } from '@/components/MyComponent'
 
 it('should render with correct text', async () => {
   // IMPORTANT: render() is async - always await it!

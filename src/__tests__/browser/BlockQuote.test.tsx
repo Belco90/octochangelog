@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { BlockQuote } from '../BlockQuote'
+import { BlockQuote } from '@/components/BlockQuote'
+
 import { render } from './test-utils'
 
 it('should render children correctly', async () => {

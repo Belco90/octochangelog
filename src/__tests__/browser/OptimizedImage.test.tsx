@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { OptimizedImage } from '../OptimizedImage'
+import { OptimizedImage } from '@/components/OptimizedImage'
+
 import { render } from './test-utils'
 
 it('should render with required props', async () => {

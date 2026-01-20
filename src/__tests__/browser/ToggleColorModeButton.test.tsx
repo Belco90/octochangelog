@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { ToggleColorModeButton } from '../ToggleColorModeButton'
+import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
+
 import { render } from './test-utils'
 
 it('should render with correct ARIA attributes', async () => {

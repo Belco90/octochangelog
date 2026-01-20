@@ -1,6 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { TextSkeleton } from '../TextSkeleton'
+import { TextSkeleton } from '@/components/TextSkeleton'
+
 import { render } from './test-utils'
 
 it('should render multiple skeleton lines', async () => {

@@ -22,7 +22,8 @@ vi.mock('@/github-auth', () => ({
 	),
 }))
 
-import { GitHubLoginButton } from '../GitHubLoginButton'
+import { GitHubLoginButton } from '@/components/GitHubLoginButton'
+
 import { render } from './test-utils'
 
 beforeEach(() => {
