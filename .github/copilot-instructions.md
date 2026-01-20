@@ -6,14 +6,14 @@
 
 - **Tech Stack**: TanStack Start (with Vite), TanStack Router, React 19, TypeScript, Chakra UI, TanStack Query
 - **Key Features**: Markdown parsing with unified.js, GitHub API integration via Octokit, MSW for API mocking
-- **Deployment**: Static site generation on Netlify using Vite
+- **Deployment**: Static site generation on Netlify using TanStack Start prerendering with Vite
 - **Testing**: Vitest for unit tests, Playwright for E2E tests
 
 ## Package Management
 
 **CRITICAL**: This project uses **pnpm** (v10.26.0+), NOT npm or yarn.
 
-- **Node.js version**: v22.21.1 (specified in `.nvmrc`)
+- **Node.js version**: v22.22.0 (specified in `.nvmrc`)
 - **pnpm version**: ^10.26.0 (required, specified in `package.json` engines)
 - **Package manager**: pnpm@10.26.2 (specified in `packageManager` field)
 
@@ -28,7 +28,6 @@ pnpm install
 
 # The postinstall script automatically runs:
 # - pnpm gen:theme-typings (generates Chakra UI theme types)
-# - husky (sets up git hooks)
 ```
 
 ## Build & Development Commands
@@ -51,6 +50,9 @@ pnpm install
 ```bash
 # Start development server (localhost:3000)
 pnpm dev
+
+# Start development server with API mocking enabled
+pnpm dev:mock
 ```
 
 ### Build
@@ -94,9 +96,9 @@ pnpm e2e:report
 
 - Requires the build artifact (`dist` directory) to exist (in CI)
 - Uses MSW to mock GitHub API calls
-- Runs against `http://localhost:3000`
-- In CI: runs `pnpm start` (requires prior `pnpm build`)
-- Locally: runs `pnpm dev` automatically via webServer config
+- Runs against `http://localhost:4173` in CI, `http://localhost:3000` locally
+- In CI: runs `pnpm preview` on port 4173 (requires prior `pnpm build`)
+- Locally: runs `pnpm dev:mock` automatically via webServer config
 
 ### Linting & Formatting
 
@@ -140,19 +142,10 @@ The main workflow is `.github/workflows/verifications.yml` which runs on PRs and
    - `pnpm format:check` - Prettier formatting check
    - `pnpm test:ci` - Vitest unit tests with coverage
 
-2. **build** (5min timeout):
-   - `pnpm build` - Vite production build
-   - Uploads `dist` artifact for E2E tests
-
-3. **e2e-tests** (10min timeout, depends on build):
+2. **e2e-tests** (10min timeout, runs independently):
    - Runs in Playwright container (mcr.microsoft.com/playwright:v1.57.0-noble)
-   - Matrix sharded across 3 parallel jobs
-   - Downloads build artifact
-   - Runs: `pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=N/3`
-
-4. **e2e-finalize** (5min timeout, runs after e2e-tests):
-   - Finalizes Happo visual regression testing
-   - Runs even if e2e-tests are cancelled
+   - Builds webapp first: `pnpm build`
+   - Runs: `pnpm run happo -- pnpm run e2e`
 
 **Setup Action**: `.github/actions/setup-project/action.yml`
 
@@ -279,9 +272,8 @@ VITE_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 
 - Located in: `e2e/`
 - Run with: `pnpm e2e` (requires build in CI, uses dev server locally)
-- Browsers: Chromium, Firefox, WebKit
+- Browsers: Chromium only (configured in playwright.config.ts)
 - MSW mocking: Always enabled (`VITE_API_MOCKING=enabled` in CI)
-- Sharding: 3 shards in CI for parallel execution
 - Visual testing: Integrated with Happo
 
 ### Test Fixtures
@@ -298,6 +290,7 @@ pnpm install                    # Install dependencies (always first)
 
 # Development
 pnpm dev                        # Start dev server
+pnpm dev:mock                   # Start dev server with API mocking
 
 # Validation (runs in CI)
 pnpm lint                       # Lint code
@@ -307,7 +300,8 @@ pnpm test:ci                    # Run tests with coverage
 
 # Build
 pnpm build                      # Production build
-pnpm start                      # Start production server (requires build)
+pnpm preview                    # Preview production build (Vite preview server, port 4173)
+pnpm start                      # Start production server (TanStack Start server, port 3000)
 
 # E2E
 pnpm e2e                        # Run E2E tests
@@ -325,7 +319,7 @@ pnpm format                     # Auto-format code
 3. **MSW API Mocking**: Limited repository search (testing-library, renovate only)
 4. **No direct main commits**: Pre-commit hook prevents commits to main branch
 5. **Theme type generation**: Runs automatically via postinstall (Chakra UI theme types)
-6. **CI timeouts**: code_validation and e2e-tests: 10min, build: 5min
+6. **CI timeouts**: code_validation and e2e-tests: 10min
 7. **Path aliases**: Use `@/` prefix for src imports, `@/public/` for public assets
 8. **Routing**: TanStack Router uses file-based routing with `src/routes/` directory
 
