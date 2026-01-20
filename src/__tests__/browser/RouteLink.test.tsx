@@ -7,7 +7,7 @@ vi.mock('@tanstack/react-router', () => ({
 
 import { RouteLink } from '@/components/RouteLink'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 it('should render children correctly', async () => {
 	const screen = await render(<RouteLink to="/">Home</RouteLink>)

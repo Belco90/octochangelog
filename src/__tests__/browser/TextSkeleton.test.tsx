@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 
 import { TextSkeleton } from '@/components/TextSkeleton'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 it('should render multiple skeleton lines', async () => {
 	const screen = await render(<TextSkeleton />)

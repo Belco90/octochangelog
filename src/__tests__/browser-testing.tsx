@@ -1,4 +1,5 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+// eslint-disable-next-line no-restricted-imports
 import { render as vitestRender } from 'vitest-browser-react'
 
 import { customTheme } from '@/custom-theme'
@@ -11,8 +12,6 @@ import type { ReactElement } from 'react'
  *
  * This ensures all Chakra UI components work correctly in tests with
  * the same theme configuration used in the application.
- *
- * IMPORTANT: This function is async and must be awaited!
  *
  * @example
  * ```tsx
@@ -27,7 +26,7 @@ import type { ReactElement } from 'react'
  * })
  * ```
  */
-export function render(ui: ReactElement) {
+export async function render(ui: ReactElement) {
 	return vitestRender(
 		<ChakraProvider theme={customTheme}>
 			<ColorModeScript initialColorMode={customTheme.config.initialColorMode} />

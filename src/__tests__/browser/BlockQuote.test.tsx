@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 
 import { BlockQuote } from '@/components/BlockQuote'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 it('should render children correctly', async () => {
 	const screen = await render(<BlockQuote>This is a quote</BlockQuote>)

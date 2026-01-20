@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 
 import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 it('should render with correct ARIA attributes', async () => {
 	const screen = await render(<ToggleColorModeButton />)

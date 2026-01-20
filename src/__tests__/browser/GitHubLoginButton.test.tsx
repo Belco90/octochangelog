@@ -24,7 +24,7 @@ vi.mock('@/github-auth', () => ({
 
 import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 beforeEach(() => {
 	// Clear sessionStorage before each test

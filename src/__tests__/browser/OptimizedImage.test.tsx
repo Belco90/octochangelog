@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 
 import { OptimizedImage } from '@/components/OptimizedImage'
 
-import { render } from './test-utils'
+import { render } from '../browser-testing'
 
 it('should render with required props', async () => {
 	const screen = await render(

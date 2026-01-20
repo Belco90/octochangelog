@@ -73,6 +73,11 @@ export default defineConfig(
 					message: 'Please import from `e2e/playwright-utils` instead',
 					importNames: ['test'],
 				},
+				{
+					name: 'vitest-browser-react',
+					message: 'Please import from `browser-testing` instead',
+					importNames: ['render', 'renderHook'],
+				},
 			],
 
 			// TypeScript
