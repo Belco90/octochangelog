@@ -47,7 +47,7 @@ export default defineConfig({
 	/* Run local dev server before starting the tests */
 	webServer: {
 		command: isRunningOnCI
-			? 'pnpm run preview' // `pnpm run build` must be run beforehand
+			? `pnpm run preview --host 0.0.0.0 --port ${webServerPort}` // `pnpm run build` must be run beforehand
 			: 'pnpm run dev:mock',
 		url: webServerUrl,
 		reuseExistingServer: !isRunningOnCI,

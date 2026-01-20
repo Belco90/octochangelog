@@ -49,14 +49,12 @@ export default defineConfig({
 		// React's vite plugin must come after Start's vite plugin
 		viteReact(),
 
-		// Netlify adapter for TanStack Start (anywhere in the array is fine)
-		// (Enable only when hosted)
-		...(isHosted ? [netlify()] : []),
-
-		// Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
-		// (Enable only when hosted)
+		// Enable only when hosted:
+		//  - Netlify adapter for TanStack Start (anywhere in the array is fine)
+		//  - Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
 		...(isHosted
 			? [
+					netlify(),
 					sentryVitePlugin({
 						org: 'octochangelog-eu',
 						project: 'octochangelog-webapp',
