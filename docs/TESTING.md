@@ -2,6 +2,38 @@
 
 This guide describes the testing capabilities and approaches used in the project.
 
+## Quick Reference
+
+**Common Commands:**
+
+```bash
+# Run all tests (unit + browser, ~2.4s)
+pnpm test
+
+# Run all tests (interactive mode)
+pnpm test:ui
+
+# Run only unit tests (fast, ~140ms)
+pnpm test:unit
+
+# Run only browser tests (~2.5s)
+pnpm test:browser
+
+
+# Run with coverage (CI)
+pnpm test:ci
+
+# E2E tests
+pnpm e2e                    # Run all E2E tests
+pnpm e2e:ui                 # Interactive mode
+```
+
+**Test Locations:**
+
+- Unit tests: `src/__tests__/unit/`
+- Browser tests: `src/__tests__/browser/`
+- E2E tests: `e2e/`
+
 ## Testing Layers
 
 The project has three primary testing strategies:
@@ -21,38 +53,7 @@ This project uses [Vitest's projects feature](https://vitest.dev/guide/workspace
 - **Selective test execution**: Run specific test types independently
 - **Better organization**: Clear separation between test environments
 
-The configuration is defined in `vite.config.ts`:
-
-```typescript
-test: {
-  projects: [
-    {
-      name: 'unit',
-      test: {
-        include: [
-          'src/__tests__/unit/**/*.test.{ts,tsx}',  // Unit tests directory
-          'src/**/*.unit.test.{ts,tsx}',            // Explicit .unit.test files anywhere
-        ],
-        environment: 'node',
-      },
-    },
-    {
-      name: 'browser',
-      test: {
-        include: [
-          'src/__tests__/browser/**/*.test.{ts,tsx}',  // Browser tests directory
-          'src/**/*.browser.test.{ts,tsx}',            // Explicit .browser.test files anywhere
-        ],
-        browser: {
-          enabled: true,
-          provider: playwright(),
-          instances: [{ browser: 'chromium' }],
-        },
-      },
-    },
-  ],
-}
-```
+The configuration is defined in `vite.config.ts`
 
 ### Test File Organization
 
@@ -113,14 +114,14 @@ src/utils/
 ### Running Unit Tests
 
 ```bash
-# Run all tests (both unit and browser)
-pnpm test
-
-# Run only unit tests (faster - Node environment)
+# Run only unit tests (faster - Node environment, ~140ms)
 pnpm test:unit
 
 # Watch mode for unit tests only
 pnpm test:unit:watch
+
+# Run all tests (unit + browser, ~2.4s)
+pnpm test
 
 # Watch mode for all tests
 pnpm test:watch
@@ -128,6 +129,8 @@ pnpm test:watch
 # All tests with coverage (used in CI)
 pnpm test:ci
 ```
+
+**Performance Note:** Unit tests run significantly faster (~140ms) than browser tests (~2.5s) because they execute in Node without browser overhead. Use `pnpm test:unit` during development for rapid feedback.
 
 ### Unit Test Capabilities
 
@@ -155,7 +158,7 @@ Component tests use **Vitest Browser Mode** to test React components in a real b
 ### Running Component Tests
 
 ```bash
-# Run only browser tests (browser visible) - useful for debugging
+# Run only browser tests in headed mode (browser visible, ~2.5s)
 pnpm test:browser
 
 # Run with Vitest UI for better debugging experience
@@ -164,11 +167,18 @@ pnpm test:browser:ui
 # Run in headless mode (no visible browser) - used in CI
 pnpm test:browser:headless
 
-# Run all tests (both unit and browser)
+# Run all tests (unit + browser, ~2.4s)
 pnpm test
 ```
 
-The `test:browser` commands now use the `--project browser` flag to run only component tests in the browser project, making them faster by skipping unit tests.
+**Note:** Browser tests take longer (~2.5s) because they:
+
+- Launch a real Chromium browser instance
+- Render components with full DOM and CSS
+- Execute user interactions in real-time
+- Provide the most realistic testing environment
+
+Use `pnpm test:unit` first for quick validation, then `pnpm test:browser` for full component testing.
 
 ### When to Use Component Tests vs Unit Tests
 
