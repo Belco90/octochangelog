@@ -1,16 +1,16 @@
 import type { components } from '@octokit/openapi-types'
 import type { Root } from 'mdast'
-import type Error from 'next/error'
-import type { ReactElement } from 'react'
+import type { ReactElement, PropsWithChildren, ReactNode } from 'react'
 
-type NextErrorPageProps = {
-	error: Error & { digest?: string }
-	reset: () => void
+type PropsWithRequiredChildren<TProps = unknown> = PropsWithChildren<TProps> & {
+	children: ReactNode
 }
 
-type NextSearchParams = Promise<
-	Record<string, string | Array<string> | undefined>
->
+type CompareSearchParams = {
+	repo?: string
+	from?: string
+	to?: string
+}
 
 type SemVerGroup = 'breaking changes' | 'features' | 'bug fixes'
 
@@ -24,11 +24,19 @@ type RepositoryQueryParams = {
 	owner: string
 }
 
-type Repository = components['schemas']['full-repository']
+// We don't use the full repo, but it's useful for typing query responses
+type FullRepository = components['schemas']['full-repository']
 
 /**
- * Minimal properties from a GitHub Release that are used across the webapp.
- * This type is primarily used in test fixtures to reduce file size.
+ * Minimal properties from a GitHub repository that are used across the webapp.
+ */
+type MinimalRepository = Pick<
+	FullRepository,
+	'id' | 'owner' | 'html_url' | 'full_name' | 'name'
+>
+
+/**
+ * Minimal properties from a GitHub release that are used across the webapp.
  */
 type MinimalRelease = Pick<
 	components['schemas']['release'],
@@ -57,13 +65,14 @@ type ComponentLike<
 type ComponentsMapping = Record<string, ComponentLike<ReactElement>>
 
 export type {
-	NextErrorPageProps,
-	NextSearchParams,
+	PropsWithRequiredChildren,
+	CompareSearchParams,
 	SemVerGroup,
 	MiscGroup,
 	ReleaseGroup,
 	RepositoryQueryParams,
-	Repository,
+	FullRepository,
+	MinimalRepository,
 	MinimalRelease,
 	RepoSearchResultItem,
 	ProcessedRelease,

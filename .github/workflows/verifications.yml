@@ -2,7 +2,6 @@ name: Verifications
 
 on:
   pull_request:
-    branches: [main]
   push:
     branches:
       - main
@@ -17,8 +16,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  NEXT_PUBLIC_API_MOCKING: 'enabled'
-  NONCE_ID: '${{ github.run_id || github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  VITE_API_MOCKING: 'enabled'
   HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
   HAPPO_API_SECRET: ${{ secrets.HAPPO_API_SECRET }}
   CURRENTS_PROJECT_ID: ${{ secrets.CURRENTS_PROJECT_ID }}
@@ -58,75 +56,20 @@ jobs:
         with:
           report_type: 'test_results'
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Setup project
-        uses: ./.github/actions/setup-project
-
-      # https://nextjs.org/docs/app/guides/ci-build-caching#github-actions
-      - name: Cache bundle
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
-        id: cache-bundle
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextcache-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextcache-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
-      - name: Build
-        run: pnpm build
-
-      - name: Upload bundle artifact
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: bundle
-          if-no-files-found: error
-          include-hidden-files: true
-          path: .next
-
   e2e-tests:
     name: E2E tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: build
     container:
       image: mcr.microsoft.com/playwright:v1.57.0-noble
       options: --user 1001
-    strategy:
-      fail-fast: false
-      matrix:
-        shard_index: [1, 2, 3]
     steps:
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup project
         uses: ./.github/actions/setup-project
-
-      - name: Download bundle artifact
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
-        with:
-          name: bundle
-          path: .next
+      - name: Build webapp
+        run: pnpm build # VITE_API_MOCKING is set to 'enabled' at the top of the file
 
       - name: Run tests
-        run: pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=${{matrix.shard_index}}/${{strategy.job-total}}
-
-  e2e-finalize:
-    name: E2E finalize
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    if: ${{ !cancelled() }}
-    needs: e2e-tests
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Setup project
-        uses: ./.github/actions/setup-project
-
-      - name: Finalize Happo
-        run: pnpm run happo finalize --nonce $NONCE_ID
+        run: pnpm run happo -- pnpm run e2e

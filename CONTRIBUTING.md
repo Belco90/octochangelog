@@ -5,7 +5,7 @@ Read this document for information on how to get started.
 
 ## General overview of project
 
-We use [Next.js](https://nextjs.org/) to generate the static website.
+We use [TanStack Start](https://tanstack.com/start) with [Vite](https://vite.dev/) to build and generate the static website.
 All our website styling is done with the [Chakra UI](https://chakra-ui.com/) framework.
 
 ## What you'll need to know to be able to help
@@ -17,7 +17,7 @@ It's even better if you know a bit of React and the basics of TypeScript.
 
 - Git
 - pnpm package manager (version specified in "engines" property within `package.json`)
-- Latest version of Node.js 16 (optional)
+- Node.js v22 (specified in `.nvmrc`, optional - pnpm can manage Node.js version for you)
 
 This guide assumes you'll run the code on your workstation directly.
 
@@ -43,7 +43,7 @@ Create a new feature branch for each bit of work!
 
 ## Installing development dependencies
 
-We use Yarn v1 to manage our dependencies.
+We use pnpm to manage our dependencies.
 Run the `pnpm install` command in your own Octochangelog directory to install all dependencies:
 
 ```bash
@@ -70,9 +70,9 @@ Now you can run Vitest tests, Playwright tests and the local environment against
 
 ### Toggling the mocked API
 
-This mocked API can be toggled through the `NEXT_PUBLIC_API_MOCKING` environment variable, which is disabled by default for local development (but enabled in CI). Use `enabled` to start it alongside the project, or `disabled` to stop it.
+This mocked API can be toggled through the `VITE_API_MOCKING` environment variable, which is disabled by default for local development (but enabled in CI). Use `enabled` to start it alongside the project, or leave it empty to stop it.
 
-You can put it in your `.env.local` with `NEXT_PUBLIC_API_MOCKING=enabled` (restarting the local server if already started).
+You can just run `pnpm dev:mock` to start the project with the mocked API enabled.
 
 ### Limitations
 
@@ -86,15 +86,15 @@ Use the following query string to check the comparator output:
 ?repo=testing-library%2Fdom-testing-library&from=v6.16.0&to=v8.1.0
 ```
 
-## Working on dark mode locally
+## Dark mode
 
-We've hidden the color mode behind a feature flag called `NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE`.
+We've hidden the color mode behind a feature flag called `VITE_FEATURE_FLAG_DARK_MODE`.
 This way we can work on the dark mode without publishing the feature.
 
-Do the following to get a ugly button to toggle between light/dark mode:
+Do the following to get an ugly button to toggle between light/dark modes:
 
 1. Create a file named `.env.local` in the root of the project (this file is on the `.gitignore` list so it won't be committed accidentally)
-1. Put `NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true` inside the `.env.local` file.
+1. Put `VITE_FEATURE_FLAG_DARK_MODE=enabled` inside the `.env.local` file.
 1. You can now use the button in the header to switch between light/dark mode
 
 ### Setting colors for light/dark mode
@@ -130,7 +130,7 @@ const Footer = () => {
 export default Footer
 ```
 
-### Running E2E
+## Running E2E
 
 Our E2E tests are implemented with Playwright, and are run against a mocked GitHub API with MSW.
 

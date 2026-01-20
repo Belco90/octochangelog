@@ -1,35 +1,44 @@
-'use client'
-
 import { Button, Icon } from '@chakra-ui/react'
-import { useSearchParams } from 'next/navigation'
+import { ClientOnly, useSearch } from '@tanstack/react-router'
+import { createClientOnlyFn } from '@tanstack/react-start'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { getGitHubAuthUrl } from '@/github-auth'
 
-import type { ReactNode, MouseEvent } from 'react'
+import type { ButtonProps } from '@chakra-ui/react'
+import type { PropsWithChildren } from 'react'
 
-interface GitHubLoginButtonProps {
-	children?: ReactNode
-}
+type GitHubLoginButtonProps = PropsWithChildren
 
-const GitHubLoginButton = ({
-	children = 'Login with GitHub',
-}: GitHubLoginButtonProps) => {
-	const searchParams = useSearchParams()
-
-	const handleClick = (event: MouseEvent) => {
-		event.preventDefault()
-
+const redirectToGitHubAuth = createClientOnlyFn(
+	({ repo, from, to }: { repo?: string; from?: string; to?: string }) => {
+		const filledSearchParams = new URLSearchParams(
+			Object.fromEntries(
+				Object.entries({ repo, from, to }).filter(
+					([, value]) => typeof value === 'string',
+				),
+			) as Record<string, string>,
+		)
 		sessionStorage.setItem(
 			AUTH_REDIRECT_STORAGE_KEY,
-			searchParams?.toString() ?? '',
+			filledSearchParams.toString(),
 		)
 
-		const githubAuthUrl = getGitHubAuthUrl({
+		window.location.href = getGitHubAuthUrl({
 			redirectUrl: window.location.origin,
 		}).toString()
-		window.location.href = githubAuthUrl
+	},
+)
+
+export function GitHubLoginButtonInner({
+	children = 'Login with GitHub',
+}: GitHubLoginButtonProps) {
+	const { repo, from, to } = useSearch({ strict: false })
+
+	const handleClick: ButtonProps['onClick'] = (event) => {
+		event.preventDefault()
+		redirectToGitHubAuth({ repo, from, to })
 	}
 
 	return (
@@ -44,4 +53,10 @@ const GitHubLoginButton = ({
 	)
 }
 
-export default GitHubLoginButton
+export function GitHubLoginButton(props: GitHubLoginButtonProps) {
+	return (
+		<ClientOnly fallback={null}>
+			<GitHubLoginButtonInner {...props} />
+		</ClientOnly>
+	)
+}

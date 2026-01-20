@@ -1,3 +1,4 @@
+import { createServerOnlyFn } from '@tanstack/react-start'
 import Cookies from 'js-cookie'
 
 const GITHUB_STORAGE_KEY = 'octochangelog-github-access-token'
@@ -10,20 +11,10 @@ function getIsAuth(): boolean {
 	return !!getGithubAccessToken()
 }
 
-function setGithubAccessToken(newAccessToken?: string | null): void {
-	if (newAccessToken === getGithubAccessToken()) {
-		return
-	}
-
-	if (newAccessToken) {
-		// Expires in 1 year from time of creation
-		Cookies.set(GITHUB_STORAGE_KEY, newAccessToken, {
-			expires: 365,
-			sameSite: 'Lax',
-		})
-	} else {
-		Cookies.remove(GITHUB_STORAGE_KEY)
-	}
+type OAuthData = {
+	access_token: string
+	scope: string
+	token_type: string
 }
 
 /**
@@ -34,38 +25,40 @@ function setGithubAccessToken(newAccessToken?: string | null): void {
  * Should be used only in the server since it's the only side where
  * `client_secret` is available.
  */
-async function exchangeCodeByAccessToken(code: string): Promise<string> {
-	const response = await fetch('https://github.com/login/oauth/access_token', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-		body: JSON.stringify({
-			code,
-			client_id: process.env.NEXT_PUBLIC_GITHUB_APP_CLIENT_ID,
-			client_secret: process.env.GITHUB_APP_CLIENT_SECRET,
-		}),
-	})
+const exchangeCodeByAccessToken = createServerOnlyFn(
+	async (code: string): Promise<OAuthData> => {
+		const response = await fetch(
+			'https://github.com/login/oauth/access_token',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				},
+				body: JSON.stringify({
+					code,
+					client_id: process.env.VITE_GITHUB_APP_CLIENT_ID,
+					client_secret: process.env.GITHUB_APP_CLIENT_SECRET,
+				}),
+			},
+		)
 
-	if (!response.ok) {
-		throw new Error('Something went wrong exchanging the code.')
-	}
+		if (!response.ok) {
+			const err = new Error('Something went wrong exchanging the code.')
+			err.stack = await response.text()
+			throw err
+		}
 
-	const responseJson = (await response.json()) as {
-		access_token: string
-		scope: string
-		token_type: string
-	}
-	return responseJson.access_token
-}
+		return (await response.json()) as OAuthData
+	},
+)
 
 function getGitHubAuthUrl({ redirectUrl }: { redirectUrl: string }): URL {
 	const githubAuthUrl = new URL('https://github.com')
 	githubAuthUrl.pathname = '/login/oauth/authorize'
 	githubAuthUrl.searchParams.append(
 		'client_id',
-		String(process.env.NEXT_PUBLIC_GITHUB_APP_CLIENT_ID),
+		import.meta.env.VITE_GITHUB_APP_CLIENT_ID,
 	)
 	githubAuthUrl.searchParams.append('scope', '')
 	githubAuthUrl.searchParams.append(
@@ -79,7 +72,6 @@ function getGitHubAuthUrl({ redirectUrl }: { redirectUrl: string }): URL {
 export {
 	getGitHubAuthUrl,
 	exchangeCodeByAccessToken,
-	setGithubAccessToken,
 	getIsAuth,
 	getGithubAccessToken,
 	GITHUB_STORAGE_KEY,

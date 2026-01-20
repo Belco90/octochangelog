@@ -103,14 +103,14 @@ function invertSemanticToken(token: SemanticToken): SemanticToken {
 }
 
 const themeConfig: ThemeConfig = {
-	useSystemColorMode: !!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE,
+	useSystemColorMode: process.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled',
 }
 
 type CustomTheme = Theme & {
 	colors: { primary: ColorHues; secondary: ColorHues }
 }
 
-const customTheme = extendTheme(
+export const customTheme = extendTheme(
 	{
 		colors: {
 			primary: fuchsia,
@@ -153,7 +153,7 @@ const customTheme = extendTheme(
 		},
 		styles: {
 			global: {
-				'html, body, #__next': { height: '100%' },
+				'html, body': { height: '100%' },
 			},
 		},
 		config: themeConfig,
@@ -204,4 +204,6 @@ const customTheme = extendTheme(
 	}),
 ) as CustomTheme
 
+// Default import needed for `chakra-cli tokens` command
+// eslint-disable-next-line import-x/no-default-export
 export default customTheme

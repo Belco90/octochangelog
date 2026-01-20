@@ -9,18 +9,23 @@ import remark2rehype from 'remark-rehype'
 import markdown from 'remark-stringify'
 import { unified } from 'unified'
 
-import type { ComponentsMapping, ProcessedRelease, Repository } from '@/models'
+import type {
+	ComponentsMapping,
+	ProcessedRelease,
+	MinimalRepository,
+} from '@/models'
 
 import type { ReactNode } from 'react'
 import type { Options as RehypeReactOptions } from 'rehype-react'
-
-const rehypeReactOptions: RehypeReactOptions = prod
 
 async function processDescriptionAsync(
 	description: ProcessedRelease['descriptionMdast'],
 	components: ComponentsMapping,
 ): Promise<ReactNode> {
-	rehypeReactOptions.components = components
+	const rehypeReactOptions: RehypeReactOptions = {
+		...prod,
+		components,
+	}
 
 	return new Promise<ReactNode>((resolve, reject) => {
 		const baseProcessor = unified()
@@ -50,13 +55,13 @@ async function processDescriptionAsync(
 	})
 }
 
-interface HookArgs {
-	repository: Repository
+type HookArgs = {
+	repository: MinimalRepository
 	description: ProcessedRelease['descriptionMdast']
 	componentsMapping: ComponentsMapping
 }
 
-function useProcessDescriptionMdast({
+export function useProcessDescriptionMdast({
 	repository,
 	description,
 	componentsMapping,
@@ -91,5 +96,3 @@ function useProcessDescriptionMdast({
 
 	return data
 }
-
-export default useProcessDescriptionMdast

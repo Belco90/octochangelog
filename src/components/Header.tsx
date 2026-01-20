@@ -1,5 +1,3 @@
-'use client'
-
 import {
 	Box,
 	Flex,
@@ -12,16 +10,16 @@ import {
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
-import { Link as RouteLink } from '@/components/ChakraNextLink'
 import { OptimizedImage } from '@/components/OptimizedImage'
-import ToggleColorModeButton from '@/components/ToggleColorModeButton'
-import mascotIcon from '@/public/mascot-icon.png'
+import { RouteLink } from '@/components/RouteLink'
+import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
+import mascotLogo from '@/images/mascot-logo.png'
 
 import type { BoxProps } from '@chakra-ui/react'
 
 const LOGO_SIZES = { base: 8, md: 16 }
 
-const Header = (props: BoxProps) => {
+export const Header = (props: BoxProps) => {
 	return (
 		<Box
 			as="header"
@@ -39,7 +37,7 @@ const Header = (props: BoxProps) => {
 				<Flex justify="space-between" alignItems="center">
 					<Flex alignItems="center">
 						<RouteLink
-							href="/"
+							to="/"
 							textDecorationLine="underline"
 							textDecorationThickness="4px"
 							textUnderlineOffset="2px"
@@ -58,7 +56,7 @@ const Header = (props: BoxProps) => {
 							<HStack spacing={{ base: 1, lg: 2 }}>
 								<Box h={LOGO_SIZES} w={LOGO_SIZES}>
 									<OptimizedImage
-										src={mascotIcon.src}
+										src={mascotLogo}
 										alt=""
 										height={70}
 										width={70}
@@ -78,7 +76,7 @@ const Header = (props: BoxProps) => {
 						</RouteLink>
 					</Flex>
 					<HStack spacing={{ base: 4, md: 10 }}>
-						{!!process.env.NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE && (
+						{import.meta.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled' && (
 							<ToggleColorModeButton
 								boxSize={LOGO_SIZES}
 								minWidth={LOGO_SIZES}
@@ -105,5 +103,3 @@ const Header = (props: BoxProps) => {
 		</Box>
 	)
 }
-
-export default Header

@@ -1,19 +1,24 @@
-import { createNetworkFixture, type NetworkFixture } from '@msw/playwright'
 // eslint-disable-next-line no-restricted-imports
 import { test as baseTest, mergeTests } from '@playwright/test'
 import { test as happoTest } from 'happo/playwright'
 
-import { handlers } from '@/mocks/handlers'
+import type { Page } from '@playwright/test'
 
-interface Fixtures {
-	network: NetworkFixture
+export const test = mergeTests(baseTest, happoTest)
+
+/**
+ * Wait for MSW worker to be ready before making client-side requests.
+ * This is necessary to avoid race conditions where React Query fires requests
+ * before the service worker is fully initialized and ready to intercept them.
+ *
+ * Only needed for tests that trigger client-side API calls (e.g., filling forms).
+ * Not needed for tests that preload data via URL (server-side rendering).
+ */
+export async function waitForApiMock(page: Page): Promise<void> {
+	await page.waitForFunction(
+		() => {
+			return Boolean(window.msw?.isWorkerReady)
+		},
+		{ timeout: 5_000 },
+	)
 }
-
-const extendedTest = baseTest.extend<Fixtures>({
-	// Create a fixture that will control the network in your tests (msw).
-	network: createNetworkFixture({
-		initialHandlers: handlers,
-	}),
-})
-
-export const test = mergeTests(extendedTest, happoTest)

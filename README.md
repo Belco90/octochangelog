@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="./public/mascot-icon.png"
+    src="src/images/mascot-icon.png"
     height="500"
     width="500"
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
@@ -58,6 +58,15 @@ Octochangelog is possible thanks to these awesome sponsors:
         <img
           src="public/sponsors/pirsch.png"
           alt="Pirsch privacy-fiendly analytics"
+          height="50"
+        >
+      </a>
+    </td>
+    <td>
+      <a href="https://sentry.io/welcome//?utm_source=octochangelog&utm_campaign=oss">
+        <img
+          src="public/sponsors/sentry.svg"
+          alt="Sentry application monitoring software"
           height="50"
         >
       </a>

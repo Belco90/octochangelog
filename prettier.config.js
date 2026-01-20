@@ -10,7 +10,7 @@ const prettierConfig = {
 	useTabs: true,
 	overrides: [
 		{
-			files: ['*.json', '*.json5'],
+			files: ['*.json', '*.json5', '*.css'],
 			options: {
 				singleQuote: false,
 			},

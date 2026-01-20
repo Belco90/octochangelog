@@ -2,18 +2,18 @@
 
 ## Project Overview
 
-**Octochangelog** is a Next.js 15 web application that compares GitHub changelogs across multiple releases in a single view. It parses, normalizes, groups, and sorts release notes from GitHub repositories to help users quickly identify breaking changes, features, and bug fixes between version ranges.
+**Octochangelog** is a TanStack Start web application that compares GitHub changelogs across multiple releases in a single view. It parses, normalizes, groups, and sorts release notes from GitHub repositories to help users quickly identify breaking changes, features, and bug fixes between version ranges.
 
-- **Tech Stack**: Next.js 16 (App Router), React 19, TypeScript, Chakra UI, TanStack Query
+- **Tech Stack**: TanStack Start (with Vite), TanStack Router, React 19, TypeScript, Chakra UI, TanStack Query
 - **Key Features**: Markdown parsing with unified.js, GitHub API integration via Octokit, MSW for API mocking
-- **Deployment**: Static site generation on Netlify
+- **Deployment**: Static site generation on Netlify using TanStack Start prerendering with Vite
 - **Testing**: Vitest for unit tests, Playwright for E2E tests
 
 ## Package Management
 
 **CRITICAL**: This project uses **pnpm** (v10.26.0+), NOT npm or yarn.
 
-- **Node.js version**: v22.21.1 (specified in `.nvmrc`)
+- **Node.js version**: v22.22.0 (specified in `.nvmrc`)
 - **pnpm version**: ^10.26.0 (required, specified in `package.json` engines)
 - **Package manager**: pnpm@10.26.2 (specified in `packageManager` field)
 
@@ -28,7 +28,6 @@ pnpm install
 
 # The postinstall script automatically runs:
 # - pnpm gen:theme-typings (generates Chakra UI theme types)
-# - husky (sets up git hooks)
 ```
 
 ## Build & Development Commands
@@ -52,8 +51,8 @@ pnpm install
 # Start development server (localhost:3000)
 pnpm dev
 
-# Start with Turbopack (experimental, faster)
-pnpm dev:turbo
+# Start development server with API mocking enabled
+pnpm dev:mock
 ```
 
 ### Build
@@ -64,15 +63,6 @@ pnpm build
 ```
 
 **Build Timing**: ~30-60 seconds on CI, may vary locally.
-
-**Known Build Issue**: The build requires internet access to Google Fonts. In environments without internet access (or with restricted domains), the build will fail with:
-
-```
-Failed to fetch `Inter` from Google Fonts
-Failed to fetch `Roboto Mono` from Google Fonts
-```
-
-This is expected behavior in sandboxed/offline environments. The build works correctly in CI and production with internet access.
 
 ### Testing
 
@@ -104,11 +94,11 @@ pnpm e2e:report
 
 **E2E Requirements**:
 
-- Requires the build artifact (`.next` directory) to exist (in CI)
+- Requires the build artifact (`dist` directory) to exist (in CI)
 - Uses MSW to mock GitHub API calls
-- Runs against `http://localhost:3000`
-- In CI: runs `pnpm start` (requires prior `pnpm build`)
-- Locally: runs `pnpm dev` automatically via webServer config
+- Runs against `http://localhost:4173` in CI, `http://localhost:3000` locally
+- In CI: runs `pnpm preview` on port 4173 (requires prior `pnpm build`)
+- Locally: runs `pnpm dev:mock` automatically via webServer config
 
 ### Linting & Formatting
 
@@ -131,9 +121,6 @@ pnpm format
 ```bash
 # Type check TypeScript
 pnpm type-check
-
-# Generate Next.js route types
-pnpm type-gen
 ```
 
 ## CI/CD Pipeline
@@ -144,7 +131,7 @@ The main workflow is `.github/workflows/verifications.yml` which runs on PRs and
 
 **Environment Variables in CI**:
 
-- `NEXT_PUBLIC_API_MOCKING=enabled` (enables MSW mocking)
+- `VITE_API_MOCKING=enabled` (enables MSW mocking)
 - Various secrets for Happo, Currents, Sentry, and Codecov
 
 **Jobs**:
@@ -155,20 +142,10 @@ The main workflow is `.github/workflows/verifications.yml` which runs on PRs and
    - `pnpm format:check` - Prettier formatting check
    - `pnpm test:ci` - Vitest unit tests with coverage
 
-2. **build** (5min timeout):
-   - `pnpm build` - Next.js production build
-   - Caches `.next/cache` for faster subsequent builds
-   - Uploads `.next` artifact for E2E tests
-
-3. **e2e-tests** (10min timeout, depends on build):
+2. **e2e-tests** (10min timeout, runs independently):
    - Runs in Playwright container (mcr.microsoft.com/playwright:v1.57.0-noble)
-   - Matrix sharded across 3 parallel jobs
-   - Downloads build artifact
-   - Runs: `pnpm run happo --nonce $NONCE_ID -- pnpm run e2e --shard=N/3`
-
-4. **e2e-finalize** (5min timeout, runs after e2e-tests):
-   - Finalizes Happo visual regression testing
-   - Runs even if e2e-tests are cancelled
+   - Builds webapp first: `pnpm build`
+   - Runs: `pnpm run happo -- pnpm run e2e`
 
 **Setup Action**: `.github/actions/setup-project/action.yml`
 
@@ -195,17 +172,17 @@ octochangelog/
 │   ├── workflows/verifications.yml  # Main CI workflow
 │   └── pull_request_template.md
 ├── src/
-│   ├── app/                       # Next.js App Router pages
-│   │   ├── compare/              # Main comparator feature
-│   │   │   ├── page.tsx          # Compare page
+│   ├── routes/                    # TanStack Router routes
+│   │   ├── __root.tsx            # Root layout
+│   │   ├── index.tsx             # Home page
+│   │   ├── compare.tsx           # Compare page
+│   │   ├── auth.callback.tsx     # GitHub OAuth callback
+│   │   ├── -compare/             # Compare page components (private route segments)
 │   │   │   ├── comparator-context.tsx  # State management
 │   │   │   ├── RepositoryReleasesComparator.tsx
 │   │   │   ├── ComparatorChangelogResults.tsx
 │   │   │   └── [other components]
-│   │   ├── auth/callback/        # GitHub OAuth callback
-│   │   ├── layout.tsx            # Root layout
-│   │   ├── page.tsx              # Home page redirect
-│   │   └── [error pages, metadata]
+│   │   └── -home/                # Home page components (private route segments)
 │   ├── components/               # Shared React components
 │   ├── hooks/                    # Custom React hooks
 │   │   ├── useProcessDescriptionMdast.ts  # Markdown processing
@@ -225,6 +202,7 @@ octochangelog/
 │   ├── github-client.ts          # Octokit client
 │   ├── utils.ts                  # Utility functions
 │   ├── test-utils.tsx            # Testing utilities
+│   ├── router.tsx                # TanStack Router configuration
 │   └── vitest.setup.ts           # Vitest setup
 ├── e2e/                          # Playwright E2E tests
 │   ├── compare.spec.ts
@@ -237,7 +215,7 @@ octochangelog/
 ├── tsconfig.json                 # TypeScript config
 ├── vitest.config.ts              # Vitest config
 ├── playwright.config.ts          # Playwright config
-├── next.config.ts                # Next.js config (with Sentry)
+├── vite.config.ts                # Vite config (with TanStack Start, Netlify, Sentry)
 ├── package.json                  # Dependencies & scripts
 ├── pnpm-lock.yaml                # pnpm lockfile
 ├── pnpm-workspace.yaml           # pnpm workspace config
@@ -248,10 +226,11 @@ octochangelog/
 
 - **TypeScript**: `tsconfig.json` - Path aliases: `@/*` → `./src/*`, `@/public/*` → `./public/*`
 - **ESLint**: `eslint.config.js` - Flat config with React, TypeScript, import sorting, a11y rules
-- **Prettier**: `.prettierrc` - Single quotes, no semicolons, tabs
-- **Vitest**: `vitest.config.ts` - Setup file: `src/vitest.setup.ts`, excludes `e2e/`
+- **Prettier**: `prettier.config.js` - Single quotes, no semicolons, tabs
+- **Vitest**: `vite.config.ts` - Setup file: `src/vitest.setup.ts`, excludes `e2e/`
 - **Playwright**: `playwright.config.ts` - Test dir: `e2e/`, runs against localhost:3000
-- **Next.js**: `next.config.ts` - Static export, Sentry integration, ESLint disabled during builds
+- **Vite**: `vite.config.ts` - TanStack Start plugin, Netlify adapter, Sentry integration, prerendering config
+- **TanStack Router**: `src/router.tsx` - Router configuration, auto-generated route tree at `src/routeTree.gen.ts`
 
 ## Code Style & Conventions
 
@@ -260,7 +239,6 @@ octochangelog/
   - Newlines between groups, alphabetically sorted
 - **TypeScript**: Strict mode enabled, no unused locals/parameters
 - **React**: Prefer type imports, consistent type exports, array types as `Array<T>`
-- **Testing**: Import from `@/test-utils` (wraps Testing Library), not `@testing-library/react` directly
 - **Playwright**: Import test from `e2e/playwright-utils`, not `@playwright/test` directly
 - **No console.log**: Warns on console statements (use proper logging if needed)
 
@@ -269,14 +247,8 @@ octochangelog/
 **Development** (`.env` checked in, `.env.local` for overrides):
 
 ```bash
-NEXT_PUBLIC_GITHUB_APP_CLIENT_ID=notset
-NEXT_PUBLIC_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
-```
-
-**Optional Feature Flags** (for `.env.local`):
-
-```bash
-NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true  # Enable dark mode toggle
+VITE_GITHUB_APP_CLIENT_ID=notset
+VITE_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
 ```
 
 **CI Environment Variables** (from GitHub secrets):
@@ -293,16 +265,15 @@ NEXT_PUBLIC_FEATURE_FLAG_COLOR_MODE=true  # Enable dark mode toggle
 - Located in: `src/__tests__/`
 - Run with: `pnpm test` or `pnpm test:watch`
 - Uses: React Testing Library via `src/test-utils.tsx`
-- MSW mocking: Controlled by `NEXT_PUBLIC_API_MOCKING` env var
+- MSW mocking: Controlled by `VITE_API_MOCKING` env var
 - Coverage: ~16% (focused on utility functions)
 
 ### E2E Tests (Playwright)
 
 - Located in: `e2e/`
 - Run with: `pnpm e2e` (requires build in CI, uses dev server locally)
-- Browsers: Chromium, Firefox, WebKit
-- MSW mocking: Always enabled (`NEXT_PUBLIC_API_MOCKING=enabled` in CI)
-- Sharding: 3 shards in CI for parallel execution
+- Browsers: Chromium only (configured in playwright.config.ts)
+- MSW mocking: Always enabled (`VITE_API_MOCKING=enabled` in CI)
 - Visual testing: Integrated with Happo
 
 ### Test Fixtures
@@ -319,6 +290,7 @@ pnpm install                    # Install dependencies (always first)
 
 # Development
 pnpm dev                        # Start dev server
+pnpm dev:mock                   # Start dev server with API mocking
 
 # Validation (runs in CI)
 pnpm lint                       # Lint code
@@ -328,7 +300,8 @@ pnpm test:ci                    # Run tests with coverage
 
 # Build
 pnpm build                      # Production build
-pnpm start                      # Start production server (requires build)
+pnpm preview                    # Preview production build (Vite preview server, port 4173)
+pnpm start                      # Start production server (TanStack Start server, port 3000)
 
 # E2E
 pnpm e2e                        # Run E2E tests
@@ -343,28 +316,19 @@ pnpm format                     # Auto-format code
 
 1. **Always use pnpm**: Never use `npm` or `yarn` commands
 2. **Run pnpm install first**: Before any build, test, or development commands
-3. **Build requires internet**: Google Fonts fetch will fail in offline environments (expected)
-4. **MSW API Mocking**: Limited repository search (testing-library, renovate only)
-5. **No direct main commits**: Pre-commit hook prevents commits to main branch
-6. **Type generation**: Runs automatically via postinstall and before type-check
-7. **CI timeouts**: code_validation and e2e-tests: 10min, build: 5min
-8. **Path aliases**: Use `@/` prefix for src imports, `@/public/` for public assets
+3. **MSW API Mocking**: Limited repository search (testing-library, renovate only)
+4. **No direct main commits**: Pre-commit hook prevents commits to main branch
+5. **Theme type generation**: Runs automatically via postinstall (Chakra UI theme types)
+6. **CI timeouts**: code_validation and e2e-tests: 10min
+7. **Path aliases**: Use `@/` prefix for src imports, `@/public/` for public assets
+8. **Routing**: TanStack Router uses file-based routing with `src/routes/` directory
 
 ## Troubleshooting
-
-**Build fails with Google Fonts error**:
-
-- Expected in offline/sandboxed environments
-- Build works correctly with internet access (CI/production)
 
 **pnpm command not found**:
 
 - Enable corepack: `corepack enable`
 - Corepack will automatically install the correct pnpm version based on `packageManager` field in package.json
-
-**Type errors after changes**:
-
-- Run `pnpm type-gen` to regenerate Next.js route types
 
 **Pre-commit hook blocks commit**:
 
@@ -374,7 +338,12 @@ pnpm format                     # Auto-format code
 **E2E tests fail locally**:
 
 - Ensure dev server is not already running on port 3000
-- Check that `NEXT_PUBLIC_API_MOCKING=enabled` if needed
+- Check that `VITE_API_MOCKING=enabled` if needed
+
+**Type errors after changes**:
+
+- Run `pnpm gen:theme-typings` to regenerate Chakra UI theme types
+- TanStack Router types are auto-generated on file changes in development
 
 ## Trust These Instructions
 

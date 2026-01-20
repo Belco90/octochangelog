@@ -138,7 +138,7 @@ const initialState: ProcessReleasesState = {
 	isProcessing: false,
 }
 
-function useProcessReleases(
+export function useProcessReleases(
 	releases: Array<MinimalRelease> | null,
 ): UseProcessReleasesReturn {
 	const [state, dispatch] = useReducer(processReleasesReducer, initialState)
@@ -165,5 +165,3 @@ function useProcessReleases(
 		isProcessing: state.isProcessing,
 	}
 }
-
-export default useProcessReleases

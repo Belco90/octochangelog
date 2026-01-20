@@ -5,7 +5,8 @@ import { includeIgnoreFile } from '@eslint/compat'
 import eslint from '@eslint/js'
 import eslintReact from '@eslint-react/eslint-plugin'
 import stylistic from '@stylistic/eslint-plugin'
-import tanstackQuery from '@tanstack/eslint-plugin-query'
+import tanStackQuery from '@tanstack/eslint-plugin-query'
+import tanStackRouter from '@tanstack/eslint-plugin-router'
 import vitest from '@vitest/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettierConfig from 'eslint-config-prettier/flat'
@@ -26,7 +27,8 @@ export default defineConfig(
 	importX.flatConfigs.recommended,
 	importX.flatConfigs.typescript,
 	importX.flatConfigs.react,
-	tanstackQuery.configs['flat/recommended'],
+	tanStackQuery.configs['flat/recommended'],
+	tanStackRouter.configs['flat/recommended'],
 	eslintReact.configs['recommended-type-checked'],
 	reactHooks.configs.flat.recommended,
 	jsxA11y.flatConfigs.recommended,
@@ -66,10 +68,6 @@ export default defineConfig(
 			'no-console': 'warn', // doesn't seem to be enabled in any preset
 			'no-restricted-imports': [
 				'error',
-				{
-					name: '@testing-library/react',
-					message: 'Please import from `test-utils` instead',
-				},
 				{
 					name: '@playwright/test',
 					message: 'Please import from `e2e/playwright-utils` instead',
@@ -142,6 +140,7 @@ export default defineConfig(
 			'unicorn/no-array-reduce': 'error',
 
 			// JSX A11Y
+			'jsx-a11y/accessible-emoji': 'error',
 			'jsx-a11y/alt-text': [
 				'warn',
 				{
@@ -153,6 +152,14 @@ export default defineConfig(
 			// Stylistic (JSX)
 			'@stylistic/jsx-self-closing-comp': 'warn',
 			'@stylistic/jsx-quotes': 'warn',
+		},
+	},
+	{
+		name: 'src/',
+		files: ['src/**/*.{js,mjs,cjs,jsx,mjsx,ts,mts,tsx,mtsx}'],
+		rules: {
+			// Enforce named exports in the source code
+			'import-x/no-default-export': 'error',
 		},
 	},
 	{

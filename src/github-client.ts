@@ -10,7 +10,7 @@ function getUserAgent(): string {
 		'deploy-preview',
 		'branch-deploy',
 		'preview-server',
-	].includes(String(process.env.CONTEXT))
+	].includes(String(import.meta.env.VITE_CONTEXT))
 
 	if (isDeployed) {
 		return userAgent
