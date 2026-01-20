@@ -12,7 +12,7 @@ type OptimizedImageProps = BaseImageProps & {
 	operations?: NetlifyOperations
 }
 
-const isHosted = Boolean(import.meta.env.NETLIFY)
+const isNetlify = Boolean(import.meta.env.VITE_NETLIFY)
 
 export function OptimizedImage({
 	alt,
@@ -39,8 +39,8 @@ export function OptimizedImage({
 			alt={alt}
 			width={width}
 			height={height}
-			priority={isHosted ? priority : undefined} // priority is not transformed if not cdn setup, so the boolean value sent to the DOM is incorrect
-			cdn={isHosted ? 'netlify' : undefined}
+			priority={isNetlify ? priority : undefined} // priority is not transformed if not cdn setup, so the boolean value sent to the DOM is incorrect
+			cdn={isNetlify ? 'netlify' : undefined}
 			operations={{
 				netlify: netlifyOperations,
 			}}
