@@ -2,6 +2,7 @@ import netlify from '@netlify/vite-plugin-tanstack-start'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
+import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import {
@@ -74,7 +75,7 @@ export default defineConfig({
 
 	test: {
 		clearMocks: true,
-		setupFiles: ['src/vitest.setup.ts'],
+		setupFiles: ['src/vitest.setup.ts', 'src/vitest.browser.setup.ts'],
 		exclude: [...defaultExclude, 'e2e/**'],
 		coverage: {
 			include: ['src/**'],
@@ -88,6 +89,17 @@ export default defineConfig({
 		reporters: process.env.CI ? ['default', 'junit'] : configDefaults.reporters,
 		outputFile: {
 			junit: 'test-report.junit.xml',
+		},
+		// Browser mode configuration for component testing
+		browser: {
+			enabled: true,
+			// @ts-expect-error -- pnpm dependency resolution creates type conflicts between vitest instances
+			provider: playwright(),
+			instances: [{ browser: 'chromium' }],
+			headless: !!process.env.CI,
+			api: {
+				port: 63315, // Different from dev server (3000) and E2E tests
+			},
 		},
 	},
 })
