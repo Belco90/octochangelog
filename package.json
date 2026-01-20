@@ -38,7 +38,7 @@
 		"@octokit/auth-callback": "6.0.0",
 		"@octokit/rest": "22.0.1",
 		"@sentry/tanstackstart-react": "10.33.0",
-		"@tanstack/react-query": "5.90.17",
+		"@tanstack/react-query": "5.90.18",
 		"@tanstack/react-router": "1.150.0",
 		"@tanstack/react-router-ssr-query": "1.150.0",
 		"@tanstack/react-start": "1.150.0",
