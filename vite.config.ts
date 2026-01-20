@@ -75,7 +75,7 @@ export default defineConfig({
 
 	test: {
 		clearMocks: true,
-		setupFiles: ['src/vitest.setup.ts', 'src/vitest.browser.setup.ts'],
+		setupFiles: ['src/vitest.setup.ts'],
 		exclude: [...defaultExclude, 'e2e/**'],
 		coverage: {
 			include: ['src/**'],
@@ -93,13 +93,10 @@ export default defineConfig({
 		// Browser mode configuration for component testing
 		browser: {
 			enabled: true,
-			// @ts-expect-error -- pnpm dependency resolution creates type conflicts between vitest instances
 			provider: playwright(),
 			instances: [{ browser: 'chromium' }],
 			headless: !!process.env.CI,
-			api: {
-				port: 63315, // Different from dev server (3000) and E2E tests
-			},
+			screenshotFailures: false,
 		},
 	},
 })

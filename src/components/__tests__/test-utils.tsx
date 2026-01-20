@@ -12,15 +12,18 @@ import type { ReactElement } from 'react'
  * This ensures all Chakra UI components work correctly in tests with
  * the same theme configuration used in the application.
  *
+ * IMPORTANT: This function is async and must be awaited!
+ *
  * @example
  * ```tsx
- * import { render, page, expect } from './test-utils'
+ * import { render, userEvent } from './test-utils'
+ * import { expect, vi } from 'vitest'
  * import { MyButton } from '../MyButton'
  *
- * test('renders button', async () => {
- *   render(<MyButton>Click me</MyButton>)
- *   const button = page.getByRole('button', { name: /click me/i })
- *   await expect.element(button).toBeInTheDocument()
+ * it('should render button', async () => {
+ *   const screen = await render(<MyButton>Click me</MyButton>)
+ *   const button = screen.getByRole('button', { name: /click me/i })
+ *   await expect.element(button).toBeVisible()
  * })
  * ```
  */
@@ -33,6 +36,5 @@ export function render(ui: ReactElement) {
 	)
 }
 
-// Re-export commonly used utilities from Vitest browser mode
-export { page, userEvent } from 'vitest/browser'
-export { expect, vi } from 'vitest'
+// Re-export browser-specific utilities
+export { userEvent } from 'vitest/browser'
