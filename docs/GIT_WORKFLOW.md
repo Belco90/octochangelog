@@ -1,142 +1,77 @@
 # Git Workflow Guide
 
-This guide covers Git hooks, branch protection, and commit conventions.
-
-## Pre-commit Hook
-
-**File**: `.husky/pre-commit`
-
-Automatically runs before every commit via Husky.
-
-### What it does
-
-1. **Prevents commits to main branch**
-   - Blocks direct commits to `main`
-   - Forces use of feature branches and PRs
-   - Can be bypassed with `-n` flag (not recommended)
-
-2. **Runs lint-staged**
-   - Lints and formats only changed files
-   - Auto-fixes issues when possible
-   - Configured in `lint-staged.config.js`
-
-### lint-staged Configuration
-
-**File**: `lint-staged.config.js`
-
-Runs different commands based on file type:
-
-**JavaScript/TypeScript files** (`.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs`):
-
-```bash
-eslint --fix
-```
-
-Automatically fixes linting issues where possible.
-
-**All files**:
-
-```bash
-prettier --write
-```
-
-Auto-formats code according to Prettier configuration.
-
-### Bypassing the Pre-commit Hook
-
-**Not recommended**, but can be done with:
-
-```bash
-git commit -n -m "message"
-# or
-git commit --no-verify -m "message"
-```
-
-Only use this in exceptional circumstances (e.g., fixing a critical production bug on main).
+This guide describes the Git workflow, branch protection, and automated checks.
 
 ## Branch Protection
 
-### Main Branch
-
-Direct commits to `main` are blocked by the pre-commit hook.
+Direct commits to the main branch are blocked by a pre-commit hook. This enforces a pull request workflow for all changes.
 
 **Recommended workflow**:
 
-1. Create a feature branch:
+1. Create a feature branch
+2. Make changes and commit
+3. Push to remote
+4. Create a pull request
+5. After CI passes and review, merge to main
 
-   ```bash
-   git checkout -b feature/my-feature
-   ```
+Feature branches have no restrictions - commit and push freely.
 
-2. Make changes and commit:
+## Pre-commit Automation
 
-   ```bash
-   git add .
-   git commit -m "Add feature"
-   ```
+A pre-commit hook runs automatically before each commit:
 
-3. Push to remote:
+1. **Blocks commits to main** - Forces use of feature branches
+2. **Runs lint-staged** - Lints and formats only changed files
 
-   ```bash
-   git push -u origin feature/my-feature
-   ```
+### lint-staged Behavior
 
-4. Create a pull request on GitHub
+Different file types get different treatment:
 
-5. After CI passes and review approval, merge to `main`
+- **JS/TS files**: ESLint auto-fix
+- **All files**: Prettier auto-format
 
-### Feature Branches
+Only staged files are processed, keeping commits fast.
 
-No restrictions on feature branches. Commit freely and push as needed.
+### Bypassing the Hook
+
+You can bypass with `-n` or `--no-verify`, but this is not recommended except in exceptional circumstances (like fixing critical production bugs).
+
+```bash
+git commit -n -m "message"
+```
 
 ## Commit Conventions
 
-While there are no enforced commit message conventions, consider following these patterns for clarity:
+While not enforced, consider these patterns for clarity:
 
 ### Suggested Format
 
 ```
 type: brief description
 
-Optional longer description with details about:
+Optional longer details about:
 - What changed
 - Why it changed
-- Any breaking changes or migration notes
+- Breaking changes or migration notes
 ```
 
 ### Common Types
 
 - `feat:` - New feature
 - `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `style:` - Code style changes (formatting, etc.)
-- `refactor:` - Code refactoring
-- `test:` - Adding or updating tests
-- `chore:` - Maintenance tasks (dependencies, config, etc.)
+- `docs:` - Documentation
+- `style:` - Code style/formatting
+- `refactor:` - Code restructuring
+- `test:` - Test changes
+- `chore:` - Maintenance (deps, config)
 - `perf:` - Performance improvements
 - `ci:` - CI/CD changes
 
-### Examples
+## Handling Hook Failures
 
-```bash
-feat: add changelog comparison feature
+### Linting Issues
 
-fix: resolve issue with release sorting
-
-docs: update README with installation instructions
-
-test: add unit tests for release parser
-
-refactor: extract markdown processing to custom hook
-
-chore: update dependencies to latest versions
-```
-
-## Working with Pre-commit Hook Failures
-
-### Linting Failures
-
-If the pre-commit hook fails due to linting errors:
+If the pre-commit hook fails due to linting:
 
 ```bash
 # Run lint fix manually
@@ -149,9 +84,9 @@ git add .
 git commit -m "your message"
 ```
 
-### Formatting Failures
+### Formatting Issues
 
-If the pre-commit hook fails due to formatting:
+If formatting fails:
 
 ```bash
 # Run formatter manually
@@ -166,37 +101,28 @@ git commit -m "your message"
 
 ### Understanding Hook Output
 
-The pre-commit hook shows:
+The hook shows:
 
-1. **Files being checked**: Only staged files are processed
-2. **Commands being run**: ESLint and Prettier commands
-3. **Results**: Success or failure for each file
-4. **Auto-fixed files**: Files that were automatically corrected
+- Files being checked (only staged files)
+- Commands being run
+- Results for each file
+- Auto-fixed files
 
-If auto-fixes are made, you'll need to stage them and commit again.
+If auto-fixes are made, stage them and commit again.
 
 ## Pull Request Workflow
 
 ### Creating a Pull Request
 
 1. Push your feature branch to GitHub
-2. Open a pull request against `main`
-3. Fill out the PR template (`.github/pull_request_template.md`)
+2. Open a pull request against main
+3. Fill out the PR description (template may be provided)
 4. Wait for CI checks to pass
 5. Request review from team members
 
-### PR Template
-
-The repository includes a PR template with sections for:
-
-- Description of changes
-- Type of change (bug fix, feature, etc.)
-- Testing done
-- Checklist of requirements
-
 ### CI Checks on PRs
 
-All PRs run the full CI pipeline (see [CI.md](CI.md)):
+All PRs run the full CI pipeline (see CI.md):
 
 - Linting
 - Type checking
@@ -205,9 +131,9 @@ All PRs run the full CI pipeline (see [CI.md](CI.md)):
 - E2E tests
 - Visual regression tests
 
-PRs cannot be merged until all CI checks pass.
+PRs cannot be merged until all checks pass.
 
-## Troubleshooting
+## Common Issues
 
 ### Pre-commit hook blocks commit on main
 
@@ -229,17 +155,17 @@ git stash pop
 git commit -m "your message"
 ```
 
-### Pre-commit hook is too slow
+### Pre-commit hook is slow
 
-lint-staged only processes **staged files**, but if you have many staged files, it can take time.
+lint-staged only processes staged files, but many files can take time.
 
 **Tips**:
 
-- Commit smaller chunks of changes
-- Run linting and formatting before staging: `pnpm lint:fix && pnpm format`
+- Commit smaller chunks
+- Run linting/formatting before staging: `pnpm lint:fix && pnpm format`
 - This pre-validates files before the hook runs
 
-### Hook installed but not running
+### Hook not running
 
 Ensure Husky is properly installed:
 
@@ -247,22 +173,16 @@ Ensure Husky is properly installed:
 pnpm install  # Runs prepare script which installs Husky
 ```
 
-Check that `.husky/pre-commit` exists and is executable:
-
-```bash
-ls -la .husky/pre-commit
-```
-
 ## Setup on New Clone
 
-When cloning the repository for the first time:
+When cloning the repository:
 
 ```bash
 git clone <repository-url>
 cd octochangelog
 
-# Install dependencies (this runs the prepare script to setup Husky)
+# Install dependencies (runs prepare script to setup Husky)
 pnpm install
 ```
 
-The `prepare` script in `package.json` automatically runs `husky`, which sets up Git hooks.
+The prepare script automatically sets up Git hooks.

@@ -1,271 +1,202 @@
 # CI/CD Guide
 
-This guide covers the GitHub Actions CI/CD pipeline configuration.
+This guide describes the continuous integration capabilities and workflow automation.
 
-## GitHub Actions Workflow
+## CI Capabilities
 
-**Main workflow**: `.github/workflows/verifications.yml`
-
-Runs on:
+The CI pipeline automatically validates code quality on:
 
 - Pull requests to any branch
-- Pushes to `main` branch
+- Pushes to the main branch
 
-## Environment Variables
+All checks must pass before merging to main.
 
-### CI Environment
+## Environment and Secrets
+
+### CI Environment Variables
 
 ```bash
-VITE_API_MOCKING=enabled  # Enables MSW for all tests
+VITE_API_MOCKING=enabled  # Enables MSW for consistent test data
 ```
 
-### Secrets (GitHub Repository Secrets)
+### Required Secrets
 
-**Happo** (Visual regression testing):
+The CI pipeline uses GitHub repository secrets for external services:
 
-- `HAPPO_API_KEY`
-- `HAPPO_API_SECRET`
+**Happo** (Visual regression):
+
+- API key and secret for visual snapshot comparison
 
 **Currents** (Playwright dashboard):
 
-- `CURRENTS_PROJECT_ID`
-- `CURRENTS_RECORD_KEY`
+- Project ID and record key for test result tracking
 
-**Codecov** (Code coverage reporting):
+**Codecov** (Coverage reporting):
 
-- `CODECOV_TOKEN`
+- Token for uploading coverage data
 
 **Sentry** (Error tracking):
 
-- Sentry auth tokens (optional, warnings if not set)
+- Auth tokens (optional, produces warnings if missing)
 
-## CI Jobs
+## Validation Pipeline
 
-### 1. code_validation
+### Code Quality Checks
 
-**Matrix job** running validation checks in parallel:
+A matrix job runs multiple validation checks in parallel:
 
-- Timeout: 10 minutes
-- Runs on: `ubuntu-latest`
+- **Linting**: ESLint with zero-warning tolerance
+- **Type checking**: TypeScript strict mode validation
+- **Format checking**: Prettier style enforcement
+- **Unit tests**: Vitest with coverage reporting
+- **Coverage upload**: Results sent to Codecov
 
-**Steps**:
+Timeout: 10 minutes
+Environment: Ubuntu latest
 
-1. Setup project (via `.github/actions/setup-project`)
-2. **Lint**: `pnpm lint` (fails on warnings with `--max-warnings 0`)
-3. **Type check**: `pnpm type-check`
-4. **Format check**: `pnpm format:check`
-5. **Unit tests**: `pnpm test:ci` (with coverage)
-6. **Upload coverage**: Sends coverage to Codecov
+### E2E Testing
 
-### 2. e2e-tests
+An independent job runs browser tests:
 
-**E2E testing job** running Playwright tests:
+- Builds production artifacts
+- Runs Playwright tests with visual snapshots
+- Uses Happo for visual regression detection
+- Reports results to Currents dashboard
 
-- Timeout: 10 minutes
-- Runs on: Playwright container (`mcr.microsoft.com/playwright:v1.57.0-noble`)
-- **Runs independently** from `code_validation` (no dependency)
+Tests run against the production build preview server.
+Environment: Playwright Docker container with browser dependencies
+Timeout: 10 minutes
 
-**Steps**:
+### Parallel Execution
 
-1. Setup project (via `.github/actions/setup-project`)
-2. **Build**: `pnpm build` (creates production build in `dist/`)
-3. **Run E2E tests**: `pnpm run happo -- pnpm run e2e`
-   - Uses Happo for visual regression testing
-   - Runs against `http://localhost:4173` (Vite preview server)
-   - Controlled by `playwright.config.ts` webServer configuration
+Code validation and E2E tests run in parallel for faster feedback. They have no dependencies on each other.
 
-**Environment**:
+## Shared Setup
 
-- `VITE_API_MOCKING=enabled` (uses MSW handlers)
-- Playwright container includes all necessary browser dependencies
+A reusable composite action handles common setup steps:
 
-## Setup Action
+1. Install pnpm via corepack (version from package.json)
+2. Setup Node.js with dependency caching (version from .nvmrc)
+3. Install dependencies and run postinstall scripts
 
-**File**: `.github/actions/setup-project/action.yml`
+This ensures consistent environment setup across all jobs.
 
-Reusable composite action that handles common setup steps:
+## Performance
 
-1. **Setup pnpm**
-   - Installs pnpm via corepack
-   - Version from `package.json` `packageManager` field
+### Timeouts
 
-2. **Setup Node.js**
-   - Version from `.nvmrc` file
-   - Caches pnpm dependencies
+All jobs have 10-minute timeouts to prevent runaway processes. Jobs exceeding this limit are automatically cancelled.
 
-3. **Install dependencies**
-   - Runs `pnpm install`
-   - Automatically runs postinstall scripts (theme typings generation)
+### Build Timing
 
-## Job Timeouts
+Production builds typically complete in 30-60 seconds, varying based on:
 
-All jobs have a **10 minute timeout** to prevent runaway processes:
+- Runner performance
+- Cache effectiveness
+- Prerendering complexity
 
-```yaml
-timeout-minutes: 10
-```
+### Caching
 
-If a job exceeds this timeout, it will be automatically cancelled.
+Node.js setup automatically caches:
 
-## Workflow Triggers
+- pnpm global store
+- node_modules
 
-```yaml
-on:
-  pull_request: # All PRs
-  push:
-    branches:
-      - main # Pushes to main branch
-```
+Cache keys are based on OS and lockfile hash.
 
-## Build Timing
+## Test Artifacts
 
-- **Production build** (`pnpm build`): ~30-60 seconds on CI
-- May vary based on:
-  - Runner performance
-  - Dependency cache state
-  - Prerendering complexity
+The pipeline generates several artifacts:
 
-## Parallelization Strategy
-
-Jobs run in parallel where possible:
-
-- `code_validation` steps run sequentially (share the same environment)
-- `e2e-tests` runs independently in parallel with `code_validation`
-
-This maximizes CI throughput while keeping the workflow simple.
-
-## Caching Strategy
-
-Node.js setup action automatically caches:
-
-- pnpm store (global cache)
-- node_modules (when using pnpm)
-
-Cache key is based on:
-
-- OS
-- `pnpm-lock.yaml` hash
-
-## Artifacts
-
-### Test Reports
-
-- **JUnit XML**: `test-report.junit.xml` (from `pnpm test:ci`)
+- **JUnit XML**: Test results in standard format
 - **Coverage reports**: Uploaded to Codecov
+- **Happo snapshots**: Visual regression comparisons
+- **Currents results**: Playwright test dashboard
 
-### Playwright Reports
+## Debugging CI Failures
 
-- **Happo snapshots**: Visual regression reports uploaded to Happo
-- **Currents dashboard**: Test results uploaded to Currents
+### Lint Failures
 
-## Troubleshooting CI Failures
-
-### Lint failures
-
-```
-ESLint found warnings or errors
-```
-
-**Fix locally**:
+**Local reproduction**:
 
 ```bash
 pnpm lint:fix
 pnpm format
 ```
 
-### Type check failures
+Fix the issues reported by ESLint and Prettier.
 
-```
-TypeScript found type errors
-```
+### Type Check Failures
 
-**Fix locally**:
+**Local reproduction**:
 
 ```bash
 pnpm type-check
 ```
 
-Check the error messages and fix type issues. May need to regenerate theme typings:
+Address TypeScript errors. May need to regenerate theme typings:
 
 ```bash
 pnpm gen:theme-typings
 ```
 
-### Test failures
+### Test Failures
 
-```
-Vitest tests failed
-```
-
-**Run locally**:
+**Local reproduction**:
 
 ```bash
-pnpm test:watch  # Interactive mode
-pnpm test:ci     # CI mode with coverage
+pnpm test:watch  # Interactive
+pnpm test:ci     # CI mode
 ```
 
-### E2E test failures
+### E2E Failures
 
-```
-Playwright tests failed
-```
-
-**Run locally**:
+**Local reproduction**:
 
 ```bash
-pnpm build        # Build first (required in CI)
-pnpm e2e          # Run E2E tests
-pnpm e2e:ui       # Interactive mode
-pnpm e2e:report   # View last report
+pnpm build       # Required for preview server
+pnpm e2e
+pnpm e2e:ui      # Interactive mode
+pnpm e2e:report  # View traces and screenshots
 ```
 
-Check Playwright traces and screenshots in the report for debugging.
-
-### Build failures
-
-```
-Build failed
-```
+### Build Failures
 
 **Common causes**:
 
-- Type errors (run `pnpm type-check`)
-- Missing dependencies (run `pnpm install`)
-- Vite configuration issues
-- Environment variables not set
+- Type errors
+- Missing dependencies
+- Configuration issues
+- Missing environment variables
 
-**Run locally**:
+**Local reproduction**:
 
 ```bash
 pnpm build
 ```
 
-### Timeout failures
-
-```
-Job exceeded timeout of 10 minutes
-```
+### Timeout Failures
 
 **Possible causes**:
 
 - Hanging tests (infinite loops, missing assertions)
-- Slow network requests (check MSW mocking is enabled)
+- Network issues (check mocking is enabled)
 - Resource exhaustion
 
-Investigate which step timed out and check logs for hung processes.
+Check logs to identify which step timed out.
 
-## CI Best Practices
+## Best Practices
 
-1. **Always run validations locally** before pushing:
+1. **Run validations locally before pushing**:
 
    ```bash
    pnpm lint && pnpm type-check && pnpm format:check && pnpm test:ci
    ```
 
-2. **Pre-commit hooks** help catch issues early (runs automatically via Husky)
+2. **Pre-commit hooks catch issues early** - They run automatically via Husky
 
-3. **MSW mocking** prevents flaky tests from real API calls
+3. **API mocking prevents flaky tests** - MSW ensures consistent GitHub API responses
 
-4. **Timeouts** prevent runaway CI jobs from consuming resources
+4. **Timeouts prevent resource waste** - Runaway jobs are killed automatically
 
-5. **Parallel jobs** maximize CI speed while maintaining clarity
+5. **Parallel execution maximizes speed** - Independent jobs run concurrently

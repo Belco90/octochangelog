@@ -1,46 +1,52 @@
 # Code Style Guide
 
-This guide covers TypeScript conventions, linting, formatting, and coding patterns.
+This guide describes code conventions, automated tooling, and style enforcement capabilities.
 
-## Linting and Formatting
+## Automated Code Quality
 
-### Commands
+The project uses automated tooling to maintain consistent code style:
+
+- **ESLint** for code quality and best practices
+- **Prettier** for formatting
+- **TypeScript** for type safety
+
+These tools run automatically during development and CI.
+
+## Linting and Formatting Commands
 
 ```bash
-# Run ESLint (fails on warnings in CI)
+# Check for code quality issues
 pnpm lint
 
-# Auto-fix linting issues
+# Auto-fix issues where possible
 pnpm lint:fix
 
-# Check code formatting with Prettier
+# Check code formatting
 pnpm format:check
 
-# Auto-format code with Prettier
+# Auto-format all files
 pnpm format
 ```
 
-### Configuration Files
-
-- **ESLint**: `eslint.config.js` (flat config format)
-- **Prettier**: `prettier.config.js`
-- **lint-staged**: `lint-staged.config.js` (used by pre-commit hook)
+Linting runs with zero-warning tolerance in CI (build fails on warnings).
 
 ## TypeScript Conventions
 
-### Strict Mode
+### Type Safety
 
-TypeScript strict mode is enabled with additional checks:
+TypeScript strict mode is enabled with additional strictness:
 
-- `noUnusedLocals`: Error on unused local variables
-- `noUnusedParameters`: Error on unused function parameters
+- Unused local variables trigger errors
+- Unused function parameters trigger errors
 
-### Type Imports
+This encourages clean, intentional code.
 
-Prefer type imports for types and interfaces:
+### Preferred Syntax
+
+**Type imports**: Use explicit type imports for clarity
 
 ```typescript
-// Correct
+// Preferred
 import type { ComponentProps } from 'react'
 import { useState } from 'react'
 
@@ -48,12 +54,10 @@ import { useState } from 'react'
 import { ComponentProps, useState } from 'react'
 ```
 
-### Array Types
-
-Use `Array<T>` syntax instead of `T[]`:
+**Array types**: Use generic syntax
 
 ```typescript
-// Correct
+// Preferred
 const items: Array<string> = []
 const users: Array<User> = []
 
@@ -62,146 +66,128 @@ const items: string[] = []
 const users: User[] = []
 ```
 
-### Type Exports
-
-Maintain consistent type exports:
+**Type exports**: Keep type exports separate and consistent
 
 ```typescript
-// Correct
-export type { MyType }
-export type { AnotherType, YetAnotherType }
-
-// Avoid mixing default and named exports for types
+// Preferred
+export type { MyType, AnotherType }
 ```
 
-## Import Order
+## Import Organization
 
-ESLint enforces import ordering via `eslint-plugin-import-x`:
+ESLint enforces a specific import order for consistency:
 
-### Order
+### Order Rules
 
-1. **Built-in modules** (Node.js built-ins)
-2. **External modules** (from node_modules)
-3. **Internal modules** (using `@/*` path alias)
-4. **Parent/sibling modules** (relative imports)
-5. **Type imports** (always last)
+1. Built-in Node.js modules
+2. External packages from node_modules
+3. Internal modules using path aliases (`@/*`)
+4. Relative imports (parent/sibling)
+5. Type imports (always last)
 
-### Formatting
-
-- Newlines between groups
-- Alphabetically sorted within groups
+Groups are separated by blank lines and sorted alphabetically within each group.
 
 ### Example
 
 ```typescript
-// 1. Built-in modules
+// 1. Built-ins
 import { readFile } from 'node:fs/promises'
 
-// 2. External modules
-import { useQuery } from '@tanstack/react-query'
+// 2. External
 import { Box, Text } from '@chakra-ui/react'
+import { useQuery } from '@tanstack/react-query'
 
-// 3. Internal modules
-import { githubClient } from '@/github-client'
+// 3. Internal
+import { githubClient } from '@/lib/github'
 import { parseReleases } from '@/utils'
 
-// 4. Parent/sibling modules
-import { ComparatorHeader } from './ComparatorHeader'
+// 4. Relative
 import { useComparator } from '../comparator-context'
+import { ComparatorHeader } from './ComparatorHeader'
 
-// 5. Type imports
+// 5. Types
 import type { Release } from '@octokit/rest'
 ```
 
-## React Conventions
+## React Patterns
 
-### Component Patterns
+### Component Style
 
-Prefer function components with hooks:
+Use function components with hooks:
 
 ```typescript
 export function MyComponent({ title }: { title: string }) {
 	const [state, setState] = useState('')
-
 	return <Box>{title}</Box>
 }
 ```
 
-### Hooks
+### Hook Rules
 
-Follow React hooks rules (enforced by `eslint-plugin-react-hooks`):
+React hooks rules are enforced automatically:
 
 - Only call hooks at the top level
 - Only call hooks from React functions
-- Hooks must start with `use`
+- Hook names must start with `use`
 
-## ESLint Configuration
+ESLint will catch violations of these rules.
 
-### Enabled Plugins
+## Linting Rules
 
-- `@typescript-eslint` - TypeScript-specific rules
-- `@eslint-react` - React best practices
-- `eslint-plugin-react-hooks` - React hooks rules
-- `eslint-plugin-import-x` - Import/export validation and ordering
-- `eslint-plugin-jsx-a11y` - Accessibility rules for JSX
-- `eslint-plugin-unicorn` - Additional JavaScript/Node.js best practices
-- `@tanstack/eslint-plugin-query` - TanStack Query best practices
-- `@tanstack/eslint-plugin-router` - TanStack Router best practices
-- `@vitest/eslint-plugin` - Vitest test best practices
-- `eslint-plugin-playwright` - Playwright test best practices (E2E files only)
+The ESLint configuration includes plugins for:
 
-### Key Rules
+- TypeScript best practices
+- React and React hooks
+- Import/export validation and ordering
+- JSX accessibility
+- TanStack Query and Router conventions
+- Vitest and Playwright test best practices
+- General JavaScript/Node.js quality
 
-- **No console.log**: Warns on console statements (use proper logging if needed)
-- **Import order**: Enforced grouping and sorting
-- **React accessibility**: JSX accessibility checks enabled
-- **Strict TypeScript**: Type checking and no unused variables
+Key enforced rules:
 
-### CI Behavior
+- **No console.log**: Use proper logging if needed
+- **Import order**: Automatic grouping and sorting
+- **Accessibility**: JSX accessibility checks
+- **Type safety**: Strict checking, no unused variables
 
-In CI, ESLint runs with `--max-warnings 0` (fails on any warnings).
+CI runs with `--max-warnings 0` (any warnings fail the build).
 
-## Prettier Configuration
+## Formatting Rules
 
-### Settings
+Prettier handles all formatting automatically with these settings:
 
-```javascript
-{
-  singleQuote: true,      // Use single quotes
-  semi: false,            // No semicolons
-  useTabs: true,          // Use tabs for indentation
-  trailingComma: 'es5'    // Trailing commas where valid in ES5
-}
-```
+- Single quotes for strings
+- No semicolons
+- Tabs for indentation
+- Trailing commas where valid in ES5
 
-### Auto-formatting
+Formatting runs automatically:
 
-Prettier runs automatically:
-
-- On file save (if your editor is configured)
-- Via pre-commit hook (on staged files)
+- On file save (if editor is configured)
+- Via pre-commit hook (staged files only)
 - Manually with `pnpm format`
 
-## Playwright Test Imports
+## Special Conventions
 
-**Important**: Always import test utilities from `e2e/playwright-utils.ts`:
+### Playwright Test Imports
+
+**Critical**: Always import from the project's Playwright utilities:
 
 ```typescript
 // Correct
 import { test, expect } from './playwright-utils'
 
-// Incorrect - DO NOT DO THIS
+// Wrong - bypasses custom fixtures
 import { test, expect } from '@playwright/test'
 ```
 
-This ensures consistent test fixtures and helpers across all E2E tests.
-
-## Path Aliases
+### Path Aliases
 
 Use path aliases for cleaner imports:
 
 ```typescript
-// Correct
+// Preferred
 import { utils } from '@/utils'
 import logo from '@/public/logo.png'
 
@@ -210,7 +196,4 @@ import { utils } from '../../utils'
 import logo from '../../public/logo.png'
 ```
 
-Path aliases are defined in `tsconfig.json`:
-
-- `@/*` → `./src/*`
-- `@/public/*` → `./public/*`
+Configuration for path aliases lives in TypeScript and build tool configs.

@@ -1,10 +1,10 @@
 # Development Guide
 
-This guide covers development workflows, build processes, and environment setup.
+This guide describes the development capabilities and workflows available in this project.
 
 ## Prerequisites
 
-- **Node.js**: v22.22.0 (specified in `.nvmrc`)
+- **Node.js**: v22.22.0 (check `.nvmrc` for current version)
 - **pnpm**: ^10.26.0 (managed automatically by corepack)
 
 ## Initial Setup
@@ -24,113 +24,118 @@ pnpm install
 - Pulling new changes
 - Adding or updating dependencies
 
-The `postinstall` script automatically runs `pnpm gen:theme-typings` to generate Chakra UI theme types.
+The `postinstall` script automatically generates Chakra UI theme types after dependency installation.
 
-## Development Commands
+## Development Capabilities
 
-### Start Development Server
+### Local Development Server
+
+You can run a local development server that supports:
+
+- Hot module replacement for fast iteration
+- Real GitHub API integration (requires OAuth client ID)
+- Optional API mocking for offline development
+
+**With real GitHub API**:
 
 ```bash
-# Start development server (localhost:3000)
 pnpm dev
+```
 
-# Start development server with API mocking enabled
+**With mocked API responses**:
+
+```bash
 pnpm dev:mock
 ```
 
-The dev server uses TanStack Start with Vite and includes Sentry integration.
+The mocked mode intercepts GitHub API calls and serves fixture data. This is useful for:
 
-### Build
+- Offline development
+- Consistent test data
+- Avoiding rate limits
+
+Note: Mocked data includes limited repositories (search for "testing library" or "renovate" to see results).
+
+### Production Builds
+
+The application can be built for production deployment:
 
 ```bash
-# Production build
 pnpm build
 ```
 
-**Build timing**: ~30-60 seconds on CI, may vary locally.
+This creates an optimized static build that:
 
-The build process:
+- Prerenders configured routes for fast initial loads
+- Bundles all assets with Vite
+- Includes Sentry instrumentation for error tracking
+- Typically completes in 30-60 seconds
 
-1. Runs Vite build with TanStack Start
-2. Executes `postbuild` script to copy Sentry instrumentation file
-
-### Preview Production Build
+**Preview the production build**:
 
 ```bash
-# Preview production build using Vite preview server (port 4173)
+# Static file preview (port 4173)
 pnpm preview
 
-# Start production server using TanStack Start server (port 3000)
+# Full production server simulation (port 3000)
 pnpm start
 ```
 
-## Environment Variables
+## Configuration
 
-### Development Variables
+### Environment Variables
 
-Create a `.env.local` file for local overrides (not checked into Git):
+The application supports environment-based configuration:
+
+**GitHub OAuth**: Set your GitHub OAuth app client ID
 
 ```bash
-VITE_GITHUB_APP_CLIENT_ID=your_github_client_id
-VITE_API_MOCKING=disabled  # Set to 'enabled' to use MSW mocking
+VITE_GITHUB_APP_CLIENT_ID=your_client_id
 ```
 
-Default values are in `.env` (checked into Git):
+**API Mocking**: Control whether GitHub API calls are mocked
 
 ```bash
-VITE_GITHUB_APP_CLIENT_ID=notset
-VITE_API_MOCKING=disabled
+VITE_API_MOCKING=enabled  # or 'disabled'
 ```
 
-### API Mocking with MSW
+Default values exist in `.env`, local overrides go in `.env.local` (not version controlled).
 
-When `VITE_API_MOCKING=enabled`:
+When mocking is enabled, MSW (Mock Service Worker) intercepts requests and serves fixture data. Handlers can be found by searching for MSW-related files, and fixtures are typically organized by API source.
 
-- GitHub API calls are intercepted by MSW (Mock Service Worker)
-- Mock data is served from `src/fixtures/github/`
-- Handlers are defined in `src/mocks/handlers/`
-- **Limited search results**: Only "testing library" and "renovate" repositories are available
+### Theme Customization
 
-Use `pnpm dev:mock` to automatically enable API mocking in development.
-
-## Theme Customization
-
-Chakra UI theme types are auto-generated:
+The project uses Chakra UI with a custom theme. Theme types are auto-generated to provide TypeScript autocomplete for theme tokens.
 
 ```bash
-# Manually regenerate theme typings (runs automatically on postinstall)
+# Regenerate theme typings (runs automatically after install)
 pnpm gen:theme-typings
 ```
 
-This generates TypeScript types for your custom theme defined in `src/custom-theme.ts`.
+The custom theme definition and generated types work together to provide type-safe access to colors, spacing, and other design tokens.
 
-## Path Aliases
+### Path Aliases
 
-TypeScript path aliases are configured in `tsconfig.json`:
+Import paths support aliases for cleaner code:
 
-- `@/*` → `./src/*`
-- `@/public/*` → `./public/*`
+- `@/*` maps to source files
+- `@/public/*` maps to public assets
 
-Example usage:
+Look for `tsconfig.json` to see current alias configuration.
 
-```typescript
-import { someUtil } from '@/utils'
-import logo from '@/public/logo.png'
-```
+## Common Issues
 
-## Troubleshooting
+### pnpm not found
 
-### pnpm command not found
-
-Enable corepack:
+Enable corepack to get automatic pnpm version management:
 
 ```bash
 corepack enable
 ```
 
-Corepack will automatically install the correct pnpm version based on the `packageManager` field in `package.json`.
+Corepack reads the `packageManager` field from `package.json` to install the correct version.
 
-### Type errors after changes
+### Type errors after theme changes
 
 Regenerate theme typings:
 
@@ -138,10 +143,19 @@ Regenerate theme typings:
 pnpm gen:theme-typings
 ```
 
-TanStack Router types are auto-generated on file changes during development (watch mode).
+Router types are auto-generated during development when route files change.
 
-### Dev server won't start
+### Dev server port conflict
 
-- Ensure port 3000 is not already in use
-- Check that `pnpm install` has been run
-- Clear Vite cache: `rm -rf node_modules/.vite`
+Default port is 3000. If it's in use:
+
+- Stop other processes using that port
+- Or modify the port configuration
+
+### Stale build cache
+
+Clear Vite's cache if you encounter unexplained build issues:
+
+```bash
+rm -rf node_modules/.vite
+```
