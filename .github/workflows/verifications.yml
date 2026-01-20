@@ -23,30 +23,22 @@ env:
   CURRENTS_RECORD_KEY: ${{ secrets.CURRENTS_RECORD_KEY }}
 
 jobs:
-  code_validation:
-    strategy:
-      fail-fast: false
-      matrix:
-        validation_script:
-          [
-            'lint',
-            'type-check',
-            'format:check',
-            'test:ci',
-            'test:browser:headless',
-          ]
+  code-validation:
     name: 'Code Validation: ${{ matrix.validation_script }}'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        validation_script: ['lint', 'type-check', 'format:check', 'test:ci']
     steps:
       - name: Checkout repo
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - name: Setup project
         uses: ./.github/actions/setup-project
-
-      - name: Install Playwright browsers
-        if: matrix.validation_script == 'test:browser:headless'
-        run: pnpm exec playwright install chromium --with-deps
 
       - name: Run script
         run: pnpm ${{ matrix.validation_script }}
