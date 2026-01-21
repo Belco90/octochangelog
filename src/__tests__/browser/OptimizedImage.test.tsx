@@ -1,89 +1,107 @@
-import { expect, it } from 'vitest'
+import { afterEach, expect, it, vi } from 'vitest'
 
+import type { OptimizedImageProps } from '@/components/OptimizedImage'
 import { OptimizedImage } from '@/components/OptimizedImage'
 
 import { render } from '../browser-testing'
 
-it('should render with required props', async () => {
+const { ImageMock } = vi.hoisted(() => ({
+	ImageMock: vi.fn(({ src, alt }: OptimizedImageProps) => (
+		// Simplify img rendering for testing purposes
+		<img src={src} alt={alt} />
+	)),
+}))
+
+// @ts-expect-error Ignoring for testing purposes
+vi.mock(import('@unpic/react'), async (importOriginal) => {
+	const originalModule = await importOriginal()
+	return {
+		...originalModule,
+		Image: ImageMock,
+	}
+})
+
+afterEach(() => {
+	vi.unstubAllEnvs()
+})
+
+it('should not enable cdn mode by default', async () => {
+	expect(ImageMock).not.toHaveBeenCalled()
+
 	const screen = await render(
 		<OptimizedImage
-			src="/test-image.jpg"
+			src="/raw-logo.jpg"
 			alt="Test image"
 			width={400}
 			height={300}
-		/>,
-	)
-
-	const img = screen.getByRole('img', { name: /test image/i })
-
-	await expect.element(img).toBeVisible()
-})
-
-it('should apply alt text correctly', async () => {
-	const screen = await render(
-		<OptimizedImage
-			src="/test.jpg"
-			alt="A beautiful landscape"
-			width={800}
-			height={600}
-		/>,
-	)
-
-	const img = screen.getByRole('img', { name: /a beautiful landscape/i })
-
-	await expect.element(img).toBeVisible()
-
-	const imgElement = img.element()
-
-	expect(imgElement.getAttribute('alt')).toBe('A beautiful landscape')
-})
-
-it('should render with custom operations', async () => {
-	const screen = await render(
-		<OptimizedImage
-			src="/custom.jpg"
-			alt="Custom optimized"
-			width={500}
-			height={500}
-			operations={{ q: 90, fm: 'jpg' }}
-		/>,
-	)
-
-	const img = screen.getByRole('img', { name: /custom optimized/i })
-
-	await expect.element(img).toBeVisible()
-})
-
-it('should handle priority prop', async () => {
-	const screen = await render(
-		<OptimizedImage
-			src="/priority.jpg"
-			alt="Priority image"
-			width={1200}
-			height={800}
 			priority
 		/>,
 	)
 
-	const img = screen.getByRole('img', { name: /priority image/i })
+	await expect
+		.element(screen.getByRole('img', { name: /test image/i }))
+		.toBeVisible()
 
-	await expect.element(img).toBeVisible()
+	expect(ImageMock).toHaveBeenCalledOnce()
+	expect(ImageMock).toHaveBeenCalledWith(
+		expect.objectContaining({ cdn: undefined, priority: undefined }),
+		undefined,
+	)
 })
 
-it('should pass through additional props', async () => {
+it('should enable cdn mode if running on Netlify', async () => {
+	vi.stubEnv('VITE_NETLIFY', 'DEV')
+
+	expect(ImageMock).not.toHaveBeenCalled()
+
 	const screen = await render(
 		<OptimizedImage
-			src="/styled.jpg"
-			alt="Styled image"
-			width={300}
-			height={200}
-			data-testid="styled-image"
-			className="custom-class"
+			src="/raw-logo.jpg"
+			alt="Test image"
+			width={400}
+			height={300}
+			priority
 		/>,
 	)
 
-	const img = screen.getByTestId('styled-image')
+	await expect
+		.element(screen.getByRole('img', { name: /test image/i }))
+		.toBeVisible()
 
-	await expect.element(img).toBeVisible()
-	await expect.element(img).toHaveAttribute('data-testid', 'styled-image')
+	expect(ImageMock).toHaveBeenCalledOnce()
+	expect(ImageMock).toHaveBeenCalledWith(
+		expect.objectContaining({ cdn: 'netlify', priority: true }),
+		undefined,
+	)
+})
+
+it('should merge custom operations with default values', async () => {
+	const screen = await render(
+		<OptimizedImage
+			src="/raw-logo.jpg"
+			alt="Test image"
+			width={400}
+			height={300}
+			operations={{ q: 100 }}
+		/>,
+	)
+
+	await expect
+		.element(screen.getByRole('img', { name: /test image/i }))
+		.toBeVisible()
+
+	expect(ImageMock).toHaveBeenCalledOnce()
+	expect(ImageMock).toHaveBeenCalledWith(
+		expect.objectContaining({
+			operations: {
+				netlify: expect.objectContaining({
+					q: 100,
+					fm: 'webp',
+					w: 400,
+					h: 300,
+				}) as unknown,
+			},
+		}),
+		undefined,
+	)
 })

@@ -8,11 +8,9 @@ type NetlifyOperations = Exclude<
 >['netlify']
 type BaseImageProps = Omit<ImageProps, 'cdn' | 'operations' | 'options'>
 
-type OptimizedImageProps = BaseImageProps & {
+export type OptimizedImageProps = BaseImageProps & {
 	operations?: NetlifyOperations
 }
-
-const isNetlify = Boolean(import.meta.env.VITE_NETLIFY)
 
 export function OptimizedImage({
 	alt,
@@ -31,6 +29,8 @@ export function OptimizedImage({
 		},
 		operations,
 	)
+
+	const isNetlify = Boolean(import.meta.env.VITE_NETLIFY)
 
 	return (
 		// @ts-expect-error -- unpic types are not correctly inferred here for "layout" prop

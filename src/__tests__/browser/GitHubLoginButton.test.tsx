@@ -1,35 +1,36 @@
 import { beforeEach, expect, it, vi } from 'vitest'
 
-// Mock TanStack Router modules - MUST be before other imports
-vi.mock('@tanstack/react-router', () => ({
-	useSearch: vi.fn(() => ({
-		repo: 'test/repo',
-		from: 'v1.0.0',
-		to: 'v2.0.0',
-	})),
-	ClientOnly: ({ children }: { children: React.ReactNode }) => children,
-}))
-
-// Mock TanStack Start module
-vi.mock('@tanstack/react-start', () => ({
-	createClientOnlyFn: (fn: () => unknown) => fn,
-}))
-
-// Mock GitHub auth module
-vi.mock('@/github-auth', () => ({
-	getGitHubAuthUrl: vi.fn(
-		() => new URL('https://github.com/login/oauth/authorize?client_id=test'),
-	),
-}))
-
 import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 
 import { render } from '../browser-testing'
 
+const { useSearchMock } = vi.hoisted(() => ({
+	useSearchMock: vi.fn<() => { repo: string; from?: string; to?: string }>(
+		() => ({
+			repo: 'test/repo',
+			from: 'v1.0.0',
+			to: 'v2.0.0',
+		}),
+	),
+}))
+
+// @ts-expect-error Ignoring for testing purposes
+vi.mock(import('@tanstack/react-router'), async (importOriginal) => {
+	const mod = await importOriginal()
+	return {
+		...mod,
+		useSearch: useSearchMock,
+	}
+})
+
+vi.mock('@tanstack/react-start', () => ({
+	createClientOnlyFn: (fn: () => unknown) => fn,
+	createServerOnlyFn: (fn: () => unknown) => fn,
+}))
+
 beforeEach(() => {
 	// Clear sessionStorage before each test
 	sessionStorage.clear()
-	vi.clearAllMocks()
 })
 
 it('should render with default text', async () => {
@@ -38,7 +39,6 @@ it('should render with default text', async () => {
 	const button = screen.getByRole('button', { name: /login with github/i })
 
 	await expect.element(button).toBeVisible()
-	await expect.element(button).toHaveTextContent(/login with github/i)
 })
 
 it('should render with custom children', async () => {
@@ -49,35 +49,32 @@ it('should render with custom children', async () => {
 	const button = screen.getByRole('button', { name: /sign in to continue/i })
 
 	await expect.element(button).toBeVisible()
-	await expect.element(button).toHaveTextContent(/sign in to continue/i)
 })
 
-it('should call sessionStorage when clicked', async () => {
+it('should save full repo params in the session on click', async () => {
 	const screen = await render(<GitHubLoginButton />)
 
-	const button = screen.getByRole('button', { name: /login with github/i })
+	expect(sessionStorage.getItem('auth-redirect-search-params')).toBeNull()
 
-	// Spy on sessionStorage.setItem before clicking
-	const setItemSpy = vi.spyOn(sessionStorage, 'setItem')
+	await screen.getByRole('button', { name: /login with github/i }).click()
 
-	// Note: The actual click will try to navigate, but we're just verifying
-	// that sessionStorage is called. The function is wrapped in createClientOnlyFn
-	// which should work in browser mode
-	try {
-		await button.click()
-	} catch {
-		// Navigation will fail in test, but sessionStorage should be set first
-	}
+	expect(sessionStorage.getItem('auth-redirect-search-params')).toBe(
+		'repo=test%2Frepo&from=v1.0.0&to=v2.0.0',
+	)
+	// Can't assert the redirected URL
+})
 
-	// Check that sessionStorage.setItem was called (even if navigation fails)
-	// If this fails, it means the onClick handler didn't execute
-	const calls = setItemSpy.mock.calls
-	if (calls.length === 0) {
-		// The component might not have fully initialized the client-only function
-		// This is acceptable in component tests - E2E tests would catch real issues
-		// eslint-disable-next-line no-console
-		console.log(
-			'setItem was not called - this is expected in isolated component tests',
-		)
-	}
+it('should save partial repo params in the session on click', async () => {
+	useSearchMock.mockReturnValue({ repo: 'owner/name' })
+
+	const screen = await render(<GitHubLoginButton />)
+
+	expect(sessionStorage.getItem('auth-redirect-search-params')).toBeNull()
+
+	await screen.getByRole('button', { name: /login with github/i }).click()
+
+	expect(sessionStorage.getItem('auth-redirect-search-params')).toBe(
+		'repo=owner%2Fname',
+	)
+	// Can't assert the redirected URL
 })

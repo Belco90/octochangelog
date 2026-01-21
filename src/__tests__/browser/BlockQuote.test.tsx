@@ -4,19 +4,10 @@ import { BlockQuote } from '@/components/BlockQuote'
 
 import { render } from '../browser-testing'
 
-it('should render children correctly', async () => {
+it('should render as blockquote', async () => {
 	const screen = await render(<BlockQuote>This is a quote</BlockQuote>)
 
 	const quote = screen.getByText('This is a quote')
-
-	await expect.element(quote).toBeVisible()
-})
-
-it('should render as blockquote element semantically', async () => {
-	const screen = await render(<BlockQuote>Quote content</BlockQuote>)
-
-	// The component uses Text with as="blockquote"
-	const quote = screen.getByText('Quote content')
 
 	await expect.element(quote).toBeVisible()
 

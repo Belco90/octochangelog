@@ -96,6 +96,7 @@ export default defineConfig({
 				plugins: [tsconfigPaths()],
 				test: {
 					name: 'unit',
+					clearMocks: true,
 					include: [
 						'src/__tests__/unit/**/*.test.{ts,tsx}', // Unit tests directory
 						'src/**/*.unit.test.{ts,tsx}', // Explicit .unit.test files anywhere
@@ -110,6 +111,7 @@ export default defineConfig({
 				},
 				test: {
 					name: 'browser',
+					clearMocks: true,
 					include: [
 						'src/__tests__/browser/**/*.test.{ts,tsx}', // Browser tests directory
 						'src/**/*.browser.test.{ts,tsx}', // Explicit .browser.test files anywhere

@@ -4,43 +4,19 @@ import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
 
 import { render } from '../browser-testing'
 
-it('should render with correct ARIA attributes', async () => {
+it('should toggle dark mode when clicked', async () => {
 	const screen = await render(<ToggleColorModeButton />)
 
 	const button = screen.getByRole('button', { name: /dark theme/i })
 
 	await expect.element(button).toBeVisible()
-	await expect.element(button).toHaveAttribute('aria-pressed')
-})
+	await expect.element(button).toHaveAttribute('aria-pressed', 'false')
 
-it('should toggle aria-pressed when clicked', async () => {
-	const screen = await render(<ToggleColorModeButton />)
-
-	const button = screen.getByRole('button', { name: /dark theme/i })
-
-	// Get initial aria-pressed state
-	const buttonElement = button.element()
-	const initialPressed = buttonElement.getAttribute('aria-pressed')
-
-	// Click the button
 	await button.click()
 
-	// Wait a bit for state to update
-	await new Promise((resolve) => setTimeout(resolve, 100))
+	await expect.element(button).toHaveAttribute('aria-pressed', 'true')
 
-	// aria-pressed should have changed
-	const afterPressed = buttonElement.getAttribute('aria-pressed')
+	await button.click()
 
-	expect(initialPressed).not.toBe(afterPressed)
-})
-
-it('should accept additional props', async () => {
-	const screen = await render(
-		<ToggleColorModeButton size="lg" data-testid="custom-toggle" />,
-	)
-
-	const button = screen.getByTestId('custom-toggle')
-
-	await expect.element(button).toBeVisible()
-	await expect.element(button).toHaveAttribute('data-testid', 'custom-toggle')
+	await expect.element(button).toHaveAttribute('aria-pressed', 'false')
 })
