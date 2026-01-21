@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react'
+import { Container } from '@chakra-ui/react-v2'
 import { createFileRoute } from '@tanstack/react-router'
 
 import { FeaturesSection } from './-home/FeaturesSection'

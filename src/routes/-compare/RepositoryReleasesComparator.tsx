@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Flex } from '@chakra-ui/react'
+import { Box, Container, Divider, Flex } from '@chakra-ui/react-v2'
 import { ClientOnly } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
 

@@ -1,4 +1,4 @@
-import { Flex, Box } from '@chakra-ui/react'
+import { Flex, Box } from '@chakra-ui/react-v2'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'

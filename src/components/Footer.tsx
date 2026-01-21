@@ -1,4 +1,4 @@
-import { Box, Container, Link, Stack, Text } from '@chakra-ui/react'
+import { Box, Container, Link, Stack, Text } from '@chakra-ui/react-v2'
 import { Image } from '@unpic/react'
 
 export function Footer() {

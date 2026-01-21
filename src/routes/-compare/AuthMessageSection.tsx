@@ -1,4 +1,4 @@
-import { Container, Flex, Text } from '@chakra-ui/react'
+import { Container, Flex, Text } from '@chakra-ui/react-v2'
 
 import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 import { getIsAuth } from '@/github-auth'

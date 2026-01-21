@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react-v2'
 import { useQuery } from '@tanstack/react-query'
 
 import type { MinimalRelease } from '@/models'
@@ -8,7 +8,7 @@ import { getReleaseVersion, compareReleasesByVersion } from '@/utils'
 import { ReleaseVersionFormControl } from './ReleaseVersionFormControl'
 import { useComparatorState, useComparatorUpdater } from './comparator-context'
 
-import type { StackProps } from '@chakra-ui/react'
+import type { StackProps } from '@chakra-ui/react-v2'
 
 function mapReleasesRange(
 	releases?: Array<MinimalRelease>,

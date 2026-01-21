@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Heading, Stack } from '@chakra-ui/react'
+import { Button, Center, Flex, Heading, Stack } from '@chakra-ui/react-v2'
 import { Link as TanStackLink } from '@tanstack/react-router'
 
 import { BRIEF_DESCRIPTION } from '@/common'

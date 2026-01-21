@@ -1,4 +1,11 @@
-import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
+import {
+	Box,
+	Button,
+	Container,
+	Heading,
+	Text,
+	VStack,
+} from '@chakra-ui/react-v2'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'

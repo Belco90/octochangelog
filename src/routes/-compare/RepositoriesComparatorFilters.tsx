@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react-v2'
 
 import { ReleaseVersionsRangeFormControl } from './ReleaseVersionsRangeFormControl'
 import { RepositorySearchCombobox } from './RepositorySearchCombobox'

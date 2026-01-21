@@ -9,7 +9,7 @@ import {
 	Tag,
 	TagLabel,
 	Text,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
 import { BlockQuote } from '@/components/BlockQuote'
@@ -18,7 +18,7 @@ import { useProcessDescriptionMdast } from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, MinimalRepository } from '@/models'
 import { getReleaseVersion } from '@/utils'
 
-import type { BoxProps, LinkProps, ListItemProps } from '@chakra-ui/react'
+import type { BoxProps, LinkProps, ListItemProps } from '@chakra-ui/react-v2'
 
 type RemarkComponentProps = Record<string, unknown>
 

@@ -12,7 +12,7 @@ import {
 	List,
 	ListItem,
 	Text,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { useQuery } from '@tanstack/react-query'
 import { useCombobox } from 'downshift'
 import { debounce } from 'es-toolkit'

@@ -1,4 +1,4 @@
-import { ColorModeScript } from '@chakra-ui/react'
+import { ColorModeScript } from '@chakra-ui/react-v2'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
@@ -8,8 +8,8 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { AllProviders } from '@/components/Providers'
-import { customTheme } from '@/custom-theme'
+import { DeprecatedProviders } from '@/components/Providers'
+import { customTheme } from '@/deprecated-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
@@ -104,9 +104,9 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 					<ReactQueryDevtools buttonPosition="bottom-left" />
 				</div>
 
-				<AllProviders>
+				<DeprecatedProviders>
 					<MainLayout>{children}</MainLayout>
-				</AllProviders>
+				</DeprecatedProviders>
 				<Scripts />
 			</body>
 		</html>

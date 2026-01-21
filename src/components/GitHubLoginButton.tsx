@@ -1,4 +1,4 @@
-import { Button, Icon } from '@chakra-ui/react'
+import { Button, Icon } from '@chakra-ui/react-v2'
 import { ClientOnly, useSearch } from '@tanstack/react-router'
 import { createClientOnlyFn } from '@tanstack/react-start'
 import { DiGithubBadge } from 'react-icons/di'
@@ -6,7 +6,7 @@ import { DiGithubBadge } from 'react-icons/di'
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { getGitHubAuthUrl } from '@/github-auth'
 
-import type { ButtonProps } from '@chakra-ui/react'
+import type { ButtonProps } from '@chakra-ui/react-v2'
 import type { PropsWithChildren } from 'react'
 
 type GitHubLoginButtonProps = PropsWithChildren

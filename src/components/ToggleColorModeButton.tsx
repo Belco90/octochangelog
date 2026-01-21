@@ -1,7 +1,7 @@
-import { Icon, IconButton, useColorMode } from '@chakra-ui/react'
+import { Icon, IconButton, useColorMode } from '@chakra-ui/react-v2'
 import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi'
 
-import type { IconButtonProps } from '@chakra-ui/react'
+import type { IconButtonProps } from '@chakra-ui/react-v2'
 
 export function ToggleColorModeButton(props: Partial<IconButtonProps>) {
 	const { colorMode, toggleColorMode } = useColorMode()

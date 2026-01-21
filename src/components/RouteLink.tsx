@@ -1,4 +1,4 @@
-import { Link as ChakraLink } from '@chakra-ui/react'
+import { Link as ChakraLink } from '@chakra-ui/react-v2'
 import { createLink } from '@tanstack/react-router'
 
 import type { LinkComponent } from '@tanstack/react-router'

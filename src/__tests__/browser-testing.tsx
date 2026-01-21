@@ -1,10 +1,10 @@
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react-v2'
 import { RouterContextProvider } from '@tanstack/react-router'
 // eslint-disable-next-line no-restricted-imports
 import { render as vitestRender } from 'vitest-browser-react'
 
 import { fakeRouter } from '@/__tests__/fake-router'
-import { customTheme } from '@/custom-theme'
+import { customTheme } from '@/deprecated-theme'
 
 import type { ReactElement } from 'react'
 import type { ComponentRenderOptions } from 'vitest-browser-react'

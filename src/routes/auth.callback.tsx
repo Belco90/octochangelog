@@ -11,7 +11,7 @@ import {
 	Spinner,
 	Text,
 	VStack,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { createFileRoute, Link as TanStackLink } from '@tanstack/react-router'
 import { createClientOnlyFn, createServerFn } from '@tanstack/react-start'
 import { deleteCookie, setCookie } from '@tanstack/react-start/server'

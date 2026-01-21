@@ -5,7 +5,7 @@ import {
 	Stack,
 	Text,
 	VStack,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { Link as TanStackLink } from '@tanstack/react-router'
 
 import { OptimizedImage } from '@/components/OptimizedImage'

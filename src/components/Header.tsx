@@ -6,7 +6,7 @@ import {
 	HStack,
 	Icon,
 	Link,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
@@ -15,7 +15,7 @@ import { RouteLink } from '@/components/RouteLink'
 import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
 import mascotLogo from '@/images/mascot-logo.png'
 
-import type { BoxProps } from '@chakra-ui/react'
+import type { BoxProps } from '@chakra-ui/react-v2'
 
 const LOGO_SIZES = { base: 8, md: 16 }
 

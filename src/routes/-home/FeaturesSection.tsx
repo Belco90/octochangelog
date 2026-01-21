@@ -5,7 +5,7 @@ import {
 	Icon,
 	SimpleGrid,
 	useColorModeValue,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import {
 	HiOutlineFilter,
 	HiOutlineFire,

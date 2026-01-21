@@ -6,7 +6,7 @@ import {
 	Icon,
 	Link,
 	Text,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
 import type { MinimalRepository } from '@/models'
