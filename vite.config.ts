@@ -72,6 +72,7 @@ export default defineConfig({
 
 	test: {
 		clearMocks: true,
+		unstubGlobals: true,
 		setupFiles: ['src/vitest.setup.ts'],
 		exclude: [...defaultExclude, 'e2e/**'],
 		coverage: {

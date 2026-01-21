@@ -360,6 +360,41 @@ getItemSpy.mockReturnValue('mock-value')
 expect(getItemSpy).toHaveBeenCalledWith('key')
 ```
 
+#### Preventing Navigation in Tests
+
+Components that trigger navigation via `window.location.href` assignment will cause the browser to leave the test iframe, breaking the test runner's connection. Since `window.location` is non-configurable in real browsers and cannot be directly mocked, you need to mock the functions that generate navigation URLs instead.
+
+**Pattern: Mock URL-generating functions to return no-op URLs**
+
+```typescript
+import { vi } from 'vitest'
+
+const { getUrlFunctionMock } = vi.hoisted(() => ({
+	getUrlFunctionMock: vi.fn(() => {
+		// Return a javascript:void(0) URL to prevent actual navigation
+		return new URL('javascript:void(0)')
+	}),
+}))
+
+vi.mock('@/your-module', () => ({
+	getUrlFunction: getUrlFunctionMock,
+}))
+
+it('should handle click without navigation', async () => {
+	const screen = await render(<NavComponent />)
+	await screen.getByRole('button').click()
+
+	// Verify the function was called with correct params
+	expect(getUrlFunctionMock).toHaveBeenCalledWith({
+		redirectUrl: window.location.origin,
+	})
+})
+```
+
+**Why `javascript:void(0)`?** This special URL protocol is a no-op that doesn't trigger navigation, allowing tests to verify behavior without breaking the test iframe connection.
+
+The `unstubGlobals` config option (enabled in `vite.config.ts`) automatically restores mocked globals after each test.
+
 ### Common Patterns
 
 #### Testing Interactive Components
@@ -611,6 +646,8 @@ Use `debugger` statements in your test code - the browser will pause when runnin
 3. **Strict Route Typing**: The `RouteLink` component has strict TypeScript types for routes. Only use valid route paths that exist in your application (`/`, `/compare`, etc.).
 
 4. **Async Render**: Unlike React Testing Library, `render()` returns a Promise and must be awaited.
+
+5. **Navigation Testing**: Components that assign `window.location.href` will cause the browser to navigate away from the test iframe. Since `window.location` is non-configurable in real browsers, mock the URL-generating functions instead to return no-op URLs like `javascript:void(0)`. See the "Preventing Navigation in Tests" section for details.
 
 ### CI Integration
 

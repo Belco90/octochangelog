@@ -4,7 +4,7 @@ import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 
 import { render } from '../browser-testing'
 
-const { useSearchMock } = vi.hoisted(() => ({
+const { useSearchMock, getGitHubAuthUrlMock } = vi.hoisted(() => ({
 	useSearchMock: vi.fn<() => { repo: string; from?: string; to?: string }>(
 		() => ({
 			repo: 'test/repo',
@@ -12,6 +12,11 @@ const { useSearchMock } = vi.hoisted(() => ({
 			to: 'v2.0.0',
 		}),
 	),
+	getGitHubAuthUrlMock: vi.fn(() => {
+		// Return a javascript: URL to prevent navigation
+		// This is a no-op URL that won't cause page navigation
+		return new URL('javascript:void(0)')
+	}),
 }))
 
 // @ts-expect-error Ignoring for testing purposes
@@ -26,6 +31,10 @@ vi.mock(import('@tanstack/react-router'), async (importOriginal) => {
 vi.mock('@tanstack/react-start', () => ({
 	createClientOnlyFn: (fn: () => unknown) => fn,
 	createServerOnlyFn: (fn: () => unknown) => fn,
+}))
+
+vi.mock('@/github-auth', () => ({
+	getGitHubAuthUrl: getGitHubAuthUrlMock,
 }))
 
 beforeEach(() => {
@@ -61,7 +70,11 @@ it('should save full repo params in the session on click', async () => {
 	expect(sessionStorage.getItem('auth-redirect-search-params')).toBe(
 		'repo=test%2Frepo&from=v1.0.0&to=v2.0.0',
 	)
-	// Can't assert the redirected URL
+
+	// Verify getGitHubAuthUrl was called with window origin
+	expect(getGitHubAuthUrlMock).toHaveBeenCalledWith({
+		redirectUrl: window.location.origin,
+	})
 })
 
 it('should save partial repo params in the session on click', async () => {
@@ -76,5 +89,9 @@ it('should save partial repo params in the session on click', async () => {
 	expect(sessionStorage.getItem('auth-redirect-search-params')).toBe(
 		'repo=owner%2Fname',
 	)
-	// Can't assert the redirected URL
+
+	// Verify getGitHubAuthUrl was called with window origin
+	expect(getGitHubAuthUrlMock).toHaveBeenCalledWith({
+		redirectUrl: window.location.origin,
+	})
 })
