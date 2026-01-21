@@ -21,9 +21,12 @@
 		"format": "pnpm prettier-base --write",
 		"format:check": "pnpm prettier-base --check",
 		"happo": "happo",
-		"test": "vitest run",
-		"test:watch": "vitest watch",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
 		"test:ci": "pnpm test --coverage",
+		"test:unit": "vitest --project unit",
+		"test:browser": "vitest --project browser",
+		"test:browser:headless": "vitest --project browser --browser.headless",
 		"e2e": "playwright test",
 		"e2e:ui": "playwright test --ui",
 		"e2e:report": "playwright show-report",
@@ -86,8 +89,10 @@
 		"@types/semver": "7.7.1",
 		"@types/unist": "3.0.3",
 		"@vitejs/plugin-react": "5.1.2",
+		"@vitest/browser-playwright": "4.0.17",
 		"@vitest/coverage-v8": "4.0.17",
 		"@vitest/eslint-plugin": "1.6.6",
+		"@vitest/ui": "4.0.17",
 		"eslint": "9.39.2",
 		"eslint-config-prettier": "10.1.8",
 		"eslint-import-resolver-typescript": "4.4.4",
@@ -107,7 +112,8 @@
 		"typescript-eslint": "8.53.0",
 		"vite": "7.3.1",
 		"vite-tsconfig-paths": "6.0.4",
-		"vitest": "4.0.17"
+		"vitest": "4.0.17",
+		"vitest-browser-react": "2.0.2"
 	},
 	"msw": {
 		"workerDirectory": "public"

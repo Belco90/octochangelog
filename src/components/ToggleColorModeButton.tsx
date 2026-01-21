@@ -12,7 +12,7 @@ export function ToggleColorModeButton(props: Partial<IconButtonProps>) {
 		<IconButton
 			colorScheme="gray"
 			aria-label="Dark theme"
-			aria-pressed={isLightMode}
+			aria-pressed={!isLightMode}
 			icon={<Icon as={iconMode} boxSize={{ base: '16px', md: '18px' }} />}
 			isRound
 			{...props}

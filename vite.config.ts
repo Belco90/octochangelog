@@ -2,6 +2,7 @@ import netlify from '@netlify/vite-plugin-tanstack-start'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
+import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import {
@@ -35,10 +36,7 @@ export default defineConfig({
 				enabled: isHosted,
 				filter: ({ path }) => {
 					// Prevent prerendering routes for auth
-					if (path.includes('/auth')) return false
-					// Prevent prerendering routes for testing errors
-					if (path.includes('/test-errors')) return false
-					return true
+					return !path.includes('/auth')
 				},
 			},
 			sitemap: {
@@ -74,6 +72,7 @@ export default defineConfig({
 
 	test: {
 		clearMocks: true,
+		unstubGlobals: true,
 		setupFiles: ['src/vitest.setup.ts'],
 		exclude: [...defaultExclude, 'e2e/**'],
 		coverage: {
@@ -89,5 +88,42 @@ export default defineConfig({
 		outputFile: {
 			junit: 'test-report.junit.xml',
 		},
+		// Separate projects for unit and browser testing
+		projects: [
+			{
+				plugins: [tsconfigPaths()],
+				test: {
+					name: 'unit',
+					clearMocks: true,
+					include: [
+						'src/__tests__/unit/**/*.test.{ts,tsx}', // Unit tests directory
+						'src/**/*.unit.test.{ts,tsx}', // Explicit .unit.test files anywhere
+					],
+					environment: 'node',
+				},
+			},
+			{
+				plugins: [tsconfigPaths(), viteReact()],
+				define: {
+					'process.env': 'import.meta.env',
+				},
+				test: {
+					name: 'browser',
+					clearMocks: true,
+					testTimeout: 2_000,
+					include: [
+						'src/__tests__/browser/**/*.test.{ts,tsx}', // Browser tests directory
+						'src/**/*.browser.test.{ts,tsx}', // Explicit .browser.test files anywhere
+					],
+					browser: {
+						enabled: true,
+						provider: playwright(),
+						instances: [{ browser: 'chromium' }],
+						headless: !!process.env.CI,
+						screenshotFailures: false,
+					},
+				},
+			},
+		],
 	},
 })

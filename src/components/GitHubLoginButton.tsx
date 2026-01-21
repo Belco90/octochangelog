@@ -15,11 +15,10 @@ const redirectToGitHubAuth = createClientOnlyFn(
 	({ repo, from, to }: { repo?: string; from?: string; to?: string }) => {
 		const filledSearchParams = new URLSearchParams(
 			Object.fromEntries(
-				Object.entries({ repo, from, to }).filter(
-					([, value]) => typeof value === 'string',
-				),
+				Object.entries({ repo, from, to }).filter(([, value]) => value != null),
 			) as Record<string, string>,
 		)
+
 		sessionStorage.setItem(
 			AUTH_REDIRECT_STORAGE_KEY,
 			filledSearchParams.toString(),
