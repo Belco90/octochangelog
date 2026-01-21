@@ -7,6 +7,10 @@ Sentry.init({
 	// https://docs.sentry.io/platforms/javascript/guides/tanstackstart-react/configuration/options/#sendDefaultPii
 	sendDefaultPii: true,
 
+	integrations: [
+		Sentry.consoleLoggingIntegration({ levels: ['error', 'warn', 'log'] }),
+	],
+
 	// Enable logs to be sent to Sentry
 	enableLogs: true,
 
