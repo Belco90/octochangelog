@@ -36,10 +36,7 @@ export default defineConfig({
 				enabled: isHosted,
 				filter: ({ path }) => {
 					// Prevent prerendering routes for auth
-					if (path.includes('/auth')) return false
-					// Prevent prerendering routes for testing errors
-					if (path.includes('/test-errors')) return false
-					return true
+					return !path.includes('/auth')
 				},
 			},
 			sitemap: {
@@ -112,6 +109,7 @@ export default defineConfig({
 				test: {
 					name: 'browser',
 					clearMocks: true,
+					testTimeout: 2_000,
 					include: [
 						'src/__tests__/browser/**/*.test.{ts,tsx}', // Browser tests directory
 						'src/**/*.browser.test.{ts,tsx}', // Explicit .browser.test files anywhere
