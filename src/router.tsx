@@ -53,6 +53,7 @@ function initSentry(router: Awaited<GetRouterReturn>) {
 
 		integrations: [
 			Sentry.tanstackRouterBrowserTracingIntegration(router),
+			Sentry.consoleLoggingIntegration({ levels: ['error', 'warn', 'log'] }),
 			Sentry.replayIntegration({ maskAllText: false, blockAllMedia: false }),
 			Sentry.feedbackIntegration(),
 		],
