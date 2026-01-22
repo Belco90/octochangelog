@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react-v2'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
@@ -9,10 +8,12 @@ import {
 
 import { MainLayout } from '@/components/MainLayout'
 import { DeprecatedProviders } from '@/components/Providers'
+import { ChakraThemeProvider } from '@/components/ui/theme-provider'
 import { customTheme } from '@/deprecated-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
+import { isNewDesignEnabled } from '@/utils'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -90,6 +91,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 	},
 )
 
+const ThemeProviderWrapper = isNewDesignEnabled
+	? ChakraThemeProvider
+	: DeprecatedProviders
+
 function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 	return (
 		<html lang="en">
@@ -97,16 +102,14 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<HeadContent />
 			</head>
 			<body>
-				<ColorModeScript
-					initialColorMode={customTheme.config.initialColorMode}
-				/>
 				<div data-happo-hide>
 					<ReactQueryDevtools buttonPosition="bottom-left" />
 				</div>
 
-				<DeprecatedProviders>
+				<ThemeProviderWrapper>
 					<MainLayout>{children}</MainLayout>
-				</DeprecatedProviders>
+				</ThemeProviderWrapper>
+
 				<Scripts />
 			</body>
 		</html>

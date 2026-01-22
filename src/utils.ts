@@ -242,6 +242,9 @@ function paginateList<TListItem>(
 	}
 }
 
+/** Remove when the new design is fully rolled out. */
+const isNewDesignEnabled = import.meta.env.VITE_NEW_DESIGN === 'enabled'
+
 export {
 	mapRepositoryToQueryParams,
 	mapStringToRepositoryQueryParams,
@@ -256,4 +259,5 @@ export {
 	paginateList,
 	sanitizeReleaseGroupTitle,
 	stripEmojis,
+	isNewDesignEnabled,
 }

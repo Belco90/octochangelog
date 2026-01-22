@@ -13,6 +13,9 @@ interface ImportMetaEnv {
 	// Re-export some Netlify env vars to the client-side (done the `.env` file)
 	readonly VITE_NETLIFY: string | undefined
 	readonly VITE_CONTEXT: NETLIFY_CONTEXT | undefined
+
+	// Feature flag for new design
+	readonly VITE_NEW_DESIGN: 'enabled' | undefined
 }
 
 interface ImportMeta {

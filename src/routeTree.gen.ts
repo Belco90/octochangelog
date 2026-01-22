@@ -10,18 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as CompareRouteImport } from './routes/compare'
-import { Route as ChakraRouteImport } from './routes/chakra'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 
 const CompareRoute = CompareRouteImport.update({
   id: '/compare',
   path: '/compare',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChakraRoute = ChakraRouteImport.update({
-  id: '/chakra',
-  path: '/chakra',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,34 +31,30 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/chakra': typeof ChakraRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/chakra': typeof ChakraRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/chakra': typeof ChakraRoute
   '/compare': typeof CompareRoute
   '/auth/callback': typeof AuthCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/chakra' | '/compare' | '/auth/callback'
+  fullPaths: '/' | '/compare' | '/auth/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/chakra' | '/compare' | '/auth/callback'
-  id: '__root__' | '/' | '/chakra' | '/compare' | '/auth/callback'
+  to: '/' | '/compare' | '/auth/callback'
+  id: '__root__' | '/' | '/compare' | '/auth/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChakraRoute: typeof ChakraRoute
   CompareRoute: typeof CompareRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
 }
@@ -76,13 +66,6 @@ declare module '@tanstack/react-router' {
       path: '/compare'
       fullPath: '/compare'
       preLoaderRoute: typeof CompareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chakra': {
-      id: '/chakra'
-      path: '/chakra'
-      fullPath: '/chakra'
-      preLoaderRoute: typeof ChakraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -104,7 +87,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChakraRoute: ChakraRoute,
   CompareRoute: CompareRoute,
   AuthCallbackRoute: AuthCallbackRoute,
 }

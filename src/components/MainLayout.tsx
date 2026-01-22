@@ -1,10 +1,12 @@
+import { Button } from '@chakra-ui/react'
 import { Flex, Box } from '@chakra-ui/react-v2'
 
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import type { PropsWithRequiredChildren } from '@/models'
+import { isNewDesignEnabled } from '@/utils'
 
-export function MainLayout({ children }: PropsWithRequiredChildren) {
+function OldMainLayout({ children }: PropsWithRequiredChildren) {
 	return (
 		<Flex height="100%" direction="column">
 			<Header />
@@ -13,5 +15,22 @@ export function MainLayout({ children }: PropsWithRequiredChildren) {
 			</Box>
 			<Footer />
 		</Flex>
+	)
+}
+
+export function MainLayout({ children }: PropsWithRequiredChildren) {
+	if (!isNewDesignEnabled) {
+		return <OldMainLayout>{children}</OldMainLayout>
+	}
+
+	return (
+		<div>
+			<div>
+				<Button variant="outline" colorPalette="red">
+					Test
+				</Button>
+			</div>
+			{children}
+		</div>
 	)
 }
