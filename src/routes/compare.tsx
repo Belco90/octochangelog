@@ -3,14 +3,15 @@ import {
 	Button,
 	Container,
 	Heading,
-	Text,
 	VStack,
-} from '@chakra-ui/react-v2'
+	EmptyState,
+} from '@chakra-ui/react'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
+import { LuMeh } from 'react-icons/lu'
 
-import type { CompareSearchParams } from '@/models'
+import type { CompareSearchParams, PropsWithRequiredChildren } from '@/models'
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { seo } from '@/seo'
 import { mapStringToRepositoryQueryParams } from '@/utils'
@@ -51,18 +52,38 @@ export const Route = createFileRoute('/compare')({
 		}),
 		links: [{ rel: 'stylesheet', href: hljsCss }],
 	}),
-	component: ComparePage,
-	errorComponent: CompareErrorPage,
+	component: () => (
+		<CompareLayout>
+			<ComparePage />
+		</CompareLayout>
+	),
+	errorComponent: (props) => (
+		<CompareLayout>
+			<CompareErrorPage {...props} />
+		</CompareLayout>
+	),
 })
 
-function ComparePage() {
+function CompareLayout({ children }: PropsWithRequiredChildren) {
 	return (
-		<Box height="full" width="full" bgColor="background3">
-			<ComparatorProvider>
-				<RepositoryReleasesComparator />
-			</ComparatorProvider>
+		<Box height="full" width="full" py={10}>
+			<Container maxWidth="6xl">
+				<Heading
+					as="h1"
+					fontSize="4xl"
+					fontWeight="black"
+					letterSpacing="tight"
+				>
+					Compare
+				</Heading>
+			</Container>
+			<ComparatorProvider>{children}</ComparatorProvider>
 		</Box>
 	)
+}
+
+function ComparePage() {
+	return <RepositoryReleasesComparator />
 }
 
 function CompareErrorPage({ error, reset }: ErrorComponentProps) {
@@ -79,23 +100,22 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 	}
 
 	return (
-		<Box height="full" width="full" bgColor="background3">
-			<Container variant="fluid" height="full">
-				<VStack
-					px="10"
-					alignItems="center"
-					spacing={4}
-					justifyContent="center"
-					height="full"
-				>
-					<Heading>Something went wrong!</Heading>
-					<Text as="p">
+		<EmptyState.Root size="lg">
+			<EmptyState.Content>
+				<EmptyState.Indicator>
+					<LuMeh />
+				</EmptyState.Indicator>
+
+				<VStack textAlign="center">
+					<EmptyState.Title>Something went wrong!</EmptyState.Title>
+					<EmptyState.Description fontSize="lg">
 						Octochangelog could not process the releases changelogs to be
 						compared.
-					</Text>
-					<Button onClick={handleReset}>Try again</Button>
+					</EmptyState.Description>
 				</VStack>
-			</Container>
-		</Box>
+
+				<Button onClick={handleReset}>Try again</Button>
+			</EmptyState.Content>
+		</EmptyState.Root>
 	)
 }
