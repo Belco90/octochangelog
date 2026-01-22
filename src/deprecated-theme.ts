@@ -103,7 +103,7 @@ function invertSemanticToken(token: SemanticToken): SemanticToken {
 }
 
 const themeConfig: ThemeConfig = {
-	useSystemColorMode: process.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled',
+	useSystemColorMode: false,
 }
 
 type CustomTheme = Theme & {

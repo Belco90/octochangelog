@@ -12,7 +12,6 @@ import { DiGithubBadge } from 'react-icons/di'
 import { REPO_URL } from '@/common'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { RouteLink } from '@/components/RouteLink'
-import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
 import mascotLogo from '@/images/mascot-logo.png'
 
 import type { BoxProps } from '@chakra-ui/react-v2'
@@ -76,12 +75,6 @@ export const Header = (props: BoxProps) => {
 						</RouteLink>
 					</Flex>
 					<HStack spacing={{ base: 4, md: 10 }}>
-						{import.meta.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled' && (
-							<ToggleColorModeButton
-								boxSize={LOGO_SIZES}
-								minWidth={LOGO_SIZES}
-							/>
-						)}
 						<Link
 							href={REPO_URL}
 							aria-label="Octochangelog repository on GitHub"
