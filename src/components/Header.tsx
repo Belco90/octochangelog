@@ -14,7 +14,12 @@ const LOGO_SIZES = { base: 8, md: 10 }
 
 export const Header = (props: BoxProps) => {
 	return (
-		<Box {...props} as="header" borderTopWidth={4} borderColor="brand.border">
+		<Box
+			{...props}
+			as="header"
+			borderBottomWidth={1}
+			borderColor="brand.emphasized"
+		>
 			<Box p={2}>
 				<Flex justify="space-between" alignItems="center">
 					<Flex align="center">

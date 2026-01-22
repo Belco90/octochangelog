@@ -4,9 +4,10 @@ import {
 	defineConfig,
 	defineTokens,
 	defineSemanticTokens,
+	defineRecipe,
 } from '@chakra-ui/react'
 
-function getSemanticColor(colorPalette: 'primary' | 'secondary') {
+function getSemanticColor(colorPalette: 'brand' | 'accent') {
 	return {
 		contrast: {
 			value: { base: 'white', _dark: 'white' },
@@ -56,17 +57,14 @@ function getSemanticColor(colorPalette: 'primary' | 'secondary') {
 	} as const
 }
 
-const { fonts } = defineTokens({
+const tokens = defineTokens({
 	fonts: {
 		heading: { value: "'Inter Variable', sans-serif" },
 		body: { value: "'Inter Variable', sans-serif" },
 		mono: { value: "'Roboto Mono Variable', monospace" },
 	},
-})
-
-const { colors } = defineTokens({
 	colors: {
-		primary: {
+		brand: {
 			50: { value: '#FDF4FF' },
 			100: { value: '#FAE8FF' },
 			200: { value: '#F5D0FE' },
@@ -79,7 +77,7 @@ const { colors } = defineTokens({
 			900: { value: '#701A75' },
 			950: { value: '#4A044E' },
 		},
-		secondary: {
+		accent: {
 			50: { value: '#F0F9FF' },
 			100: { value: '#E0F2FE' },
 			200: { value: '#BAE6FD' },
@@ -95,10 +93,43 @@ const { colors } = defineTokens({
 	},
 })
 
-const { colors: semanticColors } = defineSemanticTokens({
+const semanticTokens = defineSemanticTokens({
 	colors: {
-		brand: getSemanticColor('primary'),
-		accent: getSemanticColor('secondary'),
+		brand: getSemanticColor('brand'),
+		accent: getSemanticColor('accent'),
+	},
+	shadows: {
+		cta: {
+			description: 'Shadow for CTA buttons',
+			value: {
+				base: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+				_active: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
+			},
+		},
+	},
+})
+
+const buttonRecipe = defineRecipe({
+	variants: {
+		variant: {
+			cta: {
+				fontWeight: 'black',
+				fontSize: 'xl',
+				letterSpacing: 'tight',
+				py: '5',
+				px: '4',
+				boxShadow: 'cta',
+				borderRadius: '2xl',
+				bgColor: { base: 'brand.900', _dark: 'brand.200' },
+				color: { base: 'brand.50', _dark: 'brand.900' },
+				_hover: {
+					bg: { base: 'brand.700', _dark: 'brand.100' },
+				},
+				_active: {
+					bg: { base: 'brand.900', _dark: 'brand.200' },
+				},
+			},
+		},
 	},
 })
 
@@ -106,17 +137,15 @@ const customConfig = defineConfig({
 	globalCss: {
 		'html, body': { height: 'full' },
 		'*': {
+			focusRing: 'none !important',
+			focusVisibleRing: 'outside !important',
 			focusRingColor: 'accent.focusRing !important',
 		},
 	},
 	theme: {
-		tokens: {
-			fonts,
-			colors,
-		},
-		semanticTokens: {
-			colors: semanticColors,
-		},
+		tokens,
+		semanticTokens,
+		recipes: { button: buttonRecipe },
 	},
 })
 
