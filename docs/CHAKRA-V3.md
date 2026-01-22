@@ -16,9 +16,8 @@ This project uses Chakra UI v3. Follow these rules:
 5. Boolean props changed: isOpen → open, isDisabled → disabled
 6. colorScheme → colorPalette
 7. Button icons are children, not props
-8. Always use VStack/HStack, not Stack
-9. Use compound components for complex components
-10. Check migration guide for component-specific changes
+8. Use compound components for complex components
+9. Check migration guide for component-specific changes
 
 ## LLMs.txt Full Documentation
 

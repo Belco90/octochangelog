@@ -131,19 +131,19 @@ export const customTheme = extendTheme(
 					default: tertiaryTextLightMode,
 					_dark: tertiaryTextDarkMode,
 				},
-				monochrome1,
-				monochrome2,
-				monochrome3,
-				monochrome4,
-				monochrome5,
-				monochromeInverted1: invertSemanticToken(monochrome1),
-				monochromeInverted2: invertSemanticToken(monochrome2),
-				monochromeInverted3: invertSemanticToken(monochrome3),
-				monochromeInverted4: invertSemanticToken(monochrome4),
-				monochromeInverted5: invertSemanticToken(monochrome5),
-				background1: invertSemanticToken(monochrome1),
-				background2: invertSemanticToken(monochrome2),
-				background3: invertSemanticToken(monochrome3),
+				monochrome1, // bg
+				monochrome2, // bg.subtle
+				monochrome3, // bg.muted
+				monochrome4, // bg.emphasized
+				monochrome5, // ???
+				monochromeInverted1: invertSemanticToken(monochrome1), // bg
+				monochromeInverted2: invertSemanticToken(monochrome2), // bg.subtle
+				monochromeInverted3: invertSemanticToken(monochrome3), // bg.muted
+				monochromeInverted4: invertSemanticToken(monochrome4), // bg.emphasized
+				monochromeInverted5: invertSemanticToken(monochrome5), // ???
+				background1: invertSemanticToken(monochrome1), // bg
+				background2: invertSemanticToken(monochrome2), // bg.subtle
+				background3: invertSemanticToken(monochrome3), // bg.muted
 			},
 		},
 		fonts: {
