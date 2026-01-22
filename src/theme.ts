@@ -6,45 +6,6 @@ import {
 	defineSemanticTokens,
 } from '@chakra-ui/react'
 
-const { fonts } = defineTokens({
-	fonts: {
-		heading: { value: "'Inter Variable', sans-serif" },
-		body: { value: "'Inter Variable', sans-serif" },
-		mono: { value: "'Roboto Mono Variable', monospace" },
-	},
-})
-
-const { colors } = defineTokens({
-	colors: {
-		primary: {
-			50: { value: '#FDF4FF' },
-			100: { value: '#FAE8FF' },
-			200: { value: '#F5D0FE' },
-			300: { value: '#F0ABFC' },
-			400: { value: '#E879F9' },
-			500: { value: '#D946EF' },
-			600: { value: '#C026D3' },
-			700: { value: '#A21CAF' },
-			800: { value: '#86198F' },
-			900: { value: '#701A75' },
-			950: { value: '#4A044E' },
-		},
-		secondary: {
-			50: { value: '#F0F9FF' },
-			100: { value: '#E0F2FE' },
-			200: { value: '#BAE6FD' },
-			300: { value: '#7DD3FC' },
-			400: { value: '#38BDF8' },
-			500: { value: '#0EA5E9' },
-			600: { value: '#0284C7' },
-			700: { value: '#0369A1' },
-			800: { value: '#075985' },
-			900: { value: '#0C4A6E' },
-			950: { value: '#082F49' },
-		},
-	},
-})
-
 function getSemanticColor(colorPalette: 'primary' | 'secondary') {
 	return {
 		contrast: {
@@ -95,6 +56,45 @@ function getSemanticColor(colorPalette: 'primary' | 'secondary') {
 	} as const
 }
 
+const { fonts } = defineTokens({
+	fonts: {
+		heading: { value: "'Inter Variable', sans-serif" },
+		body: { value: "'Inter Variable', sans-serif" },
+		mono: { value: "'Roboto Mono Variable', monospace" },
+	},
+})
+
+const { colors } = defineTokens({
+	colors: {
+		primary: {
+			50: { value: '#FDF4FF' },
+			100: { value: '#FAE8FF' },
+			200: { value: '#F5D0FE' },
+			300: { value: '#F0ABFC' },
+			400: { value: '#E879F9' },
+			500: { value: '#D946EF' },
+			600: { value: '#C026D3' },
+			700: { value: '#A21CAF' },
+			800: { value: '#86198F' },
+			900: { value: '#701A75' },
+			950: { value: '#4A044E' },
+		},
+		secondary: {
+			50: { value: '#F0F9FF' },
+			100: { value: '#E0F2FE' },
+			200: { value: '#BAE6FD' },
+			300: { value: '#7DD3FC' },
+			400: { value: '#38BDF8' },
+			500: { value: '#0EA5E9' },
+			600: { value: '#0284C7' },
+			700: { value: '#0369A1' },
+			800: { value: '#075985' },
+			900: { value: '#0C4A6E' },
+			950: { value: '#082F49' },
+		},
+	},
+})
+
 const { colors: semanticColors } = defineSemanticTokens({
 	colors: {
 		brand: getSemanticColor('primary'),
@@ -105,6 +105,9 @@ const { colors: semanticColors } = defineSemanticTokens({
 const customConfig = defineConfig({
 	globalCss: {
 		'html, body': { height: 'full' },
+		'*': {
+			focusRingColor: 'accent.focusRing !important',
+		},
 	},
 	theme: {
 		tokens: {
