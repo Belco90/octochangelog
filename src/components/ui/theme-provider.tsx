@@ -10,10 +10,8 @@ import type { ColorModeProviderProps } from './color-mode'
 
 export function ChakraThemeProvider(props: ColorModeProviderProps) {
 	return (
-		<div data-chakra-v3>
-			<ChakraProvider value={system}>
-				<ColorModeProvider {...props} />
-			</ChakraProvider>
-		</div>
+		<ChakraProvider value={system}>
+			<ColorModeProvider {...props} />
+		</ChakraProvider>
 	)
 }

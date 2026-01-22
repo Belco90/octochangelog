@@ -1,4 +1,3 @@
-import { Button } from '@chakra-ui/react'
 import { Flex, Box } from '@chakra-ui/react-v2'
 
 import { Footer } from '@/components/Footer'
@@ -23,14 +22,5 @@ export function MainLayout({ children }: PropsWithRequiredChildren) {
 		return <OldMainLayout>{children}</OldMainLayout>
 	}
 
-	return (
-		<div>
-			<div>
-				<Button variant="outline" colorPalette="red">
-					Test
-				</Button>
-			</div>
-			{children}
-		</div>
-	)
+	return <div>{children}</div>
 }

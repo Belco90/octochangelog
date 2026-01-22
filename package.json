@@ -31,7 +31,7 @@
 		"e2e:ui": "playwright test --ui",
 		"e2e:report": "playwright show-report",
 		"chakra": "chakra",
-		"chakra:typegen": "pnpm chakra typegen src/theme.ts --strict",
+		"chakra:typegen": "pnpm chakra typegen src/theme.ts",
 		"chakra:snippet": "pnpm chakra snippet",
 		"gen:theme-typings-v2": "chakra-cli tokens src/deprecated-theme.ts --strict-component-types --strict-token-types --out node_modules/@chakra-ui/styled-system-v2/dist/types/theming.types.d.ts",
 		"prepare": "husky",
