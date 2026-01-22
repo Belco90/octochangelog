@@ -7,13 +7,11 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { DeprecatedProviders } from '@/components/Providers'
-import { ChakraThemeProvider } from '@/components/ui/theme-provider'
+import { ChakraThemeProvider } from '@/components/snippets/theme-provider'
 import { customTheme } from '@/deprecated-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
-import { isNewDesignEnabled } from '@/utils'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -91,10 +89,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 	},
 )
 
-const ThemeProviderWrapper = isNewDesignEnabled
-	? ChakraThemeProvider
-	: DeprecatedProviders
-
 function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 	return (
 		<html lang="en">
@@ -106,9 +100,9 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 					<ReactQueryDevtools buttonPosition="bottom-left" />
 				</div>
 
-				<ThemeProviderWrapper>
+				<ChakraThemeProvider>
 					<MainLayout>{children}</MainLayout>
-				</ThemeProviderWrapper>
+				</ChakraThemeProvider>
 
 				<Scripts />
 			</body>

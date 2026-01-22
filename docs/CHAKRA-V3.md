@@ -9,7 +9,7 @@ alwaysApply: false
 This project uses Chakra UI v3. Follow these rules:
 
 1. Import from @chakra-ui/react: Alert, Avatar, Button, Card, Field, Table, etc.
-2. Import from components/ui: Checkbox, Drawer, Radio, Menu, Dialog, Tooltip,
+2. Import from components/snippets: Checkbox, Drawer, Radio, Menu, Dialog, Tooltip,
    etc.
 3. Use toaster.create() instead of useToast()
 4. Modal is now Dialog with different props
@@ -44,7 +44,7 @@ Always use correct import sources:
 Alert, Avatar, Button, Card, Field, Table, Input, NativeSelect, Tabs, Textarea,
 Separator, useDisclosure, Box, Flex, Stack, HStack, VStack, Text, Heading, Icon
 
-# From components/ui (relative imports):
+# From components/snippets (relative imports):
 
 Provider, Toaster, ColorModeProvider, Tooltip, PasswordInput
 
@@ -52,7 +52,7 @@ Provider, Toaster, ColorModeProvider, Tooltip, PasswordInput
 
 ```tsx
 // ✅ New v3 way
-import { toaster } from './components/ui/toaster'
+import { toaster } from './components/snippets/toaster'
 
 // ❌ Old v2 way
 const toast = useToast()
@@ -140,8 +140,7 @@ toaster.create({
 </Tooltip>
 
 // ✅ New v3
-import { Tooltip } from './components/ui/tooltip'
-
+import { Tooltip } from './components/snippets/tooltip'
 ;<Tooltip content="Content" showArrow positioning={{ placement: 'top' }}>
 	<Button>Hover me</Button>
 </Tooltip>

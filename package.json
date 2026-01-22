@@ -32,7 +32,7 @@
 		"e2e:report": "playwright show-report",
 		"chakra": "chakra",
 		"chakra:typegen": "pnpm chakra typegen src/theme.ts",
-		"chakra:snippet": "pnpm chakra snippet",
+		"chakra:snippet": "pnpm chakra snippet --outdir src/components/snippets",
 		"gen:theme-typings-v2": "chakra-cli tokens src/deprecated-theme.ts --strict-component-types --strict-token-types --out node_modules/@chakra-ui/styled-system-v2/dist/types/theming.types.d.ts",
 		"prepare": "husky",
 		"postinstall": "pnpm gen:theme-typings-v2 && pnpm chakra:typegen"
