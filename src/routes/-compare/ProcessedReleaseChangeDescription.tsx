@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react-v2'
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
-import { BlockQuote } from '@/components/BlockQuote'
+import { SimpleBlockquote } from '@/components/SimpleBlockquote'
 import { TextSkeleton } from '@/components/TextSkeleton'
 import { useProcessDescriptionMdast } from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, MinimalRepository } from '@/models'
@@ -88,7 +88,7 @@ const RemarkCode = (props: RemarkComponentProps) => (
 )
 
 const RemarkBlockquote = (props: RemarkComponentProps) => (
-	<BlockQuote mb="2" {...props} />
+	<SimpleBlockquote mb="2" {...props} />
 )
 
 const remarkReactComponents = {
