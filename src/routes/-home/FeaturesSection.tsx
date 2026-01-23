@@ -1,4 +1,4 @@
-import { Badge, Box, Card, SimpleGrid, Text } from '@chakra-ui/react'
+import { Badge, Box, Card, SimpleGrid } from '@chakra-ui/react'
 import {
 	HiOutlineFilter,
 	HiOutlineFire,
@@ -21,50 +21,50 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 		icon: <HiOutlineSwitchHorizontal />,
 		title: 'Compare releases easily',
 		children: (
-			<Text>
+			<>
 				Sifting through changelogs on GitHub taking too much time? Let
 				Octochangelog put the list of changes in a single view!
-			</Text>
+			</>
 		),
 	},
 	{
 		icon: <HiOutlineShare />,
 		title: 'Share changelogs',
 		children: (
-			<Text>
+			<>
 				Want to let your team review the changes in a dependency? Give them a
 				link!
-			</Text>
+			</>
 		),
 	},
 	{
 		icon: <HiOutlineFire />,
 		title: "Don't miss breaking changes",
 		children: (
-			<Text>
+			<>
 				Octochangelog finds all breaking changes, and lists them at the top. You
 				can’t miss those pesky gotcha’s now!
-			</Text>
+			</>
 		),
 	},
 	{
 		icon: <HiOutlineFilter />,
 		title: 'No manual sorting',
 		children: (
-			<Text>
+			<>
 				Want a list of major, minor and patch level changes? Octochangelog
 				groups changes into categories for you!
-			</Text>
+			</>
 		),
 	},
 	{
 		icon: <HiOutlineTag />,
 		title: 'Changes per version',
 		children: (
-			<Text>
+			<>
 				Want to know which version introduced a certain change? Octochangelog
 				labels each change with the version number.
-			</Text>
+			</>
 		),
 	},
 ]
