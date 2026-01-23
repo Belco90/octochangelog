@@ -9,7 +9,7 @@ import {
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { LuMeh } from 'react-icons/lu'
+import { HiOutlineEmojiSad } from 'react-icons/hi'
 
 import type { CompareSearchParams, PropsWithRequiredChildren } from '@/models'
 import { getRepositoryQueryOptions } from '@/queries/repository'
@@ -103,7 +103,7 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 		<EmptyState.Root size="lg">
 			<EmptyState.Content>
 				<EmptyState.Indicator>
-					<LuMeh />
+					<HiOutlineEmojiSad />
 				</EmptyState.Indicator>
 
 				<VStack textAlign="center">
@@ -114,7 +114,9 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 					</EmptyState.Description>
 				</VStack>
 
-				<Button onClick={handleReset}>Try again</Button>
+				<Button onClick={handleReset} colorPalette="brand" fontWeight="bold">
+					Try again
+				</Button>
 			</EmptyState.Content>
 		</EmptyState.Root>
 	)
