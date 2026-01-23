@@ -19,7 +19,7 @@ export const RepositoryReleasesComparator = () => {
 	return (
 		<Flex direction="column" height="full">
 			<Box py={{ base: 4, md: 8 }}>
-				<Container maxWidth="6xl">
+				<Container maxWidth="2xl">
 					<RepositoriesComparatorFilters />
 				</Container>
 			</Box>
@@ -32,7 +32,7 @@ export const RepositoryReleasesComparator = () => {
 							fromVersion={fromVersion ?? undefined}
 							toVersion={toVersion ?? undefined}
 						/>
-						<Container maxWidth="6xl">
+						<Container maxWidth="2xl">
 							<Suspense>
 								<RepositoryReleasesChangelog
 									repository={repository}

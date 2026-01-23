@@ -30,7 +30,7 @@ export const RepoCombobox = ({
 		})
 
 	return (
-		<Field.Root>
+		<Field.Root gap="1">
 			<Field.Label>Repository</Field.Label>
 
 			<Combobox.RootProvider
@@ -64,7 +64,7 @@ export const RepoCombobox = ({
 						placeholder="Type to search (at least 3 chars)"
 						fontWeight="medium"
 						rounded="2xl"
-						pl="12"
+						pl={{ base: '10', md: '12' }}
 						_focusVisible={{
 							borderColor: 'border',
 						}}
