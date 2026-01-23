@@ -14,15 +14,15 @@ import { HiArrowDown, HiArrowUp, HiOutlineSearch } from 'react-icons/hi'
 import { useRepoCombobox } from '@/hooks/useRepoCombobox'
 import type { FullRepository } from '@/models'
 
-type RepositorySearchComboboxProps = {
+type RepoComboboxProps = {
 	onSelect: (repo?: FullRepository | null) => void
 	initialInputValue?: string
 }
 
-export const RepositorySearchCombobox = ({
+export const RepoCombobox = ({
 	onSelect,
 	initialInputValue = '',
-}: RepositorySearchComboboxProps) => {
+}: RepoComboboxProps) => {
 	const { combobox, collection, contentStatus, isOpen, totalCount } =
 		useRepoCombobox({
 			initialValue: initialInputValue,
@@ -33,28 +33,35 @@ export const RepositorySearchCombobox = ({
 		<Field.Root>
 			<Field.Label>Repository</Field.Label>
 
-			<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
+			<Combobox.RootProvider
+				value={combobox}
+				size={{ base: 'md', md: 'lg' }}
+				colorPalette="accent"
+			>
 				<Combobox.Control>
 					<Combobox.IndicatorGroup
 						insetInlineStart="0"
 						insetInlineEnd="unset"
 						p="0"
 					>
-						<Flex
-							alignItems="center"
-							bgColor="brand.subtle"
-							px="2"
-							h="full"
-							roundedLeft="2xl"
-							borderLeftWidth="1px"
-						>
-							<Icon color="brand.fg" strokeWidth="3">
-								<HiOutlineSearch />
-							</Icon>
-						</Flex>
+						<Combobox.Trigger asChild>
+							<Flex
+								alignItems="center"
+								bgColor="brand.subtle"
+								px="2"
+								h="full"
+								roundedLeft="2xl"
+								borderWidth="1px"
+								borderRightWidth="0"
+							>
+								<Icon color="brand.fg" strokeWidth="3">
+									<HiOutlineSearch />
+								</Icon>
+							</Flex>
+						</Combobox.Trigger>
 					</Combobox.IndicatorGroup>
 					<Combobox.Input
-						placeholder="Type to search"
+						placeholder="Type to search (at least 3 chars)"
 						fontWeight="medium"
 						rounded="2xl"
 						pl="12"

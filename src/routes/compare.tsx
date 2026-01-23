@@ -70,7 +70,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 			<Container maxWidth="6xl">
 				<Heading
 					as="h1"
-					fontSize="4xl"
+					fontSize={{ base: '3xl', md: '4xl' }}
 					fontWeight="black"
 					letterSpacing="tight"
 				>
@@ -84,7 +84,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 
 function ComparePage() {
 	return (
-		<Box mt={10}>
+		<Box mt={{ base: 4, md: 10 }}>
 			<RepositoryReleasesComparator />
 		</Box>
 	)

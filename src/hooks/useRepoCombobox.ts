@@ -22,6 +22,7 @@ interface UseRepoComboboxReturn {
 	collection: ListCollection<MinimalRepository>
 	inputValue: string
 	isOpen: boolean
+	isMinSearchLengthReached: boolean
 	contentStatus: 'loading' | 'error' | 'success' | 'pending'
 	totalCount: number
 }
@@ -120,7 +121,8 @@ export function useRepoCombobox({
 		}
 	}, [inputValue, throttleRefetch])
 
-	const isLoading = isFetching || isTyping
+	const isMinSearchLengthReached = inputValue.trim().length >= MIN_SEARCH_LENGTH
+	const isLoading = isMinSearchLengthReached && (isFetching || isTyping)
 	const contentStatus = isLoading ? 'loading' : status
 	const totalCount = data?.total_count ?? 0
 
@@ -131,5 +133,6 @@ export function useRepoCombobox({
 		isOpen,
 		contentStatus,
 		totalCount,
+		isMinSearchLengthReached,
 	}
 }

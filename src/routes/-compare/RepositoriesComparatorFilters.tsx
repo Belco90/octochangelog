@@ -1,7 +1,7 @@
 import { Stack } from '@chakra-ui/react'
 
 import { ReleaseVersionsRangeFormControl } from './ReleaseVersionsRangeFormControl'
-import { RepositorySearchCombobox } from './RepositorySearchCombobox'
+import { RepoCombobox } from './RepoCombobox'
 import { useComparatorState, useComparatorUpdater } from './comparator-context'
 
 export const RepositoriesComparatorFilters = () => {
@@ -10,7 +10,7 @@ export const RepositoriesComparatorFilters = () => {
 
 	return (
 		<Stack gap={{ base: 2, md: 6 }} direction={{ base: 'column', md: 'row' }}>
-			<RepositorySearchCombobox
+			<RepoCombobox
 				initialInputValue={repository?.full_name}
 				onSelect={setRepository}
 			/>
