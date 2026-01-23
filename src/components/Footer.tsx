@@ -1,7 +1,7 @@
 import { Box, Center, VStack, Text } from '@chakra-ui/react'
-import { Image } from '@unpic/react'
 
 import { Link } from '@/components/Link'
+import { NetlifyBadge } from '@/components/NetlifyBadge'
 
 export function Footer() {
 	return (
@@ -43,13 +43,7 @@ export function Footer() {
 						href="https://www.netlify.com?utm_source=octochangelog&utm_campaign=oss"
 						isExternal
 					>
-						<Image
-							src="https://www.netlify.com/assets/badges/netlify-badge-color-bg.svg"
-							alt="Built with Netlify"
-							width={114}
-							height={50}
-							loading="lazy"
-						/>
+						<NetlifyBadge />
 					</Link>
 				</VStack>
 			</Center>
