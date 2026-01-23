@@ -2,7 +2,7 @@
 
 import { ClientOnly, IconButton, Skeleton, Span } from '@chakra-ui/react'
 import { ThemeProvider, useTheme } from 'next-themes'
-import { LuMoon, LuSun } from 'react-icons/lu'
+import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi'
 
 import type { IconButtonProps, SpanProps } from '@chakra-ui/react'
 import type { ThemeProviderProps } from 'next-themes'
@@ -44,7 +44,7 @@ export function useColorModeValue<T>(light: T, dark: T) {
 
 export function ColorModeIcon() {
 	const { colorMode } = useColorMode()
-	return colorMode === 'dark' ? <LuMoon /> : <LuSun />
+	return colorMode === 'dark' ? <HiOutlineMoon /> : <HiOutlineSun />
 }
 
 type ColorModeButtonProps = Omit<IconButtonProps, 'aria-label'>
