@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Flex } from '@chakra-ui/react-v2'
+import { Box, Container, Separator, Flex } from '@chakra-ui/react'
 import { ClientOnly } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
 
@@ -18,12 +18,12 @@ export const RepositoryReleasesComparator = () => {
 
 	return (
 		<Flex direction="column" height="full">
-			<Box bgColor="background2" py={{ base: 4, md: 8 }}>
-				<Container variant="fluid">
+			<Box py={{ base: 4, md: 8 }}>
+				<Container maxWidth="6xl">
 					<RepositoriesComparatorFilters />
 				</Container>
 			</Box>
-			<Divider />
+			<Separator />
 			<Box pt={2} flex="1 0 auto">
 				{repository && (
 					<>
@@ -32,7 +32,7 @@ export const RepositoryReleasesComparator = () => {
 							fromVersion={fromVersion ?? undefined}
 							toVersion={toVersion ?? undefined}
 						/>
-						<Container variant="fluid">
+						<Container maxWidth="6xl">
 							<Suspense>
 								<RepositoryReleasesChangelog
 									repository={repository}

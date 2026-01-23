@@ -66,7 +66,7 @@ export const Route = createFileRoute('/compare')({
 
 function CompareLayout({ children }: PropsWithRequiredChildren) {
 	return (
-		<Box height="full" width="full" py={10}>
+		<Box height="full" width="full" py={{ base: 4, md: 10 }}>
 			<Container maxWidth="6xl">
 				<Heading
 					as="h1"
@@ -83,7 +83,11 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 }
 
 function ComparePage() {
-	return <RepositoryReleasesComparator />
+	return (
+		<Box mt={10}>
+			<RepositoryReleasesComparator />
+		</Box>
+	)
 }
 
 function CompareErrorPage({ error, reset }: ErrorComponentProps) {
@@ -114,7 +118,7 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 					</EmptyState.Description>
 				</VStack>
 
-				<Button onClick={handleReset} colorPalette="brand" fontWeight="bold">
+				<Button onClick={handleReset} colorPalette="brand">
 					Try again
 				</Button>
 			</EmptyState.Content>

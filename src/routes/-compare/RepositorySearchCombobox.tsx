@@ -1,26 +1,18 @@
 import {
-	Box,
-	CircularProgress,
-	FormControl,
-	FormLabel,
+	Field,
+	Combobox,
 	HStack,
+	Portal,
+	Spinner,
+	Span,
+	Em,
+	Flex,
 	Icon,
-	IconButton,
-	Input,
-	InputGroup,
-	InputRightElement,
-	List,
-	ListItem,
-	Text,
-} from '@chakra-ui/react-v2'
-import { useQuery } from '@tanstack/react-query'
-import { useCombobox } from 'downshift'
-import { debounce } from 'es-toolkit'
-import { useEffect, useMemo, useState } from 'react'
-import { HiArrowDown, HiArrowUp } from 'react-icons/hi'
+} from '@chakra-ui/react'
+import { HiArrowDown, HiArrowUp, HiOutlineSearch } from 'react-icons/hi'
 
+import { useRepoCombobox } from '@/hooks/useRepoCombobox'
 import type { FullRepository } from '@/models'
-import { searchRepositoriesQueryOptions } from '@/queries/repository'
 
 type RepositorySearchComboboxProps = {
 	onSelect: (repo?: FullRepository | null) => void
@@ -31,137 +23,95 @@ export const RepositorySearchCombobox = ({
 	onSelect,
 	initialInputValue = '',
 }: RepositorySearchComboboxProps) => {
-	const [inputValue, setInputValue] = useState('')
-	const [isTyping, setIsTyping] = useState(false)
-
-	const {
-		data,
-		refetch,
-		isFetching: isQueryLoading,
-	} = useQuery({
-		...searchRepositoriesQueryOptions({ q: inputValue }),
-		enabled: false,
-	})
-
-	const {
-		isOpen,
-		getInputProps,
-		getItemProps,
-		getLabelProps,
-		getMenuProps,
-		getToggleButtonProps,
-		highlightedIndex,
-	} = useCombobox({
-		items: data?.items ?? [],
-		itemToString: (repo) => repo?.full_name ?? 'unknown',
-		initialInputValue,
-		onInputValueChange: ({
-			inputValue: newInputValue,
-			isOpen: isOpenOnChange,
-		}) => {
-			setIsTyping(Boolean(isOpenOnChange) && Boolean(newInputValue))
-
-			// Avoid set input value when is not open as that means the user already
-			// picked an option so we don't want to refetch again.
-			// Also, we keep original value entered by user in case they want to select
-			// other option from last results.
-			if (isOpenOnChange) {
-				setInputValue(newInputValue ?? '')
-			}
-		},
-		onSelectedItemChange: ({ selectedItem }) => {
-			setIsTyping(false)
-			onSelect(selectedItem as unknown as FullRepository | null)
-		},
-	})
-
-	const throttleRefetch = useMemo(
-		() =>
-			debounce(() => {
-				// This rule shouldn't complain within `useMemo`
-				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
-				setIsTyping(false)
-				void refetch()
-			}, 500),
-		[refetch],
-	)
-
-	useEffect(() => {
-		if (inputValue.trim()) {
-			throttleRefetch()
-		}
-	}, [inputValue, throttleRefetch])
-
-	const isLoading = isTyping || isQueryLoading
+	const { combobox, collection, contentStatus, isOpen, totalCount } =
+		useRepoCombobox({
+			initialValue: initialInputValue,
+			onSelect,
+		})
 
 	return (
-		<FormControl isRequired width="full" position="relative">
-			<FormLabel {...getLabelProps()}>Enter repository name</FormLabel>
-			<HStack>
-				<InputGroup>
-					<Input {...getInputProps()} />
-					<InputRightElement>
-						{isLoading && (
-							<CircularProgress
-								isIndeterminate
-								size="6"
-								trackColor="primary.50"
-								color="primary.500"
-							/>
-						)}
-					</InputRightElement>
-				</InputGroup>
-				<Box>
-					<IconButton
-						{...getToggleButtonProps()}
-						colorScheme="gray"
-						aria-label="toggle repositories results menu"
-						icon={<Icon as={isOpen ? HiArrowUp : HiArrowDown} />}
+		<Field.Root>
+			<Field.Label>Repository</Field.Label>
+
+			<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
+				<Combobox.Control>
+					<Combobox.IndicatorGroup
+						insetInlineStart="0"
+						insetInlineEnd="unset"
+						p="0"
+					>
+						<Flex
+							alignItems="center"
+							bgColor="brand.subtle"
+							px="2"
+							h="full"
+							roundedLeft="2xl"
+							borderLeftWidth="1px"
+						>
+							<Icon color="brand.fg" strokeWidth="3">
+								<HiOutlineSearch />
+							</Icon>
+						</Flex>
+					</Combobox.IndicatorGroup>
+					<Combobox.Input
+						placeholder="Type to search"
+						fontWeight="medium"
+						rounded="2xl"
+						pl="12"
+						_focusVisible={{
+							borderColor: 'border',
+						}}
 					/>
-				</Box>
-			</HStack>
-			<List
-				{...getMenuProps()}
-				position="absolute"
-				width="full"
-				mt={1}
-				shadow="md"
-				backgroundColor="white"
-				borderColor="gray.200"
-				borderWidth={1}
-				borderRadius={3}
-				zIndex="dropdown"
-				py={2}
-				maxHeight="300px"
-				overflowY="scroll"
-				opacity={isOpen && !isLoading ? 1 : 0}
-			>
-				{isOpen && (
-					<>
-						{!isLoading && (
-							<ListItem mb={1}>
-								<Text as="em" color="gray.500" px={2}>
-									{data?.total_count ?? 0} results
-								</Text>
-							</ListItem>
-						)}
-						{data?.items.map((repo, index) => (
-							<ListItem
-								key={repo.id}
-								py={1}
-								backgroundColor={
-									highlightedIndex === index ? 'primary.400' : undefined
-								}
-								color={highlightedIndex === index ? 'gray.50' : 'gray.700'}
-								cursor="pointer"
-								{...getItemProps({ item: repo, index })}
-							>
-								<Text px={2}>{repo.full_name}</Text>
-							</ListItem>
-						))}
-					</>
-				)}
-			</List>
-		</FormControl>
+					<Combobox.IndicatorGroup>
+						{combobox.inputValue.length > 0 && <Combobox.ClearTrigger />}
+						<Combobox.Trigger>
+							<Icon color="brand.fg">
+								{isOpen ? <HiArrowUp /> : <HiArrowDown />}
+							</Icon>
+						</Combobox.Trigger>
+					</Combobox.IndicatorGroup>
+				</Combobox.Control>
+
+				<Portal>
+					<Combobox.Positioner>
+						<Combobox.Content minW="xs">
+							{contentStatus === 'loading' && (
+								<HStack p="2">
+									<Spinner size="xs" borderWidth="1px" />
+									<Span>Loading...</Span>
+								</HStack>
+							)}
+							{contentStatus === 'error' && (
+								<Span p="2" color="fg.error">
+									Error fetching
+								</Span>
+							)}
+							<Combobox.Empty>No repos found</Combobox.Empty>
+							{contentStatus === 'success' && (
+								<>
+									{totalCount > 0 && (
+										<Em px={3} color="fg.subtle">
+											{totalCount} results
+										</Em>
+									)}
+									{collection.items?.map((repo) => (
+										<Combobox.Item
+											key={repo.id}
+											item={repo}
+											bgColor={{
+												_highlighted: 'accent.muted',
+											}}
+										>
+											<Span fontWeight="medium">{repo.full_name}</Span>
+											<Combobox.ItemIndicator color="brand.fg" />
+										</Combobox.Item>
+									))}
+								</>
+							)}
+						</Combobox.Content>
+					</Combobox.Positioner>
+				</Portal>
+			</Combobox.RootProvider>
+		</Field.Root>
 	)
 }

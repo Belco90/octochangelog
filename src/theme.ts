@@ -5,7 +5,9 @@ import {
 	defineTokens,
 	defineSemanticTokens,
 	defineRecipe,
+	defineSlotRecipe,
 } from '@chakra-ui/react'
+import { fieldAnatomy } from '@chakra-ui/react/anatomy'
 
 function getSemanticColor(colorPalette: 'brand' | 'accent') {
 	return {
@@ -110,6 +112,10 @@ const semanticTokens = defineSemanticTokens({
 })
 
 const buttonRecipe = defineRecipe({
+	base: {
+		// Default properties for all buttons
+		fontWeight: 'bold',
+	},
 	variants: {
 		variant: {
 			cta: {
@@ -133,6 +139,14 @@ const buttonRecipe = defineRecipe({
 	},
 })
 
+/** Extend default field slot recipe */
+const fieldSlotRecipe = defineSlotRecipe({
+	slots: fieldAnatomy.keys(),
+	base: {
+		label: { fontSize: 'md', fontWeight: 'bold', color: 'fg.muted' },
+	},
+})
+
 const customConfig = defineConfig({
 	globalCss: {
 		'html, body': { height: 'full' },
@@ -146,6 +160,7 @@ const customConfig = defineConfig({
 		tokens,
 		semanticTokens,
 		recipes: { button: buttonRecipe },
+		slotRecipes: { field: fieldSlotRecipe },
 	},
 })
 

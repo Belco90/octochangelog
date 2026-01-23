@@ -1,4 +1,4 @@
-import { Button, Icon } from '@chakra-ui/react-v2'
+import { Button, Icon } from '@chakra-ui/react'
 import { ClientOnly, useSearch } from '@tanstack/react-router'
 import { createClientOnlyFn } from '@tanstack/react-start'
 import { DiGithubBadge } from 'react-icons/di'
@@ -41,13 +41,11 @@ export function GitHubLoginButtonInner({
 	}
 
 	return (
-		<Button
-			bg="gray.700"
-			color="white"
-			_hover={{ bg: 'gray.900' }}
-			onClick={handleClick}
-		>
-			{children} <Icon as={DiGithubBadge} ml={2} boxSize={6} />
+		<Button onClick={handleClick}>
+			{children}{' '}
+			<Icon size="lg">
+				<DiGithubBadge />
+			</Icon>
 		</Button>
 	)
 }
