@@ -43,6 +43,7 @@ export const ReleaseVersionField = ({
 			<NativeSelect.Root size={{ base: 'md', md: 'lg' }} colorPalette="accent">
 				<NativeSelect.Field
 					{...remainingProps}
+					id={id}
 					value={value}
 					onChange={handleChange}
 					placeholder={isLoading ? 'Loading...' : placeholder}

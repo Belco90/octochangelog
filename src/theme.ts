@@ -105,6 +105,12 @@ const semanticTokens = defineSemanticTokens({
 			description: 'Main custom shadow',
 			value: {
 				base: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+			},
+		},
+		cta: {
+			description: 'CTA button shadow',
+			value: {
+				base: '0px 4px 4px rgba(0, 0, 0, 0.25)',
 				_active: '0px 2px 2px rgba(0, 0, 0, 0.25) !important',
 			},
 		},
@@ -124,7 +130,7 @@ const buttonRecipe = defineRecipe({
 				letterSpacing: 'tight',
 				py: '5',
 				px: '4',
-				boxShadow: 'main',
+				boxShadow: 'cta',
 				borderRadius: '2xl',
 				bgColor: { base: 'brand.900', _dark: 'brand.200' },
 				color: { base: 'brand.50', _dark: 'brand.900' },
