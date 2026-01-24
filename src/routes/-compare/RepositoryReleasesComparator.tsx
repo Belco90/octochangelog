@@ -22,9 +22,9 @@ export const RepositoryReleasesComparator = () => {
 				<Container maxWidth="2xl">
 					<Bleed inline={{ md: '10' }}>
 						<Box
+							bgColor="bg"
 							rounded={{ md: '2xl' }}
 							padding={{ md: '10' }}
-							bgColor={{ md: 'bg.subtle' }}
 							shadow={{ md: 'main' }}
 						>
 							<RepositoriesComparatorFilters />
