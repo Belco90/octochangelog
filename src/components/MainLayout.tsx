@@ -8,7 +8,7 @@ export function MainLayout({ children }: PropsWithRequiredChildren) {
 	return (
 		<Flex height="full" direction="column">
 			<Header />
-			<Box as="main" flex="1 0 auto">
+			<Box as="main" flex="1 0 auto" bgColor="bg.subtle">
 				{children}
 			</Box>
 			<Footer />

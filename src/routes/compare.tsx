@@ -66,12 +66,7 @@ export const Route = createFileRoute('/compare')({
 
 function CompareLayout({ children }: PropsWithRequiredChildren) {
 	return (
-		<Box
-			height="full"
-			width="full"
-			py={{ base: 4, md: 10 }}
-			bgColor="bg.subtle"
-		>
+		<Box height="full" width="full" py={{ base: 4, md: 10 }}>
 			<Container maxWidth="2xl">
 				<Heading
 					as="h1"
