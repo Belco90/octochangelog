@@ -105,6 +105,7 @@ const semanticTokens = defineSemanticTokens({
 			description: 'Main custom shadow',
 			value: {
 				base: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+				_dark: '0px 4px 4px {colors.brand.950/25}',
 			},
 		},
 		cta: {
