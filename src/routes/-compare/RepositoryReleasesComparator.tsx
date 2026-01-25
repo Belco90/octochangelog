@@ -1,6 +1,14 @@
-import { Box, Container, Separator, Flex, Bleed } from '@chakra-ui/react'
+import {
+	Box,
+	Container,
+	Separator,
+	Flex,
+	Bleed,
+	EmptyState,
+} from '@chakra-ui/react'
 import { ClientOnly } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
+import { HiOutlineFunnel } from 'react-icons/hi2'
 
 import { AuthMessageSection } from './AuthMessageSection'
 import { RepositoriesComparatorFilters } from './RepositoriesComparatorFilters'
@@ -17,7 +25,7 @@ export const RepositoryReleasesComparator = () => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 
 	return (
-		<Flex direction="column" height="full">
+		<Flex direction="column" height="full" pb={10}>
 			<Box py={{ base: 4, md: 8 }}>
 				<Container maxWidth="2xl">
 					<Bleed inline={{ md: '10' }}>
@@ -35,15 +43,22 @@ export const RepositoryReleasesComparator = () => {
 
 			<Separator hideFrom="md" />
 
-			<Box pt={2} flex="1 0 auto">
-				{repository && (
-					<>
-						<RepositoryReleasesChangelogHeading
-							repository={repository}
-							fromVersion={fromVersion ?? undefined}
-							toVersion={toVersion ?? undefined}
-						/>
-						<Container maxWidth="2xl">
+			<Flex
+				pt={2}
+				flex="1 1 0%"
+				direction="column"
+				bgColor="bg.subtle"
+				height="full"
+				justifyContent="space-between"
+			>
+				<Container maxWidth="2xl">
+					{repository ? (
+						<>
+							<RepositoryReleasesChangelogHeading
+								repository={repository}
+								fromVersion={fromVersion ?? undefined}
+								toVersion={toVersion ?? undefined}
+							/>
 							<Suspense>
 								<RepositoryReleasesChangelog
 									repository={repository}
@@ -51,14 +66,28 @@ export const RepositoryReleasesComparator = () => {
 									toVersion={toVersion ?? undefined}
 								/>
 							</Suspense>
-						</Container>
-					</>
-				)}
+						</>
+					) : (
+						<EmptyState.Root size="sm">
+							<EmptyState.Content textAlign="center">
+								<EmptyState.Indicator>
+									<HiOutlineFunnel />
+								</EmptyState.Indicator>
+								<EmptyState.Description>
+									You will see the changelog here after you fill out the
+									filters.
+								</EmptyState.Description>
+							</EmptyState.Content>
+						</EmptyState.Root>
+					)}
+				</Container>
 
-				<ClientOnly fallback={null}>
-					<AuthMessageSection />
-				</ClientOnly>
-			</Box>
+				<Container maxWidth="2xl">
+					<ClientOnly fallback={null}>
+						<AuthMessageSection />
+					</ClientOnly>
+				</Container>
+			</Flex>
 		</Flex>
 	)
 }

@@ -43,7 +43,7 @@ export function GitHubLoginButtonInner({
 	return (
 		<Button onClick={handleClick}>
 			{children}{' '}
-			<Icon size="lg">
+			<Icon size="xl">
 				<DiGithubBadge />
 			</Icon>
 		</Button>

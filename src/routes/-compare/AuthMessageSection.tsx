@@ -1,5 +1,6 @@
-import { Container, Flex, Text } from '@chakra-ui/react-v2'
+import { Text, Alert, VStack } from '@chakra-ui/react'
 
+import { SITE_TITLE } from '@/common'
 import { GitHubLoginButton } from '@/components/GitHubLoginButton'
 import { getIsAuth } from '@/github-auth'
 
@@ -11,14 +12,15 @@ export const AuthMessageSection = () => {
 	}
 
 	return (
-		<Container variant="fluid" pb={2}>
-			<Flex alignItems="center" flexDirection="column">
-				<Text mb={4}>
-					You can increase the max number of allowed requests to GitHub by
-					authorizing the app.
-				</Text>
-				<GitHubLoginButton />
-			</Flex>
-		</Container>
+		<Alert.Root colorPalette="accent">
+			<Alert.Description w="full">
+				<VStack gap={4} alignItems="center" textAlign="center">
+					<Text>
+						Authorize {SITE_TITLE} to increase the maximum number of requests.
+					</Text>
+					<GitHubLoginButton />
+				</VStack>
+			</Alert.Description>
+		</Alert.Root>
 	)
 }
