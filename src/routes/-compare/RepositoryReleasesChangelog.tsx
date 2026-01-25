@@ -5,7 +5,7 @@ import {
 	CircularProgress,
 	Flex,
 	Skeleton,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import { useQuery } from '@tanstack/react-query'
 
 import { TextSkeleton } from '@/components/TextSkeleton'

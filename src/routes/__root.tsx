@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
@@ -8,8 +7,8 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { AllProviders } from '@/components/Providers'
-import { customTheme } from '@/custom-theme'
+import { ChakraThemeProvider } from '@/components/snippets/theme-provider'
+import { customTheme } from '@/deprecated-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
@@ -97,16 +96,14 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<HeadContent />
 			</head>
 			<body>
-				<ColorModeScript
-					initialColorMode={customTheme.config.initialColorMode}
-				/>
 				<div data-happo-hide>
 					<ReactQueryDevtools buttonPosition="bottom-left" />
 				</div>
 
-				<AllProviders>
+				<ChakraThemeProvider>
 					<MainLayout>{children}</MainLayout>
-				</AllProviders>
+				</ChakraThemeProvider>
+
 				<Scripts />
 			</body>
 		</html>

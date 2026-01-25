@@ -1,4 +1,4 @@
-import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
+import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react-v2'
 
 import { TextSkeleton } from '@/components/TextSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'

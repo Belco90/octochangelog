@@ -6,7 +6,7 @@ import { DiGithubBadge } from 'react-icons/di'
 import { AUTH_REDIRECT_STORAGE_KEY } from '@/common'
 import { getGitHubAuthUrl } from '@/github-auth'
 
-import type { ButtonProps } from '@chakra-ui/react'
+import type { ButtonProps } from '@chakra-ui/react-v2'
 import type { PropsWithChildren } from 'react'
 
 type GitHubLoginButtonProps = PropsWithChildren
@@ -41,13 +41,11 @@ export function GitHubLoginButtonInner({
 	}
 
 	return (
-		<Button
-			bg="gray.700"
-			color="white"
-			_hover={{ bg: 'gray.900' }}
-			onClick={handleClick}
-		>
-			{children} <Icon as={DiGithubBadge} ml={2} boxSize={6} />
+		<Button onClick={handleClick}>
+			{children}{' '}
+			<Icon size="xl">
+				<DiGithubBadge />
+			</Icon>
 		</Button>
 	)
 }

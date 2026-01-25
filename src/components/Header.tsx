@@ -1,105 +1,71 @@
-import {
-	Box,
-	Flex,
-	Container,
-	Heading,
-	HStack,
-	Icon,
-	Link,
-} from '@chakra-ui/react'
+import { Box, Flex, Text, HStack, Icon, IconButton } from '@chakra-ui/react'
 import { DiGithubBadge } from 'react-icons/di'
 
 import { REPO_URL } from '@/common'
+import { Link } from '@/components/Link'
 import { OptimizedImage } from '@/components/OptimizedImage'
 import { RouteLink } from '@/components/RouteLink'
-import { ToggleColorModeButton } from '@/components/ToggleColorModeButton'
+import { ColorModeButton } from '@/components/snippets/color-mode'
 import mascotLogo from '@/images/mascot-logo.png'
 
 import type { BoxProps } from '@chakra-ui/react'
 
-const LOGO_SIZES = { base: 8, md: 16 }
+const LOGO_SIZES = { base: 8, md: 10 }
 
 export const Header = (props: BoxProps) => {
 	return (
 		<Box
-			as="header"
-			zIndex="banner"
 			{...props}
-			borderTopWidth={{ base: '4px', md: '8px' }}
-			borderColor="primary.700"
-			bgColor="background2"
+			as="header"
+			borderBottomWidth={1}
+			borderColor="brand.emphasized"
 		>
-			<Container
-				maxWidth="full"
-				py={{ base: 1, lg: 4 }}
-				px={{ base: 4, lg: 5 }}
-			>
+			<Box px={2} py={1}>
 				<Flex justify="space-between" alignItems="center">
-					<Flex alignItems="center">
+					<Flex align="center">
 						<RouteLink
 							to="/"
-							textDecorationLine="underline"
-							textDecorationThickness="4px"
-							textUnderlineOffset="2px"
-							textDecorationColor="transparent"
-							_hover={{
-								textDecorationColor: 'primary.700',
-							}}
-							_focus={{
-								boxShadow: 'outline',
-								textDecorationColor: 'primary.700',
-							}}
-							_active={{
-								textDecorationColor: 'primary.900',
-							}}
+							textDecorationThickness={4}
+							textDecorationColor="brand.solid"
 						>
-							<HStack spacing={{ base: 1, lg: 2 }}>
-								<Box h={LOGO_SIZES} w={LOGO_SIZES}>
+							<HStack gap={{ base: 1, lg: 2 }}>
+								<Box boxSize={LOGO_SIZES}>
 									<OptimizedImage
 										src={mascotLogo}
 										alt=""
-										height={70}
-										width={70}
+										height={50}
+										width={50}
 										priority
 									/>
 								</Box>
-								<Heading
-									as="h1"
-									color="primaryText"
+								<Text
+									as="span"
 									letterSpacing="tight"
 									fontWeight="black"
-									fontSize={{ base: '16px', md: '36px' }}
+									fontSize={{ base: 20, md: 28 }}
 								>
 									Octochangelog
-								</Heading>
+								</Text>
 							</HStack>
 						</RouteLink>
 					</Flex>
-					<HStack spacing={{ base: 4, md: 10 }}>
-						{import.meta.env.VITE_FEATURE_FLAG_DARK_MODE === 'enabled' && (
-							<ToggleColorModeButton
-								boxSize={LOGO_SIZES}
-								minWidth={LOGO_SIZES}
-							/>
-						)}
-						<Link
-							href={REPO_URL}
-							aria-label="Octochangelog repository on GitHub"
-							isExternal
-							rounded="full"
-							boxSize={LOGO_SIZES}
-							_hover={{ bgColor: 'monochromeInverted4' }}
-							_active={{ bgColor: 'monochromeInverted5' }}
-						>
-							<Icon
-								as={DiGithubBadge}
-								boxSize={LOGO_SIZES}
-								color="monochrome1"
-							/>
-						</Link>
+
+					<HStack gap={{ base: 1, md: 4 }}>
+						<IconButton asChild variant="ghost" rounded="full">
+							<Link
+								href={REPO_URL}
+								aria-label="Check repo on GitHub"
+								isExternal
+							>
+								<Icon boxSize={LOGO_SIZES}>
+									<DiGithubBadge />
+								</Icon>
+							</Link>
+						</IconButton>
+						<ColorModeButton rounded="full" boxSize={LOGO_SIZES} />
 					</HStack>
 				</Flex>
-			</Container>
+			</Box>
 		</Box>
 	)
 }

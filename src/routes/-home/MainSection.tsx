@@ -1,45 +1,69 @@
-import { Button, Center, Flex, Heading, Stack } from '@chakra-ui/react'
-import { Link as TanStackLink } from '@tanstack/react-router'
+import { Heading, Stack, VStack, Button } from '@chakra-ui/react'
 
-import { BRIEF_DESCRIPTION } from '@/common'
+import { BRIEF_DESCRIPTION, SITE_TITLE } from '@/common'
 import { OptimizedImage } from '@/components/OptimizedImage'
+import { RouteLink } from '@/components/RouteLink'
 import mascotLogo from '@/images/mascot-logo.png'
 
 export function MainSection() {
 	return (
 		<Stack
 			alignItems="center"
-			justifyContent="center"
-			direction={{ base: 'column-reverse', lg: 'row' }}
-			spacing={{ base: 10, lg: 1 }}
+			gap={8}
+			direction={{ base: 'column', xl: 'row' }}
 		>
-			<Stack alignItems={{ base: 'center', lg: 'start' }} spacing="24">
+			<OptimizedImage
+				src={mascotLogo}
+				alt=""
+				width={500}
+				height={500}
+				priority
+			/>
+			<VStack gap={8} alignItems={{ base: 'center', xl: 'start' }}>
+				<Heading
+					as="h1"
+					fontSize={{ base: '5xl', md: '7xl' }}
+					fontWeight="black"
+					letterSpacing="tighter"
+				>
+					{SITE_TITLE}
+				</Heading>
 				<Heading
 					as="h2"
-					color="primaryText"
-					fontSize={{ base: '3xl', md: '5xl' }}
-					fontWeight="black"
-					textAlign={{ base: 'center', lg: 'left' }}
-					letterSpacing="tight"
-					px={{ base: 12, lg: 0 }}
+					color="fg.muted"
+					fontSize={{ base: '2xl', md: '4xl' }}
+					fontWeight="extrabold"
+					textAlign={{ base: 'center', lg: 'start' }}
+					pr={{ base: 0, lg: 4 }}
+					lineHeight="shorter"
 				>
-					{BRIEF_DESCRIPTION}.
+					{BRIEF_DESCRIPTION}
 				</Heading>
-				<Flex justify="center" align="center">
-					<Button as={TanStackLink} variant="cta" to="/compare">
-						Try me now!
+				<Stack
+					direction={{ base: 'column', md: 'row' }}
+					alignItems="center"
+					gap={2}
+				>
+					<Button variant="cta" asChild>
+						<RouteLink to="/compare" textDecoration="none">
+							Compare changelogs
+						</RouteLink>
 					</Button>
-				</Flex>
-			</Stack>
-			<Center width="full">
-				<OptimizedImage
-					src={mascotLogo}
-					alt=""
-					width={500}
-					height={500}
-					priority
-				/>
-			</Center>
+					<Button variant="plain" colorPalette="accent" size="lg" asChild>
+						<RouteLink
+							to="/compare"
+							textDecoration="none"
+							search={{
+								repo: 'testing-library/eslint-plugin-testing-library',
+								from: 'v6.5.0',
+								to: 'latest',
+							}}
+						>
+							See example
+						</RouteLink>
+					</Button>
+				</Stack>
+			</VStack>
 		</Stack>
 	)
 }

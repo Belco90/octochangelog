@@ -39,11 +39,5 @@
 			matchPackageNames: ["pnpm"],
 			extends: ["schedule:monthly"],
 		},
-		{
-			// TODO: Remove once Chakra UI updates to v3
-			description: "Disable updates for Chakra UI packages",
-			enabled: false,
-			matchPackageNames: ["^@chakra-ui/"],
-		},
 	],
 }

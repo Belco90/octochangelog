@@ -5,7 +5,7 @@ import {
 	Stack,
 	Text,
 	VStack,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react-v2'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { useEffect } from 'react'
 

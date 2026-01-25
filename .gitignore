@@ -11,6 +11,7 @@ test-report.junit.xml
 
 # bundle
 dist/
+.tanstack
 
 # misc
 .DS_Store

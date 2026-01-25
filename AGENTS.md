@@ -11,6 +11,7 @@ Run `pnpm install` to setup. Corepack automatically manages the pnpm version.
 ## Quick Reference
 
 - **Development**: See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
+- **UI/Styling**: See [docs/CHAKRA-V3.md](docs/CHAKRA-V3.md)
 - **Testing**: See [docs/TESTING.md](docs/TESTING.md)
 - **Code Style**: See [docs/CODE_STYLE.md](docs/CODE_STYLE.md)
 - **Architecture**: See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
