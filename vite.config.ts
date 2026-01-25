@@ -1,5 +1,5 @@
 import netlify from '@netlify/vite-plugin-tanstack-start'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { sentryTanstackStart } from '@sentry/tanstackstart-react'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import { playwright } from '@vitest/browser-playwright'
@@ -30,7 +30,31 @@ export default defineConfig({
 	},
 
 	plugins: [
+		// TS custom paths must be always first
 		tsconfigPaths(),
+
+		// Enable only when hosted:
+		//  - Netlify adapter for TanStack Start (anywhere in the array is fine)
+		//  - Sentry TanStack Start plugin, necessary for uploading sourcemaps.
+		...(isHosted
+			? [
+					netlify(),
+					sentryTanstackStart({
+						org: 'octochangelog-eu',
+						project: 'octochangelog-webapp',
+						authToken: process.env.SENTRY_AUTH_TOKEN,
+						sourcemaps: {
+							// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
+							filesToDeleteAfterUpload: [
+								'./**/*.map',
+								'.*/**/public/**/*.map',
+								'./dist/**/client/**/*.map',
+							],
+						},
+					}),
+				]
+			: []),
+
 		tanstackStart({
 			prerender: {
 				enabled: isHosted,
@@ -46,28 +70,6 @@ export default defineConfig({
 
 		// React's vite plugin must come after Start's vite plugin
 		viteReact(),
-
-		// Enable only when hosted:
-		//  - Netlify adapter for TanStack Start (anywhere in the array is fine)
-		//  - Sentry Vite plugin after all other plugins. Necessary for uploading sourcemaps.
-		...(isHosted
-			? [
-					netlify(),
-					sentryVitePlugin({
-						org: 'octochangelog-eu',
-						project: 'octochangelog-webapp',
-						authToken: process.env.SENTRY_AUTH_TOKEN,
-						sourcemaps: {
-							// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
-							filesToDeleteAfterUpload: [
-								'./**/*.map',
-								'.*/**/public/**/*.map',
-								'./dist/**/client/**/*.map',
-							],
-						},
-					}),
-				]
-			: []),
 	],
 
 	test: {

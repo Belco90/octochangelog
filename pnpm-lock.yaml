@@ -126,9 +126,6 @@ importers:
       '@playwright/test':
         specifier: 1.57.0
         version: 1.57.0
-      '@sentry/vite-plugin':
-        specifier: 4.6.2
-        version: 4.6.2
       '@stylistic/eslint-plugin':
         specifier: 5.7.0
         version: 5.7.0(eslint@9.39.2(jiti@2.6.1))
