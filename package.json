@@ -70,7 +70,7 @@
 		"@chakra-ui/theme-tools": "2.2.6",
 		"@chakra-ui/utils": "2.2.2",
 		"@currents/playwright": "1.20.2",
-		"@eslint-react/eslint-plugin": "2.7.1",
+		"@eslint-react/eslint-plugin": "2.7.2",
 		"@eslint/compat": "2.0.1",
 		"@eslint/js": "9.39.2",
 		"@netlify/vite-plugin-tanstack-start": "1.2.6",
