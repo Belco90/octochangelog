@@ -18,11 +18,6 @@ export default defineConfig({
 		port: 3000,
 	},
 
-	build: {
-		// Generate sourcemaps for Sentry
-		sourcemap: 'hidden',
-	},
-
 	optimizeDeps: {
 		// Exclude msw to avoid bundling it in the client bundle,
 		// and prevent deps optimization errors because of "ClientRequest" in @mswjs/interceptors
@@ -40,17 +35,9 @@ export default defineConfig({
 			? [
 					netlify(),
 					sentryTanstackStart({
+						authToken: process.env.SENTRY_AUTH_TOKEN,
 						org: 'octochangelog-eu',
 						project: 'octochangelog-webapp',
-						authToken: process.env.SENTRY_AUTH_TOKEN,
-						sourcemaps: {
-							// Delete sourcemaps after they are uploaded to Sentry, preventing sensitive data to be leaked.
-							filesToDeleteAfterUpload: [
-								'./**/*.map',
-								'.*/**/public/**/*.map',
-								'./dist/**/client/**/*.map',
-							],
-						},
 					}),
 				]
 			: []),
