@@ -10,12 +10,13 @@ import type { Except } from 'type-fest'
 
 type CustomProps = {
 	label: string
+	onChange(version: string): void
 	placeholder?: string
 	value?: string
 	isLoading?: boolean
 	isDisabled?: boolean
 	options?: Array<MinimalRelease>
-	onChange(version: string): void
+	error?: string
 }
 
 type ReleaseVersionFieldProps = CustomProps &
@@ -30,14 +31,17 @@ export const ReleaseVersionField = ({
 	value,
 	isLoading = false,
 	isDisabled = false,
+	error,
 	...remainingProps
 }: ReleaseVersionFieldProps) => {
 	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		onChange(e.currentTarget.value)
 	}
 
+	const hasError = Boolean(error)
+
 	return (
-		<Field.Root disabled={isDisabled} gap="1">
+		<Field.Root disabled={isDisabled} gap="1" invalid={hasError}>
 			<Field.Label htmlFor={id}>{label}</Field.Label>
 
 			<NativeSelect.Root size={{ base: 'md', md: 'lg' }} colorPalette="accent">
@@ -65,6 +69,8 @@ export const ReleaseVersionField = ({
 					</Icon>
 				</NativeSelect.Indicator>
 			</NativeSelect.Root>
+
+			<Field.ErrorText>{error}</Field.ErrorText>
 		</Field.Root>
 	)
 }

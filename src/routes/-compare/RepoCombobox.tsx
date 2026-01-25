@@ -83,7 +83,7 @@ export const RepoCombobox = ({
 					<Combobox.Content minW="xs">
 						{contentStatus === 'loading' && (
 							<HStack p="2">
-								<Spinner size="xs" borderWidth="1px" />
+								<Spinner size="sm" borderWidth="2px" color="brand.fg" />
 								<Span>Loading...</Span>
 							</HStack>
 						)}
@@ -92,7 +92,11 @@ export const RepoCombobox = ({
 								Error fetching
 							</Span>
 						)}
-						<Combobox.Empty>No repos found</Combobox.Empty>
+						<Combobox.Empty
+							display={contentStatus === 'loading' ? 'none' : undefined}
+						>
+							No repos found
+						</Combobox.Empty>
 						{contentStatus === 'success' && (
 							<>
 								{totalCount > 0 && (

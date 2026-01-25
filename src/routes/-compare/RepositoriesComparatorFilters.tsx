@@ -9,6 +9,8 @@ import { compareReleasesByVersion, getReleaseVersion } from '@/utils'
 import { RepoCombobox } from './RepoCombobox'
 import { useComparatorState, useComparatorUpdater } from './comparator-context'
 
+const NO_VERSIONS_FOUND = 'No versions found'
+
 function mapReleasesRange(
 	releases?: Array<MinimalRelease>,
 ): [Array<MinimalRelease>, Array<MinimalRelease>] {
@@ -36,9 +38,8 @@ function mapReleasesRange(
 	return [fromReleases, toReleases]
 }
 
-function getVersionPlaceholder(hasRepo: boolean, hasReleases: boolean) {
+function getVersionPlaceholder(hasRepo: boolean) {
 	if (!hasRepo) return 'Pick a repository first'
-	if (!hasReleases) return 'No versions found'
 	return 'Choose a release'
 }
 
@@ -56,10 +57,10 @@ export const RepositoriesComparatorFilters = () => {
 
 	const [fromReleases, toReleases] = mapReleasesRange(releases)
 
-	const selectPlaceholder = getVersionPlaceholder(
-		repository != null,
-		releases != null && releases.length > 0,
-	)
+	const hasRepo = repository != null
+	const hasReleases = releases != null && releases.length > 0
+	const selectPlaceholder = getVersionPlaceholder(hasRepo)
+	const isVersionError = hasRepo && !isFetching && !hasReleases
 
 	return (
 		<VStack gap={{ base: 4, md: 6 }}>
@@ -76,22 +77,24 @@ export const RepositoriesComparatorFilters = () => {
 				<ReleaseVersionField
 					label="From version"
 					id="from-version"
-					isDisabled={!releases || isFetching}
+					isDisabled={!hasReleases || isFetching}
 					isLoading={isFetching}
 					placeholder={selectPlaceholder}
 					options={fromReleases}
 					value={fromVersion ?? undefined}
 					onChange={setFromVersion}
+					error={isVersionError ? NO_VERSIONS_FOUND : undefined}
 				/>
 				<ReleaseVersionField
 					label="To version"
 					id="to-version"
-					isDisabled={!releases || isFetching}
+					isDisabled={!hasReleases || isFetching}
 					isLoading={isFetching}
 					placeholder={selectPlaceholder}
 					options={toReleases}
 					value={toVersion ?? undefined}
 					onChange={setToVersion}
+					error={isVersionError ? NO_VERSIONS_FOUND : undefined}
 				/>
 			</Stack>
 		</VStack>
