@@ -106,8 +106,8 @@ importers:
         specifier: 2.2.2
         version: 2.2.2(react@19.2.3)
       '@currents/playwright':
-        specifier: 1.20.2
-        version: 1.20.2
+        specifier: 1.21.0
+        version: 1.21.0
       '@eslint-react/eslint-plugin':
         specifier: 2.7.2
         version: 2.7.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -424,8 +424,8 @@ packages:
     resolution: {integrity: sha512-gkn8E3UC+F4/fCla7QAGMGgGPzxZUL9bU9+4I+KZf9PtCU3DdQCdy7a+er2eg4ewfUzZ2Ic1HcfnHuPkuLPKIw==}
     engines: {node: '>=6'}
 
-  '@currents/playwright@1.20.2':
-    resolution: {integrity: sha512-YV+xeceMlOeUxfYCf2vAgYLi5L3wbtFDKWuOHXlEwyYKPAJOFpbl66S+RE3oi9Atv0+v4MBRKolZKl7TTnt0Eg==}
+  '@currents/playwright@1.21.0':
+    resolution: {integrity: sha512-kYUyPDN1OG0SB3ZKAZjFeeN+sSsxF88mHm03jbO3WEEwgPYXp/TZ7G0MO+GleFeQIj293IrgRTKrMKJ8/6fIQw==}
     hasBin: true
 
   '@dabh/diagnostics@2.0.8':
@@ -7166,7 +7166,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@currents/playwright@1.20.2':
+  '@currents/playwright@1.21.0':
     dependencies:
       '@babel/code-frame': 7.28.6
       '@commander-js/extra-typings': 12.1.0(commander@12.1.0)
