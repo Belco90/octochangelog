@@ -38,6 +38,7 @@ export default defineConfig({
 						authToken: process.env.SENTRY_AUTH_TOKEN,
 						org: 'octochangelog-eu',
 						project: 'octochangelog-webapp',
+						debug: true,
 					}),
 				]
 			: []),
