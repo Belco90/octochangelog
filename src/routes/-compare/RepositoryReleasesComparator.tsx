@@ -12,7 +12,6 @@ import { HiOutlineFunnel } from 'react-icons/hi2'
 
 import { AuthMessageSection } from './AuthMessageSection'
 import { RepositoriesComparatorFilters } from './RepositoriesComparatorFilters'
-import { RepositoryReleasesChangelogHeading } from './RepositoryReleasesChangelogHeading'
 import { useComparatorState } from './comparator-context'
 
 const RepositoryReleasesChangelog = lazy(() =>
@@ -53,20 +52,13 @@ export const RepositoryReleasesComparator = () => {
 			>
 				<Container maxWidth="2xl">
 					{repository ? (
-						<>
-							<RepositoryReleasesChangelogHeading
+						<Suspense>
+							<RepositoryReleasesChangelog
 								repository={repository}
 								fromVersion={fromVersion ?? undefined}
 								toVersion={toVersion ?? undefined}
 							/>
-							<Suspense>
-								<RepositoryReleasesChangelog
-									repository={repository}
-									fromVersion={fromVersion ?? undefined}
-									toVersion={toVersion ?? undefined}
-								/>
-							</Suspense>
-						</>
+						</Suspense>
 					) : (
 						<EmptyState.Root size="sm">
 							<EmptyState.Content textAlign="center">
