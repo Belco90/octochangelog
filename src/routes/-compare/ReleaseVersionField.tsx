@@ -44,7 +44,7 @@ export const ReleaseVersionField = ({
 		<Field.Root disabled={isDisabled} gap="1" invalid={hasError}>
 			<Field.Label htmlFor={id}>{label}</Field.Label>
 
-			<NativeSelect.Root size={{ base: 'md', md: 'lg' }} colorPalette="accent">
+			<NativeSelect.Root size="lg" colorPalette="accent">
 				<NativeSelect.Field
 					{...remainingProps}
 					id={id}

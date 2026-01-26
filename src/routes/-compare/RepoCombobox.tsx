@@ -29,11 +29,7 @@ export const RepoCombobox = ({
 		})
 
 	return (
-		<Combobox.RootProvider
-			value={combobox}
-			size={{ base: 'md', md: 'lg' }}
-			colorPalette="accent"
-		>
+		<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
 			<Combobox.Label fontSize="md" fontWeight="bold" color="fg.muted">
 				Repository
 			</Combobox.Label>
