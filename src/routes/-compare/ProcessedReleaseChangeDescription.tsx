@@ -1,3 +1,4 @@
+import { SkeletonText } from '@chakra-ui/react'
 import {
 	Box,
 	Code,
@@ -13,7 +14,6 @@ import {
 import { HiOutlineExternalLink } from 'react-icons/hi'
 
 import { SimpleBlockquote } from '@/components/SimpleBlockquote'
-import { TextSkeleton } from '@/components/TextSkeleton'
 import { useProcessDescriptionMdast } from '@/hooks/useProcessDescriptionMdast'
 import type { ProcessedRelease, MinimalRepository } from '@/models'
 import { getReleaseVersion } from '@/utils'
@@ -127,7 +127,7 @@ export const ProcessedReleaseChangeDescription = ({
 	return (
 		<Box {...rest} mb={8}>
 			{isProcessing ? (
-				<TextSkeleton />
+				<SkeletonText noOfLines={3} />
 			) : (
 				<>
 					<Link isExternal href={processedReleaseChange.html_url}>

@@ -1,6 +1,6 @@
-import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react-v2'
+import { Box, Heading, Stack } from '@chakra-ui/react-v2'
 
-import { TextSkeleton } from '@/components/TextSkeleton'
+import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
 import type {
 	MinimalRelease,
@@ -100,12 +100,7 @@ export const ComparatorChangelogResults = ({
 		: []
 
 	if (isProcessing) {
-		return (
-			<>
-				<Skeleton width="20%" height={8} mb={4} />
-				<TextSkeleton />
-			</>
-		)
+		return <ChangelogSkeleton />
 	}
 
 	if (!processedReleases || Object.keys(processedReleases).length === 0) {

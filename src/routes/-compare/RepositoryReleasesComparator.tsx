@@ -51,14 +51,16 @@ export const RepositoryReleasesComparator = () => {
 				justifyContent="space-between"
 			>
 				<Container maxWidth="2xl">
-					{repository ? (
-						<Suspense>
-							<RepositoryReleasesChangelog
-								repository={repository}
-								fromVersion={fromVersion ?? undefined}
-								toVersion={toVersion ?? undefined}
-							/>
-						</Suspense>
+					{repository && fromVersion && toVersion ? (
+						<Box mt={2}>
+							<Suspense>
+								<RepositoryReleasesChangelog
+									repository={repository}
+									fromVersion={fromVersion}
+									toVersion={toVersion}
+								/>
+							</Suspense>
+						</Box>
 					) : (
 						<EmptyState.Root size="sm">
 							<EmptyState.Content textAlign="center">
