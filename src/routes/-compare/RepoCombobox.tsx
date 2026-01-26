@@ -8,8 +8,14 @@ import {
 	Flex,
 	Icon,
 } from '@chakra-ui/react'
-import { HiArrowDown, HiArrowUp, HiOutlineSearch } from 'react-icons/hi'
+import {
+	HiArrowDown,
+	HiArrowUp,
+	HiOutlineExternalLink,
+	HiOutlineSearch,
+} from 'react-icons/hi'
 
+import { Link } from '@/components/Link'
 import { useRepoCombobox } from '@/hooks/useRepoCombobox'
 import type { FullRepository } from '@/models'
 
@@ -28,13 +34,24 @@ export const RepoCombobox = ({
 			onSelect,
 		})
 
+	const selectedRepoFullName = combobox.valueAsString
+
 	return (
 		<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
-			<Flex>
+			<Flex alignItems="center" justifyContent="space-between">
 				<Combobox.Label fontSize="md" fontWeight="bold" color="fg.muted">
 					Repository
 				</Combobox.Label>
-				{/* TODO: display "link to the repo"*/}
+				{selectedRepoFullName && (
+					<Em fontSize="sm">
+						<Link
+							isExternal
+							href={`https://github.com/${selectedRepoFullName}`}
+						>
+							repo details <HiOutlineExternalLink />
+						</Link>
+					</Em>
+				)}
 			</Flex>
 			<Combobox.Control>
 				<Combobox.IndicatorGroup
