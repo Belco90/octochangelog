@@ -89,7 +89,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 
 function ComparePage() {
 	return (
-		<Box mt="4" height="full">
+		<Box mt={{ base: '2', md: '0' }} height="full">
 			<RepositoryReleasesComparator />
 		</Box>
 	)
