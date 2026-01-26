@@ -30,9 +30,12 @@ export const RepoCombobox = ({
 
 	return (
 		<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
-			<Combobox.Label fontSize="md" fontWeight="bold" color="fg.muted">
-				Repository
-			</Combobox.Label>
+			<Flex>
+				<Combobox.Label fontSize="md" fontWeight="bold" color="fg.muted">
+					Repository
+				</Combobox.Label>
+				{/* TODO: display "link to the repo"*/}
+			</Flex>
 			<Combobox.Control>
 				<Combobox.IndicatorGroup
 					insetInlineStart="0"
@@ -59,12 +62,14 @@ export const RepoCombobox = ({
 					placeholder="Type to search (at least 3 chars)"
 					fontWeight="medium"
 					rounded="2xl"
-					pl={{ base: '10', md: '12' }}
+					ps={{ base: '10', md: '12' }}
+					pe="16"
+					truncate
 					_focusVisible={{
 						borderColor: 'border',
 					}}
 				/>
-				<Combobox.IndicatorGroup>
+				<Combobox.IndicatorGroup paddingInline="3">
 					{combobox.inputValue.length > 0 && <Combobox.ClearTrigger />}
 					<Combobox.Trigger>
 						<Icon color="brand.fg">
