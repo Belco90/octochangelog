@@ -1,4 +1,4 @@
-import { Box, Heading, Stack } from '@chakra-ui/react-v2'
+import { Box, Heading, Stack } from '@chakra-ui/react'
 
 import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
@@ -108,7 +108,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack spacing={6}>
+		<Stack gap={6}>
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}
