@@ -1,16 +1,9 @@
-import {
-	Box,
-	Button,
-	Container,
-	Heading,
-	VStack,
-	EmptyState,
-} from '@chakra-ui/react'
+import { Box, Container, Heading } from '@chakra-ui/react'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { HiOutlineEmojiSad } from 'react-icons/hi'
 
+import { GenericError } from '@/components/GenericError'
 import type { CompareSearchParams, PropsWithRequiredChildren } from '@/models'
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { seo } from '@/seo'
@@ -109,24 +102,8 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 	}
 
 	return (
-		<EmptyState.Root size="lg">
-			<EmptyState.Content>
-				<EmptyState.Indicator>
-					<HiOutlineEmojiSad />
-				</EmptyState.Indicator>
-
-				<VStack textAlign="center">
-					<EmptyState.Title>Something went wrong!</EmptyState.Title>
-					<EmptyState.Description fontSize="lg">
-						Octochangelog could not process the releases changelogs to be
-						compared.
-					</EmptyState.Description>
-				</VStack>
-
-				<Button onClick={handleReset} colorPalette="brand">
-					Try again
-				</Button>
-			</EmptyState.Content>
-		</EmptyState.Root>
+		<GenericError error={error} reset={handleReset}>
+			Octochangelog could not process the releases changelogs to be compared.
+		</GenericError>
 	)
 }
