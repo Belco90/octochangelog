@@ -1,17 +1,13 @@
 import {
 	Alert,
-	AlertDescription,
-	AlertIcon,
-	AlertTitle,
+	Box,
 	Button,
-	Center,
 	Code,
 	Container,
 	Heading,
 	Spinner,
-	Text,
 	VStack,
-} from '@chakra-ui/react-v2'
+} from '@chakra-ui/react'
 import { createFileRoute, Link as TanStackLink } from '@tanstack/react-router'
 import { createClientOnlyFn, createServerFn } from '@tanstack/react-start'
 import { deleteCookie, setCookie } from '@tanstack/react-start/server'
@@ -93,15 +89,22 @@ export const Route = createFileRoute('/auth/callback')({
 function AuthLayout({ children }: PropsWithRequiredChildren) {
 	return (
 		<Container
-			maxWidth="container.lg"
-			pt={{ base: 4, md: 8 }}
+			maxWidth="2xl"
+			py={{ base: 4, md: 8 }}
 			height="full"
 			width="full"
 		>
-			<VStack width="full" gap={{ base: 4, md: 16 }}>
-				<Heading alignSelf="start">Authorizing on GitHub</Heading>
-				{children}
-			</VStack>
+			<Box width="full">
+				<Heading
+					as="h1"
+					fontSize={{ base: '3xl', md: '4xl' }}
+					fontWeight="black"
+					letterSpacing="tight"
+				>
+					Authorizing on GitHub
+				</Heading>
+				<Box mt={{ base: 4, md: 16 }}>{children}</Box>
+			</Box>
 		</Container>
 	)
 }
@@ -116,63 +119,60 @@ function AuthCallbackPage() {
 		: '/compare'
 
 	return (
-		<Alert
-			status="success"
-			variant="subtle"
-			py={12}
-			flexDirection="column"
-			alignItems="center"
-			justifyContent="center"
-			textAlign="center"
-		>
-			<AlertIcon boxSize="40px" />
-			<AlertTitle mt={4} mb={2} fontSize="lg">
-				Authorized successfully!
-			</AlertTitle>
-			<AlertDescription maxWidth="sm" mt={4}>
-				<Button as={TanStackLink} variant="cta" to={compareUrl} replace>
-					Back to compare
-				</Button>
-			</AlertDescription>
-		</Alert>
+		<Alert.Root status="success" variant="subtle">
+			<VStack w="full" alignItems="center">
+				<Alert.Indicator boxSize="10" />
+				<Alert.Content display="contents">
+					<Alert.Title>
+						<Heading fontWeight="black">Authorized successfully</Heading>
+					</Alert.Title>
+					<Alert.Description mt={4}>
+						<Button asChild variant="cta" fontSize="md" fontWeight="bold">
+							<TanStackLink to={compareUrl} replace>
+								Back to compare
+							</TanStackLink>
+						</Button>
+					</Alert.Description>
+				</Alert.Content>
+			</VStack>
+		</Alert.Root>
 	)
 }
 
 function AuthCallbackPending() {
 	return (
-		<Center>
-			<VStack>
-				<Spinner
-					thickness="4px"
-					speed="0.65s"
-					emptyColor="gray.200"
-					color="primary.500"
-					size="xl"
-				/>
-				<Text>Authorizing...</Text>
+		<Alert.Root status="info" variant="subtle">
+			<VStack w="full" alignItems="center">
+				<Alert.Indicator boxSize="10">
+					<Spinner size="lg" borderWidth="4px" />
+				</Alert.Indicator>
+				<Alert.Content display="contents">
+					<Alert.Title>
+						<Heading fontWeight="black">Authorizing...</Heading>
+					</Alert.Title>
+				</Alert.Content>
 			</VStack>
-		</Center>
+		</Alert.Root>
 	)
 }
 
-function AuthCallbackError({ error }: ErrorComponentProps) {
+function AuthCallbackError({ error, reset }: ErrorComponentProps) {
 	return (
-		<Alert
-			status="error"
-			variant="subtle"
-			flexDirection="column"
-			alignItems="center"
-			justifyContent="center"
-			textAlign="center"
-		>
-			<AlertIcon boxSize="40px" />
-			<AlertTitle mt={4} mb={2} fontSize="lg">
-				Something went wrong!
-			</AlertTitle>
-			<AlertDescription maxWidth="sm">
-				<Code>{error.message}</Code>
-				<Text mt={4}>Please try again.</Text>
-			</AlertDescription>
-		</Alert>
+		<Alert.Root status="error" variant="subtle">
+			<VStack w="full" alignItems="center">
+				<Alert.Indicator boxSize="10" />
+				<Alert.Content display="contents">
+					<Alert.Title>
+						<Heading fontWeight="black">Something went wrong!</Heading>
+					</Alert.Title>
+					<Alert.Description mt={4} display="contents">
+						<Code>{error.message}</Code>
+						<Button onClick={() => reset()} colorPalette="accent" mt={4}>
+							Try again
+						</Button>
+					</Alert.Description>
+				</Alert.Content>
+			</VStack>
+		</Alert.Root>
 	)
 }
