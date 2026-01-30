@@ -49,9 +49,9 @@ const ReleaseChangelogGroup = ({
 		<Box key={title}>
 			{shouldShowTitle && (
 				<Heading
-					as="h3"
+					as="h2"
 					size="xl"
-					bgColor="background3"
+					bgColor="bg.subtle"
 					mb={4}
 					py={4}
 					textTransform={textTransform}
