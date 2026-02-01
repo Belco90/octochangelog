@@ -57,5 +57,7 @@ test('should display the corresponding information', async ({
 
 	await page.getByRole('link', { name: /see example/i }).click()
 
-	await expect(page).toHaveURL('/compare')
+	await expect(page).toHaveURL(
+		'/compare?repo=testing-library%2Feslint-plugin-testing-library&from=v6.5.0&to=latest',
+	)
 })
