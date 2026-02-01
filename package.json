@@ -6,7 +6,7 @@
 		"pnpm": "^10.26.0"
 	},
 	"type": "module",
-	"packageManager": "pnpm@10.26.2",
+	"packageManager": "pnpm@10.28.2",
 	"scripts": {
 		"dev": "NODE_OPTIONS='--import ./instrument.server.mjs' vite dev",
 		"dev:mock": "VITE_API_MOCKING=enabled NODE_OPTIONS='--import ./instrument.server.mjs' vite dev",
