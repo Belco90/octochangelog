@@ -17,11 +17,11 @@ test('should show changelog results when filling the form', async ({
 	)
 
 	await page
-		.getByRole('combobox', { name: /enter repository name/i })
+		.getByRole('combobox', { name: /repository/i })
 		.fill('dom testing library')
 
 	await page
-		.getByRole('listbox', { name: /enter repository name/i })
+		.getByRole('listbox', { name: /repository/i })
 		.getByText('testing-library/dom-testing-library')
 		.click()
 
@@ -131,7 +131,7 @@ test('should show changelog results when preloading from URL', async ({
 
 	// Check that the form is pre-filled with the URL params
 	await expect(
-		page.getByRole('combobox', { name: /enter repository name/i }),
+		page.getByRole('combobox', { name: /repository/i }),
 	).toHaveValue('testing-library/dom-testing-library')
 	await expect(page.getByLabel(/select from release/i)).toHaveValue('v6.16.0')
 	await expect(page.getByLabel(/select to release/i)).toHaveValue('v8.1.0')
@@ -227,7 +227,7 @@ test('should show changelog results when preloading from URL with "latest"', asy
 
 	// Check that the form is pre-filled with the URL params
 	await expect(
-		page.getByRole('combobox', { name: /enter repository name/i }),
+		page.getByRole('combobox', { name: /repository/i }),
 	).toHaveValue('testing-library/dom-testing-library')
 	await expect(page.getByLabel(/select from release/i)).toHaveValue('v8.11.0')
 	await expect(page.getByLabel(/select to release/i)).toHaveValue('latest')
@@ -284,11 +284,11 @@ test(
 		await expect(page).toHaveTitle('Compare | Octochangelog')
 
 		await page
-			.getByRole('combobox', { name: /enter repository name/i })
+			.getByRole('combobox', { name: /repository/i })
 			.fill('yarn')
 
 		await page
-			.getByRole('listbox', { name: /enter repository name/i })
+			.getByRole('listbox', { name: /repository/i })
 			.getByText('yarnpkg/berry')
 			.click()
 
@@ -366,7 +366,7 @@ test(
 
 		// Check that the form is pre-filled with the URL params
 		await expect(
-			page.getByRole('combobox', { name: /enter repository name/i }),
+			page.getByRole('combobox', { name: /repository/i }),
 		).toHaveValue('renovatebot/renovate')
 		await expect(page.getByLabel(/select from release/i)).toHaveValue('26.9.0')
 		await expect(page.getByLabel(/select to release/i)).toHaveValue('32.172.2')
