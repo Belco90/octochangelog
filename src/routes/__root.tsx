@@ -8,10 +8,10 @@ import {
 
 import { MainLayout } from '@/components/MainLayout'
 import { ChakraThemeProvider } from '@/components/snippets/theme-provider'
-import { customTheme } from '@/deprecated-theme'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
+import { system } from '@/theme'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -32,12 +32,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					},
 					{
 						name: 'theme-color',
-						content: customTheme.colors.primary['50'],
+						content: system.token('colors.brand.50', '#FDF4FF') as string,
 						media: '(prefers-color-scheme: light)',
 					},
 					{
 						name: 'theme-color',
-						content: customTheme.colors.primary['900'],
+						content: system.token('colors.brand.900', '#701A75') as string,
 						media: '(prefers-color-scheme: dark)',
 					},
 					...seo({ title: customTitle }),
