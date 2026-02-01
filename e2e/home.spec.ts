@@ -23,7 +23,7 @@ test('should display the corresponding information', async ({
 	await expect(
 		page.getByRole('heading', {
 			level: 2,
-			name: 'Compare GitHub changelogs in a single view.',
+			name: 'Compare GitHub changelogs in a single view',
 		}),
 	).toBeVisible()
 

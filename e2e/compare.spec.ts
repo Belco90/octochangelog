@@ -37,9 +37,9 @@ test('should show changelog results when filling the form', async ({
 		'https://github.com/testing-library/dom-testing-library',
 	)
 
-	await page.getByLabel(/select from release/i).selectOption('v6.16.0')
+	await page.getByLabel(/from version/i).selectOption('v6.16.0')
 	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
-	await page.getByLabel(/select to release/i).selectOption('v8.1.0')
+	await page.getByLabel(/to version/i).selectOption('v8.1.0')
 	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
 
 	await expect(
@@ -133,8 +133,8 @@ test('should show changelog results when preloading from URL', async ({
 	await expect(
 		page.getByRole('combobox', { name: /repository/i }),
 	).toHaveValue('testing-library/dom-testing-library')
-	await expect(page.getByLabel(/select from release/i)).toHaveValue('v6.16.0')
-	await expect(page.getByLabel(/select to release/i)).toHaveValue('v8.1.0')
+	await expect(page.getByLabel(/from version/i)).toHaveValue('v6.16.0')
+	await expect(page.getByLabel(/to version/i)).toHaveValue('v8.1.0')
 
 	// Check changelog results
 	const resultsHeading = page.getByRole('heading', {
@@ -229,10 +229,10 @@ test('should show changelog results when preloading from URL with "latest"', asy
 	await expect(
 		page.getByRole('combobox', { name: /repository/i }),
 	).toHaveValue('testing-library/dom-testing-library')
-	await expect(page.getByLabel(/select from release/i)).toHaveValue('v8.11.0')
-	await expect(page.getByLabel(/select to release/i)).toHaveValue('latest')
+	await expect(page.getByLabel(/from version/i)).toHaveValue('v8.11.0')
+	await expect(page.getByLabel(/to version/i)).toHaveValue('latest')
 	await expect(
-		page.getByLabel(/select to release/i).locator('option:checked'),
+		page.getByLabel(/to version/i).locator('option:checked'),
 	).toHaveText('Latest (v8.17.1)')
 
 	// Check changelog results
@@ -300,11 +300,11 @@ test(
 		).toBeVisible()
 
 		await page
-			.getByLabel(/select from release/i)
+			.getByLabel(/from version/i)
 			.selectOption('@yarnpkg/cli/4.10.3')
 		await expect(page).toHaveURL(/.+from=%40yarnpkg%2Fcli%2F4\.10\.3.*/)
 		await page
-			.getByLabel(/select to release/i)
+			.getByLabel(/to version/i)
 			.selectOption('@yarnpkg/cli/4.12.0')
 		await expect(page).toHaveURL(/.+to=%40yarnpkg%2Fcli%2F4\.12\.0.*/)
 
@@ -368,8 +368,8 @@ test(
 		await expect(
 			page.getByRole('combobox', { name: /repository/i }),
 		).toHaveValue('renovatebot/renovate')
-		await expect(page.getByLabel(/select from release/i)).toHaveValue('26.9.0')
-		await expect(page.getByLabel(/select to release/i)).toHaveValue('32.172.2')
+		await expect(page.getByLabel(/from version/i)).toHaveValue('26.9.0')
+		await expect(page.getByLabel(/to version/i)).toHaveValue('32.172.2')
 
 		// Check changelog results
 		const resultsHeading = page.getByRole('heading', {
