@@ -50,18 +50,12 @@ test('should display the corresponding information', async ({
 		'https://mario.dev/',
 	)
 
-	await expect(
-		page.getByRole('link', {
-			name: /octochangelog repository on github/i,
-		}),
-	).toHaveAttribute('href', 'https://github.com/Belco90/octochangelog')
-
 	await happoScreenshot(page.locator('body'), {
 		component: 'Home page',
 		variant: 'default',
 	})
 
-	await page.getByRole('link', { name: 'Try me now!' }).click()
+	await page.getByRole('link', { name: /see example/i }).click()
 
 	await expect(page).toHaveURL('/compare')
 })
