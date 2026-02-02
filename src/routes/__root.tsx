@@ -32,12 +32,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					},
 					{
 						name: 'theme-color',
-						content: system.token('colors.brand.50', '#FDF4FF') as string,
+						content: system.token('colors.brand.200', '#F5D0FE') as string,
 						media: '(prefers-color-scheme: light)',
 					},
 					{
 						name: 'theme-color',
-						content: system.token('colors.brand.900', '#701A75') as string,
+						content: system.token('colors.brand.950', '#701A75') as string,
 						media: '(prefers-color-scheme: dark)',
 					},
 					...seo({ title: customTitle }),
