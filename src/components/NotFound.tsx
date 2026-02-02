@@ -37,7 +37,7 @@ export function NotFound() {
 						fontSize={{ base: 'lg', md: '2xl' }}
 						fontWeight="bold"
 					>
-						Octochangelog cannot divine the page you wanted.
+						Octochangelog could not find the page you wanted.
 					</Text>
 				</Stack>
 			</VStack>

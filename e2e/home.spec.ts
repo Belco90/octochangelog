@@ -23,7 +23,7 @@ test('should display the corresponding information', async ({
 	await expect(
 		page.getByRole('heading', {
 			level: 2,
-			name: 'Compare GitHub changelogs in a single view.',
+			name: 'Compare GitHub changelogs in a single view',
 		}),
 	).toBeVisible()
 
@@ -51,8 +51,11 @@ test('should display the corresponding information', async ({
 	)
 
 	await expect(
+		page.getByRole('button', { name: /Toggle dark mode/i }),
+	).toBeVisible()
+	await expect(
 		page.getByRole('link', {
-			name: /octochangelog repository on github/i,
+			name: /Check repo on GitHub/i,
 		}),
 	).toHaveAttribute('href', 'https://github.com/Belco90/octochangelog')
 
@@ -61,7 +64,14 @@ test('should display the corresponding information', async ({
 		variant: 'default',
 	})
 
-	await page.getByRole('link', { name: 'Try me now!' }).click()
+	const ctaLink = page.getByRole('link', { name: 'Compare changelogs' })
+	await expect(ctaLink).toBeVisible()
+	await expect(ctaLink).toHaveAttribute('href', '/compare')
 
-	await expect(page).toHaveURL('/compare')
+	const exampleLink = page.getByRole('link', { name: 'See example' })
+	await expect(exampleLink).toBeVisible()
+	await expect(exampleLink).toHaveAttribute(
+		'href',
+		'/compare?repo=testing-library%2Feslint-plugin-testing-library&from=v6.5.0&to=latest',
+	)
 })
