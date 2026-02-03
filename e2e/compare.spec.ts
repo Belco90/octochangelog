@@ -16,39 +16,40 @@ test('should show changelog results when filling the form', async ({
 		'Compare GitHub changelogs in a single view',
 	)
 
-	await page
-		.getByRole('combobox', { name: /enter repository name/i })
-		.fill('dom testing library')
-
-	await page
-		.getByRole('listbox', { name: /enter repository name/i })
-		.getByText('testing-library/dom-testing-library')
-		.click()
-
-	await expect(page).toHaveURL(/.+repo=testing-library%2Fdom-testing-library.*/)
-	const resultsHeading = page.getByRole('heading', {
-		name: 'dom-testing-library',
-	})
-	await expect(resultsHeading).toBeVisible()
 	await expect(
-		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
-	).toHaveAttribute(
-		'href',
-		'https://github.com/testing-library/dom-testing-library',
-	)
-
-	await page.getByLabel(/select from release/i).selectOption('v6.16.0')
-	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
-	await page.getByLabel(/select to release/i).selectOption('v8.1.0')
-	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
-
-	await expect(
-		page.getByRole('heading', { name: /changes from v6\.16\.0 to v8\.1\.0/i }),
+		page.getByRole('heading', { level: 1, name: 'Compare' }),
 	).toBeVisible()
 
 	await expect(
+		page.getByText(
+			'You will see the changelog here after you fill out the filters',
+		),
+	).toBeVisible()
+
+	await page.getByRole('combobox', { name: /repository/i }).click()
+	await page.getByRole('combobox', { name: /repository/i }).fill('test')
+	await page
+		.getByRole('option', { name: 'testing-library/dom-testing-library' })
+		.click()
+	await expect(page.getByRole('combobox', { name: 'Repository' })).toHaveValue(
+		'testing-library/dom-testing-library',
+	)
+	await expect(page).toHaveURL(/.+repo=testing-library%2Fdom-testing-library.*/)
+
+	await page.getByLabel(/from version/i).selectOption('v6.16.0')
+	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
+	await page.getByLabel(/to version/i).selectOption('v8.1.0')
+	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
+
+	await expect(
+		page.getByText(
+			'You will see the changelog here after you fill out the filters',
+		),
+	).toBeHidden()
+
+	await expect(
 		page.getByRole('heading', {
-			level: 3,
+			level: 2,
 			name: /breaking changes/i,
 		}),
 	).toBeVisible()
@@ -56,7 +57,7 @@ test('should show changelog results when filling the form', async ({
 	await expect(page.getByRole('link', { name: 'v7.0.0' })).toHaveCount(2)
 
 	await expect(
-		page.getByRole('heading', { level: 5, name: /drop node 8/i }),
+		page.getByRole('heading', { level: 6, name: /drop node 8/i }),
 	).toBeVisible()
 
 	await expect(
@@ -95,19 +96,19 @@ test('should show changelog results when filling the form', async ({
 
 	// Check semver headings
 	await expect(
-		page.getByRole('heading', { level: 3, name: /features/i }),
+		page.getByRole('heading', { level: 2, name: /features/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+		page.getByRole('heading', { level: 2, name: /bug fixes/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /reverts/i }),
+		page.getByRole('heading', { level: 2, name: /reverts/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /recommendations/i }),
+		page.getByRole('heading', { level: 2, name: /recommendations/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /chore/i }),
+		page.getByRole('heading', { level: 2, name: /chore/i }),
 	).toBeVisible()
 
 	await happoScreenshot(page.locator('body'), {
@@ -130,31 +131,16 @@ test('should show changelog results when preloading from URL', async ({
 	)
 
 	// Check that the form is pre-filled with the URL params
-	await expect(
-		page.getByRole('combobox', { name: /enter repository name/i }),
-	).toHaveValue('testing-library/dom-testing-library')
-	await expect(page.getByLabel(/select from release/i)).toHaveValue('v6.16.0')
-	await expect(page.getByLabel(/select to release/i)).toHaveValue('v8.1.0')
+	await expect(page.getByRole('combobox', { name: /repository/i })).toHaveValue(
+		'testing-library/dom-testing-library',
+	)
+	await expect(page.getByLabel(/from version/i)).toHaveValue('v6.16.0')
+	await expect(page.getByLabel(/to version/i)).toHaveValue('v8.1.0')
 
 	// Check changelog results
-	const resultsHeading = page.getByRole('heading', {
-		name: 'dom-testing-library',
-	})
-	await expect(resultsHeading).toBeVisible()
-	await expect(
-		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
-	).toHaveAttribute(
-		'href',
-		'https://github.com/testing-library/dom-testing-library',
-	)
-	await expect(
-		page.getByRole('heading', { name: /changes from v6\.16\.0 to v8\.1\.0/i }),
-	).toBeVisible()
-
 	await expect(page.getByRole('link', { name: 'v7.0.0' })).toHaveCount(2)
-
 	await expect(
-		page.getByRole('heading', { level: 5, name: /drop node 8/i }),
+		page.getByRole('heading', { level: 6, name: /drop node 8/i }),
 	).toBeVisible()
 
 	await expect(
@@ -193,19 +179,19 @@ test('should show changelog results when preloading from URL', async ({
 
 	// Check semver headings
 	await expect(
-		page.getByRole('heading', { level: 3, name: /features/i }),
+		page.getByRole('heading', { level: 2, name: /features/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+		page.getByRole('heading', { level: 2, name: /bug fixes/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /reverts/i }),
+		page.getByRole('heading', { level: 2, name: /reverts/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /recommendations/i }),
+		page.getByRole('heading', { level: 2, name: /recommendations/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /chore/i }),
+		page.getByRole('heading', { level: 2, name: /chore/i }),
 	).toBeVisible()
 
 	// Check for specific changelog content
@@ -226,36 +212,21 @@ test('should show changelog results when preloading from URL with "latest"', asy
 	)
 
 	// Check that the form is pre-filled with the URL params
-	await expect(
-		page.getByRole('combobox', { name: /enter repository name/i }),
-	).toHaveValue('testing-library/dom-testing-library')
-	await expect(page.getByLabel(/select from release/i)).toHaveValue('v8.11.0')
-	await expect(page.getByLabel(/select to release/i)).toHaveValue('latest')
-	await expect(
-		page.getByLabel(/select to release/i).locator('option:checked'),
-	).toHaveText('Latest (v8.17.1)')
-
-	// Check changelog results
-	const resultsHeading = page.getByRole('heading', {
-		name: 'dom-testing-library',
-	})
-	await expect(resultsHeading).toBeVisible()
-	await expect(
-		resultsHeading.getByRole('link', { name: 'dom-testing-library' }),
-	).toHaveAttribute(
-		'href',
-		'https://github.com/testing-library/dom-testing-library',
+	await expect(page.getByRole('combobox', { name: /repository/i })).toHaveValue(
+		'testing-library/dom-testing-library',
 	)
+	await expect(page.getByLabel(/from version/i)).toHaveValue('v8.11.0')
+	await expect(page.getByLabel(/to version/i)).toHaveValue('latest')
 	await expect(
-		page.getByRole('heading', { name: /changes from v8\.11\.0 to latest/i }),
-	).toBeVisible()
+		page.getByLabel(/to version/i).locator('option:checked'),
+	).toHaveText('Latest (v8.17.1)')
 
 	// Check semver headings
 	await expect(
-		page.getByRole('heading', { level: 3, name: /features/i }),
+		page.getByRole('heading', { level: 2, name: /features/i }),
 	).toBeVisible()
 	await expect(
-		page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+		page.getByRole('heading', { level: 2, name: /bug fixes/i }),
 	).toBeVisible()
 
 	// Check for specific changelog content
@@ -282,37 +253,27 @@ test(
 		await waitForApiMock(page)
 
 		await expect(page).toHaveTitle('Compare | Octochangelog')
+		await expect(
+			page.getByRole('heading', { level: 1, name: 'Compare' }),
+		).toBeVisible()
+		await expect(
+			page.getByText(
+				'You will see the changelog here after you fill out the filters',
+			),
+		).toBeVisible()
 
-		await page
-			.getByRole('combobox', { name: /enter repository name/i })
-			.fill('yarn')
-
-		await page
-			.getByRole('listbox', { name: /enter repository name/i })
-			.getByText('yarnpkg/berry')
-			.click()
-
+		await page.getByRole('combobox', { name: /repository/i }).click()
+		await page.getByRole('combobox', { name: /repository/i }).fill('yarn')
+		await page.getByRole('option', { name: 'yarnpkg/berry' }).click()
+		await expect(
+			page.getByRole('combobox', { name: /repository/i }),
+		).toHaveValue('yarnpkg/berry')
 		await expect(page).toHaveURL(/.+repo=yarnpkg%2Fberry.*/)
-		await expect(
-			page.getByRole('heading', {
-				name: 'berry',
-			}),
-		).toBeVisible()
 
-		await page
-			.getByLabel(/select from release/i)
-			.selectOption('@yarnpkg/cli/4.10.3')
+		await page.getByLabel(/from version/i).selectOption('@yarnpkg/cli/4.10.3')
 		await expect(page).toHaveURL(/.+from=%40yarnpkg%2Fcli%2F4\.10\.3.*/)
-		await page
-			.getByLabel(/select to release/i)
-			.selectOption('@yarnpkg/cli/4.12.0')
+		await page.getByLabel(/to version/i).selectOption('@yarnpkg/cli/4.12.0')
 		await expect(page).toHaveURL(/.+to=%40yarnpkg%2Fcli%2F4\.12\.0.*/)
-
-		await expect(
-			page.getByRole('heading', {
-				name: /changes from 4\.10\.3 to 4\.12\.0/i,
-			}),
-		).toBeVisible()
 
 		// Check that releases with scoped tags are displayed correctly
 		await expect(page.getByRole('link', { name: '4.11.0' })).toHaveCount(4)
@@ -364,45 +325,42 @@ test(
 			'Compare GitHub changelogs in a single view',
 		)
 
+		await expect(
+			page.getByRole('heading', { level: 1, name: 'Compare' }),
+		).toBeVisible()
+
+		// Already loading
+		await expect(
+			page.getByText(
+				'You will see the changelog here after you fill out the filters',
+			),
+		).toBeHidden()
+
 		// Check that the form is pre-filled with the URL params
 		await expect(
-			page.getByRole('combobox', { name: /enter repository name/i }),
+			page.getByRole('combobox', { name: /repository/i }),
 		).toHaveValue('renovatebot/renovate')
-		await expect(page.getByLabel(/select from release/i)).toHaveValue('26.9.0')
-		await expect(page.getByLabel(/select to release/i)).toHaveValue('32.172.2')
-
-		// Check changelog results
-		const resultsHeading = page.getByRole('heading', {
-			name: 'renovate',
-		})
-		await expect(resultsHeading).toBeVisible()
-		await expect(
-			resultsHeading.getByRole('link', { name: 'renovate' }),
-		).toHaveAttribute('href', 'https://github.com/renovatebot/renovate')
-		await expect(
-			page.getByRole('heading', {
-				name: /changes from 26\.9\.0 to 32\.172\.2/i,
-			}),
-		).toBeVisible()
+		await expect(page.getByLabel(/from version/i)).toHaveValue('26.9.0')
+		await expect(page.getByLabel(/to version/i)).toHaveValue('32.172.2')
 
 		// Check semver headings
 		await expect(
-			page.getByRole('heading', { level: 3, name: /breaking changes/i }),
+			page.getByRole('heading', { level: 2, name: /breaking changes/i }),
 		).toBeVisible()
 		await expect(
-			page.getByRole('heading', { level: 3, name: /features/i }),
+			page.getByRole('heading', { level: 2, name: /features/i }),
 		).toBeVisible()
 		await expect(
-			page.getByRole('heading', { level: 3, name: /bug fixes/i }),
+			page.getByRole('heading', { level: 2, name: /bug fixes/i }),
 		).toBeVisible()
 		await expect(
-			page.getByRole('heading', { level: 3, name: /reverts/i }),
+			page.getByRole('heading', { level: 2, name: /reverts/i }),
 		).toBeVisible()
 		await expect(
-			page.getByRole('heading', { level: 3, name: /miscellaneous chores/i }),
+			page.getByRole('heading', { level: 2, name: /miscellaneous chores/i }),
 		).toBeVisible()
 		await expect(
-			page.getByRole('heading', { level: 3, name: /build system/i }),
+			page.getByRole('heading', { level: 2, name: /build system/i }),
 		).toBeVisible()
 
 		// Check links to the lowest and greatest releases in the changelog

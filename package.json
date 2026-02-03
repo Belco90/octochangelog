@@ -30,6 +30,7 @@
 		"e2e": "playwright test",
 		"e2e:ui": "playwright test --ui",
 		"e2e:report": "playwright show-report",
+		"e2e:codegen": "playwright codegen localhost:3000",
 		"chakra": "chakra",
 		"chakra:typegen": "pnpm chakra typegen src/theme.ts",
 		"chakra:snippet": "pnpm chakra snippet --outdir src/components/snippets",
