@@ -142,7 +142,12 @@ export const ProcessedReleaseChangeDescription = ({
 							<Tag.Label>{getReleaseVersion(processedReleaseChange)}</Tag.Label>
 						</Tag.Root>
 					</Link>
-					<Box ml="1" pl="2" borderInlineStart="solid 1px {colors.brand.fg/20}">
+					<Box
+						ml="1"
+						pl="2"
+						borderInlineStart="solid 1px {colors.brand.fg/20}"
+						wordBreak="break-word"
+					>
 						{processedDescription}
 					</Box>
 				</>
