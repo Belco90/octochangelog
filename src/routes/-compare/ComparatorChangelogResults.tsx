@@ -52,8 +52,8 @@ const ReleaseChangelogGroup = ({
 					as="h2"
 					size="xl"
 					bgColor="bg.subtle"
-					mb={4}
-					py={4}
+					py="2"
+					mt="1"
 					textTransform={textTransform}
 					position="sticky"
 					top={0}
@@ -61,13 +61,13 @@ const ReleaseChangelogGroup = ({
 					{displayTitle}
 				</Heading>
 			)}
-			<Box mb={4}>
+			<Box>
 				{releaseGroup.map((processedReleaseChange: ProcessedRelease) => (
 					<ProcessedReleaseChangeDescription
 						key={`${title}-${processedReleaseChange.id}`}
 						repository={repository}
 						processedReleaseChange={processedReleaseChange}
-						mb={8}
+						mb="2"
 					/>
 				))}
 			</Box>
@@ -108,7 +108,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack gap={6}>
+		<Stack gap={6} divideY="2px">
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}
