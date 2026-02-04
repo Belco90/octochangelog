@@ -132,7 +132,13 @@ export const ProcessedReleaseChangeDescription = ({
 			) : (
 				<>
 					<Link isExternal href={processedReleaseChange.html_url}>
-						<Tag.Root colorPalette="accent" size="lg" mb={2} rounded="full">
+						<Tag.Root
+							colorPalette="accent"
+							variant="subtle"
+							size="lg"
+							mb={2}
+							rounded="full"
+						>
 							<Tag.Label>{getReleaseVersion(processedReleaseChange)}</Tag.Label>
 						</Tag.Root>
 					</Link>

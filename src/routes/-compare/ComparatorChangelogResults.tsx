@@ -42,19 +42,17 @@ const ReleaseChangelogGroup = ({
 		? getDisplayTitle(originalTitle, title)
 		: title
 
-	const textTransform =
-		title === 'breaking changes' ? 'uppercase' : 'capitalize'
-
 	return (
 		<Box key={title}>
 			{shouldShowTitle && (
 				<Heading
 					as="h2"
-					size="xl"
+					size="2xl"
+					fontWeight="extrabold"
 					bgColor="bg.subtle"
 					py="2"
 					mt="1"
-					textTransform={textTransform}
+					textTransform="capitalize"
 					position="sticky"
 					top={0}
 				>
@@ -108,7 +106,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack gap={6} divideY="2px">
+		<Stack gap={6} divideY="1px">
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}
