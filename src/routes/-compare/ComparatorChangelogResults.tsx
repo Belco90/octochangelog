@@ -1,4 +1,4 @@
-import { Bleed, Box, Heading, Stack } from '@chakra-ui/react'
+import { Box, Heading, Stack } from '@chakra-ui/react'
 
 import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
@@ -42,43 +42,34 @@ const ReleaseChangelogGroup = ({
 		? getDisplayTitle(originalTitle, title)
 		: title
 
-	const isMajorRelease = title === 'breaking changes'
-
 	return (
-		<Bleed inline={{ base: '6', md: '20' }}>
-			<Box
-				key={title}
-				bgColor={isMajorRelease ? 'bg' : undefined}
-				rounded="2xl"
-				py={isMajorRelease ? { base: '2', md: '10' } : undefined}
-				px={{ base: '2', md: '10' }}
-				shadow={isMajorRelease ? 'main' : undefined}
-			>
-				{shouldShowTitle && (
-					<Heading
-						as="h2"
-						size="2xl"
-						fontWeight="extrabold"
-						bgColor={isMajorRelease ? 'bg' : 'bg.subtle'}
-						py="2"
-						mt="1"
-						textTransform="capitalize"
-					>
-						{displayTitle}
-					</Heading>
-				)}
-				<Box>
-					{releaseGroup.map((processedReleaseChange: ProcessedRelease) => (
-						<ProcessedReleaseChangeDescription
-							key={`${title}-${processedReleaseChange.id}`}
-							repository={repository}
-							processedReleaseChange={processedReleaseChange}
-							mb="2"
-						/>
-					))}
-				</Box>
+		<Box key={title}>
+			{shouldShowTitle && (
+				<Heading
+					as="h2"
+					size="2xl"
+					fontWeight="extrabold"
+					bgColor="bg.subtle"
+					py="2"
+					mt="1"
+					textTransform="capitalize"
+					position="sticky"
+					top={0}
+				>
+					{displayTitle}
+				</Heading>
+			)}
+			<Box>
+				{releaseGroup.map((processedReleaseChange: ProcessedRelease) => (
+					<ProcessedReleaseChangeDescription
+						key={`${title}-${processedReleaseChange.id}`}
+						repository={repository}
+						processedReleaseChange={processedReleaseChange}
+						mb="2"
+					/>
+				))}
 			</Box>
-		</Bleed>
+		</Box>
 	)
 }
 type ComparatorChangelogResultsProps = {
@@ -115,7 +106,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack gap={6} divideY="1px" px={{ base: '3', md: '10' }}>
+		<Stack gap={6} divideY="1px">
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}
