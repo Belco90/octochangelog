@@ -10,25 +10,25 @@ import mascotLogo from '@/images/mascot-logo.png'
 
 import type { BoxProps } from '@chakra-ui/react'
 
-const LOGO_SIZES = { base: 8, md: 10 }
+const LOGO_SIZES = { base: '8', md: '10' }
 
 export const Header = (props: BoxProps) => {
 	return (
 		<Box
 			{...props}
 			as="header"
-			borderBottomWidth={1}
+			borderBottomWidth="[1px]"
 			borderColor="brand.emphasized"
 		>
-			<Box px={2} py={1}>
+			<Box px="2" py="[1]">
 				<Flex justify="space-between" alignItems="center">
 					<Flex align="center">
 						<RouteLink
 							to="/"
-							textDecorationThickness={4}
+							textDecorationThickness="[4px]"
 							textDecorationColor="brand.solid"
 						>
-							<HStack gap={{ base: 1, lg: 2 }}>
+							<HStack gap={{ base: '1', lg: '2' }}>
 								<Box boxSize={LOGO_SIZES}>
 									<OptimizedImage
 										src={mascotLogo}
@@ -42,7 +42,7 @@ export const Header = (props: BoxProps) => {
 									as="span"
 									letterSpacing="tight"
 									fontWeight="black"
-									fontSize={{ base: 20, md: 28 }}
+									fontSize={{ base: '[20px]', md: '[28px]' }}
 								>
 									Octochangelog
 								</Text>
@@ -50,7 +50,7 @@ export const Header = (props: BoxProps) => {
 						</RouteLink>
 					</Flex>
 
-					<HStack gap={{ base: 1, md: 4 }}>
+					<HStack gap={{ base: '1', md: '4' }}>
 						<IconButton asChild variant="ghost" rounded="full">
 							<Link
 								href={REPO_URL}

@@ -90,7 +90,7 @@ function AuthLayout({ children }: PropsWithRequiredChildren) {
 	return (
 		<Container
 			maxWidth="2xl"
-			py={{ base: 4, md: 8 }}
+			py={{ base: '4', md: '8' }}
 			height="full"
 			width="full"
 		>
@@ -103,7 +103,7 @@ function AuthLayout({ children }: PropsWithRequiredChildren) {
 				>
 					Authorizing on GitHub
 				</Heading>
-				<Box mt={{ base: 4, md: 16 }}>{children}</Box>
+				<Box mt={{ base: '4', md: '16' }}>{children}</Box>
 			</Box>
 		</Container>
 	)
@@ -126,7 +126,7 @@ function AuthCallbackPage() {
 					<Alert.Title>
 						<Heading fontWeight="black">Authorized successfully</Heading>
 					</Alert.Title>
-					<Alert.Description mt={4}>
+					<Alert.Description mt="4">
 						<Button asChild variant="cta" fontSize="md" fontWeight="bold">
 							<TanStackLink to={compareUrl} replace>
 								Back to compare
@@ -144,7 +144,7 @@ function AuthCallbackPending() {
 		<Alert.Root status="info" variant="subtle">
 			<VStack w="full" alignItems="center">
 				<Alert.Indicator boxSize="10">
-					<Spinner size="lg" borderWidth="4px" />
+					<Spinner size="lg" borderWidth="[4px]" />
 				</Alert.Indicator>
 				<Alert.Content display="contents">
 					<Alert.Title>
@@ -165,9 +165,9 @@ function AuthCallbackError({ error, reset }: ErrorComponentProps) {
 					<Alert.Title>
 						<Heading fontWeight="black">Something went wrong!</Heading>
 					</Alert.Title>
-					<Alert.Description mt={4} display="contents">
+					<Alert.Description mt="4" display="contents">
 						<Code>{error.message}</Code>
-						<Button onClick={() => reset()} colorPalette="accent" mt={4}>
+						<Button onClick={() => reset()} colorPalette="accent" mt="4">
 							Try again
 						</Button>
 					</Alert.Description>
