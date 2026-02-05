@@ -170,6 +170,61 @@ Formatting runs automatically:
 
 ## Special Conventions
 
+### Chakra UI v3 Patterns
+
+**Critical**: This project uses Chakra UI v3, which has significant API differences from v2:
+
+```typescript
+// Correct - Chakra v3 compound components
+import { Dialog } from '@chakra-ui/react'
+
+<Dialog.Root open={isOpen}>
+  <Dialog.Content>
+    <Dialog.Title>Title</Dialog.Title>
+  </Dialog.Content>
+</Dialog.Root>
+
+// Wrong - Chakra v2 pattern (no longer works)
+<Modal isOpen={isOpen}>
+  <ModalContent>
+    <ModalHeader>Title</ModalHeader>
+  </ModalContent>
+</Modal>
+```
+
+**Component Import Sources**:
+```typescript
+// Import base components from @chakra-ui/react
+import { Box, Button, Input, Alert } from '@chakra-ui/react'
+
+// Import snippet components from components/snippets
+import { ColorModeButton } from '@/components/snippets/color-mode'
+import { Tooltip } from '@/components/snippets/tooltip'
+```
+
+**Prop Naming**:
+```typescript
+// Correct - v3 semantic naming
+<Button disabled loading>Submit</Button>
+<Dialog.Root open={isOpen}>
+
+// Wrong - v2 "is" prefix (no longer works)
+<Button isDisabled isLoading>Submit</Button>
+<Modal isOpen={isOpen}>
+```
+
+**Color Tokens**:
+```typescript
+// Preferred - semantic tokens that adapt to light/dark mode
+<Box bg="bg" color="fg" borderColor="border.muted" />
+
+// Alternative - useColorModeValue for custom values
+import { useColorModeValue } from '@/components/snippets/color-mode'
+const bg = useColorModeValue('white', 'gray.800')
+```
+
+For comprehensive Chakra v3 patterns and migration rules, see [docs/CHAKRA-V3.md](./CHAKRA-V3.md).
+
 ### Playwright Test Imports
 
 **Critical**: Always import from the project's Playwright utilities:
