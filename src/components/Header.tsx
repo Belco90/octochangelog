@@ -20,7 +20,7 @@ export const Header = (props: BoxProps) => {
 			borderBottomWidth="[1px]"
 			borderColor="brand.emphasized"
 		>
-			<Box px="2" py="[1]">
+			<Box px="2" py="1">
 				<Flex justify="space-between" alignItems="center">
 					<Flex align="center">
 						<RouteLink
