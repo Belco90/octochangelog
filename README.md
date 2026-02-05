@@ -1,6 +1,6 @@
 <div align="center">
   <img
-    src="src/images/mascot-icon.png"
+    src="src/images/mascot-logo.png"
     height="500"
     width="500"
     alt="Octochangelog mascot (a purple octopus-cat) reading a crystal ball"
