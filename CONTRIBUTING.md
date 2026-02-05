@@ -6,7 +6,7 @@ Read this document for information on how to get started.
 ## General overview of project
 
 We use [TanStack Start](https://tanstack.com/start) with [Vite](https://vite.dev/) to build and generate the static website.
-All our website styling is done with the [Chakra UI](https://chakra-ui.com/) framework.
+All our website styling is done with the [Chakra UI v3](https://www.chakra-ui.com/docs/get-started/overview) framework, which includes built-in dark mode support.
 
 ## What you'll need to know to be able to help
 
@@ -88,39 +88,55 @@ Use the following query string to check the comparator output:
 
 ## Dark mode
 
-TODO: this section must be revisited after the new design.
+Dark mode is now fully enabled and built into the application using Chakra UI v3's native dark mode support with `next-themes`.
+
+Users can toggle between light and dark themes using the color mode button in the header.
 
 ### Setting colors for light/dark mode
 
-You only need to pass 2 values to `useColorModeValue`:
+Chakra UI v3 uses semantic tokens for color values that automatically adapt to the current color mode. Use semantic tokens like `bg`, `fg`, `border`, etc. whenever possible:
 
-- the first one is the variant for light mode
-- the second one is the variant for dark mode
+```typescript
+// Preferred - uses semantic tokens that adapt automatically
+<Box bg="bg" color="fg" borderColor="border" />
+<Text color="fg.muted" />
+```
 
-Save the values in a `const` that will _automagically_ get the corresponding value based on the current color mode.
-You can use this `const` anywhere, but most of the time it will be passed to a Chakra component prop.
+For custom color mode values, use the `useColorModeValue` hook from the color mode snippet:
 
-You can use `useColorModeValue` as many times you need/want inside a component to generate several variables based on color mode.
+```typescript
+import { useColorModeValue } from '@/components/snippets/color-mode'
+
+function MyComponent() {
+  const bgColor = useColorModeValue('white', 'gray.800')
+  return <Box bg={bgColor}>Content</Box>
+}
+```
 
 ### Example in code
 
-Here's an example of how to colorize a component.
-
-1. Create/edit a `const` that contains the colors.
-1. Ue the `const` within a Chakra property.
+Here's an example of how to colorize a component with Chakra v3:
 
 ```typescript
-const Footer = () => {
-	const boxBgColor = useColorModeValue('gray.50', 'gray.900')
+import { Box, Container } from '@chakra-ui/react'
+import { useColorModeValue } from '@/components/snippets/color-mode'
 
-	return (
-		<Box as="footer" bg={boxBgColor}>
-			<Container></Container>
-		</Box>
-	)
+function Footer() {
+  // Option 1: Use semantic tokens (preferred)
+  return (
+    <Box as="footer" bg="bg.subtle" borderColor="border.muted">
+      <Container>Content</Container>
+    </Box>
+  )
+
+  // Option 2: Use useColorModeValue for custom values
+  const customBg = useColorModeValue('blue.50', 'blue.900')
+  return (
+    <Box as="footer" bg={customBg}>
+      <Container>Content</Container>
+    </Box>
+  )
 }
-
-export default Footer
 ```
 
 ## Running E2E
