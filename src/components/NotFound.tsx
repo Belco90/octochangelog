@@ -14,7 +14,7 @@ import mascotLogo from '@/images/mascot-logo.png'
 
 export function NotFound() {
 	return (
-		<Container maxWidth="4xl" pb={{ base: 8, lg: 16 }}>
+		<Container maxWidth="4xl" pb={{ base: '8', lg: '16' }}>
 			<VStack>
 				<OptimizedImage
 					src={mascotLogo}
@@ -23,7 +23,7 @@ export function NotFound() {
 					height={250}
 					priority
 				/>
-				<Stack alignItems="center" gap="2" flexGrow={1} flexBasis={0}>
+				<Stack alignItems="center" gap="2" flexGrow="[1]" flexBasis="[0]">
 					<Heading
 						as="h2"
 						fontSize={{ base: '2xl', md: '4xl' }}
@@ -41,7 +41,7 @@ export function NotFound() {
 					</Text>
 				</Stack>
 			</VStack>
-			<VStack mt={12} gap={5}>
+			<VStack mt="12" gap="5">
 				<Button asChild variant="cta">
 					<TanStackLink to="/compare">Go to compare</TanStackLink>
 				</Button>

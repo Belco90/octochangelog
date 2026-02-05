@@ -62,7 +62,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 		<Box
 			height="full"
 			width="full"
-			py={{ base: 4, md: 10 }}
+			py={{ base: '4', md: '10' }}
 			bgColor={{ base: 'bg', md: 'bg.subtle' }}
 		>
 			<Container maxWidth="2xl">
@@ -82,7 +82,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 
 function ComparePage() {
 	return (
-		<Box mt={{ base: '2', md: '0' }} height="full">
+		<Box mt={{ base: '2', md: '[0]' }} height="full">
 			<RepositoryReleasesComparator />
 		</Box>
 	)

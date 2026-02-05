@@ -41,7 +41,7 @@ export const ReleaseVersionField = ({
 	const hasError = Boolean(error)
 
 	return (
-		<Field.Root disabled={isDisabled} gap="1" invalid={hasError}>
+		<Field.Root disabled={isDisabled} gap="[1]" invalid={hasError}>
 			<Field.Label htmlFor={id}>{label}</Field.Label>
 
 			<NativeSelect.Root size="lg" colorPalette="accent">
