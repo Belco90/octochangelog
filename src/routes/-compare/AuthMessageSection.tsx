@@ -14,7 +14,7 @@ export const AuthMessageSection = () => {
 	return (
 		<Alert.Root colorPalette="accent">
 			<Alert.Description w="full">
-				<VStack gap="4" alignItems="center" textAlign="center">
+				<VStack gap={4} alignItems="center" textAlign="center">
 					<Text>
 						Authorize {SITE_TITLE} to increase the maximum number of requests.
 					</Text>

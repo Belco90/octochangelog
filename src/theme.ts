@@ -155,7 +155,6 @@ const fieldSlotRecipe = defineSlotRecipe({
 })
 
 const customConfig = defineConfig({
-	strictTokens: true,
 	globalCss: {
 		'html, body': { height: 'full' },
 		'*': {

@@ -86,7 +86,7 @@ const RemarkPre = (props: RemarkComponentProps) => (
 )
 
 const RemarkCode = (props: RemarkComponentProps) => (
-	<Code color="[inherit]" bgColor="bg.muted" {...props} />
+	<Code color="inherit" bgColor="bg.muted" {...props} />
 )
 
 const RemarkBlockquote = (props: RemarkComponentProps) => (
@@ -126,7 +126,7 @@ export const ProcessedReleaseChangeDescription = ({
 	})
 
 	return (
-		<Box {...rest} mb="8">
+		<Box {...rest} mb={8}>
 			{isProcessing ? (
 				<SkeletonText noOfLines={3} />
 			) : (
@@ -136,16 +136,16 @@ export const ProcessedReleaseChangeDescription = ({
 							colorPalette="accent"
 							variant="subtle"
 							size="lg"
-							mb="2"
+							mb={2}
 							rounded="full"
 						>
 							<Tag.Label>{getReleaseVersion(processedReleaseChange)}</Tag.Label>
 						</Tag.Root>
 					</Link>
 					<Box
-						ml="[1]"
+						ml="1"
 						pl="2"
-						borderInlineStart="[1px solid {colors.brand.fg/20}]"
+						borderInlineStart="solid 1px {colors.brand.fg/20}"
 						wordBreak="break-word"
 					>
 						{processedDescription}
