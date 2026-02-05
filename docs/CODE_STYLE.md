@@ -193,6 +193,7 @@ import { Dialog } from '@chakra-ui/react'
 ```
 
 **Component Import Sources**:
+
 ```typescript
 // Import base components from @chakra-ui/react
 import { Box, Button, Input, Alert } from '@chakra-ui/react'
@@ -203,6 +204,7 @@ import { Tooltip } from '@/components/snippets/tooltip'
 ```
 
 **Prop Naming**:
+
 ```typescript
 // Correct - v3 semantic naming
 <Button disabled loading>Submit</Button>
@@ -214,6 +216,7 @@ import { Tooltip } from '@/components/snippets/tooltip'
 ```
 
 **Color Tokens**:
+
 ```typescript
 // Preferred - semantic tokens that adapt to light/dark mode
 <Box bg="bg" color="fg" borderColor="border.muted" />

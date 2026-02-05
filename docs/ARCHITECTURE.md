@@ -57,21 +57,25 @@ Since file structure can change, here are hints for locating different capabilit
 The application uses Chakra UI v3 as its component library with the following patterns:
 
 **Component Import Sources**:
+
 - Import base components from `@chakra-ui/react` (Box, Button, Input, etc.)
 - Import custom snippets from `components/snippets` (ColorModeButton, Tooltip, Dialog, etc.)
 
 **Theme System**:
+
 - Custom theme defined in `src/theme.ts`
 - Semantic tokens for automatic light/dark mode adaptation
 - Type-safe token access via auto-generated types
 
 **Color Mode**:
+
 - Dark mode support via `next-themes` integration
 - Semantic color tokens (`bg`, `fg`, `border`) adapt automatically
 - Color mode toggle button in header
 - `useColorModeValue` hook for custom color mode values
 
 **Component Patterns**:
+
 - Compound components (e.g., `Dialog.Root`, `Table.Row`, `Menu.Item`)
 - Snippet components for common patterns (stored in `components/snippets`)
 - Semantic prop naming (`open` instead of `isOpen`, `disabled` instead of `isDisabled`)
