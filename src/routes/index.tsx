@@ -12,11 +12,11 @@ function HomePage() {
 	return (
 		<Container
 			maxWidth="6xl"
-			py={{ base: '2', lg: '4' }}
-			mb="4"
+			py={{ base: 2, lg: 4 }}
+			mb={4}
 			display="flex"
 			flexDir="column"
-			gap="20"
+			gap={20}
 		>
 			<MainSection />
 			<FeaturesSection />
