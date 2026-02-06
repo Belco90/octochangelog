@@ -48,7 +48,7 @@
 		"@tanstack/react-router-ssr-query": "1.158.0",
 		"@tanstack/react-start": "1.158.0",
 		"@unpic/react": "1.0.2",
-		"downshift": "9.0.13",
+		"downshift": "9.2.0",
 		"es-toolkit": "1.44.0",
 		"js-cookie": "3.0.5",
 		"next-themes": "0.4.6",
