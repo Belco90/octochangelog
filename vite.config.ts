@@ -45,6 +45,7 @@ export default defineConfig({
 		tanstackStart({
 			prerender: {
 				enabled: isHosted,
+				crawlLinks: false,
 				filter: ({ path }) => {
 					// Prevent prerendering routes for auth
 					return !path.includes('/auth')
