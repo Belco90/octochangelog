@@ -42,6 +42,7 @@ export const Route = createFileRoute('/compare')({
 	head: () => ({
 		meta: seo({
 			title: 'Compare',
+			url: '/compare',
 		}),
 		links: [{ rel: 'stylesheet', href: hljsCss }],
 	}),
