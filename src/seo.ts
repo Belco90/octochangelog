@@ -1,7 +1,6 @@
-import { BRIEF_DESCRIPTION, SITE_TITLE } from '@/common'
+import { BRIEF_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/common'
 import mascotLogo from '@/images/mascot-logo.png'
 
-const SITE_URL = 'https://octochangelog.com'
 const DEFAULT_OG_IMAGE = `${SITE_URL}${mascotLogo}`
 
 type SeoArgs = {
