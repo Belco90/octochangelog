@@ -38,7 +38,7 @@
 		"postinstall": "pnpm chakra:typegen"
 	},
 	"dependencies": {
-		"@chakra-ui/react": "3.31.0",
+		"@chakra-ui/react": "3.32.0",
 		"@emotion/react": "11.14.0",
 		"@octokit/auth-callback": "6.0.0",
 		"@octokit/rest": "22.0.1",
@@ -67,7 +67,7 @@
 		"unified": "11.0.5"
 	},
 	"devDependencies": {
-		"@chakra-ui/cli": "3.31.0",
+		"@chakra-ui/cli": "3.32.0",
 		"@currents/playwright": "1.21.0",
 		"@eslint-react/eslint-plugin": "2.7.2",
 		"@eslint/compat": "2.0.2",
