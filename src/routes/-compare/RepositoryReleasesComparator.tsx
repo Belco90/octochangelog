@@ -25,7 +25,7 @@ export const RepositoryReleasesComparator = () => {
 
 	return (
 		<Flex direction="column" height="full" pb={10}>
-			<Box py={{ base: 4, md: 8 }}>
+			<Box py={{ base: 4, md: 6 }}>
 				<Container maxWidth="2xl">
 					<Bleed inline={{ md: '10' }}>
 						<Box
@@ -43,7 +43,6 @@ export const RepositoryReleasesComparator = () => {
 			<Separator hideFrom="md" />
 
 			<Flex
-				pt={2}
 				flex="1 1 0%"
 				direction="column"
 				bgColor="bg.subtle"

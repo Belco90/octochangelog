@@ -62,7 +62,7 @@ function CompareLayout({ children }: PropsWithRequiredChildren) {
 		<Box
 			height="full"
 			width="full"
-			py={{ base: 4, md: 10 }}
+			py={{ base: 4, md: 6 }}
 			bgColor={{ base: 'bg', md: 'bg.subtle' }}
 		>
 			<Container maxWidth="2xl">
