@@ -2,7 +2,8 @@
   "name": "Octochangelog",
   "short_name": "Octochangelog",
   "description": "Compare GitHub changelogs in a single view",
-  "start_url": "/",
+  "start_url": "/compare",
+  "scope": "/compare",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
