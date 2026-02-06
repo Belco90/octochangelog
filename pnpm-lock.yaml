@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@chakra-ui/react':
-        specifier: 3.31.0
-        version: 3.31.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: 3.32.0
+        version: 3.32.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@emotion/react':
         specifier: 11.14.0
         version: 11.14.0(@types/react@19.2.10)(react@19.2.4)
@@ -91,8 +91,8 @@ importers:
         version: 11.0.5
     devDependencies:
       '@chakra-ui/cli':
-        specifier: 3.31.0
-        version: 3.31.0(@chakra-ui/react@3.31.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        specifier: 3.32.0
+        version: 3.32.0(@chakra-ui/react@3.32.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       '@currents/playwright':
         specifier: 1.21.0
         version: 1.21.0
@@ -381,14 +381,14 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@chakra-ui/cli@3.31.0':
-    resolution: {integrity: sha512-qRnDImPeZ2kILMlH953PfZNcrAZ4kwY8W+dL8BuBibSTDq5llbeIIowk4SA15MaSzMnRpgY7lQUNzNvN4ZPSIw==}
+  '@chakra-ui/cli@3.32.0':
+    resolution: {integrity: sha512-VYFAvKNWnxagUe4yOfgQ5OlhTJeX3KabG/sWKRuBnB5j3MYtEmm0qmjf1/cK4ead4vQSIh/HD+ny8czlhqRj0g==}
     hasBin: true
     peerDependencies:
       '@chakra-ui/react': '>=3.0.0-next.0'
 
-  '@chakra-ui/react@3.31.0':
-    resolution: {integrity: sha512-puvrZOfnfMA+DckDcz0UxO20l7TVhwsdQ9ksCv4nIUB430yuWzon0yo9fM10lEr3hd7BhjZARpMCVw5u280clw==}
+  '@chakra-ui/react@3.32.0':
+    resolution: {integrity: sha512-moQcmm75vm4i4IYxaRhN+49hGsQSHyB4NU84UsNjLf/XMDcg3RQzOlRfbmYp4DT7ojAtvqZld6aY6jGLikSp8Q==}
     peerDependencies:
       '@emotion/react': '>=11'
       react: '>=18'
@@ -6999,12 +6999,12 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@chakra-ui/cli@3.31.0(@chakra-ui/react@3.31.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@chakra-ui/cli@3.32.0(@chakra-ui/react@3.32.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
       '@babel/core': 7.28.6
       '@babel/parser': 7.28.6
       '@babel/plugin-transform-typescript': 7.28.6(@babel/core@7.28.6)
-      '@chakra-ui/react': 3.31.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@chakra-ui/react': 3.32.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@clack/prompts': 0.11.0
       '@pandacss/is-valid-prop': 1.5.1
       '@types/babel__core': 7.20.5
@@ -7029,7 +7029,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@chakra-ui/react@3.31.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@chakra-ui/react@3.32.0(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@ark-ui/react': 5.30.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@emotion/is-prop-valid': 1.4.0
