@@ -16,7 +16,7 @@
 	--hljs-addition-bg: #dfd;
 }
 
-[data-theme="dark"] {
+.dark {
 	--hljs-comment: #7c8796;
 	--hljs-keyword: #e5c07b;
 	--hljs-number: #d19a66;
