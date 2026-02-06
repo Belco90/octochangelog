@@ -26,6 +26,9 @@
 		// Migrate deprecated config options automatically
 		// https://docs.renovatebot.com/presets-default/#configmigration
 		":configMigration",
+
+		// Apply monthly schedule to all updates
+		"schedule:monthly",
 	],
 	lockFileMaintenance: {
 		enabled: true,
