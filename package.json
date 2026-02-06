@@ -81,7 +81,7 @@
 		"@tanstack/react-query-devtools": "5.91.3",
 		"@types/js-cookie": "3.0.6",
 		"@types/mdast": "4.0.4",
-		"@types/node": "22.19.7",
+		"@types/node": "22.19.8",
 		"@types/react": "19.2.10",
 		"@types/react-dom": "19.2.3",
 		"@types/semver": "7.7.1",
