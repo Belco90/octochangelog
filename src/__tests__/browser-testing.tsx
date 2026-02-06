@@ -1,10 +1,9 @@
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import { RouterContextProvider } from '@tanstack/react-router'
 // eslint-disable-next-line no-restricted-imports
 import { render as vitestRender } from 'vitest-browser-react'
 
 import { fakeRouter } from '@/__tests__/fake-router'
-import { customTheme } from '@/custom-theme'
+import { ChakraThemeProvider } from '@/components/snippets/theme-provider'
 
 import type { ReactElement } from 'react'
 import type { ComponentRenderOptions } from 'vitest-browser-react'
@@ -35,12 +34,7 @@ export async function render(
 ) {
 	return vitestRender(
 		<RouterContextProvider router={fakeRouter}>
-			<ChakraProvider theme={customTheme}>
-				<ColorModeScript
-					initialColorMode={customTheme.config.initialColorMode}
-				/>
-				{ui}
-			</ChakraProvider>
+			<ChakraThemeProvider>{ui}</ChakraThemeProvider>
 		</RouterContextProvider>,
 		options,
 	)

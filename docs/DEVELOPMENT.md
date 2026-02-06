@@ -24,7 +24,7 @@ pnpm install
 - Pulling new changes
 - Adding or updating dependencies
 
-The `postinstall` script automatically generates Chakra UI theme types after dependency installation.
+The `postinstall` script automatically generates Chakra UI v3 theme types after dependency installation.
 
 ## Development Capabilities
 
@@ -105,14 +105,17 @@ When mocking is enabled, MSW (Mock Service Worker) intercepts requests and serve
 
 ### Theme Customization
 
-The project uses Chakra UI with a custom theme. Theme types are auto-generated to provide TypeScript autocomplete for theme tokens.
+The project uses Chakra UI v3 with a custom theme. Theme types are auto-generated to provide TypeScript autocomplete for theme tokens.
 
 ```bash
 # Regenerate theme typings (runs automatically after install)
-pnpm gen:theme-typings
+pnpm chakra:typegen
+
+# Generate Chakra UI snippets for common patterns
+pnpm chakra:snippet
 ```
 
-The custom theme definition and generated types work together to provide type-safe access to colors, spacing, and other design tokens.
+The custom theme definition and generated types work together to provide type-safe access to colors, spacing, and other design tokens. Chakra v3 uses semantic tokens that automatically adapt to light/dark mode.
 
 ### Path Aliases
 
@@ -140,7 +143,7 @@ Corepack reads the `packageManager` field from `package.json` to install the cor
 Regenerate theme typings:
 
 ```bash
-pnpm gen:theme-typings
+pnpm chakra:typegen
 ```
 
 Router types are auto-generated during development when route files change.

@@ -1,9 +1,10 @@
-import { Box, Button, Container, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Container, Heading } from '@chakra-ui/react'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
-import type { CompareSearchParams } from '@/models'
+import { GenericError } from '@/components/GenericError'
+import type { CompareSearchParams, PropsWithRequiredChildren } from '@/models'
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { seo } from '@/seo'
 import { mapStringToRepositoryQueryParams } from '@/utils'
@@ -44,16 +45,45 @@ export const Route = createFileRoute('/compare')({
 		}),
 		links: [{ rel: 'stylesheet', href: hljsCss }],
 	}),
-	component: ComparePage,
-	errorComponent: CompareErrorPage,
+	component: () => (
+		<CompareLayout>
+			<ComparePage />
+		</CompareLayout>
+	),
+	errorComponent: (props) => (
+		<CompareLayout>
+			<CompareErrorPage {...props} />
+		</CompareLayout>
+	),
 })
+
+function CompareLayout({ children }: PropsWithRequiredChildren) {
+	return (
+		<Box
+			height="full"
+			width="full"
+			py={{ base: 4, md: 6 }}
+			bgColor={{ base: 'bg', md: 'bg.subtle' }}
+		>
+			<Container maxWidth="2xl">
+				<Heading
+					as="h1"
+					fontSize={{ base: '3xl', md: '4xl' }}
+					fontWeight="black"
+					letterSpacing="tight"
+				>
+					Compare
+				</Heading>
+			</Container>
+			<ComparatorProvider>{children}</ComparatorProvider>
+		</Box>
+	)
+}
 
 function ComparePage() {
 	return (
-		<Box height="full" width="full" bgColor="background3">
-			<ComparatorProvider>
-				<RepositoryReleasesComparator />
-			</ComparatorProvider>
+		<Box mt={{ base: '2', md: '0' }} height="full">
+			<RepositoryReleasesComparator />
 		</Box>
 	)
 }
@@ -72,23 +102,8 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 	}
 
 	return (
-		<Box height="full" width="full" bgColor="background3">
-			<Container variant="fluid" height="full">
-				<VStack
-					px="10"
-					alignItems="center"
-					spacing={4}
-					justifyContent="center"
-					height="full"
-				>
-					<Heading>Something went wrong!</Heading>
-					<Text as="p">
-						Octochangelog could not process the releases changelogs to be
-						compared.
-					</Text>
-					<Button onClick={handleReset}>Try again</Button>
-				</VStack>
-			</Container>
-		</Box>
+		<GenericError error={error} reset={handleReset}>
+			Octochangelog could not process the releases changelogs to be compared.
+		</GenericError>
 	)
 }

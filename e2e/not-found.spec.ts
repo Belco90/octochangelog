@@ -14,7 +14,7 @@ test('should display a custom "not found" page for non-existing page', async ({
 	).toBeVisible()
 
 	await expect(
-		page.getByText('Octochangelog cannot divine the page you wanted.'),
+		page.getByText('Octochangelog could not find the page you wanted'),
 	).toBeVisible()
 
 	await expect(

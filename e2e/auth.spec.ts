@@ -20,7 +20,7 @@ test('should complete GitHub OAuth flow successfully', async ({ page }) => {
 		'Land on authorizing page after successful OAuth flow on GitHub',
 	).toBeVisible()
 	await expect(
-		page.getByText(/authorized successfully!/i),
+		page.getByText(/authorized successfully/i),
 		'Temporary code exchanged by access token successfully',
 	).toBeVisible()
 
@@ -63,7 +63,7 @@ test('should preserve query parameters during GitHub OAuth flow', async ({
 		'Land on authorizing page after successful OAuth flow on GitHub',
 	).toBeVisible()
 	await expect(
-		page.getByText(/authorized successfully!/i),
+		page.getByText(/authorized successfully/i),
 		'Temporary code exchanged by access token successfully',
 	).toBeVisible()
 

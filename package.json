@@ -30,14 +30,16 @@
 		"e2e": "playwright test",
 		"e2e:ui": "playwright test --ui",
 		"e2e:report": "playwright show-report",
-		"gen:theme-typings": "chakra-cli tokens src/custom-theme.ts --strict-component-types --strict-token-types",
+		"e2e:codegen": "playwright codegen localhost:3000",
+		"chakra": "chakra",
+		"chakra:typegen": "pnpm chakra typegen src/theme.ts",
+		"chakra:snippet": "pnpm chakra snippet --outdir src/components/snippets",
 		"prepare": "husky",
-		"postinstall": "pnpm gen:theme-typings"
+		"postinstall": "pnpm chakra:typegen"
 	},
 	"dependencies": {
-		"@chakra-ui/react": "2.10.9",
+		"@chakra-ui/react": "3.31.0",
 		"@emotion/react": "11.14.0",
-		"@emotion/styled": "11.14.1",
 		"@octokit/auth-callback": "6.0.0",
 		"@octokit/rest": "22.0.1",
 		"@sentry/tanstackstart-react": "10.37.0",
@@ -48,8 +50,8 @@
 		"@unpic/react": "1.0.2",
 		"downshift": "9.0.13",
 		"es-toolkit": "1.44.0",
-		"framer-motion": "12.24.7",
 		"js-cookie": "3.0.5",
+		"next-themes": "0.4.6",
 		"react": "19.2.4",
 		"react-dom": "19.2.4",
 		"react-icons": "5.5.0",
@@ -65,10 +67,7 @@
 		"unified": "11.0.5"
 	},
 	"devDependencies": {
-		"@chakra-ui/cli": "2.5.8",
-		"@chakra-ui/styled-system": "2.12.0",
-		"@chakra-ui/theme-tools": "2.2.6",
-		"@chakra-ui/utils": "2.2.2",
+		"@chakra-ui/cli": "3.31.0",
 		"@currents/playwright": "1.21.0",
 		"@eslint-react/eslint-plugin": "2.7.2",
 		"@eslint/compat": "2.0.1",

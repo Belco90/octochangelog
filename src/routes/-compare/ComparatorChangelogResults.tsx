@@ -1,6 +1,6 @@
-import { Box, Heading, Skeleton, Stack } from '@chakra-ui/react'
+import { Box, Heading, Stack } from '@chakra-ui/react'
 
-import { TextSkeleton } from '@/components/TextSkeleton'
+import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
 import type {
 	MinimalRelease,
@@ -42,32 +42,30 @@ const ReleaseChangelogGroup = ({
 		? getDisplayTitle(originalTitle, title)
 		: title
 
-	const textTransform =
-		title === 'breaking changes' ? 'uppercase' : 'capitalize'
-
 	return (
 		<Box key={title}>
 			{shouldShowTitle && (
 				<Heading
-					as="h3"
-					size="xl"
-					bgColor="background3"
-					mb={4}
-					py={4}
-					textTransform={textTransform}
+					as="h2"
+					size="2xl"
+					fontWeight="extrabold"
+					bgColor="bg.subtle"
+					py="2"
+					mt="1"
+					textTransform="capitalize"
 					position="sticky"
 					top={0}
 				>
 					{displayTitle}
 				</Heading>
 			)}
-			<Box mb={4}>
+			<Box>
 				{releaseGroup.map((processedReleaseChange: ProcessedRelease) => (
 					<ProcessedReleaseChangeDescription
 						key={`${title}-${processedReleaseChange.id}`}
 						repository={repository}
 						processedReleaseChange={processedReleaseChange}
-						mb={8}
+						mb="2"
 					/>
 				))}
 			</Box>
@@ -100,12 +98,7 @@ export const ComparatorChangelogResults = ({
 		: []
 
 	if (isProcessing) {
-		return (
-			<>
-				<Skeleton width="20%" height={8} mb={4} />
-				<TextSkeleton />
-			</>
-		)
+		return <ChangelogSkeleton />
 	}
 
 	if (!processedReleases || Object.keys(processedReleases).length === 0) {
@@ -113,7 +106,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack spacing={6}>
+		<Stack gap={6} divideY="1px">
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}

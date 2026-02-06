@@ -11,12 +11,12 @@ export const Route = createFileRoute('/')({
 function HomePage() {
 	return (
 		<Container
-			maxWidth="container.lg"
-			py={{ base: 8, lg: 16 }}
+			maxWidth="6xl"
+			py={{ base: 2, lg: 4 }}
 			mb={4}
 			display="flex"
 			flexDir="column"
-			gap={40}
+			gap={20}
 		>
 			<MainSection />
 			<FeaturesSection />

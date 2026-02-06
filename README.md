@@ -19,7 +19,11 @@
 
 ## What is Octochangelog?
 
-<img src="./public/browser-preview.png" alt="Octochangelog showing a comparison of releases for the eslint-plugin-testing-library repo">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./public/screenshots/desktop-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./public/screenshots/desktop-light.png">
+  <img alt="Octochangelog comparing releases for the eslint-plugin-testing-library repo" src="./public/screenshots/desktop-light.png">
+</picture>
 
 [Octochangelog](https://www.octochangelog.com/) is a webapp that allows you to compare GitHub changelogs across multiple releases in a single view. You only have to pick a repo, and two versions to compare the changes between them.
 

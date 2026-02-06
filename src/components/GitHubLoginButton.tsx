@@ -41,13 +41,11 @@ export function GitHubLoginButtonInner({
 	}
 
 	return (
-		<Button
-			bg="gray.700"
-			color="white"
-			_hover={{ bg: 'gray.900' }}
-			onClick={handleClick}
-		>
-			{children} <Icon as={DiGithubBadge} ml={2} boxSize={6} />
+		<Button onClick={handleClick}>
+			{children}{' '}
+			<Icon size="xl">
+				<DiGithubBadge />
+			</Icon>
 		</Button>
 	)
 }

@@ -1,4 +1,3 @@
-import { ColorModeScript } from '@chakra-ui/react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {
 	Outlet,
@@ -8,11 +7,11 @@ import {
 } from '@tanstack/react-router'
 
 import { MainLayout } from '@/components/MainLayout'
-import { AllProviders } from '@/components/Providers'
-import { customTheme } from '@/custom-theme'
+import { ChakraThemeProvider } from '@/components/snippets/theme-provider'
 import type { PropsWithRequiredChildren } from '@/models'
 import { seo } from '@/seo'
 import appCss from '@/styles/app.css?url'
+import { system } from '@/theme'
 
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -33,12 +32,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 					},
 					{
 						name: 'theme-color',
-						content: customTheme.colors.primary['50'],
+						content: system.token('colors.brand.200', '#F5D0FE') as string,
 						media: '(prefers-color-scheme: light)',
 					},
 					{
 						name: 'theme-color',
-						content: customTheme.colors.primary['900'],
+						content: system.token('colors.brand.950', '#701A75') as string,
 						media: '(prefers-color-scheme: dark)',
 					},
 					...seo({ title: customTitle }),
@@ -97,16 +96,14 @@ function DocumentWrapper({ children }: PropsWithRequiredChildren) {
 				<HeadContent />
 			</head>
 			<body>
-				<ColorModeScript
-					initialColorMode={customTheme.config.initialColorMode}
-				/>
 				<div data-happo-hide>
 					<ReactQueryDevtools buttonPosition="bottom-left" />
 				</div>
 
-				<AllProviders>
+				<ChakraThemeProvider>
 					<MainLayout>{children}</MainLayout>
-				</AllProviders>
+				</ChakraThemeProvider>
+
 				<Scripts />
 			</body>
 		</html>
