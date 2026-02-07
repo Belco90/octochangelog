@@ -4,6 +4,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehype2react from 'rehype-react'
 import emoji from 'remark-emoji'
 import gfm from 'remark-gfm'
+import remarkGithub from 'remark-github'
 import parse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import markdown from 'remark-stringify'
@@ -21,6 +22,7 @@ import type { Options as RehypeReactOptions } from 'rehype-react'
 async function processDescriptionAsync(
 	description: ProcessedRelease['descriptionMdast'],
 	components: ComponentsMapping,
+	repositoryHtmlUrl: string,
 ): Promise<ReactNode> {
 	const rehypeReactOptions: RehypeReactOptions = {
 		...prod,
@@ -31,6 +33,7 @@ async function processDescriptionAsync(
 		const baseProcessor = unified()
 		baseProcessor.use(parse)
 		baseProcessor.use(gfm)
+		baseProcessor.use(remarkGithub, { repository: repositoryHtmlUrl })
 		baseProcessor.use(emoji, { accessible: true })
 		baseProcessor.use(remark2rehype)
 		baseProcessor.use(rehypeHighlight)
@@ -39,6 +42,7 @@ async function processDescriptionAsync(
 		const markdownProcessor = unified()
 		markdownProcessor.use(markdown)
 		markdownProcessor.use(gfm)
+		markdownProcessor.use(remarkGithub, { repository: repositoryHtmlUrl })
 
 		baseProcessor.process(
 			markdownProcessor.stringify(description),
@@ -77,6 +81,7 @@ export function useProcessDescriptionMdast({
 			const result = await processDescriptionAsync(
 				description,
 				componentsMapping,
+				repository.html_url,
 			)
 
 			setProcessedDescription(result)
