@@ -18,6 +18,13 @@ export default defineConfig({
 		port: 3000,
 	},
 
+	preview: {
+		// Allow the Vite preview server to bind to all interfaces.
+		// This fixes prerendering in containerized build environments (e.g. Netlify)
+		// where the preview server on localhost may not be reachable.
+		host: true,
+	},
+
 	optimizeDeps: {
 		// Exclude msw to avoid bundling it in the client bundle,
 		// and prevent deps optimization errors because of "ClientRequest" in @mswjs/interceptors
