@@ -1,5 +1,7 @@
 const REPO_URL = 'https://github.com/Belco90/octochangelog'
 
+const SITE_URL = 'https://octochangelog.com'
+
 const SITE_TITLE = 'Octochangelog'
 
 const BRIEF_DESCRIPTION = 'Compare GitHub changelogs in a single view'
@@ -12,6 +14,7 @@ const LOW_PRIORITY_GROUP_TITLES = ['others', 'credits', 'thanks', 'artifacts']
 
 export {
 	REPO_URL,
+	SITE_URL,
 	SITE_TITLE,
 	BRIEF_DESCRIPTION,
 	AUTH_REDIRECT_STORAGE_KEY,
