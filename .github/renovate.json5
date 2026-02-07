@@ -26,6 +26,9 @@
 		// Migrate deprecated config options automatically
 		// https://docs.renovatebot.com/presets-default/#configmigration
 		":configMigration",
+
+		// Apply monthly schedule to all updates
+		"schedule:monthly",
 	],
 	lockFileMaintenance: {
 		enabled: true,
@@ -38,6 +41,14 @@
 			matchDepTypes: ["packageManager"],
 			matchPackageNames: ["pnpm"],
 			extends: ["schedule:monthly"],
+		},
+		{
+			// These two must be grouped together, so Playwright uses the right Docker image
+			description: "Playwright test and browser images",
+			groupName: "Playwright ecosystem",
+			matchPackageNames: ["@playwright/test"],
+			matchDatasources: ["npm", "docker"],
+			matchPackagePatterns: ["^mcr\\.microsoft\\.com/playwright$"],
 		},
 	],
 }
