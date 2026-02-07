@@ -49,6 +49,7 @@ export default defineConfig({
 					// Prevent prerendering routes for auth
 					return !path.includes('/auth')
 				},
+				crawlLinks: false, // disable to avoid prerendering compare with filters
 			},
 			sitemap: {
 				host: 'https://octochangelog.com/',
