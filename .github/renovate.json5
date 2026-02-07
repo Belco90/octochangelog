@@ -42,5 +42,13 @@
 			matchPackageNames: ["pnpm"],
 			extends: ["schedule:monthly"],
 		},
+		{
+			// These two must be grouped together, so Playwright uses the right Docker image
+			description: "Playwright test and browser images",
+			groupName: "Playwright ecosystem",
+			matchPackageNames: ["@playwright/test"],
+			matchDatasources: ["npm", "docker"],
+			matchPackagePatterns: ["^mcr\\.microsoft\\.com/playwright$"],
+		},
 	],
 }
