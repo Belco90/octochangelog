@@ -24,8 +24,8 @@ export const RepositoryReleasesComparator = () => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 
 	return (
-		<Flex direction="column" height="full" pb={10}>
-			<Box py={{ base: 4, md: 6 }}>
+		<Flex direction="column" height="full" pb="10">
+			<Box py={{ base: '4', md: '6' }}>
 				<Container maxWidth="2xl">
 					<Bleed inline={{ md: '10' }}>
 						<Box
@@ -51,7 +51,7 @@ export const RepositoryReleasesComparator = () => {
 			>
 				<Container maxWidth="2xl">
 					{repository && fromVersion && toVersion ? (
-						<Box mt={2}>
+						<Box mt="2">
 							<Suspense>
 								<RepositoryReleasesChangelog
 									repository={repository}

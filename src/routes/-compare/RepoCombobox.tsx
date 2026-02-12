@@ -56,7 +56,7 @@ export const RepoCombobox = ({
 			<Combobox.Control>
 				<Combobox.IndicatorGroup
 					insetInlineStart="0"
-					insetInlineEnd="unset"
+					insetInlineEnd="auto"
 					p="0"
 				>
 					<Combobox.Trigger asChild>
@@ -118,7 +118,7 @@ export const RepoCombobox = ({
 						{contentStatus === 'success' && (
 							<>
 								{totalCount > 0 && (
-									<Em px={3} color="fg.subtle">
+									<Em px="3" color="fg.subtle">
 										{totalCount} results
 									</Em>
 								)}

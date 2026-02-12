@@ -93,6 +93,21 @@ const tokens = defineTokens({
 			950: { value: '#082F49' },
 		},
 	},
+	spacing: {
+		'0': { value: '0' },
+		auto: { value: 'auto' },
+	},
+	borders: {
+		'1px': { value: '1px solid' },
+		'2px': { value: '2px solid' },
+		'4px': { value: '4px solid' },
+	},
+	borderWidths: {
+		'0': { value: '0' },
+		'1px': { value: '1px' },
+		'2px': { value: '2px' },
+		'4px': { value: '4px' },
+	},
 })
 
 const semanticTokens = defineSemanticTokens({

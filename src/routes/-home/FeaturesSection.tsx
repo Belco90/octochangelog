@@ -72,14 +72,14 @@ const FEATURES_DESCRIPTIONS: Array<FeatureItemProps> = [
 function FeatureItem({ icon, title, children }: FeatureItemProps) {
 	return (
 		<Card.Root variant="elevated">
-			<Card.Body gap={2}>
+			<Card.Body gap="2">
 				<Box>
 					<Badge
 						variant="subtle"
 						colorPalette="accent"
 						borderRadius="full"
 						size="lg"
-						aspectRatio="1"
+						aspectRatio="square"
 					>
 						{icon}
 					</Badge>
@@ -93,7 +93,7 @@ function FeatureItem({ icon, title, children }: FeatureItemProps) {
 
 export function FeaturesSection() {
 	return (
-		<SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 10, lg: 20 }}>
+		<SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: '10', lg: '20' }}>
 			{FEATURES_DESCRIPTIONS.map(({ title, icon, children }) => (
 				<FeatureItem key={title} icon={icon} title={title}>
 					{children}

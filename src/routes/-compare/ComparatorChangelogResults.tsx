@@ -54,7 +54,7 @@ const ReleaseChangelogGroup = ({
 					mt="1"
 					textTransform="capitalize"
 					position="sticky"
-					top={0}
+					top="0"
 				>
 					{displayTitle}
 				</Heading>
@@ -106,7 +106,7 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack gap={6} divideY="1px">
+		<Stack gap="6" divideY="1px">
 			{sortedGroupTitles.map((title) => (
 				<ReleaseChangelogGroup
 					key={title}

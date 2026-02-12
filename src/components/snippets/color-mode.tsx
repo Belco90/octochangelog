@@ -81,34 +81,40 @@ export const ColorModeButton = function ColorModeButton({
 
 export const LightMode = function LightMode({
 	ref,
+	children,
 	...props
 }: SpanProps & { ref?: RefObject<HTMLSpanElement | null> }) {
 	return (
 		<Span
+			{...props}
 			color="fg"
 			display="contents"
 			className="chakra-theme light"
 			colorPalette="gray"
 			colorScheme="light"
 			ref={ref}
-			{...props}
-		/>
+		>
+			{children}
+		</Span>
 	)
 }
 
 export const DarkMode = function DarkMode({
 	ref,
+	children,
 	...props
 }: SpanProps & { ref?: RefObject<HTMLSpanElement | null> }) {
 	return (
 		<Span
+			{...props}
 			color="fg"
 			display="contents"
 			className="chakra-theme dark"
 			colorPalette="gray"
 			colorScheme="dark"
 			ref={ref}
-			{...props}
-		/>
+		>
+			{children}
+		</Span>
 	)
 }
