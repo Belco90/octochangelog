@@ -32,7 +32,7 @@
 		"e2e:report": "playwright show-report",
 		"e2e:codegen": "playwright codegen localhost:3000",
 		"chakra": "chakra",
-		"chakra:typegen": "pnpm chakra typegen src/theme.ts",
+		"chakra:typegen": "pnpm chakra typegen src/theme.ts --strict",
 		"chakra:snippet": "pnpm chakra snippet --outdir src/components/snippets",
 		"prepare": "husky",
 		"postinstall": "pnpm chakra:typegen"
