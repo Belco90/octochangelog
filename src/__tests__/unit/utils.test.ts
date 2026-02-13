@@ -18,6 +18,7 @@ import {
 	mapStringToRepositoryQueryParams,
 	paginateList,
 	sanitizeReleaseGroupTitle,
+	slugify,
 } from '@/utils'
 
 import type { RootContent } from 'mdast'
@@ -337,6 +338,45 @@ describe('sanitizeReleaseGroupTitle', () => {
 			const result = sanitizeReleaseGroupTitle(input)
 
 			expect(result).toEqual(output)
+		},
+	)
+})
+
+describe('slugify', () => {
+	it.each`
+		label                        | input                        | output
+		${'simple lowercase'}        | ${'Features'}                | ${'features'}
+		${'spaces to hyphens'}       | ${'Bug Fixes'}               | ${'bug-fixes'}
+		${'multiple spaces'}         | ${'Breaking   Changes'}      | ${'breaking-changes'}
+		${'ampersand removed'}       | ${'Misc & Others'}           | ${'misc-others'}
+		${'removes punctuation'}     | ${'Features, Improvements!'} | ${'features-improvements'}
+		${'french accents'}          | ${'Café v2.0'}               | ${'cafe-v-2-0'}
+		${'spanish characters'}      | ${'Año Nuevo'}               | ${'ano-nuevo'}
+		${'german umlauts'}          | ${'Größe'}                   | ${'grosse'}
+		${'version numbers'}         | ${'v2.0'}                    | ${'v-2-0'}
+		${'already kebab-case'}      | ${'already-kebab-case'}      | ${'already-kebab-case'}
+		${'all caps'}                | ${'BREAKING CHANGES'}        | ${'breaking-changes'}
+		${'camelCase'}               | ${'camelCaseString'}         | ${'camel-case-string'}
+		${'PascalCase'}              | ${'PascalCaseString'}        | ${'pascal-case-string'}
+		${'empty string'}            | ${''}                        | ${''}
+		${'leading/trailing spaces'} | ${'  Features  '}            | ${'features'}
+		${'hyphens preserved'}       | ${'Pre-Release'}             | ${'pre-release'}
+		${'parentheses removed'}     | ${'Features (New)'}          | ${'features-new'}
+		${'slashes as separators'}   | ${'API/SDK Updates'}         | ${'api-sdk-updates'}
+		${'multiple diacritics'}     | ${'Crème Brûlée'}            | ${'creme-brulee'}
+		${'numbers in text'}         | ${'Top 10 Features'}         | ${'top-10-features'}
+		${'decimal numbers'}         | ${'Version 3.14.159'}        | ${'version-3-14-159'}
+		${'real-world: features'}    | ${'features'}                | ${'features'}
+		${'real-world: bug fixes'}   | ${'bug fixes'}               | ${'bug-fixes'}
+		${'real-world: breaking'}    | ${'breaking changes'}        | ${'breaking-changes'}
+		${'real-world: others'}      | ${'others'}                  | ${'others'}
+		${'real-world: minor'}       | ${'minor'}                   | ${'minor'}
+	`(
+		'should return $output for $label',
+		({ input, output }: { label: string; input: string; output: string }) => {
+			const result = slugify(input)
+
+			expect(result).toBe(output)
 		},
 	)
 })
