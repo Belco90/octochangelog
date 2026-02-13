@@ -1,7 +1,9 @@
-import { Box, Heading, Stack } from '@chakra-ui/react'
+import { Box, Heading, Icon, Link, Stack } from '@chakra-ui/react'
+import { HiMiniLink } from 'react-icons/hi2'
 
 import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
+import { useScrollToHash } from '@/hooks/useScrollToHash'
 import type {
 	MinimalRelease,
 	ProcessedRelease,
@@ -11,6 +13,7 @@ import type {
 import {
 	compareReleaseGroupsByPriority,
 	getSemVerReleaseGroup,
+	slugify,
 	stripEmojis,
 } from '@/utils'
 
@@ -30,35 +33,43 @@ const ReleaseChangelogGroup = ({
 	title,
 	releaseGroup,
 	repository,
-	shouldShowTitle,
 }: {
 	title: ReleaseGroup
 	releaseGroup: Array<ProcessedRelease>
 	repository: MinimalRepository
-	shouldShowTitle: boolean
 }) => {
 	const originalTitle = releaseGroup[0]?.originalTitle
 	const displayTitle = originalTitle
 		? getDisplayTitle(originalTitle, title)
 		: title
 
+	const slug = slugify(displayTitle)
+
 	return (
-		<Box key={title}>
-			{shouldShowTitle && (
-				<Heading
-					as="h2"
-					size="2xl"
-					fontWeight="extrabold"
-					bgColor="bg.subtle"
-					py="2"
-					mt="1"
-					textTransform="capitalize"
-					position="sticky"
-					top="0"
+		<Box>
+			<Heading
+				as="h2"
+				size="2xl"
+				fontWeight="extrabold"
+				bgColor="bg.subtle"
+				py="2"
+				mt="1"
+				textTransform="capitalize"
+				position="sticky"
+				top="0"
+				id={slug}
+			>
+				<Link
+					href={`#${slug}`}
+					aria-label={`Link to ${displayTitle} section`}
+					textDecorationColor="brand.emphasized"
 				>
-					{displayTitle}
-				</Heading>
-			)}
+					{displayTitle}{' '}
+					<Icon size="md">
+						<HiMiniLink />
+					</Icon>
+				</Link>
+			</Heading>
 			<Box>
 				{releaseGroup.map((processedReleaseChange: ProcessedRelease) => (
 					<ProcessedReleaseChangeDescription
@@ -83,15 +94,8 @@ export const ComparatorChangelogResults = ({
 }: ComparatorChangelogResultsProps) => {
 	const { processedReleases, isProcessing } = useProcessReleases(releases)
 
-	const shouldShowProcessedReleaseTitle = (() => {
-		if (!processedReleases) {
-			return false
-		}
-
-		const groupsTitles = Object.keys(processedReleases)
-
-		return groupsTitles.length > 1 || !groupsTitles.includes('others')
-	})()
+	// Scroll to hash anchor once content is rendered
+	useScrollToHash(!isProcessing && !!processedReleases)
 
 	const sortedGroupTitles: Array<string> | null = processedReleases
 		? Object.keys(processedReleases).sort(compareReleaseGroupsByPriority)
@@ -113,7 +117,6 @@ export const ComparatorChangelogResults = ({
 					title={title}
 					releaseGroup={processedReleases[title]}
 					repository={repository}
-					shouldShowTitle={shouldShowProcessedReleaseTitle}
 				/>
 			))}
 		</Stack>
