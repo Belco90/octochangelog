@@ -9,7 +9,7 @@ export function Footer() {
 			as="footer"
 			bgColor="bg.subtle"
 			pb={{ base: '4', lg: '6' }}
-			borderTopWidth="1px"
+			borderTopWidth="[1px]"
 			borderTopColor="border.muted"
 		>
 			<Center py={{ base: '1', lg: '4' }} px={{ base: '4', lg: '5' }}>

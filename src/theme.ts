@@ -98,15 +98,15 @@ const tokens = defineTokens({
 		auto: { value: 'auto' },
 	},
 	borders: {
-		'1px': { value: '1px solid' },
-		'2px': { value: '2px solid' },
-		'4px': { value: '4px solid' },
+		sm: { value: '1px solid' },
+		md: { value: '2px solid' },
+		lg: { value: '4px solid' },
 	},
 	borderWidths: {
 		'0': { value: '0' },
-		'1px': { value: '1px' },
-		'2px': { value: '2px' },
-		'4px': { value: '4px' },
+		sm: { value: '1px' },
+		md: { value: '2px' },
+		lg: { value: '4px' },
 	},
 })
 

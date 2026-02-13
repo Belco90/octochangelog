@@ -144,7 +144,7 @@ function AuthCallbackPending() {
 		<Alert.Root status="info" variant="subtle">
 			<VStack w="full" alignItems="center">
 				<Alert.Indicator boxSize="10">
-					<Spinner size="lg" borderWidth="4px" />
+					<Spinner size="lg" borderWidth="lg" />
 				</Alert.Indicator>
 				<Alert.Content display="contents">
 					<Alert.Title>

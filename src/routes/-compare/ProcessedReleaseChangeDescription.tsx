@@ -145,7 +145,7 @@ export const ProcessedReleaseChangeDescription = ({
 					<Box
 						ml="1"
 						pl="2"
-						borderInlineStartWidth="1px"
+						borderInlineStartWidth="sm"
 						borderInlineStartColor="brand.fg/20"
 						wordBreak="break-word"
 					>

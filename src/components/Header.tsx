@@ -17,7 +17,7 @@ export const Header = (props: BoxProps) => {
 		<Box
 			{...props}
 			as="header"
-			borderBottomWidth="1px"
+			borderBottomWidth="sm"
 			borderColor="brand.emphasized"
 		>
 			<Box px="2" py="1">
