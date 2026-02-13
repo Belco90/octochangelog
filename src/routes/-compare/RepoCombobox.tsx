@@ -56,7 +56,7 @@ export const RepoCombobox = ({
 			<Combobox.Control>
 				<Combobox.IndicatorGroup
 					insetInlineStart="0"
-					insetInlineEnd="unset"
+					insetInlineEnd="auto"
 					p="0"
 				>
 					<Combobox.Trigger asChild>
@@ -66,7 +66,7 @@ export const RepoCombobox = ({
 							px="2"
 							h="full"
 							roundedLeft="2xl"
-							borderWidth="1px"
+							borderWidth="sm"
 							borderRightWidth="0"
 						>
 							<Icon color="brand.fg" strokeWidth="3">
@@ -101,7 +101,7 @@ export const RepoCombobox = ({
 					<Combobox.Content minW="xs">
 						{contentStatus === 'loading' && (
 							<HStack p="2">
-								<Spinner size="sm" borderWidth="2px" color="brand.fg" />
+								<Spinner size="sm" borderWidth="md" color="brand.fg" />
 								<Span>Loading...</Span>
 							</HStack>
 						)}
@@ -118,7 +118,7 @@ export const RepoCombobox = ({
 						{contentStatus === 'success' && (
 							<>
 								{totalCount > 0 && (
-									<Em px={3} color="fg.subtle">
+									<Em px="3" color="fg.subtle">
 										{totalCount} results
 									</Em>
 								)}

@@ -9,7 +9,7 @@ export function MainSection() {
 	return (
 		<Stack
 			alignItems="center"
-			gap={8}
+			gap="8"
 			direction={{ base: 'column', xl: 'row' }}
 		>
 			<OptimizedImage
@@ -19,7 +19,7 @@ export function MainSection() {
 				height={500}
 				priority
 			/>
-			<VStack gap={8} alignItems={{ base: 'center', xl: 'start' }}>
+			<VStack gap="8" alignItems={{ base: 'center', xl: 'start' }}>
 				<Heading
 					as="h1"
 					fontSize={{ base: '5xl', md: '7xl' }}
@@ -34,7 +34,7 @@ export function MainSection() {
 					fontSize={{ base: '2xl', md: '4xl' }}
 					fontWeight="extrabold"
 					textAlign={{ base: 'center', lg: 'start' }}
-					pr={{ base: 0, lg: 4 }}
+					pr={{ base: '0', lg: '4' }}
 					lineHeight="shorter"
 				>
 					{BRIEF_DESCRIPTION}
@@ -42,7 +42,7 @@ export function MainSection() {
 				<Stack
 					direction={{ base: 'column', md: 'row' }}
 					alignItems="center"
-					gap={2}
+					gap="2"
 				>
 					<Button variant="cta" asChild>
 						<RouteLink to="/compare" textDecoration="none">

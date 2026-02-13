@@ -93,6 +93,21 @@ const tokens = defineTokens({
 			950: { value: '#082F49' },
 		},
 	},
+	spacing: {
+		'0': { value: '0' },
+		auto: { value: 'auto' },
+	},
+	borders: {
+		sm: { value: '1px solid' },
+		md: { value: '2px solid' },
+		lg: { value: '4px solid' },
+	},
+	borderWidths: {
+		'0': { value: '0' },
+		sm: { value: '1px' },
+		md: { value: '2px' },
+		lg: { value: '4px' },
+	},
 })
 
 const semanticTokens = defineSemanticTokens({
@@ -155,6 +170,7 @@ const fieldSlotRecipe = defineSlotRecipe({
 })
 
 const customConfig = defineConfig({
+	strictTokens: true,
 	globalCss: {
 		'html, body': { height: 'full' },
 		'*': {

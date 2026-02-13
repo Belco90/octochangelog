@@ -63,7 +63,7 @@ export const RepositoriesComparatorFilters = () => {
 	const isVersionError = hasRepo && !isFetching && !hasReleases
 
 	return (
-		<VStack gap={{ base: 4, md: 6 }}>
+		<VStack gap={{ base: '4', md: '6' }}>
 			<RepoCombobox
 				initialInputValue={repository?.full_name}
 				onSelect={setRepository}
@@ -72,7 +72,7 @@ export const RepositoriesComparatorFilters = () => {
 			<Stack
 				width="full"
 				direction={{ base: 'column', md: 'row' }}
-				gap={{ base: 4, md: 6 }}
+				gap={{ base: '4', md: '6' }}
 			>
 				<ReleaseVersionField
 					label="From version"
