@@ -1,4 +1,4 @@
-import { lowerCase } from 'es-toolkit'
+import { deburr, kebabCase, lowerCase } from 'es-toolkit/string'
 import * as semver from 'semver'
 
 import { HIGH_PRIORITY_GROUP_TITLES, LOW_PRIORITY_GROUP_TITLES } from '@/common'
@@ -242,6 +242,15 @@ function paginateList<TListItem>(
 	}
 }
 
+/**
+ * Converts a given string into a URL-friendly "slug".
+ *
+ * Spaces are replaced with hyphens.
+ */
+function slugify(text: string) {
+	return kebabCase(deburr(text))
+}
+
 export {
 	mapRepositoryToQueryParams,
 	mapStringToRepositoryQueryParams,
@@ -256,4 +265,5 @@ export {
 	paginateList,
 	sanitizeReleaseGroupTitle,
 	stripEmojis,
+	slugify,
 }
