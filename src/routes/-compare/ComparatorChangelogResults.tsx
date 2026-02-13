@@ -3,6 +3,7 @@ import { HiMiniLink } from 'react-icons/hi2'
 
 import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import { useProcessReleases } from '@/hooks/useProcessReleases'
+import { useScrollToHash } from '@/hooks/useScrollToHash'
 import type {
 	MinimalRelease,
 	ProcessedRelease,
@@ -92,6 +93,9 @@ export const ComparatorChangelogResults = ({
 	repository,
 }: ComparatorChangelogResultsProps) => {
 	const { processedReleases, isProcessing } = useProcessReleases(releases)
+
+	// Scroll to hash anchor once content is rendered
+	useScrollToHash(!isProcessing && !!processedReleases)
 
 	const sortedGroupTitles: Array<string> | null = processedReleases
 		? Object.keys(processedReleases).sort(compareReleaseGroupsByPriority)
