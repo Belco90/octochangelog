@@ -169,6 +169,16 @@ const fieldSlotRecipe = defineSlotRecipe({
 	},
 })
 
+/** Extend default link recipe to add active state styling */
+const linkRecipe = defineRecipe({
+	base: {
+		_active: {
+			textDecoration: 'underline',
+			textUnderlineOffset: '3px',
+		},
+	},
+})
+
 const customConfig = defineConfig({
 	strictTokens: true,
 	globalCss: {
@@ -182,7 +192,7 @@ const customConfig = defineConfig({
 	theme: {
 		tokens,
 		semanticTokens,
-		recipes: { button: buttonRecipe },
+		recipes: { button: buttonRecipe, link: linkRecipe },
 		slotRecipes: { field: fieldSlotRecipe },
 	},
 })
