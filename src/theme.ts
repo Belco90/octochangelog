@@ -169,10 +169,14 @@ const fieldSlotRecipe = defineSlotRecipe({
 	},
 })
 
-/** Extend default link recipe to add active state styling */
+/** Extend default link recipe to add active and focus-visible state styling */
 const linkRecipe = defineRecipe({
 	base: {
 		_active: {
+			textDecoration: 'underline',
+			textUnderlineOffset: '3px',
+		},
+		_focusVisible: {
 			textDecoration: 'underline',
 			textUnderlineOffset: '3px',
 		},
