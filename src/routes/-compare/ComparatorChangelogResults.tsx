@@ -45,6 +45,22 @@ const ReleaseChangelogGroup = ({
 
 	const slug = slugify(displayTitle)
 
+	const handleHashLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault()
+		const targetElement = document.getElementById(slug)
+		if (targetElement) {
+			// Update the URL hash
+			window.history.pushState(null, '', `#${slug}`)
+			// Scroll to the element smoothly
+			targetElement.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start',
+			})
+			// Keep focus on the link to maintain the underline
+			;(e.currentTarget as HTMLAnchorElement).focus()
+		}
+	}
+
 	return (
 		<Box>
 			<Heading
@@ -63,6 +79,7 @@ const ReleaseChangelogGroup = ({
 					href={`#${slug}`}
 					aria-label={`Link to ${displayTitle} section`}
 					textDecorationColor="brand.emphasized"
+					onClick={handleHashLinkClick}
 				>
 					{displayTitle}{' '}
 					<Icon size="md">
