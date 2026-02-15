@@ -169,13 +169,9 @@ const fieldSlotRecipe = defineSlotRecipe({
 	},
 })
 
-/** Extend default link recipe to add hover, active and focus-visible state styling */
+/** Extend default link recipe to add active and focus-visible state styling */
 const linkRecipe = defineRecipe({
 	base: {
-		_hover: {
-			textDecoration: 'underline',
-			textUnderlineOffset: '3px',
-		},
 		_active: {
 			textDecoration: 'underline',
 			textUnderlineOffset: '3px',
@@ -195,6 +191,11 @@ const customConfig = defineConfig({
 			focusRing: 'none !important',
 			focusVisibleRing: 'outside !important',
 			focusRingColor: 'accent.focusRing !important',
+		},
+		// Style links within targeted headings
+		':target a': {
+			textDecoration: 'underline',
+			textUnderlineOffset: '3px',
 		},
 	},
 	theme: {
