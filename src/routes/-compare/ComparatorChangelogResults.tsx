@@ -18,6 +18,7 @@ import {
 } from '@/utils'
 
 import { ProcessedReleaseChangeDescription } from './ProcessedReleaseChangeDescription'
+import { TableOfContentsSidebar } from './TableOfContentsSidebar'
 
 function getDisplayTitle(originalTitle: string, processedTitle: string) {
 	if (processedTitle === 'others') {
@@ -110,15 +111,18 @@ export const ComparatorChangelogResults = ({
 	}
 
 	return (
-		<Stack gap="6" divideY="1px">
-			{sortedGroupTitles.map((title) => (
-				<ReleaseChangelogGroup
-					key={title}
-					title={title}
-					releaseGroup={processedReleases[title]}
-					repository={repository}
-				/>
-			))}
-		</Stack>
+		<>
+			<TableOfContentsSidebar sections={sortedGroupTitles} />
+			<Stack gap="6" divideY="1px">
+				{sortedGroupTitles.map((title) => (
+					<ReleaseChangelogGroup
+						key={title}
+						title={title}
+						releaseGroup={processedReleases[title]}
+						repository={repository}
+					/>
+				))}
+			</Stack>
+		</>
 	)
 }
