@@ -103,8 +103,8 @@ importers:
         specifier: 9.39.2
         version: 9.39.2
       '@netlify/vite-plugin-tanstack-start':
-        specifier: 1.2.8
-        version: 1.2.8(@tanstack/react-start@1.158.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)))(babel-plugin-macros@3.1.0)(rollup@4.59.0)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
+        specifier: 1.2.12
+        version: 1.2.12(@tanstack/react-start@1.158.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)))(babel-plugin-macros@3.1.0)(rollup@4.59.0)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
       '@octokit/openapi-types':
         specifier: 27.0.0
         version: 27.0.0
@@ -1412,8 +1412,8 @@ packages:
     resolution: {integrity: sha512-5gxMWh/S7wr0uHKSTbMv4bjWmWSpwpeLYvErWeVNAPll5/QNFo9aWimMAUuh8ReLY3/fg92XAroVVu7+z27Snw==}
     engines: {node: ^18.14.0 || >=20}
 
-  '@netlify/vite-plugin-tanstack-start@1.2.8':
-    resolution: {integrity: sha512-8tDKN9jYBBIVhsX4B8Ef9cuXvuifPCMYxKMRXN8gshGrJK1g+7uiwK8U07wt40kzLFOoFT6N3YgAIfGqpLTN2A==}
+  '@netlify/vite-plugin-tanstack-start@1.2.12':
+    resolution: {integrity: sha512-LpXS0ObA+EaIW+KUeRpBHr1pLuaZseUM8pt8lOkmpdYU7nBJR2VhtXcFq1t5TEylN1n9CXP7AiIViud8mCBSJA==}
     engines: {node: ^22.12.0 || >=24.0.0}
     peerDependencies:
       '@tanstack/react-start': '>=1.132.0'
@@ -8246,7 +8246,7 @@ snapshots:
 
   '@netlify/types@2.3.0': {}
 
-  '@netlify/vite-plugin-tanstack-start@1.2.8(@tanstack/react-start@1.158.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)))(babel-plugin-macros@3.1.0)(rollup@4.59.0)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))':
+  '@netlify/vite-plugin-tanstack-start@1.2.12(@tanstack/react-start@1.158.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)))(babel-plugin-macros@3.1.0)(rollup@4.59.0)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@netlify/vite-plugin': 2.10.2(babel-plugin-macros@3.1.0)(rollup@4.59.0)(vite@7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2))
       vite: 7.3.1(@types/node@22.19.8)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
