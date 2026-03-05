@@ -68,7 +68,7 @@
 	"devDependencies": {
 		"@chakra-ui/cli": "3.33.0",
 		"@currents/playwright": "1.21.2",
-		"@eslint-react/eslint-plugin": "2.9.4",
+		"@eslint-react/eslint-plugin": "2.13.0",
 		"@eslint/compat": "2.0.2",
 		"@eslint/js": "9.39.2",
 		"@netlify/vite-plugin-tanstack-start": "1.2.12",
