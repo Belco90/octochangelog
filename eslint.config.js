@@ -192,7 +192,10 @@ export default defineConfig(
 	{
 		name: 'Config files',
 		files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
-		extends: [tsEslint.configs.disableTypeChecked],
+		extends: [
+			tsEslint.configs.disableTypeChecked,
+			eslintReact.configs['disable-type-checked'],
+		],
 	},
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	globalIgnores(['**/public', '**/next-env.d.ts', '**/src/fixtures/**']),
