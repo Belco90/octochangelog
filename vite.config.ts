@@ -1,5 +1,5 @@
 import netlify from '@netlify/vite-plugin-tanstack-start'
-import { sentryTanstackStart } from '@sentry/tanstackstart-react'
+import { sentryTanstackStart } from '@sentry/tanstackstart-react/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
 import { playwright } from '@vitest/browser-playwright'
