@@ -22,12 +22,12 @@ export function Footer() {
 						Created with love <br />
 						by{' '}
 						<Link
-							href="https://mario.dev/"
-							title="Mario's website"
+							href="https://belco.dev/"
+							title="Belco's website"
 							colorPalette="brand"
 							isExternal
 						>
-							Mario
+							Belco
 						</Link>{' '}
 						&{' '}
 						<Link

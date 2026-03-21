@@ -42,12 +42,12 @@ test('should display the corresponding information', async ({
 	}
 
 	await expect(
-		page.getByRole('contentinfo').getByText(/Created.+ by Mario/),
+		page.getByRole('contentinfo').getByText(/Created.+ by Belco/),
 	).toBeVisible()
 
-	await expect(page.getByRole('link', { name: /mario/i })).toHaveAttribute(
+	await expect(page.getByRole('link', { name: /belco/i })).toHaveAttribute(
 		'href',
-		'https://mario.dev/',
+		'https://belco.dev/',
 	)
 
 	await expect(
