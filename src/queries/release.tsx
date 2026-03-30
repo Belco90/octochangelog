@@ -19,6 +19,7 @@ type ReleasesQueryParams = {
 
 const RELEASES_QUERY_KEY = 'releases'
 const PROCESSED_RELEASES_QUERY_KEY = 'processed-releases'
+const RELEASES_STALE_TIME_MS = 5 * 60 * 1000 // 5 minutes, matching server-side cache TTL
 
 function releasesQueryOptions(params: ReleasesQueryParams) {
 	const { repository, ...remainingParams } = params
@@ -30,6 +31,7 @@ function releasesQueryOptions(params: ReleasesQueryParams) {
 
 	return queryOptions<ReleasesQueryResults>({
 		queryKey: [RELEASES_QUERY_KEY, finalParams],
+		staleTime: RELEASES_STALE_TIME_MS,
 		placeholderData: (previousData, previousQuery) => {
 			// Keep the previous data if the repo is still the same to keep a smooth value
 			// in the UI (prevent loading blinks).
