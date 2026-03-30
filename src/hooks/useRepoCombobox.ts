@@ -78,7 +78,7 @@ export function useRepoCombobox({
 		onOpenChange: (e) => setIsOpen(e.open),
 		onValueChange: ({ items }) => {
 			setIsTyping(false)
-			const selectedRepo = items[0] as FullRepository | null
+			const selectedRepo = (items[0] as FullRepository | undefined) ?? null
 			onSelect(selectedRepo)
 		},
 	})

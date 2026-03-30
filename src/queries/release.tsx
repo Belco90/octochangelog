@@ -21,21 +21,33 @@ const RELEASES_QUERY_KEY = 'releases'
 const PROCESSED_RELEASES_QUERY_KEY = 'processed-releases'
 
 function releasesQueryOptions(params: ReleasesQueryParams) {
-	const finalParams: RepositoryQueryParams = mapRepositoryToQueryParams(
-		params.repository ?? undefined,
+	const { repository, ...remainingParams } = params
+	const repo: RepositoryQueryParams = mapRepositoryToQueryParams(
+		repository ?? undefined,
 	)
-	const { fromVersion, toVersion } = params
+
+	const finalParams = { ...repo, ...remainingParams }
 
 	return queryOptions<ReleasesQueryResults>({
-		queryKey: [RELEASES_QUERY_KEY, finalParams, fromVersion, toVersion],
+		queryKey: [RELEASES_QUERY_KEY, finalParams],
+		placeholderData: (previousData, previousQuery) => {
+			// Keep the previous data if the repo is still the same to keep a smooth value
+			// in the UI (prevent loading blinks).
+			const previousParams = previousQuery?.queryKey[1] as
+				| RepositoryQueryParams
+				| undefined
+			if (
+				previousParams?.owner === finalParams.owner &&
+				previousParams?.repo === finalParams.repo
+			) {
+				return previousData
+			}
+
+			return undefined
+		},
 		queryFn: () =>
 			getReleases({
-				data: {
-					owner: finalParams.owner,
-					repo: finalParams.repo,
-					fromVersion,
-					toVersion,
-				},
+				data: finalParams,
 			}),
 		enabled: Boolean(params.repository),
 	})

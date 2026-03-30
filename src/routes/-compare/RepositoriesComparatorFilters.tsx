@@ -61,6 +61,8 @@ export const RepositoriesComparatorFilters = () => {
 	const hasReleases = releases != null && releases.length > 0
 	const selectPlaceholder = getVersionPlaceholder(hasRepo)
 	const isVersionError = hasRepo && !isFetching && !hasReleases
+	const isVersionLoading = isFetching && !hasRepo
+	const isVersionDisabled = !hasReleases || isVersionLoading
 
 	return (
 		<VStack gap={{ base: '4', md: '6' }}>
@@ -77,8 +79,8 @@ export const RepositoriesComparatorFilters = () => {
 				<ReleaseVersionField
 					label="From version"
 					id="from-version"
-					isDisabled={!hasReleases || isFetching}
-					isLoading={isFetching}
+					isDisabled={isVersionDisabled}
+					isLoading={isVersionLoading}
 					placeholder={selectPlaceholder}
 					options={fromReleases}
 					value={fromVersion ?? undefined}
@@ -88,8 +90,8 @@ export const RepositoriesComparatorFilters = () => {
 				<ReleaseVersionField
 					label="To version"
 					id="to-version"
-					isDisabled={!hasReleases || isFetching}
-					isLoading={isFetching}
+					isDisabled={isVersionDisabled}
+					isLoading={isVersionLoading}
 					placeholder={selectPlaceholder}
 					options={toReleases}
 					value={toVersion ?? undefined}
