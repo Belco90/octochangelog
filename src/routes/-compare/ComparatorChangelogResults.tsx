@@ -1,12 +1,10 @@
 import { Box, Heading, Icon, Link, Stack } from '@chakra-ui/react'
 import { HiMiniLink } from 'react-icons/hi2'
 
-import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
-import { useProcessReleases } from '@/hooks/useProcessReleases'
 import { useScrollToHash } from '@/hooks/useScrollToHash'
 import type {
-	MinimalRelease,
 	ProcessedRelease,
+	ProcessedReleasesCollection,
 	ReleaseGroup,
 	MinimalRepository,
 } from '@/models'
@@ -84,30 +82,20 @@ const ReleaseChangelogGroup = ({
 	)
 }
 type ComparatorChangelogResultsProps = {
-	releases: Array<MinimalRelease>
+	processedReleases: ProcessedReleasesCollection
 	repository: MinimalRepository
 }
 
 export const ComparatorChangelogResults = ({
-	releases,
+	processedReleases,
 	repository,
 }: ComparatorChangelogResultsProps) => {
-	const { processedReleases, isProcessing } = useProcessReleases(releases)
-
 	// Scroll to hash anchor once content is rendered
-	useScrollToHash(!isProcessing && !!processedReleases)
+	useScrollToHash(!!processedReleases)
 
-	const sortedGroupTitles: Array<string> | null = processedReleases
-		? Object.keys(processedReleases).sort(compareReleaseGroupsByPriority)
-		: []
-
-	if (isProcessing) {
-		return <ChangelogSkeleton />
-	}
-
-	if (!processedReleases || Object.keys(processedReleases).length === 0) {
-		return null
-	}
+	const sortedGroupTitles = Object.keys(processedReleases).sort(
+		compareReleaseGroupsByPriority,
+	)
 
 	return (
 		<Stack gap="6" divideY="1px">

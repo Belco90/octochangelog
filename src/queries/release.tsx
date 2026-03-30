@@ -1,18 +1,14 @@
 import { queryOptions } from '@tanstack/react-query'
-import * as semver from 'semver'
 
-import { octokit } from '@/github-client'
 import type {
 	MinimalRelease,
+	ProcessedReleasesCollection,
 	ReleaseVersion,
 	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
-import {
-	extractVersionFromTag,
-	isStableRelease,
-	mapRepositoryToQueryParams,
-} from '@/utils'
+import { getProcessedReleases, getReleases } from '@/server/releases'
+import { mapRepositoryToQueryParams } from '@/utils'
 
 type ReleasesQueryResults = Array<MinimalRelease>
 type ReleasesQueryParams = {
@@ -21,66 +17,58 @@ type ReleasesQueryParams = {
 	toVersion?: ReleaseVersion | null
 }
 
-const QUERY_KEY = 'releases'
-const MAX_AUTO_PAGINATION = 10
-
-function getHasNextPage(link: string): boolean {
-	return link.includes('rel="next"')
-}
+const RELEASES_QUERY_KEY = 'releases'
+const PROCESSED_RELEASES_QUERY_KEY = 'processed-releases'
 
 function releasesQueryOptions(params: ReleasesQueryParams) {
 	const finalParams: RepositoryQueryParams = mapRepositoryToQueryParams(
 		params.repository ?? undefined,
 	)
 	const { fromVersion, toVersion } = params
-	const hasFromVersion = !!fromVersion
-	const hasToVersion = !!toVersion
 
 	return queryOptions<ReleasesQueryResults>({
-		queryKey: [QUERY_KEY, finalParams],
-		// TODO: move this logic to usePaginatedQuery
-		queryFn: async () => {
-			const { owner, repo } = finalParams
-			const releases: Array<MinimalRelease> = []
-			let shouldKeepPaginating = true
-			let pagination = 1
-
-			while (shouldKeepPaginating) {
-				const response = await octokit.rest.repos.listReleases({
-					owner,
-					repo,
-					per_page: 100,
-					page: pagination,
-				})
-				const { data: releasesBatch, headers } = response
-				releases.push(...releasesBatch.filter(isStableRelease))
-
-				pagination++
-				const hasNextPage = !!headers.link && getHasNextPage(headers.link)
-				const isMaxAutoPaginationReached = pagination > MAX_AUTO_PAGINATION
-				const lastReleaseFetched = releasesBatch[releasesBatch.length - 1]
-				const lastReleaseVersion = extractVersionFromTag(
-					lastReleaseFetched.tag_name,
-				)
-				const isFromReleaseFetched =
-					!hasFromVersion ||
-					semver.gte(extractVersionFromTag(fromVersion), lastReleaseVersion)
-				const isToReleaseFetched =
-					!hasToVersion ||
-					toVersion === 'latest' ||
-					semver.gte(extractVersionFromTag(toVersion), lastReleaseVersion)
-
-				shouldKeepPaginating =
-					hasNextPage &&
-					(!isMaxAutoPaginationReached ||
-						!isFromReleaseFetched ||
-						!isToReleaseFetched)
-			}
-
-			return releases
-		},
+		queryKey: [RELEASES_QUERY_KEY, finalParams, fromVersion, toVersion],
+		queryFn: () =>
+			getReleases({
+				data: {
+					owner: finalParams.owner,
+					repo: finalParams.repo,
+					fromVersion,
+					toVersion,
+				},
+			}),
 		enabled: Boolean(params.repository),
 	})
 }
 
-export { releasesQueryOptions }
+type ProcessedReleasesQueryParams = {
+	repository?: MinimalRepository | null
+	fromVersion?: ReleaseVersion | null
+	toVersion?: ReleaseVersion | null
+}
+
+function processedReleasesQueryOptions(params: ProcessedReleasesQueryParams) {
+	const finalParams: RepositoryQueryParams = mapRepositoryToQueryParams(
+		params.repository ?? undefined,
+	)
+	const { fromVersion, toVersion } = params
+
+	return queryOptions<ProcessedReleasesCollection | null>({
+		queryKey: [
+			PROCESSED_RELEASES_QUERY_KEY,
+			{ ...finalParams, from: fromVersion, to: toVersion },
+		],
+		queryFn: () =>
+			getProcessedReleases({
+				data: {
+					owner: finalParams.owner,
+					repo: finalParams.repo,
+					from: fromVersion!,
+					to: toVersion!,
+				},
+			}),
+		enabled: Boolean(params.repository && fromVersion && toVersion),
+	})
+}
+
+export { releasesQueryOptions, processedReleasesQueryOptions }
