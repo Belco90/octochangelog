@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { server } from '@/mocks/server'
 import type { MinimalRelease, ProcessedReleasesCollection } from '@/models'
 
 /**
@@ -141,6 +142,15 @@ describe('getReleases caching', () => {
 	})
 
 	it('should return cached releases on second call without re-fetching', async () => {
+		// Track how many times the GitHub releases API is actually called
+		let apiCallCount = 0
+		const listener = ({ request }: { request: Request }) => {
+			if (request.url.includes('/repos/yarnpkg/berry/releases')) {
+				apiCallCount++
+			}
+		}
+		server.events.on('request:match', listener)
+
 		// First call - fetches from MSW
 		const releases1 = await getReleases({
 			data: {
@@ -160,6 +170,11 @@ describe('getReleases caching', () => {
 		// Both should return the same data
 		expect(releases1).toEqual(releases2)
 		expect(releases1.length).toBe(3)
+
+		// The API should have been called only once (cache hit on second call)
+		expect(apiCallCount).toBe(1)
+
+		server.events.removeListener('request:match', listener)
 	})
 
 	it('should maintain separate cache entries per repository', async () => {

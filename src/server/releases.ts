@@ -11,7 +11,11 @@ import type {
 	ProcessedReleasesCollection,
 	ReleaseVersion,
 } from '@/models'
-import { getCachedReleases, setCachedReleases } from '@/server/releases-cache'
+import {
+	getCachedReleasesForRange,
+	getCachedReleases,
+	setCachedReleases,
+} from '@/server/releases-cache'
 import {
 	compareReleasesByVersion,
 	extractVersionFromTag,
@@ -34,7 +38,9 @@ function getHasNextPage(link: string): boolean {
 /**
  * Fetches a list of release objects from a GitHub repository, optionally filtering by version range.
  *
- * It retrieves releases in batches of 100 per page, and keeps paginating until all releases are fetched.
+ * It retrieves releases in batches of 100 per page, and keeps paginating until the target
+ * `fromVersion` and `toVersion` are found, or until a maximum of {@link MAX_AUTO_PAGINATION} pages
+ * have been fetched. If version targets haven't been reached, pagination continues past the cap.
  */
 async function fetchReleasesFromGitHub(
 	owner: string,
@@ -42,10 +48,6 @@ async function fetchReleasesFromGitHub(
 	fromVersion?: ReleaseVersion | null,
 	toVersion?: ReleaseVersion | null,
 ): Promise<Array<MinimalRelease>> {
-	// Check cache first
-	const cached = getCachedReleases(owner, repo)
-	if (cached) return cached
-
 	const hasFromVersion = !!fromVersion
 	const hasToVersion = !!toVersion
 	const releases: Array<MinimalRelease> = []
@@ -62,6 +64,8 @@ async function fetchReleasesFromGitHub(
 		const { data: releasesBatch, headers } = response
 		releases.push(...releasesBatch.filter(isStableRelease))
 
+		if (releasesBatch.length === 0) break
+
 		pagination++
 		const hasNextPage = !!headers.link && getHasNextPage(headers.link)
 		const isMaxAutoPaginationReached = pagination > MAX_AUTO_PAGINATION
@@ -71,6 +75,7 @@ async function fetchReleasesFromGitHub(
 		)
 		const isFromReleaseFetched =
 			!hasFromVersion ||
+			fromVersion === 'latest' ||
 			semver.gte(extractVersionFromTag(fromVersion), lastReleaseVersion)
 		const isToReleaseFetched =
 			!hasToVersion ||
@@ -83,9 +88,6 @@ async function fetchReleasesFromGitHub(
 				!isFromReleaseFetched ||
 				!isToReleaseFetched)
 	}
-
-	// Cache the fetched releases
-	setCachedReleases(owner, repo, releases)
 
 	return releases
 }
@@ -199,13 +201,30 @@ const getReleases = createServerFn()
 	)
 	.handler(async ({ data }) => {
 		const { owner, repo, fromVersion, toVersion } = data
-		return fetchReleasesFromGitHub(owner, repo, fromVersion, toVersion)
+
+		// Return cached releases if available
+		const cached = getCachedReleases(owner, repo)
+		if (cached) return cached
+
+		const releases = await fetchReleasesFromGitHub(
+			owner,
+			repo,
+			fromVersion,
+			toVersion,
+		)
+
+		// Cache the full fetch so subsequent calls (including getProcessedReleases) can reuse it
+		setCachedReleases(owner, repo, releases)
+
+		return releases
 	})
 
 /**
  * Fetches, filters, and processes releases for a repository.
  *
- * Used by the changelog display to show grouped release changes. Reads from the in-memory cache if available (populated by getReleases).
+ * Used by the changelog display to show grouped release changes. If the in-memory cache
+ * (populated by {@link getReleases}) covers the requested version range, cached data is used
+ * instead of making a new GitHub API call. Partial fetches are never cached.
  */
 const getProcessedReleases = createServerFn()
 	.inputValidator(
@@ -214,8 +233,10 @@ const getProcessedReleases = createServerFn()
 	.handler(async ({ data }) => {
 		const { owner, repo, from, to } = data
 
-		// Fetch releases (will use cache if getReleases was called first)
-		const releases = await fetchReleasesFromGitHub(owner, repo, from, to)
+		// Try to serve from cache if the cached data covers the requested range
+		const cached = getCachedReleasesForRange(owner, repo, from, to)
+		const releases =
+			cached ?? (await fetchReleasesFromGitHub(owner, repo, from, to))
 
 		// Filter by version range and sort ascending
 		const filteredReleases = filterReleasesByVersionRange({

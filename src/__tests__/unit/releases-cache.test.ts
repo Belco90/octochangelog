@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { MinimalRelease } from '@/models'
+import type { MinimalRelease, ReleaseVersion } from '@/models'
 
 /**
  * The cache module uses module-level state (a Map), so we reset modules
@@ -12,19 +12,28 @@ let getCachedReleases: (
 	owner: string,
 	repo: string,
 ) => Array<MinimalRelease> | null
+let getCachedReleasesForRange: (
+	owner: string,
+	repo: string,
+	from: ReleaseVersion,
+	to: ReleaseVersion,
+) => Array<MinimalRelease> | null
 let setCachedReleases: (
 	owner: string,
 	repo: string,
 	releases: Array<MinimalRelease>,
 ) => void
 let CACHE_TTL_MS: number
+let MAX_CACHE_ENTRIES: number
 
 async function importCacheModule() {
 	const mod = await import('@/server/releases-cache')
 	getCacheKey = mod.getCacheKey
 	getCachedReleases = mod.getCachedReleases
+	getCachedReleasesForRange = mod.getCachedReleasesForRange
 	setCachedReleases = mod.setCachedReleases
 	CACHE_TTL_MS = mod.CACHE_TTL_MS
+	MAX_CACHE_ENTRIES = mod.MAX_CACHE_ENTRIES
 }
 
 const makeRelease = (tagName: string): MinimalRelease => ({
@@ -106,6 +115,166 @@ describe('getCachedReleases', () => {
 	})
 })
 
+describe('getCachedReleasesForRange', () => {
+	beforeEach(async () => {
+		vi.resetModules()
+		await importCacheModule()
+	})
+
+	afterEach(() => {
+		vi.restoreAllMocks()
+	})
+
+	it('should return null when no cache entry exists', () => {
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v2.0.0',
+		)
+
+		expect(result).toBeNull()
+	})
+
+	it('should return null when cached releases is empty', () => {
+		setCachedReleases('owner', 'repo', [])
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v2.0.0',
+		)
+
+		expect(result).toBeNull()
+	})
+
+	it('should return cached releases when both from and to versions exist in cache', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v3.0.0',
+		)
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should return null when from version is not in cache', () => {
+		const releases = [makeRelease('v3.0.0'), makeRelease('v2.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v3.0.0',
+		)
+
+		expect(result).toBeNull()
+	})
+
+	it('should return null when to version is not in cache', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v4.0.0',
+		)
+
+		expect(result).toBeNull()
+	})
+
+	it('should resolve "latest" as to version to the first (newest) cached release', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'latest',
+		)
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should resolve "latest" as from version to the first (newest) cached release', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		// from="latest" resolves to v3.0.0, to=v3.0.0 — both present
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'latest',
+			'v3.0.0',
+		)
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should handle scoped tag names like @yarnpkg/cli/4.12.0', () => {
+		const releases = [
+			makeRelease('@yarnpkg/cli/4.12.0'),
+			makeRelease('@yarnpkg/cli/4.11.0'),
+			makeRelease('@yarnpkg/cli/4.10.3'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'@yarnpkg/cli/4.10.3',
+			'@yarnpkg/cli/4.12.0',
+		)
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should return null when cache is expired', () => {
+		let currentTime = 1_000_000
+		vi.spyOn(Date, 'now').mockImplementation(() => currentTime)
+
+		const releases = [makeRelease('v2.0.0'), makeRelease('v1.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		// Advance past TTL
+		currentTime += CACHE_TTL_MS + 1
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'v1.0.0',
+			'v2.0.0',
+		)
+
+		expect(result).toBeNull()
+	})
+})
+
 describe('setCachedReleases', () => {
 	beforeEach(async () => {
 		vi.resetModules()
@@ -160,13 +329,90 @@ describe('setCachedReleases', () => {
 	})
 })
 
-describe('CACHE_TTL_MS constant', () => {
+describe('cache eviction', () => {
 	beforeEach(async () => {
 		vi.resetModules()
 		await importCacheModule()
 	})
 
-	it('should be 5 minutes in milliseconds', () => {
+	afterEach(() => {
+		vi.restoreAllMocks()
+	})
+
+	it('should evict expired entries when at capacity', () => {
+		let currentTime = 1_000_000
+		vi.spyOn(Date, 'now').mockImplementation(() => currentTime)
+
+		// Fill cache to capacity with expired entries
+		for (let i = 0; i < MAX_CACHE_ENTRIES; i++) {
+			setCachedReleases('owner', `repo-${i}`, [makeRelease('v1.0.0')])
+		}
+
+		// Advance past TTL so all entries expire
+		currentTime += CACHE_TTL_MS + 1
+
+		// Adding a new entry should trigger sweep of expired entries
+		setCachedReleases('owner', 'new-repo', [makeRelease('v2.0.0')])
+
+		// New entry should be accessible
+		expect(getCachedReleases('owner', 'new-repo')).not.toBeNull()
+	})
+
+	it('should evict the oldest entry when at capacity with no expired entries', () => {
+		let currentTime = 1_000_000
+		vi.spyOn(Date, 'now').mockImplementation(() => currentTime)
+
+		// Fill cache to capacity — each entry gets a slightly newer timestamp
+		for (let i = 0; i < MAX_CACHE_ENTRIES; i++) {
+			currentTime += 1
+			setCachedReleases('owner', `repo-${i}`, [makeRelease('v1.0.0')])
+		}
+
+		// All entries are still valid (within TTL)
+		// Adding a new entry should evict the oldest (repo-0)
+		currentTime += 1
+		setCachedReleases('owner', 'new-repo', [makeRelease('v2.0.0')])
+
+		// The oldest entry (repo-0) should have been evicted
+		expect(getCachedReleases('owner', 'repo-0')).toBeNull()
+
+		// The new entry and a recent entry should still be accessible
+		expect(getCachedReleases('owner', 'new-repo')).not.toBeNull()
+		expect(
+			getCachedReleases('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
+		).not.toBeNull()
+	})
+
+	it('should allow overwriting existing entries without triggering eviction', () => {
+		// Fill cache to capacity
+		for (let i = 0; i < MAX_CACHE_ENTRIES; i++) {
+			setCachedReleases('owner', `repo-${i}`, [makeRelease('v1.0.0')])
+		}
+
+		// Overwriting an existing entry should not evict anything
+		const fresh = [makeRelease('v2.0.0')]
+		setCachedReleases('owner', 'repo-0', fresh)
+
+		expect(getCachedReleases('owner', 'repo-0')).toEqual(fresh)
+
+		// Other entries should still be accessible
+		expect(
+			getCachedReleases('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
+		).not.toBeNull()
+	})
+})
+
+describe('constants', () => {
+	beforeEach(async () => {
+		vi.resetModules()
+		await importCacheModule()
+	})
+
+	it('should have CACHE_TTL_MS set to 5 minutes in milliseconds', () => {
 		expect(CACHE_TTL_MS).toBe(5 * 60 * 1000)
+	})
+
+	it('should have MAX_CACHE_ENTRIES set to 100', () => {
+		expect(MAX_CACHE_ENTRIES).toBe(100)
 	})
 })
