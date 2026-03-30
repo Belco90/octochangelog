@@ -13,7 +13,6 @@ import type {
 } from '@/models'
 import {
 	getCachedReleasesForRange,
-	getCachedReleases,
 	setCachedReleases,
 } from '@/server/releases-cache'
 import {
@@ -38,9 +37,11 @@ function getHasNextPage(link: string): boolean {
 /**
  * Fetches a list of release objects from a GitHub repository, optionally filtering by version range.
  *
- * It retrieves releases in batches of 100 per page, and keeps paginating until the target
+ * Returns cached releases when the cache covers the requested version range. On cache miss,
+ * it retrieves releases in batches of 100 per page, and keeps paginating until the target
  * `fromVersion` and `toVersion` are found, or until a maximum of {@link MAX_AUTO_PAGINATION} pages
  * have been fetched. If version targets haven't been reached, pagination continues past the cap.
+ * Freshly fetched results are cached for subsequent calls.
  */
 async function fetchReleasesFromGitHub(
 	owner: string,
@@ -48,6 +49,10 @@ async function fetchReleasesFromGitHub(
 	fromVersion?: ReleaseVersion | null,
 	toVersion?: ReleaseVersion | null,
 ): Promise<Array<MinimalRelease>> {
+	// Return cached releases if the cache covers the requested range
+	const cached = getCachedReleasesForRange(owner, repo, fromVersion, toVersion)
+	if (cached) return cached
+
 	const hasFromVersion = !!fromVersion
 	const hasToVersion = !!toVersion
 	const releases: Array<MinimalRelease> = []
@@ -88,6 +93,9 @@ async function fetchReleasesFromGitHub(
 				!isFromReleaseFetched ||
 				!isToReleaseFetched)
 	}
+
+	// Cache the full fetch so subsequent calls can reuse it
+	setCachedReleases(owner, repo, releases)
 
 	return releases
 }
@@ -188,7 +196,8 @@ function processReleases(
 /**
  * Fetches releases for a repository from GitHub API.
  *
- * Used by the form dropdowns to populate version options. Results are cached in-memory by repo slug.
+ * Used by the form dropdowns to populate version options. Results are cached
+ * in-memory by repo slug via {@link fetchReleasesFromGitHub}.
  */
 const getReleases = createServerFn()
 	.inputValidator(
@@ -201,30 +210,14 @@ const getReleases = createServerFn()
 	)
 	.handler(async ({ data }) => {
 		const { owner, repo, fromVersion, toVersion } = data
-
-		// Return cached releases if available
-		const cached = getCachedReleases(owner, repo)
-		if (cached) return cached
-
-		const releases = await fetchReleasesFromGitHub(
-			owner,
-			repo,
-			fromVersion,
-			toVersion,
-		)
-
-		// Cache the full fetch so subsequent calls (including getProcessedReleases) can reuse it
-		setCachedReleases(owner, repo, releases)
-
-		return releases
+		return fetchReleasesFromGitHub(owner, repo, fromVersion, toVersion)
 	})
 
 /**
  * Fetches, filters, and processes releases for a repository.
  *
- * Used by the changelog display to show grouped release changes. If the in-memory cache
- * (populated by {@link getReleases}) covers the requested version range, cached data is used
- * instead of making a new GitHub API call. Partial fetches are never cached.
+ * Used by the changelog display to show grouped release changes. Cache lookups
+ * are handled internally by {@link fetchReleasesFromGitHub}.
  */
 const getProcessedReleases = createServerFn()
 	.inputValidator(
@@ -233,10 +226,7 @@ const getProcessedReleases = createServerFn()
 	.handler(async ({ data }) => {
 		const { owner, repo, from, to } = data
 
-		// Try to serve from cache if the cached data covers the requested range
-		const cached = getCachedReleasesForRange(owner, repo, from, to)
-		const releases =
-			cached ?? (await fetchReleasesFromGitHub(owner, repo, from, to))
+		const releases = await fetchReleasesFromGitHub(owner, repo, from, to)
 
 		// Filter by version range and sort ascending
 		const filteredReleases = filterReleasesByVersionRange({

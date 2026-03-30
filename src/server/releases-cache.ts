@@ -18,7 +18,7 @@ export function getCacheKey(owner: string, repo: string): string {
 /**
  * Returns cached releases for a repository if the entry exists and hasn't expired.
  */
-export function getCachedReleases(
+function getCachedReleases(
 	owner: string,
 	repo: string,
 ): Array<MinimalRelease> | null {
@@ -37,36 +37,43 @@ export function getCachedReleases(
 
 /**
  * Returns cached releases if the cache contains data that covers the requested
- * version range. Both `from` and `to` tag names must exist in the cached releases,
- * with `"latest"` resolving to the first (newest) cached release.
+ * version range. When both `from` and `to` are provided, their tag names must
+ * exist in the cached releases (with `"latest"` resolving to the first/newest
+ * cached release). When neither is provided, any non-expired cache entry is
+ * considered a hit.
  *
  * Returns `null` on cache miss, expiry, or if the range is not fully covered.
  */
 export function getCachedReleasesForRange(
 	owner: string,
 	repo: string,
-	from: ReleaseVersion,
-	to: ReleaseVersion,
+	from?: ReleaseVersion | null,
+	to?: ReleaseVersion | null,
 ): Array<MinimalRelease> | null {
 	const cached = getCachedReleases(owner, repo)
 	if (!cached || cached.length === 0) return null
 
-	const resolvedTo =
-		to.toLowerCase() === 'latest'
-			? extractVersionFromTag(cached[0].tag_name)
-			: extractVersionFromTag(to)
+	// No version range specified — any cached data is a hit
+	if (!from && !to) return cached
 
-	const resolvedFrom =
-		from.toLowerCase() === 'latest'
+	const resolvedFrom = from
+		? from.toLowerCase() === 'latest'
 			? extractVersionFromTag(cached[0].tag_name)
 			: extractVersionFromTag(from)
+		: null
 
-	const hasFrom = cached.some(
-		(r) => extractVersionFromTag(r.tag_name) === resolvedFrom,
-	)
-	const hasTo = cached.some(
-		(r) => extractVersionFromTag(r.tag_name) === resolvedTo,
-	)
+	const resolvedTo = to
+		? to.toLowerCase() === 'latest'
+			? extractVersionFromTag(cached[0].tag_name)
+			: extractVersionFromTag(to)
+		: null
+
+	const hasFrom =
+		!resolvedFrom ||
+		cached.some((r) => extractVersionFromTag(r.tag_name) === resolvedFrom)
+	const hasTo =
+		!resolvedTo ||
+		cached.some((r) => extractVersionFromTag(r.tag_name) === resolvedTo)
 
 	if (hasFrom && hasTo) return cached
 

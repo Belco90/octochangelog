@@ -8,15 +8,11 @@ import type { MinimalRelease, ReleaseVersion } from '@/models'
  */
 
 let getCacheKey: (owner: string, repo: string) => string
-let getCachedReleases: (
-	owner: string,
-	repo: string,
-) => Array<MinimalRelease> | null
 let getCachedReleasesForRange: (
 	owner: string,
 	repo: string,
-	from: ReleaseVersion,
-	to: ReleaseVersion,
+	from?: ReleaseVersion | null,
+	to?: ReleaseVersion | null,
 ) => Array<MinimalRelease> | null
 let setCachedReleases: (
 	owner: string,
@@ -29,7 +25,6 @@ let MAX_CACHE_ENTRIES: number
 async function importCacheModule() {
 	const mod = await import('@/server/releases-cache')
 	getCacheKey = mod.getCacheKey
-	getCachedReleases = mod.getCachedReleases
 	getCachedReleasesForRange = mod.getCachedReleasesForRange
 	setCachedReleases = mod.setCachedReleases
 	CACHE_TTL_MS = mod.CACHE_TTL_MS
@@ -65,7 +60,7 @@ describe('getCacheKey', () => {
 	})
 })
 
-describe('getCachedReleases', () => {
+describe('getCachedReleasesForRange without version range', () => {
 	beforeEach(async () => {
 		vi.resetModules()
 		await importCacheModule()
@@ -76,7 +71,7 @@ describe('getCachedReleases', () => {
 	})
 
 	it('should return null when no entry exists for the repo', () => {
-		const result = getCachedReleases('owner', 'repo')
+		const result = getCachedReleasesForRange('owner', 'repo')
 
 		expect(result).toBeNull()
 	})
@@ -91,7 +86,7 @@ describe('getCachedReleases', () => {
 		// Advance past TTL
 		currentTime += CACHE_TTL_MS + 1
 
-		const result = getCachedReleases('owner', 'repo')
+		const result = getCachedReleasesForRange('owner', 'repo')
 
 		expect(result).toBeNull()
 	})
@@ -105,11 +100,11 @@ describe('getCachedReleases', () => {
 
 		// Expire the entry
 		currentTime += CACHE_TTL_MS + 1
-		getCachedReleases('owner', 'repo') // triggers deletion
+		getCachedReleasesForRange('owner', 'repo') // triggers deletion
 
 		// Reset time to before TTL — if deletion worked, it will still be null
 		currentTime = 0
-		const result = getCachedReleases('owner', 'repo')
+		const result = getCachedReleasesForRange('owner', 'repo')
 
 		expect(result).toBeNull()
 	})
@@ -273,6 +268,50 @@ describe('getCachedReleasesForRange', () => {
 
 		expect(result).toBeNull()
 	})
+
+	it('should return cached releases when only from version is provided and exists', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange('owner', 'repo', 'v1.0.0', null)
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should return null when only from version is provided and does not exist', () => {
+		const releases = [makeRelease('v3.0.0'), makeRelease('v2.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange('owner', 'repo', 'v1.0.0', null)
+
+		expect(result).toBeNull()
+	})
+
+	it('should return cached releases when only to version is provided and exists', () => {
+		const releases = [
+			makeRelease('v3.0.0'),
+			makeRelease('v2.0.0'),
+			makeRelease('v1.0.0'),
+		]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange('owner', 'repo', null, 'v3.0.0')
+
+		expect(result).toEqual(releases)
+	})
+
+	it('should return null when only to version is provided and does not exist', () => {
+		const releases = [makeRelease('v3.0.0'), makeRelease('v2.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange('owner', 'repo', null, 'v4.0.0')
+
+		expect(result).toBeNull()
+	})
 })
 
 describe('setCachedReleases', () => {
@@ -289,7 +328,7 @@ describe('setCachedReleases', () => {
 		const releases = [makeRelease('v1.0.0'), makeRelease('v2.0.0')]
 		setCachedReleases('owner', 'repo', releases)
 
-		const result = getCachedReleases('owner', 'repo')
+		const result = getCachedReleasesForRange('owner', 'repo')
 
 		expect(result).toEqual(releases)
 	})
@@ -304,7 +343,7 @@ describe('setCachedReleases', () => {
 		// Just before TTL expires — still valid
 		vi.spyOn(Date, 'now').mockReturnValue(fixedTime + CACHE_TTL_MS - 1)
 
-		expect(getCachedReleases('owner', 'repo')).toEqual(releases)
+		expect(getCachedReleasesForRange('owner', 'repo')).toEqual(releases)
 	})
 
 	it('should maintain separate cache entries per repository', () => {
@@ -314,8 +353,8 @@ describe('setCachedReleases', () => {
 		setCachedReleases('owner', 'repo-a', releases1)
 		setCachedReleases('owner', 'repo-b', releases2)
 
-		expect(getCachedReleases('owner', 'repo-a')).toEqual(releases1)
-		expect(getCachedReleases('owner', 'repo-b')).toEqual(releases2)
+		expect(getCachedReleasesForRange('owner', 'repo-a')).toEqual(releases1)
+		expect(getCachedReleasesForRange('owner', 'repo-b')).toEqual(releases2)
 	})
 
 	it('should overwrite a previous entry for the same repo', () => {
@@ -325,7 +364,7 @@ describe('setCachedReleases', () => {
 		setCachedReleases('owner', 'repo', old)
 		setCachedReleases('owner', 'repo', fresh)
 
-		expect(getCachedReleases('owner', 'repo')).toEqual(fresh)
+		expect(getCachedReleasesForRange('owner', 'repo')).toEqual(fresh)
 	})
 })
 
@@ -355,7 +394,7 @@ describe('cache eviction', () => {
 		setCachedReleases('owner', 'new-repo', [makeRelease('v2.0.0')])
 
 		// New entry should be accessible
-		expect(getCachedReleases('owner', 'new-repo')).not.toBeNull()
+		expect(getCachedReleasesForRange('owner', 'new-repo')).not.toBeNull()
 	})
 
 	it('should evict the oldest entry when at capacity with no expired entries', () => {
@@ -374,12 +413,12 @@ describe('cache eviction', () => {
 		setCachedReleases('owner', 'new-repo', [makeRelease('v2.0.0')])
 
 		// The oldest entry (repo-0) should have been evicted
-		expect(getCachedReleases('owner', 'repo-0')).toBeNull()
+		expect(getCachedReleasesForRange('owner', 'repo-0')).toBeNull()
 
 		// The new entry and a recent entry should still be accessible
-		expect(getCachedReleases('owner', 'new-repo')).not.toBeNull()
+		expect(getCachedReleasesForRange('owner', 'new-repo')).not.toBeNull()
 		expect(
-			getCachedReleases('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
+			getCachedReleasesForRange('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
 		).not.toBeNull()
 	})
 
@@ -393,11 +432,11 @@ describe('cache eviction', () => {
 		const fresh = [makeRelease('v2.0.0')]
 		setCachedReleases('owner', 'repo-0', fresh)
 
-		expect(getCachedReleases('owner', 'repo-0')).toEqual(fresh)
+		expect(getCachedReleasesForRange('owner', 'repo-0')).toEqual(fresh)
 
 		// Other entries should still be accessible
 		expect(
-			getCachedReleases('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
+			getCachedReleasesForRange('owner', `repo-${MAX_CACHE_ENTRIES - 1}`),
 		).not.toBeNull()
 	})
 })
