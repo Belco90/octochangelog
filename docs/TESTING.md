@@ -53,7 +53,9 @@ This project uses [Vitest's projects feature](https://vitest.dev/guide/workspace
 - **Selective test execution**: Run specific test types independently
 - **Better organization**: Clear separation between test environments
 
-The configuration is defined in `vite.config.ts`
+The configuration is defined in `vite.config.ts`.
+
+> **Note**: When using Vitest `projects`, the top-level `test` config properties (including `setupFiles`) are **not** automatically inherited by individual projects. Each project must declare its own `setupFiles` if it needs a setup file.
 
 ### Test File Organization
 

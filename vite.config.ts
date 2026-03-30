@@ -70,7 +70,6 @@ export default defineConfig({
 	test: {
 		clearMocks: true,
 		unstubGlobals: true,
-		setupFiles: ['src/vitest.setup.ts'],
 		exclude: [...defaultExclude, 'e2e/**'],
 		coverage: {
 			include: ['src/**'],
@@ -92,6 +91,7 @@ export default defineConfig({
 				test: {
 					name: 'unit',
 					clearMocks: true,
+					setupFiles: ['src/vitest.setup.ts'],
 					include: [
 						'src/__tests__/unit/**/*.test.{ts,tsx}', // Unit tests directory
 						'src/**/*.unit.test.{ts,tsx}', // Explicit .unit.test files anywhere
