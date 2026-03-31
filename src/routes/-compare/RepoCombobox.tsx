@@ -37,7 +37,7 @@ export const RepoCombobox = ({
 	const selectedRepoFullName = combobox.valueAsString
 
 	return (
-		<Combobox.RootProvider value={combobox} size="lg" colorPalette="accent">
+		<Combobox.RootProvider value={combobox} size="lg">
 			<Flex alignItems="center" justifyContent="space-between">
 				<Combobox.Label fontSize="md" fontWeight="bold" color="fg.muted">
 					Repository
@@ -127,11 +127,18 @@ export const RepoCombobox = ({
 										key={repo.id}
 										item={repo}
 										bgColor={{
-											_highlighted: 'accent.muted',
+											_highlighted: 'brand.muted',
 										}}
 									>
 										<Span fontWeight="medium">{repo.full_name}</Span>
-										<Combobox.ItemIndicator color="brand.fg" />
+										<Combobox.ItemIndicator
+											color="brand.fg"
+											css={{
+												_icon: {
+													boxSize: '5',
+												},
+											}}
+										/>
 									</Combobox.Item>
 								))}
 							</>

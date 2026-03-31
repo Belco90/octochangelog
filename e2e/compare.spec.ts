@@ -36,9 +36,11 @@ test('should show changelog results when filling the form', async ({
 	)
 	await expect(page).toHaveURL(/.+repo=testing-library%2Fdom-testing-library.*/)
 
-	await page.getByLabel(/from version/i).selectOption('v6.16.0')
+	await page.getByRole('combobox', { name: /from version/i }).click()
+	await page.getByRole('option', { name: 'v6.16.0' }).click()
 	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
-	await page.getByLabel(/to version/i).selectOption('v8.1.0')
+	await page.getByRole('combobox', { name: /to version/i }).click()
+	await page.getByRole('option', { name: 'v8.1.0' }).click()
 	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
 
 	await expect(
@@ -134,8 +136,12 @@ test('should show changelog results when preloading from URL', async ({
 	await expect(page.getByRole('combobox', { name: /repository/i })).toHaveValue(
 		'testing-library/dom-testing-library',
 	)
-	await expect(page.getByLabel(/from version/i)).toHaveValue('v6.16.0')
-	await expect(page.getByLabel(/to version/i)).toHaveValue('v8.1.0')
+	await expect(
+		page.getByRole('combobox', { name: /from version/i }),
+	).toContainText('v6.16.0')
+	await expect(
+		page.getByRole('combobox', { name: /to version/i }),
+	).toContainText('v8.1.0')
 
 	// Check changelog results
 	await expect(page.getByRole('link', { name: 'v7.0.0' })).toHaveCount(2)
@@ -215,11 +221,12 @@ test('should show changelog results when preloading from URL with "latest"', asy
 	await expect(page.getByRole('combobox', { name: /repository/i })).toHaveValue(
 		'testing-library/dom-testing-library',
 	)
-	await expect(page.getByLabel(/from version/i)).toHaveValue('v8.11.0')
-	await expect(page.getByLabel(/to version/i)).toHaveValue('latest')
 	await expect(
-		page.getByLabel(/to version/i).locator('option:checked'),
-	).toHaveText('Latest (v8.17.1)')
+		page.getByRole('combobox', { name: /from version/i }),
+	).toContainText('v8.11.0')
+	await expect(
+		page.getByRole('combobox', { name: /to version/i }),
+	).toContainText('Latest (v8.17.1)')
 
 	// Check semver headings
 	await expect(
@@ -270,9 +277,11 @@ test(
 		).toHaveValue('yarnpkg/berry')
 		await expect(page).toHaveURL(/.+repo=yarnpkg%2Fberry.*/)
 
-		await page.getByLabel(/from version/i).selectOption('@yarnpkg/cli/4.10.3')
+		await page.getByRole('combobox', { name: /from version/i }).click()
+		await page.getByRole('option', { name: '4.10.3' }).click()
 		await expect(page).toHaveURL(/.+from=%40yarnpkg%2Fcli%2F4\.10\.3.*/)
-		await page.getByLabel(/to version/i).selectOption('@yarnpkg/cli/4.12.0')
+		await page.getByRole('combobox', { name: /to version/i }).click()
+		await page.getByRole('option', { name: '4.12.0' }).click()
 		await expect(page).toHaveURL(/.+to=%40yarnpkg%2Fcli%2F4\.12\.0.*/)
 
 		// Check that releases with scoped tags are displayed correctly
@@ -340,8 +349,12 @@ test(
 		await expect(
 			page.getByRole('combobox', { name: /repository/i }),
 		).toHaveValue('renovatebot/renovate')
-		await expect(page.getByLabel(/from version/i)).toHaveValue('26.9.0')
-		await expect(page.getByLabel(/to version/i)).toHaveValue('32.172.2')
+		await expect(
+			page.getByRole('combobox', { name: /from version/i }),
+		).toContainText('26.9.0')
+		await expect(
+			page.getByRole('combobox', { name: /to version/i }),
+		).toContainText('32.172.2')
 
 		// Check semver headings
 		await expect(
