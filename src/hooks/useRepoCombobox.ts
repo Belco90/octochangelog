@@ -46,13 +46,13 @@ export function useRepoCombobox({
 	onSelect,
 }: UseRepoComboboxParams): UseRepoComboboxReturn {
 	const [inputValue, setInputValue] = useState(initialValue)
+	const [debouncedQuery, setDebouncedQuery] = useState(initialValue)
 	const [isOpen, setIsOpen] = useState(false)
-	const [isTyping, setIsTyping] = useState(false)
 	const hydratedRef = useRef(false)
 
-	const { data, refetch, isFetching, status } = useQuery({
-		...searchRepositoriesQueryOptions({ q: inputValue }),
-		enabled: false,
+	const { data, isFetching, status } = useQuery({
+		...searchRepositoriesQueryOptions({ q: debouncedQuery }),
+		enabled: debouncedQuery.trim().length >= MIN_SEARCH_LENGTH,
 		staleTime: STALE_TIME_MS,
 	})
 
@@ -68,7 +68,6 @@ export function useRepoCombobox({
 		defaultValue: [initialValue],
 		inputValue,
 		onInputValueChange: (e) => {
-			setIsTyping(isOpen && Boolean(e.inputValue))
 			setInputValue(e.inputValue)
 		},
 		defaultInputValue: initialValue,
@@ -77,7 +76,6 @@ export function useRepoCombobox({
 		openOnChange: true,
 		onOpenChange: (e) => setIsOpen(e.open),
 		onValueChange: ({ items }) => {
-			setIsTyping(false)
 			const selectedRepo = items[0] as FullRepository | null
 			onSelect(selectedRepo)
 		},
@@ -104,24 +102,24 @@ export function useRepoCombobox({
 		setCollection(data?.items ?? [])
 	}, [data, setCollection])
 
-	const throttleRefetch = useMemo(
+	const debouncedSetQuery = useMemo(
 		() =>
-			debounce(() => {
-				// This rule shouldn't complain within `useMemo`
+			debounce((value: string) => {
 				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
-				setIsTyping(false)
-				void refetch()
+				setDebouncedQuery(value)
 			}, DEBOUNCE_MS),
-		[refetch],
+		[],
 	)
 
 	useEffect(() => {
 		if (inputValue.trim().length >= MIN_SEARCH_LENGTH) {
-			throttleRefetch()
+			debouncedSetQuery(inputValue)
 		}
-	}, [inputValue, throttleRefetch])
+	}, [inputValue, debouncedSetQuery])
 
 	const isMinSearchLengthReached = inputValue.trim().length >= MIN_SEARCH_LENGTH
+	const isTyping =
+		isOpen && isMinSearchLengthReached && inputValue !== debouncedQuery
 	const isLoading = isMinSearchLengthReached && (isFetching || isTyping)
 	const contentStatus = isLoading ? 'loading' : status
 	const totalCount = data?.total_count ?? 0

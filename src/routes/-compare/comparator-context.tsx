@@ -84,7 +84,9 @@ function ComparatorProvider({ children }: ComparatorProviderProps) {
 	}
 
 	const stateValue: ComparatorStateContextValue = {
-		repository,
+		// If "repository" search param has been cleared,
+		// avoid passing "repo" cached in the previous useQuery.
+		repository: repo ? repository : null,
 		fromVersion: from,
 		toVersion: to,
 		error,
