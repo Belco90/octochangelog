@@ -194,7 +194,7 @@ describe('getCachedReleasesForRange', () => {
 		expect(result).toBeNull()
 	})
 
-	it('should resolve "latest" as to version to the first (newest) cached release', () => {
+	it('should return null when "to" is "latest" even if data is cached (per #691)', () => {
 		const releases = [
 			makeRelease('v3.0.0'),
 			makeRelease('v2.0.0'),
@@ -209,10 +209,10 @@ describe('getCachedReleasesForRange', () => {
 			'latest',
 		)
 
-		expect(result).toEqual(releases)
+		expect(result).toBeNull()
 	})
 
-	it('should resolve "latest" as from version to the first (newest) cached release', () => {
+	it('should return null when "from" is "latest" even if data is cached (per #691)', () => {
 		const releases = [
 			makeRelease('v3.0.0'),
 			makeRelease('v2.0.0'),
@@ -220,7 +220,6 @@ describe('getCachedReleasesForRange', () => {
 		]
 		setCachedReleases('owner', 'repo', releases)
 
-		// from="latest" resolves to v3.0.0, to=v3.0.0 — both present
 		const result = getCachedReleasesForRange(
 			'owner',
 			'repo',
@@ -228,7 +227,33 @@ describe('getCachedReleasesForRange', () => {
 			'v3.0.0',
 		)
 
-		expect(result).toEqual(releases)
+		expect(result).toBeNull()
+	})
+
+	it('should return null when both from and to are "latest" (per #691)', () => {
+		const releases = [makeRelease('v3.0.0'), makeRelease('v2.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		const result = getCachedReleasesForRange(
+			'owner',
+			'repo',
+			'latest',
+			'latest',
+		)
+
+		expect(result).toBeNull()
+	})
+
+	it('should be case-insensitive when checking for "latest"', () => {
+		const releases = [makeRelease('v3.0.0'), makeRelease('v1.0.0')]
+		setCachedReleases('owner', 'repo', releases)
+
+		expect(
+			getCachedReleasesForRange('owner', 'repo', 'v1.0.0', 'LATEST'),
+		).toBeNull()
+		expect(
+			getCachedReleasesForRange('owner', 'repo', 'Latest', 'v3.0.0'),
+		).toBeNull()
 	})
 
 	it('should handle scoped tag names like @yarnpkg/cli/4.12.0', () => {

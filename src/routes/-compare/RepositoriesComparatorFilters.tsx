@@ -61,7 +61,7 @@ export const RepositoriesComparatorFilters = () => {
 	const hasReleases = releases != null && releases.length > 0
 	const selectPlaceholder = getVersionPlaceholder(hasRepo)
 	const isVersionError = hasRepo && !isFetching && !hasReleases
-	const isVersionLoading = isFetching && !hasRepo
+	const isVersionLoading = isFetching
 	const isVersionDisabled = !hasReleases || isVersionLoading
 
 	return (

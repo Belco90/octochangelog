@@ -177,6 +177,75 @@ describe('getReleases caching', () => {
 		server.events.removeListener('request:match', listener)
 	})
 
+	it('should not cache results when toVersion is "latest" (per #691)', async () => {
+		let apiCallCount = 0
+		const listener = ({ request }: { request: Request }) => {
+			if (request.url.includes('/repos/yarnpkg/berry/releases')) {
+				apiCallCount++
+			}
+		}
+		server.events.on('request:match', listener)
+
+		// First call with latest — should NOT be cached
+		await getReleases({
+			data: {
+				owner: 'yarnpkg',
+				repo: 'berry',
+				fromVersion: '@yarnpkg/cli/4.10.3',
+				toVersion: 'latest',
+			},
+		})
+
+		// Second call with latest — must re-fetch from API, not cache
+		await getReleases({
+			data: {
+				owner: 'yarnpkg',
+				repo: 'berry',
+				fromVersion: '@yarnpkg/cli/4.10.3',
+				toVersion: 'latest',
+			},
+		})
+
+		// Both calls should have hit the API (no caching)
+		expect(apiCallCount).toBe(2)
+
+		server.events.removeListener('request:match', listener)
+	})
+
+	it('should not cache results when fromVersion is "latest" (per #691)', async () => {
+		let apiCallCount = 0
+		const listener = ({ request }: { request: Request }) => {
+			if (request.url.includes('/repos/yarnpkg/berry/releases')) {
+				apiCallCount++
+			}
+		}
+		server.events.on('request:match', listener)
+
+		// First call with latest as from — should NOT be cached
+		await getReleases({
+			data: {
+				owner: 'yarnpkg',
+				repo: 'berry',
+				fromVersion: 'latest',
+				toVersion: '@yarnpkg/cli/4.12.0',
+			},
+		})
+
+		// Second call — must re-fetch
+		await getReleases({
+			data: {
+				owner: 'yarnpkg',
+				repo: 'berry',
+				fromVersion: 'latest',
+				toVersion: '@yarnpkg/cli/4.12.0',
+			},
+		})
+
+		expect(apiCallCount).toBe(2)
+
+		server.events.removeListener('request:match', listener)
+	})
+
 	it('should maintain separate cache entries per repository', async () => {
 		const berryReleases = await getReleases({
 			data: {
@@ -208,10 +277,10 @@ describe('getReleases pagination', () => {
 		vi.restoreAllMocks()
 	})
 
-	it('should stop pagination at max 10 pages when version range targets are met', async () => {
+	it('should stop pagination as soon as both version targets are found', async () => {
 		// Renovate has 1200 releases across 12 pages (100 per page).
-		// With per_page=100, page 10 would reach release ~1000.
-		// Fetching with fromVersion/toVersion within first 10 pages should stop.
+		// toVersion=32.172.2 is on page 1, fromVersion=32.0.0 is on page 5.
+		// Pagination should stop after page 5, not continue to the 10-page cap.
 		const releases = await getReleases({
 			data: {
 				owner: 'renovatebot',
@@ -221,9 +290,8 @@ describe('getReleases pagination', () => {
 			},
 		})
 
-		// Should have fetched stable releases (all renovate releases are stable)
-		// but stopped at max 10 pages = 1000 releases
-		expect(releases.length).toBe(1000)
+		// Should stop after 5 pages (500 releases), not go to 10 pages (1000)
+		expect(releases.length).toBe(500)
 	})
 
 	it('should fetch all pages when version range requires going past max pagination', async () => {

@@ -50,23 +50,20 @@ export function getCachedReleasesForRange(
 	from?: ReleaseVersion | null,
 	to?: ReleaseVersion | null,
 ): Array<MinimalRelease> | null {
+	// Per #691: never serve cached data when "latest" is requested — the
+	// response must always reflect the current newest release on GitHub.
+	if (from?.toLowerCase() === 'latest' || to?.toLowerCase() === 'latest') {
+		return null
+	}
+
 	const cached = getCachedReleases(owner, repo)
 	if (!cached || cached.length === 0) return null
 
 	// No version range specified — any cached data is a hit
 	if (!from && !to) return cached
 
-	const resolvedFrom = from
-		? from.toLowerCase() === 'latest'
-			? extractVersionFromTag(cached[0].tag_name)
-			: extractVersionFromTag(from)
-		: null
-
-	const resolvedTo = to
-		? to.toLowerCase() === 'latest'
-			? extractVersionFromTag(cached[0].tag_name)
-			: extractVersionFromTag(to)
-		: null
+	const resolvedFrom = from ? extractVersionFromTag(from) : null
+	const resolvedTo = to ? extractVersionFromTag(to) : null
 
 	const hasFrom =
 		!resolvedFrom ||

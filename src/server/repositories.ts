@@ -50,9 +50,17 @@ function selectSearchRepositories(
  * to return only minimal repository data.
  */
 const searchRepositories = createServerFn()
-	.inputValidator((data: { q: string; per_page?: number }) => data)
+	.inputValidator((data: { q: string; per_page?: number }) => {
+		if (!data.q.trim()) {
+			throw new Error('Search query must not be empty')
+		}
+		return {
+			...data,
+			// Clamp per_page to GitHub's maximum of 100
+			per_page: Math.min(data.per_page ?? 100, 100),
+		}
+	})
 	.handler(async ({ data }) => {
-		data.per_page ??= 100
 		const response = await octokit.search.repos(data)
 
 		if (response.status < 200 || response.status >= 300) {

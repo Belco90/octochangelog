@@ -37,11 +37,14 @@ function getHasNextPage(link: string): boolean {
 /**
  * Fetches a list of release objects from a GitHub repository, optionally filtering by version range.
  *
- * Returns cached releases when the cache covers the requested version range. On cache miss,
- * it retrieves releases in batches of 100 per page, and keeps paginating until the target
- * `fromVersion` and `toVersion` are found, or until a maximum of {@link MAX_AUTO_PAGINATION} pages
- * have been fetched. If version targets haven't been reached, pagination continues past the cap.
- * Freshly fetched results are cached for subsequent calls.
+ * Returns cached releases when the cache covers the requested version range, unless either
+ * `fromVersion` or `toVersion` is `"latest"` — in which case caching is bypassed entirely
+ * (both for reads and writes) to ensure the response always reflects the current newest release.
+ *
+ * On cache miss, releases are fetched in batches of 100 per page. Pagination stops as soon as
+ * both `fromVersion` and `toVersion` targets are found in the fetched data, or after
+ * {@link MAX_AUTO_PAGINATION} pages when no version targets are specified. Freshly fetched
+ * results (without "latest") are cached for subsequent calls.
  */
 async function fetchReleasesFromGitHub(
 	owner: string,
@@ -87,15 +90,24 @@ async function fetchReleasesFromGitHub(
 			toVersion === 'latest' ||
 			semver.gte(extractVersionFromTag(toVersion), lastReleaseVersion)
 
+		// Stop as soon as both version targets are found; if no targets are
+		// specified, fall back to the MAX_AUTO_PAGINATION cap.
+		const hasVersionTargets = hasFromVersion || hasToVersion
+		const bothTargetsFound = isFromReleaseFetched && isToReleaseFetched
 		shouldKeepPaginating =
 			hasNextPage &&
-			(!isMaxAutoPaginationReached ||
-				!isFromReleaseFetched ||
-				!isToReleaseFetched)
+			(hasVersionTargets ? !bothTargetsFound : !isMaxAutoPaginationReached)
 	}
 
-	// Cache the full fetch so subsequent calls can reuse it
-	setCachedReleases(owner, repo, releases)
+	// Cache the full fetch so subsequent calls can reuse it.
+	// Per #691: skip caching when "latest" is in the range — the result
+	// must not be stored since "latest" resolves to whatever is newest now.
+	const hasLatest =
+		fromVersion?.toLowerCase() === 'latest' ||
+		toVersion?.toLowerCase() === 'latest'
+	if (!hasLatest) {
+		setCachedReleases(owner, repo, releases)
+	}
 
 	return releases
 }
