@@ -1,8 +1,12 @@
 import { Stack, VStack } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 import type { MinimalRelease } from '@/models'
-import { releasesQueryOptions } from '@/queries/release'
+import {
+	flattenReleasePages,
+	mapReleasesQueryParams,
+	releasesInfiniteQueryOptions,
+} from '@/queries/release'
 import { ReleaseVersionField } from '@/routes/-compare/ReleaseVersionField'
 import { compareReleasesByVersion, getReleaseVersion } from '@/utils'
 
@@ -47,18 +51,22 @@ export const RepositoriesComparatorFilters = () => {
 	const { repository, fromVersion, toVersion } = useComparatorState()
 	const { setRepository, setFromVersion, setToVersion } = useComparatorUpdater()
 
-	const { data: releases, isFetching } = useQuery(
-		releasesQueryOptions({
-			repository,
-			fromVersion,
-			toVersion,
-		}),
+	const {
+		data,
+		isLoading,
+		isFetching,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useInfiniteQuery(
+		releasesInfiniteQueryOptions(mapReleasesQueryParams(repository)),
 	)
 
+	const releases = flattenReleasePages(data)
 	const [fromReleases, toReleases] = mapReleasesRange(releases)
 
 	const hasRepo = repository != null
-	const hasReleases = releases != null && releases.length > 0
+	const hasReleases = releases.length > 0
 	const selectPlaceholder = getVersionPlaceholder(hasRepo)
 	const isVersionError = hasRepo && !isFetching && !hasReleases
 
@@ -77,24 +85,30 @@ export const RepositoriesComparatorFilters = () => {
 				<ReleaseVersionField
 					label="From version"
 					id="from-version"
-					isDisabled={!hasReleases || isFetching}
-					isLoading={isFetching}
+					isDisabled={!hasReleases || isLoading}
+					isLoading={isLoading}
 					placeholder={selectPlaceholder}
 					options={fromReleases}
 					value={fromVersion ?? undefined}
 					onChange={setFromVersion}
 					error={isVersionError ? NO_VERSIONS_FOUND : undefined}
+					onScrollNearEnd={() => void fetchNextPage()}
+					isFetchingMore={isFetchingNextPage}
+					hasMore={hasNextPage}
 				/>
 				<ReleaseVersionField
 					label="To version"
 					id="to-version"
-					isDisabled={!hasReleases || isFetching}
-					isLoading={isFetching}
+					isDisabled={!hasReleases || isLoading}
+					isLoading={isLoading}
 					placeholder={selectPlaceholder}
 					options={toReleases}
 					value={toVersion ?? undefined}
 					onChange={setToVersion}
 					error={isVersionError ? NO_VERSIONS_FOUND : undefined}
+					onScrollNearEnd={() => void fetchNextPage()}
+					isFetchingMore={isFetchingNextPage}
+					hasMore={hasNextPage}
 				/>
 			</Stack>
 		</VStack>

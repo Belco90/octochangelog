@@ -5,6 +5,10 @@ import { useEffect } from 'react'
 
 import { GenericError } from '@/components/GenericError'
 import type { CompareSearchParams, PropsWithRequiredChildren } from '@/models'
+import {
+	prefetchReleasesForVersions,
+	releasesInfiniteQueryOptions,
+} from '@/queries/release'
 import { getRepositoryQueryOptions } from '@/queries/repository'
 import { seo } from '@/seo'
 import { mapStringToRepositoryQueryParams } from '@/utils'
@@ -23,12 +27,13 @@ export const Route = createFileRoute('/compare')({
 			to: search.to as string | undefined,
 		}
 	},
-	loaderDeps: ({ search }) => {
-		const { repo } = search
-		return { repo }
-	},
+	loaderDeps: ({ search }) => ({
+		repo: search.repo,
+		from: search.from,
+		to: search.to,
+	}),
 	loader: async ({ context, deps }) => {
-		const { repo } = deps
+		const { repo, from, to } = deps
 
 		if (repo) {
 			const repositoryQueryParams = mapStringToRepositoryQueryParams(repo)
@@ -36,6 +41,24 @@ export const Route = createFileRoute('/compare')({
 				await context.queryClient.ensureQueryData(
 					getRepositoryQueryOptions(repositoryQueryParams),
 				)
+
+				if (from || to) {
+					// URL has versions: fetch pages until both versions found
+					await prefetchReleasesForVersions({
+						queryClient: context.queryClient,
+						repository: repositoryQueryParams,
+						from,
+						to,
+					})
+				} else {
+					// URL has repo only: prefetch first page of releases
+					await context.queryClient.prefetchInfiniteQuery({
+						...releasesInfiniteQueryOptions({
+							repository: repositoryQueryParams,
+						}),
+						pages: 1,
+					})
+				}
 			}
 		}
 	},

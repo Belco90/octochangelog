@@ -1,9 +1,13 @@
 import { Box } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { ChangelogSkeleton } from '@/components/ChangelogSkeleton'
 import type { ReleaseVersion, MinimalRepository } from '@/models'
-import { releasesQueryOptions } from '@/queries/release'
+import {
+	flattenReleasePages,
+	mapReleasesQueryParams,
+	releasesInfiniteQueryOptions,
+} from '@/queries/release'
 import { compareReleasesByVersion, filterReleasesByVersionRange } from '@/utils'
 
 import { ComparatorChangelogResults } from './ComparatorChangelogResults'
@@ -19,26 +23,25 @@ export const RepositoryReleasesChangelog = ({
 	fromVersion,
 	toVersion,
 }: RepositoryReleasesChangelogProps) => {
-	const { data, isFetching } = useQuery(
-		releasesQueryOptions({
-			repository,
-			fromVersion,
-			toVersion,
-		}),
+	const { data, isLoading } = useInfiniteQuery(
+		releasesInfiniteQueryOptions(mapReleasesQueryParams(repository)),
 	)
 
-	const filteredReleases = data
-		? filterReleasesByVersionRange({
-				releases: data,
-				from: fromVersion,
-				to: toVersion,
-			}).sort((a, b) => compareReleasesByVersion(a, b, 'asc'))
-		: null
+	const releases = flattenReleasePages(data)
+
+	const filteredReleases =
+		releases.length > 0
+			? filterReleasesByVersionRange({
+					releases,
+					from: fromVersion,
+					to: toVersion,
+				}).sort((a, b) => compareReleasesByVersion(a, b, 'asc'))
+			: null
 
 	const hasFilteredReleases =
 		Array.isArray(filteredReleases) && filteredReleases.length > 0
 
-	if (isFetching) return <ChangelogSkeleton />
+	if (isLoading) return <ChangelogSkeleton />
 
 	if (!hasFilteredReleases) return <Box>No processed releases to show</Box>
 

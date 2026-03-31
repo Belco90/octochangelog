@@ -26,8 +26,15 @@ test('should show changelog results when filling the form', async ({
 		),
 	).toBeVisible()
 
+	// Wait for React hydration to complete before interacting with the combobox.
+	// SSR renders the page HTML, but event handlers only attach after hydration.
+	// eslint-disable-next-line playwright/no-networkidle
+	await page.waitForLoadState('networkidle')
 	await page.getByRole('combobox', { name: /repository/i }).click()
 	await page.getByRole('combobox', { name: /repository/i }).fill('test')
+	await expect(
+		page.getByRole('option', { name: 'testing-library/dom-testing-library' }),
+	).toBeVisible()
 	await page
 		.getByRole('option', { name: 'testing-library/dom-testing-library' })
 		.click()
@@ -36,11 +43,18 @@ test('should show changelog results when filling the form', async ({
 	)
 	await expect(page).toHaveURL(/.+repo=testing-library%2Fdom-testing-library.*/)
 
+	// Open the "From version" dropdown and scroll to load more pages.
+	// v6.16.0 is beyond page 1, so scrolling triggers infinite pagination.
 	await page.getByRole('combobox', { name: /from version/i }).click()
+	const fromListbox = page.getByRole('listbox', { name: /from version/i })
+	await fromListbox.evaluate((el) => {
+		el.scrollTop = el.scrollHeight
+	})
 	await page.getByRole('option', { name: 'v6.16.0' }).click()
 	await expect(page).toHaveURL(/.+from=v6\.16\.0.*/)
+
 	await page.getByRole('combobox', { name: /to version/i }).click()
-	await page.getByRole('option', { name: 'v8.1.0' }).click()
+	await page.getByRole('option', { name: 'v8.1.0', exact: true }).click()
 	await expect(page).toHaveURL(/.+to=v8\.1\.0.*/)
 
 	await expect(
@@ -269,8 +283,13 @@ test(
 			),
 		).toBeVisible()
 
+		// eslint-disable-next-line playwright/no-networkidle
+		await page.waitForLoadState('networkidle')
 		await page.getByRole('combobox', { name: /repository/i }).click()
 		await page.getByRole('combobox', { name: /repository/i }).fill('yarn')
+		await expect(
+			page.getByRole('option', { name: 'yarnpkg/berry' }),
+		).toBeVisible()
 		await page.getByRole('option', { name: 'yarnpkg/berry' }).click()
 		await expect(
 			page.getByRole('combobox', { name: /repository/i }),
@@ -281,7 +300,7 @@ test(
 		await page.getByRole('option', { name: '4.10.3' }).click()
 		await expect(page).toHaveURL(/.+from=%40yarnpkg%2Fcli%2F4\.10\.3.*/)
 		await page.getByRole('combobox', { name: /to version/i }).click()
-		await page.getByRole('option', { name: '4.12.0' }).click()
+		await page.getByRole('option', { name: '4.12.0', exact: true }).click()
 		await expect(page).toHaveURL(/.+to=%40yarnpkg%2Fcli%2F4\.12\.0.*/)
 
 		// Check that releases with scoped tags are displayed correctly

@@ -1,11 +1,15 @@
 import {
+	Box,
 	Field,
+	HStack,
 	Icon,
 	Portal,
 	Select,
+	Span,
+	Spinner,
 	useListCollection,
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { HiArrowDown } from 'react-icons/hi'
 
 import type { MinimalRelease } from '@/models'
@@ -21,6 +25,9 @@ type ReleaseVersionFieldProps = {
 	isDisabled?: boolean
 	options?: Array<MinimalRelease>
 	error?: string
+	onScrollNearEnd?: () => void
+	isFetchingMore?: boolean
+	hasMore?: boolean
 }
 
 export const ReleaseVersionField = ({
@@ -33,6 +40,9 @@ export const ReleaseVersionField = ({
 	isLoading = false,
 	isDisabled = false,
 	error,
+	onScrollNearEnd,
+	isFetchingMore = false,
+	hasMore = false,
 }: ReleaseVersionFieldProps) => {
 	const { collection, set: setCollection } = useListCollection<MinimalRelease>({
 		initialItems: options ?? [],
@@ -44,7 +54,32 @@ export const ReleaseVersionField = ({
 		setCollection(options ?? [])
 	}, [options, setCollection])
 
+	const sentinelRef = useRef<HTMLDivElement>(null)
+	const contentRef = useRef<HTMLDivElement>(null)
+
+	const stableOnScrollNearEnd = useCallback(() => {
+		onScrollNearEnd?.()
+	}, [onScrollNearEnd])
+
+	useEffect(() => {
+		const sentinel = sentinelRef.current
+		const content = contentRef.current
+		if (!sentinel || !content || !hasMore || isFetchingMore) return
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					stableOnScrollNearEnd()
+				}
+			},
+			{ root: content, threshold: 0 },
+		)
+		observer.observe(sentinel)
+		return () => observer.disconnect()
+	}, [stableOnScrollNearEnd, hasMore, isFetchingMore])
+
 	const hasError = Boolean(error)
+	const hasOptions = options != null && options.length > 0
 
 	return (
 		<Field.Root disabled={isDisabled} gap="1" invalid={hasError}>
@@ -87,7 +122,7 @@ export const ReleaseVersionField = ({
 
 				<Portal>
 					<Select.Positioner>
-						<Select.Content maxHeight="xs" overflowY="auto">
+						<Select.Content ref={contentRef} maxHeight="xs" overflowY="auto">
 							{collection.items.map((release) => (
 								<Select.Item
 									key={release.id}
@@ -109,6 +144,23 @@ export const ReleaseVersionField = ({
 									/>
 								</Select.Item>
 							))}
+
+							{/* Scroll sentinel for infinite loading */}
+							<Box ref={sentinelRef} css={{ height: '1px' }} />
+
+							{isFetchingMore && (
+								<HStack p="2" justifyContent="center">
+									<Spinner size="sm" borderWidth="md" color="brand.fg" />
+									<Span fontSize="sm">Loading more releases...</Span>
+								</HStack>
+							)}
+							{!hasMore && hasOptions && (
+								<Box p="2" textAlign="center">
+									<Span fontSize="sm" color="fg.muted">
+										No more releases available
+									</Span>
+								</Box>
+							)}
 						</Select.Content>
 					</Select.Positioner>
 				</Portal>

@@ -1,86 +1,122 @@
-import { queryOptions } from '@tanstack/react-query'
-import * as semver from 'semver'
+import { infiniteQueryOptions } from '@tanstack/react-query'
 
 import { octokit } from '@/github-client'
 import type {
 	MinimalRelease,
-	ReleaseVersion,
 	MinimalRepository,
 	RepositoryQueryParams,
 } from '@/models'
-import {
-	extractVersionFromTag,
-	isStableRelease,
-	mapRepositoryToQueryParams,
-} from '@/utils'
+import { isStableRelease, mapRepositoryToQueryParams } from '@/utils'
 
-type ReleasesQueryResults = Array<MinimalRelease>
+import type { InfiniteData, QueryClient } from '@tanstack/react-query'
+
+type ReleasesPage = {
+	releases: Array<MinimalRelease>
+	nextPage: number | undefined
+}
+
 type ReleasesQueryParams = {
-	repository?: MinimalRepository | null
-	fromVersion?: ReleaseVersion | null
-	toVersion?: ReleaseVersion | null
+	repository?: RepositoryQueryParams | null
 }
 
 const QUERY_KEY = 'releases'
-const MAX_AUTO_PAGINATION = 10
 
 function getHasNextPage(link: string): boolean {
 	return link.includes('rel="next"')
 }
 
-function releasesQueryOptions(params: ReleasesQueryParams) {
-	const finalParams: RepositoryQueryParams = mapRepositoryToQueryParams(
-		params.repository ?? undefined,
-	)
-	const { fromVersion, toVersion } = params
-	const hasFromVersion = !!fromVersion
-	const hasToVersion = !!toVersion
+async function fetchReleasesPage(
+	repository: RepositoryQueryParams,
+	page: number,
+): Promise<ReleasesPage> {
+	const response = await octokit.rest.repos.listReleases({
+		owner: repository.owner,
+		repo: repository.repo,
+		per_page: 100,
+		page,
+	})
+	const { data: releasesBatch, headers } = response
+	const releases = releasesBatch.filter(isStableRelease)
+	const hasNextPage = !!headers.link && getHasNextPage(headers.link)
+	return {
+		releases,
+		nextPage: hasNextPage ? page + 1 : undefined,
+	}
+}
 
-	return queryOptions<ReleasesQueryResults>({
-		queryKey: [QUERY_KEY, finalParams],
-		// TODO: move this logic to usePaginatedQuery
-		queryFn: async () => {
-			const { owner, repo } = finalParams
-			const releases: Array<MinimalRelease> = []
-			let shouldKeepPaginating = true
-			let pagination = 1
+function releasesInfiniteQueryOptions(params: ReleasesQueryParams) {
+	const finalParams: RepositoryQueryParams = params.repository ?? {
+		owner: '',
+		repo: '',
+	}
 
-			while (shouldKeepPaginating) {
-				const response = await octokit.rest.repos.listReleases({
-					owner,
-					repo,
-					per_page: 100,
-					page: pagination,
-				})
-				const { data: releasesBatch, headers } = response
-				releases.push(...releasesBatch.filter(isStableRelease))
-
-				pagination++
-				const hasNextPage = !!headers.link && getHasNextPage(headers.link)
-				const isMaxAutoPaginationReached = pagination > MAX_AUTO_PAGINATION
-				const lastReleaseFetched = releasesBatch[releasesBatch.length - 1]
-				const lastReleaseVersion = extractVersionFromTag(
-					lastReleaseFetched.tag_name,
-				)
-				const isFromReleaseFetched =
-					!hasFromVersion ||
-					semver.gte(extractVersionFromTag(fromVersion), lastReleaseVersion)
-				const isToReleaseFetched =
-					!hasToVersion ||
-					toVersion === 'latest' ||
-					semver.gte(extractVersionFromTag(toVersion), lastReleaseVersion)
-
-				shouldKeepPaginating =
-					hasNextPage &&
-					(!isMaxAutoPaginationReached ||
-						!isFromReleaseFetched ||
-						!isToReleaseFetched)
-			}
-
-			return releases
-		},
+	return infiniteQueryOptions({
+		queryKey: [QUERY_KEY, finalParams] as const,
+		queryFn: ({ pageParam }) => fetchReleasesPage(finalParams, pageParam),
+		initialPageParam: 1 as number,
+		getNextPageParam: (lastPage: ReleasesPage) => lastPage.nextPage,
 		enabled: Boolean(params.repository),
 	})
 }
 
-export { releasesQueryOptions }
+function flattenReleasePages(
+	data: InfiniteData<ReleasesPage> | undefined,
+): Array<MinimalRelease> {
+	return data?.pages.flatMap((p) => p.releases) ?? []
+}
+
+async function prefetchReleasesForVersions({
+	queryClient,
+	repository,
+	from,
+	to,
+}: {
+	queryClient: QueryClient
+	repository: RepositoryQueryParams
+	from?: string
+	to?: string
+}) {
+	const options = releasesInfiniteQueryOptions({ repository })
+	const pages: Array<ReleasesPage> = []
+	const pageParams: Array<number> = []
+	let pageParam = 1
+
+	while (true) {
+		const page = await fetchReleasesPage(repository, pageParam)
+		pages.push(page)
+		pageParams.push(pageParam)
+
+		if (!page.nextPage) break
+
+		const allReleases = pages.flatMap((p) => p.releases)
+		const hasFrom = !from || allReleases.some((r) => r.tag_name === from)
+		const hasTo =
+			!to || to === 'latest' || allReleases.some((r) => r.tag_name === to)
+		if (hasFrom && hasTo) break
+
+		pageParam++
+	}
+
+	queryClient.setQueryData(options.queryKey, {
+		pages,
+		pageParams,
+	})
+}
+
+/**
+ * Builds query params from a MinimalRepository for use with releasesInfiniteQueryOptions.
+ */
+function mapReleasesQueryParams(
+	repository?: MinimalRepository | null,
+): ReleasesQueryParams {
+	if (!repository) return {}
+	return { repository: mapRepositoryToQueryParams(repository) }
+}
+
+export {
+	releasesInfiniteQueryOptions,
+	flattenReleasePages,
+	prefetchReleasesForVersions,
+	mapReleasesQueryParams,
+}
+export type { ReleasesPage }
