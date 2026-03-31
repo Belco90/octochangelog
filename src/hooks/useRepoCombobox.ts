@@ -48,7 +48,6 @@ export function useRepoCombobox({
 	const [inputValue, setInputValue] = useState(initialValue)
 	const [debouncedQuery, setDebouncedQuery] = useState(initialValue)
 	const [isOpen, setIsOpen] = useState(false)
-	const [isTyping, setIsTyping] = useState(false)
 	const hydratedRef = useRef(false)
 
 	const { data, isFetching, status } = useQuery({
@@ -69,7 +68,6 @@ export function useRepoCombobox({
 		defaultValue: [initialValue],
 		inputValue,
 		onInputValueChange: (e) => {
-			setIsTyping(isOpen && Boolean(e.inputValue))
 			setInputValue(e.inputValue)
 		},
 		defaultInputValue: initialValue,
@@ -78,7 +76,6 @@ export function useRepoCombobox({
 		openOnChange: true,
 		onOpenChange: (e) => setIsOpen(e.open),
 		onValueChange: ({ items }) => {
-			setIsTyping(false)
 			const selectedRepo = items[0] as FullRepository | null
 			onSelect(selectedRepo)
 		},
@@ -109,8 +106,6 @@ export function useRepoCombobox({
 		() =>
 			debounce((value: string) => {
 				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
-				setIsTyping(false)
-				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
 				setDebouncedQuery(value)
 			}, DEBOUNCE_MS),
 		[],
@@ -123,6 +118,8 @@ export function useRepoCombobox({
 	}, [inputValue, debouncedSetQuery])
 
 	const isMinSearchLengthReached = inputValue.trim().length >= MIN_SEARCH_LENGTH
+	const isTyping =
+		isOpen && isMinSearchLengthReached && inputValue !== debouncedQuery
 	const isLoading = isMinSearchLengthReached && (isFetching || isTyping)
 	const contentStatus = isLoading ? 'loading' : status
 	const totalCount = data?.total_count ?? 0
