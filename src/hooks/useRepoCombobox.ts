@@ -46,13 +46,14 @@ export function useRepoCombobox({
 	onSelect,
 }: UseRepoComboboxParams): UseRepoComboboxReturn {
 	const [inputValue, setInputValue] = useState(initialValue)
+	const [debouncedQuery, setDebouncedQuery] = useState(initialValue)
 	const [isOpen, setIsOpen] = useState(false)
 	const [isTyping, setIsTyping] = useState(false)
 	const hydratedRef = useRef(false)
 
-	const { data, refetch, isFetching, status } = useQuery({
-		...searchRepositoriesQueryOptions({ q: inputValue }),
-		enabled: false,
+	const { data, isFetching, status } = useQuery({
+		...searchRepositoriesQueryOptions({ q: debouncedQuery }),
+		enabled: debouncedQuery.trim().length >= MIN_SEARCH_LENGTH,
 		staleTime: STALE_TIME_MS,
 	})
 
@@ -104,22 +105,22 @@ export function useRepoCombobox({
 		setCollection(data?.items ?? [])
 	}, [data, setCollection])
 
-	const throttleRefetch = useMemo(
+	const debouncedSetQuery = useMemo(
 		() =>
-			debounce(() => {
-				// This rule shouldn't complain within `useMemo`
+			debounce((value: string) => {
 				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
 				setIsTyping(false)
-				void refetch()
+				// eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
+				setDebouncedQuery(value)
 			}, DEBOUNCE_MS),
-		[refetch],
+		[],
 	)
 
 	useEffect(() => {
 		if (inputValue.trim().length >= MIN_SEARCH_LENGTH) {
-			throttleRefetch()
+			debouncedSetQuery(inputValue)
 		}
-	}, [inputValue, throttleRefetch])
+	}, [inputValue, debouncedSetQuery])
 
 	const isMinSearchLengthReached = inputValue.trim().length >= MIN_SEARCH_LENGTH
 	const isLoading = isMinSearchLengthReached && (isFetching || isTyping)
