@@ -13,7 +13,6 @@
 		"build": "vite build",
 		"postbuild": "cp instrument.server.mjs dist/server/instrument.server.mjs",
 		"preview": "vite preview",
-		"start": "node --import dist/server/instrument.server.mjs dist/server/server.js",
 		"type-check": "tsc --noEmit",
 		"lint": "eslint --max-warnings 0 .",
 		"lint:fix": "pnpm lint --fix",
