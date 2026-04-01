@@ -65,6 +65,18 @@ function flattenReleasePages(
 	return data?.pages.flatMap((p) => p.releases) ?? []
 }
 
+const MAX_PREFETCH_PAGES = 50
+
+function hasVersions(
+	tagNames: Set<string>,
+	from?: string,
+	to?: string,
+): boolean {
+	const hasFrom = !from || tagNames.has(from)
+	const hasTo = !to || to === 'latest' || tagNames.has(to)
+	return hasFrom && hasTo
+}
+
 async function prefetchReleasesForVersions({
 	queryClient,
 	repository,
@@ -77,22 +89,38 @@ async function prefetchReleasesForVersions({
 	to?: string
 }) {
 	const options = releasesInfiniteQueryOptions({ repository })
+
+	// Check if the existing cache already contains both versions
+	const existingData = queryClient.getQueryData<
+		InfiniteData<ReleasesPage, number>
+	>(options.queryKey)
+
+	if (existingData) {
+		const cachedTagNames = new Set<string>()
+		for (const page of existingData.pages) {
+			for (const release of page.releases) {
+				cachedTagNames.add(release.tag_name)
+			}
+		}
+		if (hasVersions(cachedTagNames, from, to)) return
+	}
+
+	// Fetch pages until both versions are found (or limits reached)
+	const seenTagNames = new Set<string>()
 	const pages: Array<ReleasesPage> = []
 	const pageParams: Array<number> = []
 	let pageParam = 1
 
-	while (true) {
+	while (pageParam <= MAX_PREFETCH_PAGES) {
 		const page = await fetchReleasesPage(repository, pageParam)
 		pages.push(page)
 		pageParams.push(pageParam)
 
-		if (!page.nextPage) break
+		for (const release of page.releases) {
+			seenTagNames.add(release.tag_name)
+		}
 
-		const allReleases = pages.flatMap((p) => p.releases)
-		const hasFrom = !from || allReleases.some((r) => r.tag_name === from)
-		const hasTo =
-			!to || to === 'latest' || allReleases.some((r) => r.tag_name === to)
-		if (hasFrom && hasTo) break
+		if (!page.nextPage || hasVersions(seenTagNames, from, to)) break
 
 		pageParam++
 	}
