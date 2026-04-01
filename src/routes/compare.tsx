@@ -27,13 +27,8 @@ export const Route = createFileRoute('/compare')({
 			to: search.to as string | undefined,
 		}
 	},
-	loaderDeps: ({ search }) => ({
-		repo: search.repo,
-		from: search.from,
-		to: search.to,
-	}),
-	loader: async ({ context, deps }) => {
-		const { repo, from, to } = deps
+	loader: async ({ context, location }) => {
+		const { repo, from, to } = location.search as CompareSearchParams
 
 		if (repo) {
 			const repositoryQueryParams = mapStringToRepositoryQueryParams(repo)
