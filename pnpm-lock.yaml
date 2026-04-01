@@ -91,8 +91,8 @@ importers:
         specifier: 3.34.0
         version: 3.34.0(@chakra-ui/react@3.34.0(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
       '@currents/playwright':
-        specifier: 1.22.1
-        version: 1.22.1
+        specifier: 1.22.2
+        version: 1.22.2
       '@eslint-react/eslint-plugin':
         specifier: 2.13.0
         version: 2.13.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -401,8 +401,8 @@ packages:
     resolution: {integrity: sha512-gkn8E3UC+F4/fCla7QAGMGgGPzxZUL9bU9+4I+KZf9PtCU3DdQCdy7a+er2eg4ewfUzZ2Ic1HcfnHuPkuLPKIw==}
     engines: {node: '>=6'}
 
-  '@currents/playwright@1.22.1':
-    resolution: {integrity: sha512-yjopDP+CLRBPZ3oQrzKU7Cx1v2SgGGBZI1vNeX5qKQksi30lDkqnA0Uyx2wQwGUIj1IgziHdRzNhdW58D78FxA==}
+  '@currents/playwright@1.22.2':
+    resolution: {integrity: sha512-h1oUyb0RzjlOxJDCWouUK0a+mXRA77Kp6wjl46I/WASvsHiq+unY/u9HIh7g/bbnvMsJNh1yufIRuEd7zdKFCw==}
     hasBin: true
 
   '@dabh/diagnostics@2.0.8':
@@ -7111,7 +7111,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@currents/playwright@1.22.1':
+  '@currents/playwright@1.22.2':
     dependencies:
       '@babel/code-frame': 7.29.0
       '@commander-js/extra-typings': 13.1.0(commander@13.1.0)
