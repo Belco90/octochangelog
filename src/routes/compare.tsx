@@ -1,4 +1,11 @@
-import { Box, Container, Heading } from '@chakra-ui/react'
+import {
+	Box,
+	Container,
+	Heading,
+	VStack,
+	Spinner,
+	Text,
+} from '@chakra-ui/react'
 import * as Sentry from '@sentry/tanstackstart-react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
@@ -81,6 +88,11 @@ export const Route = createFileRoute('/compare')({
 			<CompareErrorPage {...props} />
 		</CompareLayout>
 	),
+	pendingComponent: () => (
+		<CompareLayout>
+			<CompareLoadingPage />
+		</CompareLayout>
+	),
 })
 
 function CompareLayout({ children }: PropsWithRequiredChildren) {
@@ -131,5 +143,18 @@ function CompareErrorPage({ error, reset }: ErrorComponentProps) {
 		<GenericError error={error} reset={handleReset}>
 			Octochangelog could not process the releases changelogs to be compared.
 		</GenericError>
+	)
+}
+
+function CompareLoadingPage() {
+	const { repo } = Route.useSearch()
+
+	const loadingText = repo ? `Processing "${repo}"` : 'Loading...'
+
+	return (
+		<VStack mt={{ base: '2', md: '0' }} height="full" justifyContent="center">
+			<Spinner borderWidth="lg" size="lg" color="brand.fg" />
+			<Text>{loadingText}</Text>
+		</VStack>
 	)
 }
