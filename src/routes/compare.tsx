@@ -38,13 +38,21 @@ export const Route = createFileRoute('/compare')({
 				)
 
 				if (from || to) {
-					// URL has versions: fetch pages until both versions found
-					await prefetchReleasesForVersions({
-						queryClient: context.queryClient,
-						repository: repositoryQueryParams,
-						from,
-						to,
-					})
+					// URL has versions: fetch pages until both versions found.
+					// Wrapped in try/catch so that transient server-side errors
+					// (e.g. GitHub rate limiting) degrade gracefully — the client
+					// will fall back to fetching on its own.
+					try {
+						await prefetchReleasesForVersions({
+							queryClient: context.queryClient,
+							repository: repositoryQueryParams,
+							from,
+							to,
+						})
+					} catch {
+						// fall through, components will fetch on the client
+						return
+					}
 				} else {
 					// URL has repo only: prefetch first page of releases
 					await context.queryClient.prefetchInfiniteQuery({
