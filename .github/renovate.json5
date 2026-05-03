@@ -35,6 +35,8 @@
 		automerge: true,
 	},
 	platformAutomerge: true,
+	// Remove hourly PR limit so all monthly-scheduled updates are created in one run
+	prHourlyLimit: 0,
 	packageRules: [
 		{
 			description: "Get pnpm updates once a month",
