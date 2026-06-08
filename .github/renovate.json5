@@ -8,7 +8,7 @@
 		// Pin `github-action` digests to increase security (converted to SemVer)
 		// https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
 		"helpers:pinGitHubActionDigestsToSemver",
-		
+
 		// Update automatically if tests pass
 		":automergeTypes",
 		":automergeLinters",
@@ -22,11 +22,11 @@
 		// Disable major version updates for Node.js (LTS upgrades handled manually)
 		// https://docs.renovatebot.com/presets-helpers/#helpersdisabletypesnodemajor
 		"helpers:disableTypesNodeMajor",
-		
+
 		// Migrate deprecated config options automatically
 		// https://docs.renovatebot.com/presets-default/#configmigration
 		":configMigration",
-		
+
 		// Apply monthly schedule to all updates
 		"schedule:monthly",
 	],
