@@ -35,6 +35,7 @@
 		automerge: true,
 	},
 	platformAutomerge: true,
+
 	// Remove hourly PR limit so all monthly-scheduled updates are created in one run
 	prHourlyLimit: 0,
 	packageRules: [
@@ -48,9 +49,11 @@
 			// These two must be grouped together, so Playwright uses the right Docker image
 			description: "Playwright test and browser images",
 			groupName: "Playwright ecosystem",
-			matchPackageNames: ["@playwright/test"],
+			matchPackageNames: [
+				"@playwright/test",
+				"/^mcr\\.microsoft\\.com/playwright$/",
+			],
 			matchDatasources: ["npm", "docker"],
-			matchPackagePatterns: ["^mcr\\.microsoft\\.com/playwright$"],
 		},
 	],
 }
