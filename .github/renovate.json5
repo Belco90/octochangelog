@@ -1,15 +1,33 @@
 {
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: [
+		// Default config for webapps (extends "config:recommended")
+		// https://docs.renovatebot.com/presets-config/#configjs-app
 		"config:js-app",
+
+		// Pin `github-action` digests to increase security (converted to SemVer)
+		// https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
 		"helpers:pinGitHubActionDigestsToSemver",
+		
+		// Update automatically if tests pass
 		":automergeTypes",
 		":automergeLinters",
 		":automergeTesters",
 		":automergeRequireAllStatusChecks",
+
+		// Wait until npm packages are at least 3 days old before updating
+		// https://docs.renovatebot.com/presets-security/#securityminimumreleaseagenpm
 		"security:minimumReleaseAgeNpm",
+
+		// Disable major version updates for Node.js (LTS upgrades handled manually)
+		// https://docs.renovatebot.com/presets-helpers/#helpersdisabletypesnodemajor
 		"helpers:disableTypesNodeMajor",
+		
+		// Migrate deprecated config options automatically
+		// https://docs.renovatebot.com/presets-default/#configmigration
 		":configMigration",
+		
+		// Apply monthly schedule to all updates
 		"schedule:monthly",
 	],
 	lockFileMaintenance: {
@@ -17,6 +35,8 @@
 		automerge: true,
 	},
 	platformAutomerge: true,
+
+	// Remove hourly PR limit so all monthly-scheduled updates are created in one run
 	prHourlyLimit: 0,
 	packageRules: [
 		{
@@ -26,6 +46,7 @@
 			extends: ["schedule:monthly"],
 		},
 		{
+			// These two must be grouped together, so Playwright uses the right Docker image
 			description: "Playwright test and browser images",
 			groupName: "Playwright ecosystem",
 			matchPackageNames: [
