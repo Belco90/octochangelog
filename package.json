@@ -87,7 +87,7 @@
 		"@vitejs/plugin-react": "6.0.3",
 		"@vitest/browser-playwright": "4.1.8",
 		"@vitest/coverage-v8": "4.1.8",
-		"@vitest/eslint-plugin": "1.6.20",
+		"@vitest/eslint-plugin": "1.6.24",
 		"@vitest/ui": "4.1.8",
 		"eslint": "9.39.4",
 		"eslint-config-prettier": "10.1.8",
