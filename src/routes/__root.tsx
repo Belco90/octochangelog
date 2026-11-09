@@ -18,7 +18,7 @@ import type { QueryClient } from '@tanstack/react-query'
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 	{
 		head: ({ match }) => {
-			const customTitle = match.globalNotFound ? '404 Not Found' : undefined
+			const customTitle = match._notFound ? '404 Not Found' : undefined
 			return {
 				meta: [
 					{ charSet: 'utf-8' },

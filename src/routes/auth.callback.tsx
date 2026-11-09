@@ -157,6 +157,8 @@ function AuthCallbackPending() {
 }
 
 function AuthCallbackError({ error, reset }: ErrorComponentProps) {
+	const errorMessage = error instanceof Error ? error.message : String(error)
+
 	return (
 		<Alert.Root status="error" variant="subtle">
 			<VStack w="full" alignItems="center">
@@ -166,7 +168,7 @@ function AuthCallbackError({ error, reset }: ErrorComponentProps) {
 						<Heading fontWeight="black">Something went wrong!</Heading>
 					</Alert.Title>
 					<Alert.Description mt="4" display="contents">
-						<Code>{error.message}</Code>
+						<Code>{errorMessage}</Code>
 						<Button onClick={() => reset()} colorPalette="accent" mt="4">
 							Try again
 						</Button>
